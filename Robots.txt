@@ -1,0 +1,6 @@
+# Google aur baaki search engines ko saari site scan karne ki ijazat dein
+User-agent: *
+Allow: /
+
+# Aapka Sitemap link (Google ko rasta dikhane ke liye)
+Sitemap: https://mega-store.in/sitemap.xml
