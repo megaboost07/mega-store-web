@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://cdnjs.cloudflare.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: blob: https: http:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://api.jsonbin.io; frame-src https://www.youtube.com https://youtube.com; upgrade-insecure-requests;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="theme-color" id="themeColor" content="#ffffff"/>
     <title>Mega Store Web</title>
@@ -756,7 +760,7 @@
         .news-thumb img { width: auto; max-width: 100%; height: auto; object-fit: contain; display:block; }
         .news-meta { flex:1; display:flex; flex-direction:column; gap:8px; }
         .news-title { font-weight:800; font-size:18px; color:var(--text); margin-bottom:6px; }
-        .news-desc { font-size:14px; color:gray; max-height:80px; overflow:hidden; text-overflow:ellipsis; }
+        .news-desc { font-size:14px; color:gray; line-height:1.6; white-space:pre-wrap; word-wrap:break-word; }
         .open-news-link { display:inline-block; margin-top:8px; padding:8px 12px; background: linear-gradient(to right, #06b6d4, #3b82f6); color:#fff; border-radius:10px; text-decoration:none; font-weight:700; }
         .open-news-link:active { transform: translateY(1px); }
 
@@ -905,6 +909,191 @@
         .dark-mode .setting-row:nth-child(2) .setting-sub {
             color: #f87171 !important;
         }
+        /* Dark mode privacy modal improvements */
+        .dark-mode #userPrivacyModal {
+            background: linear-gradient(180deg, #0a1628 0%, #0d1b2a 50%, #1a2a3a 100%);
+        }
+        .dark-mode .privacy-container {
+            color: #e2e8f0;
+        }
+        .dark-mode .privacy-header h2 {
+            color: #ffffff;
+        }
+        .dark-mode .privacy-header p {
+            color: #94a3b8;
+        }
+        .dark-mode .privacy-content {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .dark-mode .privacy-section h3 {
+            color: #60a5fa;
+        }
+        .dark-mode .privacy-section p {
+            color: #cbd5e1;
+        }
+        .dark-mode .privacy-close-btn {
+            background: rgba(255,255,255,0.1);
+            color: #ffffff;
+        }
+        .dark-mode .privacy-close-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .dark-mode .continue-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: #ffffff;
+        }
+
+        /* Dark mode login overlay improvements */
+        .dark-mode #loginOverlay {
+            background: linear-gradient(180deg, #0a1628 0%, #0d1b2a 50%, #1a2a3a 100%);
+        }
+        .dark-mode .login-box {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .dark-mode .login-logo h1 {
+            color: #ffffff;
+        }
+        .dark-mode .login-logo p {
+            color: #94a3b8;
+        }
+        .dark-mode .login-tabs {
+            background: rgba(255,255,255,0.05);
+        }
+        .dark-mode .login-tab.active {
+            background: rgba(99,102,241,0.2);
+            color: #60a5fa;
+        }
+        .dark-mode .input-group input {
+            background: rgba(15, 23, 42, 0.8);
+            color: #e2e8f0;
+        }
+        .dark-mode .input-group input::placeholder {
+            color: #64748b;
+        }
+        .dark-mode .login-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: #ffffff;
+        }
+        .dark-mode .login-footer {
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .dark-mode .login-footer-text {
+            color: #94a3b8;
+        }
+        .dark-mode .login-footer-link {
+            color: #60a5fa;
+        }
+        .dark-mode .already-logged-in h3 {
+            color: #ffffff;
+        }
+        .dark-mode .already-logged-in p {
+            color: #94a3b8;
+        }
+
+        /* Dark mode password strength */
+        .dark-mode .password-strength {
+            background: rgba(255,255,255,0.1);
+        }
+        .dark-mode .password-strength-text {
+            color: #94a3b8;
+        }
+        .dark-mode .remember-me {
+            color: #cbd5e1;
+        }
+
+        /* Dark mode scrollbar */
+        .dark-mode *::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+        .dark-mode html {
+            scrollbar-color: #4b5563 transparent;
+        }
+        /* Dark mode news section improvements */
+        .dark-mode .news-card {
+            background: #1a1f2e;
+            border-color: rgba(255,255,255,0.06);
+        }
+        .dark-mode .news-title {
+            color: #ffffff;
+        }
+        .dark-mode .news-desc {
+            color: #cbd5e1;
+        }
+        .dark-mode .news-actions .icon {
+            color: #e2e8f0;
+        }
+        .dark-mode .news-likes-count {
+            color: #e2e8f0;
+        }
+        .dark-mode .news-comments-placeholder {
+            color: #94a3b8;
+        }
+        .dark-mode .news-comment-input {
+            background: rgba(30,41,59,0.95);
+            color: #e2e8f0;
+            border-color: rgba(255,255,255,0.1);
+        }
+        .dark-mode .news-comment-input::placeholder {
+            color: #64748b;
+        }
+
+        /* Dark mode search results */
+        .dark-mode .search-item:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        .dark-mode .search-expand {
+            background: #1a1f2e;
+            border-color: rgba(255,255,255,0.06);
+        }
+        .dark-mode .search-expand .about {
+            color: #cbd5e1;
+        }
+        .dark-mode .result-sub {
+            color: #94a3b8;
+        }
+        .dark-mode .meta-small {
+            color: #94a3b8;
+        }
+        .dark-mode .pill {
+            background: rgba(99,102,241,0.1);
+            border-color: rgba(99,102,241,0.1);
+        }
+
+        /* Dark mode detail page */
+        .dark-mode .detail-about {
+            color: #cbd5e1;
+        }
+        .dark-mode .detail-stat-label {
+            color: #94a3b8;
+        }
+
+        /* Dark mode comment section */
+        .dark-mode .comment-section {
+            border-top-color: rgba(255,255,255,0.06);
+        }
+        .dark-mode .comment-item {
+            background: rgba(30,41,59,0.5);
+            border-color: rgba(255,255,255,0.06);
+        }
+        .dark-mode .comment-user {
+            color: #60a5fa;
+        }
+        .dark-mode .comment-text {
+            color: #e2e8f0;
+        }
+        .dark-mode .comment-date {
+            color: #64748b;
+        }
+
+        /* Dark mode zoom overlay */
+        .dark-mode .zoom-overlay {
+            background: rgba(0,0,0,0.95);
+        }
+
+
         
         /* OFFLINE: show neutral pulsing animation on icons when offline */
         .offline .icon-box,
@@ -1762,26 +1951,46 @@
 
             <div class="privacy-section">
                 <h3>12. Content & Legal Policy</h3>
+                <p><div class="privacy-section">
+                <h3>  1. Educational Purpose & Development Resources</h3>
                 <p>
-                    1. Educational Purpose & Development Resources
-Mega Store is a dedicated educational platform focused on Android App Development and UI/UX design. Our primary mission is to help aspiring developers learn coding and logic building through Sketchware and Sketchware Pro. We exclusively provide Source Code (.swb files) and customizable UI templates to help beginners understand app design concepts.
+                    Mega Store is a dedicated educational platform focused on Android App Development and UI/UX design. Our primary mission is to help aspiring developers learn coding and logic building through Sketchware and Sketchware Pro. We exclusively provide Source Code (.swb files) and customizable UI templates to help beginners understand app design concepts.
                     
-​2. Strict "No-Piracy" & "No-Mod" Polic
-We strongly support legal development practices and respect Intellectual Property Rights. Therefore, the following are STRICTLY PROHIBITED on Mega Store:
-​No Illegal Applications: We do not host, provide, or distribute any illegal or pirated applications.
-​No Modded/Cracked APKs: We do not provide modified (unlocked) versions of third-party apps or cracked software.
-​No Hacking Tools: We do not share tools, APKs, or methods intended for hacking, cheating, or bypassing platform security.
-                    
-​3. Responsibility & Usage of Projects
-All projects available on Mega Store are intended solely for Learning Purposes and UI/UX inspiration.
-​We encourage developers to use these templates as references to write their own original code.
-​Mega Store assumes no responsibility for any misuse of these educational projects.
-​It is the user's responsibility to ensure their use of these projects complies with local and international digital laws.
-                    
-​4. Quality & Verification
-Every Sketchware project (.swb) is verified before sharing to ensure it is developer-ready and safe. We are committed to maintaining a secure environment where developers can learn and grow without risks.
-​Next Step: Kya aap chahte hain ki main check karun ki aapki site ke Footer (niche ka hissa) mein saare zaroori links sahi se lage hain ya nahi?
+                     
                 </p>
+            </div>
+                  
+                     
+                     <div class="privacy-section">
+                <h3>2. Strict "No-Piracy" & "No-Mod" Polic</h3>
+                <p>
+                    We strongly support legal development practices and respect Intellectual Property Rights. Therefore, the following are STRICTLY PROHIBITED on Mega Store:
+                    No Illegal Applications: We do not host, provide, or distribute any illegal or pirated applications.
+                    No Modded/Cracked APKs: We do not provide modified (unlocked) versions of third-party apps or cracked software.
+                    No Hacking Tools: We do not share tools, APKs, or methods intended for hacking, cheating, or bypassing platform security.
+                    
+                </p>
+            </div>
+                     
+                      <div class="privacy-section">
+                <h3>3. Responsibility & Usage of Projects</h3>
+                <p>
+                  
+                     All projects available on Mega Store are intended solely for Learning Purposes and UI/UX inspiration.
+                     We encourage developers to use these templates as references to write their own original code.
+                     Mega Store assumes no responsibility for any misuse of these educational projects.
+                     It is the user's responsibility to ensure their use of these projects complies with local and international digital laws.
+                      </p>
+                  </div>
+                    
+                        <div class="privacy-section">
+                <h3>4. Quality & Verification"</h3>
+                <p>   
+                     Every Sketchware project (.swb) is verified before sharing to ensure it is developer-ready and safe. We are committed to maintaining a secure environment where developers can learn and grow without risks.
+                     Next Step: Kya aap chahte hain ki main check karun ki aapki site ke Footer (niche ka hissa) mein saare zaroori links sahi se lage hain ya nahi?
+                        </p>
+                    </div>
+                 </p>
             </div>
 
         </div>
@@ -1830,7 +2039,7 @@ Every Sketchware project (.swb) is verified before sharing to ensure it is devel
 
         <!-- NEW main "New" section -->
         <div class="section">
-            <div class="sec-header"><div class="sec-title"> Most like</div><div class="see-more" onclick="goToAll()">See more</div></div>
+            <div class="sec-header"><div class="sec-title"> Most & like</div><div class="see-more" onclick="goToAll()">See more</div></div>
             <div id="grid-new-main" class="app-row"></div>
         </div>
 
@@ -2480,10 +2689,14 @@ if (fbAvailable && rdb) {
             db.sort((a,b) => (b.id || 0) - (a.id || 0));
             localStorage.setItem(DB_KEY, JSON.stringify(db));
             render();
+            // Handle clean URLs when Firebase data loads
             const idFromUrl = getAppIdFromUrl();
+            const newsIdFromUrl = getNewsIdFromUrl();
             if (idFromUrl && !currentDetailId) {
                 const idNum = Number(idFromUrl);
                 if (!isNaN(idNum)) openDetail(idNum, true);
+            } else if (newsIdFromUrl && !currentDetailId) {
+                tab('news', document.getElementById('nav-news'));
             }
         }, (err) => {
             console.warn("Firebase apps listener error:", err);
@@ -2590,18 +2803,70 @@ window.toggleNightMode = toggleTheme;
 /* Utility functions */
 function getAppIdFromUrl() {
     try {
+        // Clean URL format: #/app/123 or #/news/456
+        const hash = window.location.hash;
+        if (hash) {
+            // Remove leading # and split by /
+            const parts = hash.replace(/^#/, '').split('/').filter(p => p);
+            // Format: #/app/123
+            if (parts.length >= 2 && parts[0] === 'app') {
+                return parts[1];
+            }
+            // Legacy support: #app=123
+            if (hash.includes('app=')) {
+                const legacyParts = hash.replace('#','').split('=');
+                if (legacyParts[0] === 'app' && legacyParts[1]) return legacyParts[1];
+            }
+        }
+        // Fallback to query params for backward compatibility
         const url = new URL(window.location.href);
         const q = url.searchParams.get('app');
         if (q) return q;
-        if (window.location.hash && window.location.hash.includes('app=')) {
-            const parts = window.location.hash.replace('#','').split('=');
-            if (parts[0] === 'app' && parts[1]) return parts[1];
+    } catch (e) {}
+    return null;
+}
+
+/* Get news ID from clean URL */
+function getNewsIdFromUrl() {
+    try {
+        const hash = window.location.hash;
+        if (hash) {
+            const parts = hash.replace(/^#/, '').split('/').filter(p => p);
+            // Format: #/news/456
+            if (parts.length >= 2 && parts[0] === 'news') {
+                return parts[1];
+            }
         }
     } catch (e) {}
     return null;
 }
+window.getNewsIdFromUrl = getNewsIdFromUrl;
+
+/* Navigate to clean URL for app */
+function navigateToApp(id) {
+    window.location.hash = `#/app/${id}`;
+}
+window.navigateToApp = navigateToApp;
+
+/* Navigate to clean URL for news */
+function navigateToNews(id) {
+    window.location.hash = `#/news/${id}`;
+}
+window.navigateToNews = navigateToNews;
+
+/* Get current clean URL path */
+function getCleanUrlPath() {
+    const hash = window.location.hash;
+    if (!hash) return null;
+    return hash.replace(/^#/, '');
+}
+window.getCleanUrlPath = getCleanUrlPath;
+
 function clearAppFromUrl() {
-    try { history.replaceState({}, '', location.pathname); } catch (e) {}
+    try { 
+        // Clear the hash to remove clean URL
+        history.replaceState({}, '', location.pathname + location.search);
+    } catch (e) {}
 }
 function escapeHtml(str) {
     if (typeof str !== 'string') return '';
@@ -2868,13 +3133,19 @@ async function initApp() {
     // Populate privacy status in profile modal
     updateProfilePrivacySummary();
 
+    // Handle clean URLs on page load
     const idFromUrl = getAppIdFromUrl();
+    const newsIdFromUrl = getNewsIdFromUrl();
+
     if (idFromUrl) {
         const idNum = Number(idFromUrl);
         if (!isNaN(idNum)) {
             const exists = db.find(x => Number(x.id) === idNum);
             if (exists) openDetail(idNum, true);
         }
+    } else if (newsIdFromUrl) {
+        // Switch to news tab if news URL
+        tab('news', document.getElementById('nav-news'));
     }
 
     try {
@@ -2885,10 +3156,14 @@ async function initApp() {
                 db = result.record;
                 localStorage.setItem(DB_KEY, JSON.stringify(db));
                 render();
+                // Handle clean URLs in jsonbin fallback
                 const idFromUrl2 = getAppIdFromUrl();
+                const newsIdFromUrl2 = getNewsIdFromUrl();
                 if (idFromUrl2) {
                     const idNum = Number(idFromUrl2);
                     if (!isNaN(idNum)) openDetail(idNum, true);
+                } else if (newsIdFromUrl2) {
+                    tab('news', document.getElementById('nav-news'));
                 }
             }
         }
@@ -2905,6 +3180,28 @@ window.initApp = initApp;
 */
 window.onpopstate = function(event) {
     if (ignoreNextPop) { ignoreNextPop = false; return; }
+
+    // Handle clean URLs first
+    const appId = getAppIdFromUrl();
+    const newsId = getNewsIdFromUrl();
+
+    if (appId) {
+        const idNum = Number(appId);
+        if (!isNaN(idNum)) {
+            const exists = db.find(x => Number(x.id) === idNum);
+            if (exists) {
+                openDetail(idNum, true);
+                return;
+            }
+        }
+    }
+
+    if (newsId) {
+        // Switch to news tab and scroll to the news item
+        tab('news', document.getElementById('nav-news'));
+        // Could add scroll to specific news item here
+        return;
+    }
 
     const profileModal = document.getElementById('profileModal');
     if (profileModal && profileModal.style.display === 'flex') {
@@ -3197,8 +3494,9 @@ function render() {
         const likesCount = countFor(likesDB, p.id);
         const viewsCount = countFor(viewsDB, p.id);
 
+        const commentsCount = Array.isArray(commentsDB[p.id]) ? commentsDB[p.id].length : Object.keys(commentsDB[p.id] || {}).length;
         const statsHTML = `<div class="app-stats">
-                              <div class="stat" title="Views"><i class="fa-solid fa-eye"></i><div class="num">${escapeHtml(String(viewsCount || 0))}</div></div>
+                              <div class="stat" title="Comments"><i class="fa-solid fa-comment"></i><div class="num">${escapeHtml(String(commentsCount || 0))}</div></div>
                               <div class="stat" title="Likes"><i class="fa-solid fa-heart"></i><div class="num">${escapeHtml(String(likesCount || 0))}</div></div>
                            </div>`;
 
@@ -3735,7 +4033,7 @@ window.postNewsComment = postNewsComment;
 async function shareNews(id) {
     const n = newsDB.find(x => Number(x.id) === Number(id));
     if (!n) return alert("News not found");
-    const shareUrl = n.link || `${location.origin}${location.pathname}#news=${id}`;
+    const shareUrl = n.link || `${location.origin}${location.pathname}#/news/${id}`;
     const shareTitle = n.title || 'News';
     const shareText = n.desc ? n.desc.slice(0, 140) : n.title;
     if (navigator.share) {
@@ -3777,11 +4075,12 @@ function openDetail(id, skipPush) {
     const saved = getStoredProfile();
 
     try {
-        const newUrl = `${location.pathname}?app=${id}`;
+        // Use clean URL format: #/app/123
+        const cleanUrl = `#/app/${id}`;
         if (!skipPush) {
-            history.pushState({p:1}, '', newUrl);
+            history.pushState({p:1, appId: id}, '', cleanUrl);
         } else {
-            history.replaceState({p:1}, '', newUrl);
+            history.replaceState({p:1, appId: id}, '', cleanUrl);
         }
     } catch (e) {}
 
@@ -4013,7 +4312,7 @@ window.focusComment = focusComment;
 async function shareApp(id) {
     const p = db.find(x => Number(x.id) === Number(id));
     if (!p) return alert("Project not found");
-    const shareUrl = `${location.origin}${location.pathname}?app=${id}`;
+    const shareUrl = `${location.origin}${location.pathname}#/app/${id}`;
     const shareTitle = p.name || 'Mega store';
     const shareText = p.desc ? p.desc.slice(0, 140) : `Check out ${p.name} on Mega store`;
 
@@ -4222,9 +4521,9 @@ function doSearch() {
             const rating = (typeof p.rating !== 'undefined' && p.rating !== null) ? String(p.rating) : (p.r ? String(p.r) : '—');
             const size = p.size || p.appSize || '—';
             const downloads = p.downloads || p.installs || p.dl || '100k+';
-            // likes/views fallback counts in case stored under likes/views map by id
+            // likes/comments fallback counts
             const likesCount = countFor(likesDB, id);
-            const viewsCount = countFor(viewsDB, id);
+            const commentsCount = Array.isArray(commentsDB[id]) ? commentsDB[id].length : Object.keys(commentsDB[id] || {}).length;
 
             return `
                 <div class="search-item" onclick="openDetail(${id})" title="${title}">
@@ -4240,8 +4539,8 @@ function doSearch() {
                             <div class="pill" title="Rating"><i class="fa-solid fa-star" style="font-size:12px;color:var(--star);"></i> ${escapeHtml(String(rating))}</div>
                             <div style="color:#6b7280;">${escapeHtml(String(size))}</div>
                             <div style="display:flex; align-items:center; gap:6px; color:#6b7280;"><i class="fa-solid fa-download" style="color:#3b82f6;"></i> ${escapeHtml(String(downloads))}</div>
-                            <div style="margin-left:8px; color:#6b7280;">${escapeHtml(String(viewsCount))} views</div>
-                            <div style="color:#6b7280;">${escapeHtml(String(likesCount))} likes</div>
+                            <div style="margin-left:8px; color:#6b7280;"><i class="fa-solid fa-comment" style="color:#10b981;"></i> ${escapeHtml(String(commentsCount))}</div>
+                            <div style="color:#6b7280;"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> ${escapeHtml(String(likesCount))}</div>
                         </div>
                     </div>
                     <div class="chev-btn" onclick="event.stopPropagation(); toggleSearchExpand(${id}, this);">
@@ -4387,7 +4686,7 @@ function showSearchSamples(el) {
         const size = p.size || p.appSize || '—';
         const downloads = p.downloads || p.installs || p.dl || '100k+';
         const likesCount = countFor(likesDB, id);
-        const viewsCount = countFor(viewsDB, id);
+        const commentsCount = Array.isArray(commentsDB[id]) ? commentsDB[id].length : Object.keys(commentsDB[id] || {}).length;
 
         return `
             <div class="search-item" onclick="openDetail(${id})" title="${title}">
@@ -4403,8 +4702,8 @@ function showSearchSamples(el) {
                         <div class="pill" title="Rating"><i class="fa-solid fa-star" style="font-size:12px;color:var(--star);"></i> ${escapeHtml(String(rating))}</div>
                         <div style="color:#6b7280;">${escapeHtml(String(size))}</div>
                         <div style="display:flex; align-items:center; gap:6px; color:#6b7280;"><i class="fa-solid fa-download" style="color:#3b82f6;"></i> ${escapeHtml(String(downloads))}</div>
-                        <div style="margin-left:8px; color:#6b7280;">${escapeHtml(String(viewsCount))} views</div>
-                        <div style="color:#6b7280;">${escapeHtml(String(likesCount))} likes</div>
+                        <div style="margin-left:8px; color:#6b7280;"><i class="fa-solid fa-comment" style="color:#10b981;"></i> ${escapeHtml(String(commentsCount))}</div>
+                        <div style="color:#6b7280;"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> ${escapeHtml(String(likesCount))}</div>
                     </div>
                 </div>
                 <div class="chev-btn" onclick="event.stopPropagation(); toggleSearchExpand(${id}, this);">
@@ -5119,10 +5418,10 @@ function updateRecommendations() {
         let html = '';
         recommendations.forEach(p => {
             const likesCount = countFor(likesDB, p.id);
-            const viewsCount = countFor(viewsDB, p.id);
+            const commentsCount = Array.isArray(commentsDB[p.id]) ? commentsDB[p.id].length : Object.keys(commentsDB[p.id] || {}).length;
 
             const statsHTML = `<div class="app-stats">
-                                  <div class="stat" title="Views"><i class="fa-solid fa-eye"></i><div class="num">${escapeHtml(String(viewsCount || 0))}</div></div>
+                                  <div class="stat" title="Comments"><i class="fa-solid fa-comment"></i><div class="num">${escapeHtml(String(commentsCount || 0))}</div></div>
                                   <div class="stat" title="Likes"><i class="fa-solid fa-heart"></i><div class="num">${escapeHtml(String(likesCount || 0))}</div></div>
                                </div>`;
 
