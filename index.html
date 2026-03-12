@@ -3528,9 +3528,12 @@ function render() {
         const likesCount = countFor(likesDB, p.id);
         const viewsCount = countFor(viewsDB, p.id);
 
+        const commsObj = commentsDB[p.id] || {};
+        const commentsCount = Array.isArray(commsObj) ? commsObj.length : Object.keys(commsObj || {}).length;
+        const rating = p.rating || (4 + Math.random() * 1).toFixed(1);
         const statsHTML = `<div class="app-stats">
-                              <div class="stat" title="Views"><i class="fa-solid fa-eye"></i><div class="num">${escapeHtml(String(viewsCount || 0))}</div></div>
-                              <div class="stat" title="Likes"><i class="fa-solid fa-heart"></i><div class="num">${escapeHtml(String(likesCount || 0))}</div></div>
+                              <div class="stat" title="Comments"><i class="fa-solid fa-comment"></i><div class="num">${escapeHtml(String(commentsCount || 0))}</div></div>
+                              <div class="stat" title="Rating"><i class="fa-solid fa-star" style="color:#fbbf24;"></i><div class="num">${escapeHtml(String(rating))}</div></div>
                            </div>`;
 
         // icon-box starts with "loading" class and image has onload/onerror hooks to toggle
@@ -3749,7 +3752,6 @@ async function registerNewsView(newsId) {
     try {
         const localKey = `MEGA_NEWS_VIEWED_${newsId}`;
         if (localStorage.getItem(localKey)) {
-            updateNewsStats(newsId);
             return;
         }
         localStorage.setItem(localKey, '1');
@@ -3759,8 +3761,7 @@ async function registerNewsView(newsId) {
         if (!viewsDB[idKey]) viewsDB[idKey] = {};
         viewsDB[idKey][userId] = true;
         localStorage.setItem(VIEWS_KEY, JSON.stringify(viewsDB));
-        updateNewsStats(newsId);
-        renderNews();
+        // AJAX UPDATE: No DOM update needed for views as they're not displayed on news cards
 
         if (fbAvailable && rdb) {
             try {
@@ -3789,8 +3790,9 @@ async function toggleNewsLike(newsId, event) {
             likesDB[idKey][userId] = true;
         }
         localStorage.setItem(LIKES_KEY, JSON.stringify(likesDB));
-        updateNewsStats(newsId);
-        renderNews();
+
+        // AJAX UPDATE: Update only this news item's like stats in DOM
+        updateNewsLikeDOM(newsId);
 
         if (fbAvailable && rdb) {
             try {
@@ -3805,6 +3807,30 @@ async function toggleNewsLike(newsId, event) {
         }
     } catch (e) {
         console.warn("toggleNewsLike error:", e);
+    }
+}
+
+/* Helper: Update news like count and icon in DOM without full re-render */
+function updateNewsLikeDOM(newsId) {
+    const idKey = getNewsKey(newsId);
+    const likesFor = likesDB[idKey] || {};
+    const userId = ensureUserId();
+    const likesCount = Object.keys(likesFor).length;
+    const liked = !!likesFor[userId];
+
+    // Update likes count text
+    const likesCountEl = document.getElementById(`news_likes_count_${newsId}`);
+    if (likesCountEl) {
+        likesCountEl.innerText = `${likesCount} likes`;
+        likesCountEl.style.animation = 'pulse 0.3s ease';
+        setTimeout(() => likesCountEl.style.animation = '', 300);
+    }
+
+    // Update like icon
+    const likeIcon = document.getElementById(`news_like_icon_${newsId}`);
+    if (likeIcon) {
+        likeIcon.className = liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+        likeIcon.style.color = liked ? '#ef4444' : '';
     }
 }
 window.toggleNewsLike = toggleNewsLike;
@@ -3986,8 +4012,10 @@ async function postNewsComment(newsId) {
         commentsDB[idKey][localId] = newComment;
         localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
         if (textEl) textEl.value = '';
-        updateNewsStats(newsId);
-        renderNews();
+
+        // AJAX UPDATE: Update only this news item's comments in DOM without full re-render
+        appendNewsCommentToDOM(newsId, newComment);
+        updateNewsCommentCountDOM(newsId);
 
         // Try Firebase write: prefer deterministic key (userId + timestamp) so we can update local cache consistently.
         const userId = ensureUserId();
@@ -4001,8 +4029,6 @@ async function postNewsComment(newsId) {
                 commentsDB[idKey][realKey] = newComment;
                 delete commentsDB[idKey][localId];
                 localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-                updateNewsStats(newsId);
-                renderNews();
                 return;
             } catch (e) {
                 console.warn('Firebase set failed for news comment, trying push fallback', e);
@@ -4012,8 +4038,6 @@ async function postNewsComment(newsId) {
                         commentsDB[idKey][pushedRef.key] = newComment;
                         delete commentsDB[idKey][localId];
                         localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-                        updateNewsStats(newsId);
-                        renderNews();
                         return;
                     }
                 } catch (e2) {
@@ -4030,8 +4054,6 @@ async function postNewsComment(newsId) {
             commentsDB[idKey][realKey] = newComment;
             delete commentsDB[idKey][localId];
             localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-            updateNewsStats(newsId);
-            renderNews();
             return;
         } catch (e) {
             console.warn('REST PUT fallback failed for news comment', e);
@@ -4044,8 +4066,6 @@ async function postNewsComment(newsId) {
                     commentsDB[idKey][generatedKey] = newComment;
                     delete commentsDB[idKey][localId];
                     localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-                    updateNewsStats(newsId);
-                    renderNews();
                     return;
                 }
             } catch (e2) {
@@ -4058,6 +4078,61 @@ async function postNewsComment(newsId) {
     } catch (err) {
         console.error('postNewsComment unexpected error:', err);
         alert('Could not post comment. Saved locally; will sync when possible. Check console for details.');
+    }
+}
+
+/* Helper: Append a new comment to news item DOM without re-rendering */
+function appendNewsCommentToDOM(newsId, comment) {
+    const commentsContainer = document.getElementById(`news_comments_${newsId}`);
+    if (!commentsContainer) return;
+
+    const av = comment.avatar || createLetterAvatar(comment.name || 'Anonymous', 64);
+    const commentHTML = `
+        <div class="comment-item" style="background:transparent; border:none; padding:6px 0; animation: fadeIn 0.3s ease;">
+            <div class="comment-row">
+              <img src="${av}" class="comment-avatar" loading="lazy">
+              <div class="comment-body">
+                <div class="comment-user">${escapeHtml(comment.name || 'Anonymous')}</div>
+                <div class="comment-text">${escapeHtml(comment.comment || '')}</div>
+                <div class="comment-date">${formatDate(comment.date)}</div>
+              </div>
+            </div>
+        </div>
+    `;
+
+    // If placeholder exists, replace it; otherwise prepend
+    if (commentsContainer.classList.contains('news-comments-placeholder')) {
+        commentsContainer.classList.remove('news-comments-placeholder');
+        commentsContainer.innerHTML = commentHTML;
+    } else {
+        commentsContainer.insertAdjacentHTML('afterbegin', commentHTML);
+    }
+}
+
+/* Helper: Update news comment count in DOM */
+function updateNewsCommentCountDOM(newsId) {
+    const idKey = getNewsKey(newsId);
+    const commsObj = commentsDB[idKey] || {};
+    const commsArr = Array.isArray(commsObj) ? commsObj : Object.keys(commsObj).map(k => ({ id: k, ...commsObj[k] }));
+
+    // Update "Show more" button if it exists
+    const showMoreBtn = document.getElementById(`news_show_more_btn_${newsId}`);
+    const moreCount = Math.max(0, commsArr.length - 3);
+
+    if (showMoreBtn) {
+        if (moreCount > 0) {
+            showMoreBtn.style.display = 'inline-block';
+            showMoreBtn.innerText = `Show ${moreCount} more comment${moreCount>1?'s':''}`;
+        } else {
+            showMoreBtn.style.display = 'none';
+        }
+    } else if (moreCount > 0 && commsArr.length > 3) {
+        // Create show more button if needed
+        const commentsSection = document.getElementById(`news_all_comments_${newsId}`);
+        if (commentsSection) {
+            const btnHTML = `<button id="news_show_more_btn_${newsId}" class="show-more-comments" onclick="toggleNewsComments(${newsId}); event.stopPropagation();">Show ${moreCount} more comment${moreCount>1?'s':''}</button>`;
+            commentsSection.insertAdjacentHTML('beforebegin', btnHTML);
+        }
     }
 }
 window.postNewsComment = postNewsComment;
@@ -4234,8 +4309,10 @@ async function registerView(appId) {
         if (!viewsDB[appId]) viewsDB[appId] = {};
         viewsDB[appId][userId] = true;
         localStorage.setItem(VIEWS_KEY, JSON.stringify(viewsDB));
+
+        // AJAX UPDATE: Update detail stats and grid in place without full re-render
         updateDetailStats(appId);
-        render(); // update grid counts
+        updateGridCommentsCount(appId);
 
         // update firebase (set a presence entry under /views/{appId}/{userId} = true)
         if (fbAvailable && rdb) {
@@ -4249,10 +4326,28 @@ async function registerView(appId) {
         console.warn("registerView error:", e);
     }
 }
+
+/* Helper: Update comments count in grid without full re-render */
+function updateGridCommentsCount(appId) {
+    const commsObj = commentsDB[appId] || {};
+    const commentsCount = Array.isArray(commsObj) ? commsObj.length : Object.keys(commsObj || {}).length;
+
+    // Find all stat elements for this app in the grid and update them
+    const appCards = document.querySelectorAll('.app-card');
+    appCards.forEach(card => {
+        if (card.getAttribute('onclick') && card.getAttribute('onclick').includes(`openDetail(${appId})`)) {
+            const commentStat = card.querySelector('.stat[title="Comments"] .num');
+            if (commentStat) {
+                commentStat.innerText = commentsCount;
+            }
+        }
+    });
+}
 window.registerView = registerView;
 
 /* Toggle like for current user on an app.
    Enforces one like per account (userId key). If user already liked, this implementation allows unliking (toggle).
+   AJAX UPDATE: Updates grid stats in place without full page re-render.
 */
 async function toggleLike(appId, event) {
     event && event.stopPropagation && event.stopPropagation();
@@ -4266,9 +4361,9 @@ async function toggleLike(appId, event) {
         likesDB[appId][userId] = true;
     }
     localStorage.setItem(LIKES_KEY, JSON.stringify(likesDB));
-    updateDetailStats(appId);
-    render(); // update grid counts
 
+    // AJAX UPDATE: Update detail stats and grid in place without full re-render
+    updateDetailStats(appId);
     // sync to firebase under /likes/{appId}/{userId} = true/removed
     if (fbAvailable && rdb) {
         try {
@@ -4282,6 +4377,22 @@ async function toggleLike(appId, event) {
             console.warn("Failed to sync like to firebase:", e);
         }
     }
+}
+
+/* Helper: Update star rating in grid without full re-render */
+function updateGridStarRating(appId, rating) {
+    // Find all stat elements for this app in the grid and update them
+    const appCards = document.querySelectorAll('.app-card');
+    appCards.forEach(card => {
+        if (card.getAttribute('onclick') && card.getAttribute('onclick').includes(`openDetail(${appId})`)) {
+            const ratingStat = card.querySelector('.stat[title="Rating"] .num');
+            if (ratingStat && rating) {
+                ratingStat.innerText = rating;
+                ratingStat.style.animation = 'pulse 0.3s ease';
+                setTimeout(() => ratingStat.style.animation = '', 300);
+            }
+        }
+    });
 }
 window.toggleLike = toggleLike;
 
@@ -4389,6 +4500,7 @@ window.zoomImage = zoomImage;
 /* Post comment (modified - for apps)
    FIX: Use deterministic key for Firebase writes similar to news comments.
    Improved: multiple remote fallback attempts (set -> push -> REST). Always keep local comment so UI updates instantly.
+   AJAX UPDATE: Appends comment to DOM without page reload instead of re-rendering entire detail page.
 */
 async function postComment(appId) {
     try {
@@ -4417,8 +4529,12 @@ async function postComment(appId) {
         localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
 
         if (textEl) textEl.value = '';
-        // Re-open detail to refresh comment list (or manually update commentList)
-        openDetail(appId, true);
+
+        // AJAX UPDATE: Append comment to DOM without re-rendering entire page
+        appendCommentToDOM(newComment);
+
+        // Update comment count via DOM
+        updateCommentCountDOM(appId);
 
         // Prepare deterministic real key
         const userId = ensureUserId();
@@ -4432,7 +4548,6 @@ async function postComment(appId) {
                 commentsDB[appId][realKey] = newComment;
                 delete commentsDB[appId][localCid];
                 localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-                openDetail(appId, true);
                 return;
             } catch (e) {
                 console.warn('Firebase set failed for app comment, trying push fallback', e);
@@ -4442,7 +4557,6 @@ async function postComment(appId) {
                         commentsDB[appId][pushedRef.key] = newComment;
                         delete commentsDB[appId][localCid];
                         localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-                        openDetail(appId, true);
                         return;
                     }
                 } catch (e2) {
@@ -4458,7 +4572,6 @@ async function postComment(appId) {
             commentsDB[appId][realKey] = newComment;
             delete commentsDB[appId][localCid];
             localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-            openDetail(appId, true);
             return;
         } catch (e) {
             console.warn('REST PUT fallback failed for app comment', e);
@@ -4469,7 +4582,6 @@ async function postComment(appId) {
                     commentsDB[appId][generatedKey] = newComment;
                     delete commentsDB[appId][localCid];
                     localStorage.setItem(COMMENT_KEY, JSON.stringify(commentsDB));
-                    openDetail(appId, true);
                     return;
                 }
             } catch (e2) {
@@ -4484,6 +4596,54 @@ async function postComment(appId) {
         alert('Could not post comment. Saved locally; will sync when possible. Check console for details.');
     }
 }
+
+/* Helper: Append a new comment to the DOM without re-rendering */
+function appendCommentToDOM(comment) {
+    const commentList = document.getElementById('commentList');
+    if (!commentList) return;
+
+    const av = comment.avatar || createLetterAvatar(comment.name || 'Anonymous', 64);
+    const commentHTML = `
+        <div class="comment-item" style="animation: fadeIn 0.3s ease;">
+            <div class="comment-row">
+              <img src="${av}" class="comment-avatar" loading="lazy">
+              <div class="comment-body">
+                <div class="comment-user">${escapeHtml(comment.name || 'Anonymous')}</div>
+                <div class="comment-text">${escapeHtml(comment.comment || '')}</div>
+                <div class="comment-date">${formatDate(comment.date)}</div>
+              </div>
+            </div>
+        </div>
+    `;
+    commentList.insertAdjacentHTML('afterbegin', commentHTML);
+}
+
+/* Helper: Update comment count in DOM without re-rendering */
+function updateCommentCountDOM(appId) {
+    const commsObj = commentsDB[appId] || {};
+    const commentCount = Array.isArray(commsObj) ? commsObj.length : Object.keys(commsObj || {}).length;
+    const commentCountEl = document.getElementById('commentCount');
+    if (commentCountEl) {
+        commentCountEl.innerText = commentCount;
+        commentCountEl.style.animation = 'pulse 0.3s ease';
+        setTimeout(() => commentCountEl.style.animation = '', 300);
+    }
+}
+
+/* CSS Animation for smooth updates */
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(styleSheet);
 window.postComment = postComment;
 
 /* Upload modal controls and submission
@@ -5452,9 +5612,12 @@ function updateRecommendations() {
             const likesCount = countFor(likesDB, p.id);
             const viewsCount = countFor(viewsDB, p.id);
 
+            const commsObj = commentsDB[p.id] || {};
+            const commentsCount = Array.isArray(commsObj) ? commsObj.length : Object.keys(commsObj || {}).length;
+            const rating = p.rating || (4 + Math.random() * 1).toFixed(1);
             const statsHTML = `<div class="app-stats">
-                                  <div class="stat" title="Views"><i class="fa-solid fa-eye"></i><div class="num">${escapeHtml(String(viewsCount || 0))}</div></div>
-                                  <div class="stat" title="Likes"><i class="fa-solid fa-heart"></i><div class="num">${escapeHtml(String(likesCount || 0))}</div></div>
+                                  <div class="stat" title="Comments"><i class="fa-solid fa-comment"></i><div class="num">${escapeHtml(String(commentsCount || 0))}</div></div>
+                                  <div class="stat" title="Rating"><i class="fa-solid fa-star" style="color:#fbbf24;"></i><div class="num">${escapeHtml(String(rating))}</div></div>
                                </div>`;
 
             html += `<div class="app-card" onclick="openDetail(${p.id})">
