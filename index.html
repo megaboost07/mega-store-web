@@ -1214,198 +1214,198 @@
         #profileModal .privacy-summary { color: #6b7280; font-size: 13px; margin-top:10px; }
 
     
-        /* ========== LOGIN SYSTEM STYLES (Photo Style) ========== */
-        #loginOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #1a2a3a 0%, #0d1b2a 50%, #0a1628 100%);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow-y: auto;
-        }
-        .login-container {
-            width: 100%;
-            max-width: 380px;
-            padding: 20px;
-        }
-        .login-box {
-            background: rgba(60, 70, 80, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px 22px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.08);
-            animation: loginSlideUp 0.5s ease-out;
-        }
-        @keyframes loginSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .login-logo {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-        .login-logo h1 {
-            font-size: 26px;
-            color: #ffffff;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .login-logo p {
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            margin-top: 2px;
-        }
-        .login-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 18px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 4px;
-        }
-        .login-tab {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 13px;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .login-tab.active {
-            background: rgba(255,255,255,0.15);
-            color: #00d4ff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .login-form {
-            display: none;
-        }
-        .login-form.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .input-group {
-            position: relative;
-            margin-bottom: 12px;
-        }
-        .input-group i {
-            display: none;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            background: rgba(80, 90, 100, 0.7);
-            color: #ffffff;
-            transition: all 0.3s ease;
-        }
-        .input-group input::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-        .input-group input:focus {
-            background: rgba(90, 100, 110, 0.8);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0,212,255,0.3);
-        }
-        .password-toggle {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-        .password-toggle:hover {
-            color: #00d4ff;
-        }
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: #00d4ff;
-            color: #0f2027;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 8px;
-            box-shadow: 0 8px 25px rgba(0,212,255,0.35);
-        }
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0,212,255,0.45);
-        }
-        .login-btn:active {
-            transform: translateY(0);
-        }
+        /* ========== LOGIN SYSTEM STYLES (WHITE THEME) ========== */
 
-        .login-error {
-            background: rgba(239,68,68,0.15);
-            color: #ff6b6b;
-            padding: 14px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            margin-bottom: 18px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(239,68,68,0.2);
-        }
-        .login-error.show {
-            display: flex;
-        }
-        .login-success {
-            background: rgba(16,185,129,0.15);
-            color: #4ade80;
-            padding: 14px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            margin-bottom: 18px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(16,185,129,0.2);
-        }
-        .login-success.show {
-            display: flex;
-        }
-        .password-strength {
-            margin-top: 8px;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .password-strength-bar {
-            height: 100%;
-            width: 0;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-        .password-strength-bar.weak { width: 33%; background: #ef4444; }
-        .password-strength-bar.medium { width: 66%; background: #f59e0b; }
-        .password-strength-bar.strong { width: 100%; background: #00d4ff; }
+#loginOverlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#f5f7fb;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-y:auto;
+}
+
+/* CONTAINER */
+.login-container{
+    width:100%;
+    max-width:380px;
+    padding:20px;
+}
+
+/* LOGIN BOX */
+.login-box{
+    background:#ffffff;
+    border-radius:20px;
+    padding:25px 22px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.08);
+    border:2px solid #e5e7eb;
+    animation:loginSlideUp 0.5s ease-out;
+}
+
+@keyframes loginSlideUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* LOGO */
+.login-logo{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.login-logo h1{
+    font-size:26px;
+    color:#111827;
+    font-weight:700;
+}
+
+.login-logo p{
+    color:#6b7280;
+    font-size:13px;
+}
+
+/* INPUT */
+.input-group{
+    position:relative;
+    margin-bottom:14px;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px 16px;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    font-size:14px;
+    background:#f9fafb;
+    color:#111827;
+    transition:all 0.3s ease;
+}
+
+.input-group input::placeholder{
+    color:#9ca3af;
+}
+
+.input-group input:focus{
+    background:#ffffff;
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 2px rgba(37,99,235,0.15);
+}
+
+/* PASSWORD TOGGLE */
+.password-toggle{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#6b7280;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.password-toggle:hover{
+    color:#2563eb;
+}
+
+/* REMEMBER ME */
+.remember-me{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    font-size:14px;
+    color:#374151;
+}
+
+.remember-me input{
+    width:18px;
+    height:18px;
+    accent-color:#2563eb;
+}
+
+/* LOGIN BUTTON */
+.login-btn{
+    width:100%;
+    padding:14px;
+    background:#2563eb;
+    color:#ffffff;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    margin-top:8px;
+}
+
+.login-btn:hover{
+    background:#1d4ed8;
+}
+
+/* ERROR */
+.login-error{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:10px;
+    font-size:14px;
+    margin-bottom:14px;
+    display:none;
+}
+
+.login-error.show{
+    display:block;
+}
+
+/* SUCCESS */
+.login-success{
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:10px;
+    font-size:14px;
+    margin-bottom:14px;
+    display:none;
+}
+
+.login-success.show{
+    display:block;
+}
+
+/* PASSWORD STRENGTH */
+.password-strength{
+    margin-top:8px;
+    height:4px;
+    background:#e5e7eb;
+    border-radius:2px;
+    overflow:hidden;
+}
+
+.password-strength-bar{
+    height:100%;
+    width:0;
+    transition:all 0.3s ease;
+}
+
+.password-strength-bar.weak{
+    width:33%;
+    background:#ef4444;
+}
+
+.password-strength-bar.medium{
+    width:66%;
+    background:#f59e0b;
+}
+
+.password-strength-bar.strong{
+    width:100%;
+    background:#2563eb;
+}
 
         /* Login Footer - Store User Privacy */
         .login-footer {
@@ -1430,171 +1430,124 @@
             text-decoration: underline;
         }
 
-        /* User Privacy Full Screen Modal */
-        #userPrivacyModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #1a2a3a 0%, #0d1b2a 50%, #0a1628 100%);
-            z-index: 100000;
-            overflow-y: auto;
-            animation: privacyFadeIn 0.4s ease;
-        }
-        @keyframes privacyFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .privacy-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 30px 20px 50px;
-            min-height: 100vh;
-        }
-        .privacy-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .privacy-header h2 {
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .privacy-header p {
-            color: rgba(255,255,255,0.5);
-            font-size: 14px;
-        }
-        .privacy-content {
-            background: rgba(60, 70, 80, 0.5);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        .privacy-section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .privacy-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .privacy-section h3 {
-            color: #00d4ff;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .privacy-section h3 i {
-            font-size: 18px;
-        }
-        .privacy-section p {
-            color: rgba(255,255,255,0.75);
-            font-size: 14px;
-            line-height: 1.7;
-        }
-        .privacy-close-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 50%;
-            color: #ffffff;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 100001;
-        }
-        .privacy-close-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: rotate(90deg);
-        }
-        .password-strength-text {
-            font-size: 12px;
-            color: rgba(255,255,255,0.6);
-            margin-top: 6px;
-        }
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-            font-size: 14px;
-            color: rgba(255,255,255,0.7);
-        }
-        .remember-me input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: #00d4ff;
-            cursor: pointer;
-        }
-        .already-logged-in {
-            text-align: center;
-            padding: 30px 20px;
-        }
-        .already-logged-in i {
-            font-size: 60px;
-            color: #00d4ff;
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px rgba(0,212,255,0.5);
-        }
-        .already-logged-in h3 {
-            font-size: 24px;
-            color: #ffffff;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-        .already-logged-in p {
-            color: rgba(255,255,255,0.7);
-            font-size: 15px;
-            margin-bottom: 25px;
-        }
-        .continue-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #00d4ff 0%, #00a8cc 100%);
-            color: #0f2027;
-            border: none;
-            border-radius: 18px;
-            font-size: 16px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,212,255,0.3);
-        }
-        .continue-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(0,212,255,0.4);
-        }
+/* ========== USER PRIVACY FULL SCREEN MODAL (WHITE) ========== */
 
-        /* Hide main content when not logged in */
-        body:not(.logged-in) #home-view,
-        body:not(.logged-in) #all-view,
-        body:not(.logged-in) #search-view,
-        body:not(.logged-in) #news-view,
-        body:not(.logged-in) header,
-        body:not(.logged-in) .bottom-nav {
-            display: none !important;
-        }
-        body.logged-in #loginOverlay {
-            display: none !important;
-        }
+#userPrivacyModal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+
+    /* WHITE BACKGROUND */
+    background:#ffffff;
+
+    z-index:100000;
+    overflow-y:auto;
+}
+
+/* CONTAINER */
+.privacy-container{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:25px 20px;
+}
+
+/* HEADER */
+.privacy-header{
+    text-align:center;
+    margin-bottom:25px;
+    padding-bottom:15px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.privacy-header h2{
+    color:#111827;
+    font-size:28px;
+    font-weight:700;
+}
+
+.privacy-header p{
+    color:#6b7280;
+    font-size:14px;
+}
+
+/* CONTENT FULL WIDTH */
+.privacy-content{
+    width:100%;
+    background:#ffffff;
+    padding:0;
+}
+
+/* SECTIONS */
+.privacy-section{
+    margin-bottom:25px;
+    padding-bottom:20px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.privacy-section:last-child{
+    border-bottom:none;
+}
+
+/* SECTION TITLE */
+.privacy-section h3{
+    color:#2563eb;
+    font-size:17px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+/* TEXT */
+.privacy-section p{
+    color:#374151;
+    font-size:14px;
+    line-height:1.7;
+}
+
+/* CLOSE BUTTON */
+.privacy-close-btn{
+    position:fixed;
+    top:15px;
+    right:15px;
+    width:45px;
+    height:45px;
+    background:#f1f5f9;
+    border:none;
+    border-radius:50%;
+    color:#111827;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* CONTINUE BUTTON */
+.continue-btn{
+    width:100%;
+    padding:16px;
+    background:#2563eb;
+    color:#ffffff;
+    border:none;
+    border-radius:18px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* HIDE MAIN CONTENT WHEN NOT LOGGED IN */
+body:not(.logged-in) #home-view,
+body:not(.logged-in) #all-view,
+body:not(.logged-in) #search-view,
+body:not(.logged-in) #news-view,
+body:not(.logged-in) header,
+body:not(.logged-in) .bottom-nav{
+    display:none !important;
+}
+
+body.logged-in #loginOverlay{
+    display:none !important;
+}
        
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2753772773698567"
@@ -1641,7 +1594,7 @@
                     </div>
                     <label class="remember-me">
                         <input type="checkbox" id="rememberMe" checked>
-                        <span>Remember me on this device</span>
+                        <span>Remember device</span>
                     </label>
                     <button type="submit" class="login-btn">Login</button>
                 </form>
@@ -1669,89 +1622,498 @@
         <div class="privacy-content">
 
             <div class="privacy-section">
-                <h3>1. Information We Collect</h3>
-                <p>
-                    We may collect basic information such as your username, email address,
-                    app usage data (downloads, views, likes), and comments posted inside the app.
-                    We do NOT collect passwords, banking details, or personal files from your device.
-                </p>
-            </div>
+    <h3>1. Information We Collect</h3>
+    <p>
+        We may collect certain basic information to improve our services. This may include your 
+        username, email address, and activity data such as downloads, views, likes, and comments 
+        made within the app or website.
+    </p>
+
+    <p>
+        This information helps us understand how users interact with our platform and allows us 
+        to enhance user experience and improve our services.
+    </p>
+
+    <p>
+        We do <strong>not</strong> collect sensitive personal information such as passwords, 
+        banking details, or private files from your device.
+    </p>
+</div>
+
+          <div class="privacy-section">
+    <h3>2. How We Use Your Information</h3>
+    <p>
+        We use the information we collect to operate and improve our platform. 
+        This includes creating and managing your account, providing access to downloads,
+        displaying user comments and ratings, and improving the overall user experience.
+    </p>
+
+    <p>
+        The collected information may also be used to maintain security, prevent misuse,
+        and enhance the performance and functionality of our services.
+    </p>
+
+    <p>
+        We respect your privacy and do <strong>not sell, rent, or trade</strong> your personal 
+        information with third parties.
+    </p>
+</div>
+
+          <div class="privacy-section">
+    <h3>3. Download Policy</h3>
+
+    <p>
+        Our website provides various files, applications, and resources for informational 
+        and educational purposes. We try our best to ensure that the content shared on our 
+        platform is useful and safe for users. However, since many files may come from 
+        external or third-party sources, users should always be careful before downloading 
+        or installing any file on their device.
+    </p>
+
+    <p>
+        <span style="color:#ffc107; font-weight:bold;">
+        All downloads from this website are performed at the user's own risk.
+        </span>
+        By downloading any file from this platform, you acknowledge that you understand 
+        the potential risks associated with installing software or files obtained from 
+        the internet.
+    </p>
+
+    <p>
+        We make reasonable efforts to review and verify the files before they are published. 
+        Our team checks the available information and tries to ensure that the content does 
+        not violate any security standards. However, 
+        <span style="color:#ffc107; font-weight:bold;">
+        we cannot guarantee 100% safety, accuracy, or reliability of third-party files.
+        </span>
+    </p>
+
+    <p>
+        Users are strongly encouraged to use trusted antivirus software and review file 
+        permissions before installing any application. It is also recommended to download 
+        files only if you fully trust the source and understand how the file works.
+    </p>
+
+    <p>
+        <span style="color:#ffc107; font-weight:bold;">
+        We are not responsible for any damage, data loss, device malfunction, or other 
+        issues that may occur as a result of downloading or using third-party content 
+        from this website.
+        </span>
+    </p>
+
+</div>
+
+          <div class="privacy-section">
+    <h3>4. Comment Policy</h3>
+
+    <p>
+        Our website allows users to share their opinions, feedback, and experiences
+        through the comment section. We encourage respectful discussions that help
+        other users understand the content better and create a positive community
+        environment. By posting a comment on this platform, you agree to follow
+        our community guidelines and maintain a respectful tone when interacting
+        with other users.
+    </p>
+
+    <p>
+        <span style="color:#ffc107; font-weight:bold;">
+        Users must not post abusive, offensive, harmful, illegal, misleading,
+        or spam content in the comment section.
+        </span>
+        Any content that promotes harassment, discrimination, hate speech,
+        or inappropriate language is strictly not allowed on this platform.
+    </p>
+
+    <p>
+        <span style="color:#ffc107; font-weight:bold;">
+        Posting hacking-related content, malicious links, viruses, phishing
+        links, or any harmful external resources is strictly prohibited.
+        </span>
+        Such activities may lead to immediate removal of the comment and
+        possible restriction of the user account.
+    </p>
+
+    <p>
+        Users are responsible for the content they post. Comments should be
+        relevant to the topic and should not mislead other users or promote
+        illegal activities. We encourage users to share constructive feedback
+        that benefits the community.
+    </p>
+
+    <p>
+        <span style="color:#ffc107; font-weight:bold;">
+        The website administrator reserves the right to review, edit, or remove
+        any comment at any time without prior notice if it violates our policies
+        or community guidelines.
+        </span>
+    </p>
+
+</div>
 
             <div class="privacy-section">
-                <h3>2. How We Use Your Information</h3>
-                <p>
-                    Your information is used to create and manage your account, provide download access,
-                    display comments and ratings, and improve user experience.
-                    We do not sell, rent, or trade your personal information.
-                </p>
-            </div>
+    <h3>5. Account Security</h3>
+
+    <p>
+        The security of your account is very important to us. When you create an
+        account on our platform, you are responsible for maintaining the safety
+        and confidentiality of your login information. This includes your
+        username, password, and any other account credentials used to access
+        our services.
+    </p>
+
+    <p>
+        To protect your account and personal information, please follow these
+        important security guidelines:
+    </p>
+
+    <p>
+        • <span style="color:#ffc107; font-weight:bold;">
+        Users are responsible for keeping their login credentials confidential.
+        </span><br>
+
+        • <span style="color:#ffc107; font-weight:bold;">
+        Do not share your account username, password, or login details with
+        anyone.
+        </span><br>
+
+        • Always use a strong and secure password and avoid using the same
+        password on multiple websites or applications.<br>
+
+        • Log out of your account when using shared or public devices to
+        prevent unauthorized access.<br>
+
+        • <span style="color:#ffc107; font-weight:bold;">
+        If you notice any suspicious activity or unauthorized access to your
+        account, report it immediately to the website administrator.
+        </span>
+    </p>
+
+    <p>
+        We take reasonable measures to help protect user accounts, but users
+        must also take responsibility for keeping their login information
+        secure. Failure to protect your account credentials may result in
+        unauthorized access to your account.
+    </p>
+
+</div>
+
+           <div class="privacy-section">
+    <h3>6. Third-Party Links</h3>
+
+    <p>
+        Our platform may include links to third-party websites, services, or
+        external resources such as YouTube videos, download pages, or other
+        websites. These links are provided for informational purposes and to
+        help users access additional content that may be useful or relevant.
+    </p>
+
+    <p>
+        <span style="text-decoration: underline; font-weight:bold;">
+        Some links on this website may redirect users to third-party platforms
+        such as YouTube or external download websites.
+        </span>
+    </p>
+
+    <p>
+        Please note that once you leave our website and visit a third-party
+        website, their own terms, privacy policies, and rules will apply.
+        We encourage users to review the privacy policies of those websites
+        before providing any personal information.
+    </p>
+
+    <p>
+        <span style="text-decoration: underline; font-weight:bold;">
+        We are not responsible for the content, security, or privacy practices
+        of any third-party websites or services linked from our platform.
+        </span>
+    </p>
+
+</div>
 
             <div class="privacy-section">
-                <h3>3. Download Policy</h3>
-                <p>
-                    All files are downloaded at the user's own risk.
-                    We try to verify uploaded content but cannot guarantee 100% security.
-                    Users are responsible for how they use downloaded content.
-                    We are not responsible for any damage caused by third-party files.
-                </p>
-            </div>
+    <h3>7. Data Protection</h3>
+
+    <p>
+        • We value the privacy and security of our users and take reasonable steps
+        to protect the information stored on our platform.
+    </p>
+
+    <p>
+        • We use secure servers, modern technologies, and appropriate protection
+        methods to help safeguard user data from unauthorized access,
+        misuse, or disclosure.
+    </p>
+
+    <p>
+        • Our system may include security measures such as encrypted connections,
+        secure hosting environments, and controlled access to sensitive data.
+    </p>
+
+    <p>
+        • We continuously review our security practices and update our systems
+        when necessary to improve the protection of user information.
+    </p>
+
+    <p>
+        • However, it is important to understand that
+        no online system, website, or internet transmission can guarantee
+        complete or 100% security at all times.
+    </p>
+
+    <p>
+        • While we do our best to protect user data, users should also take
+        precautions such as keeping their login credentials secure and
+        avoiding sharing personal information on public platforms.
+    </p>
+
+</div>
+
+          <div class="privacy-section">
+    <h3>8. Children's Privacy</h3>
+
+    <p>
+        Protecting the privacy of children is very important to us. Our platform
+        is designed for a general audience and we do not intentionally collect
+        personal information from children without proper supervision.
+    </p>
+
+    <p>
+        <span style="color:#007BFF; font-weight:bold;">
+        We do not knowingly collect personal information from children under
+        the age of 13 without the consent of a parent or legal guardian.
+        </span>
+    </p>
+
+    <p>
+        Parents and guardians are encouraged to monitor their children's
+        online activities and guide them when using websites, applications,
+        or internet services.
+    </p>
+
+    <p>
+        <span style="color:#007BFF; font-weight:bold;">
+        If you believe that a child has provided personal information on our
+        website without parental permission, please contact us immediately
+        so we can remove the information as soon as possible.
+        </span>
+    </p>
+
+    <p>
+        We are committed to protecting children's privacy and ensuring that
+        our services remain safe and appropriate for all users.
+    </p>
+
+</div>
 
             <div class="privacy-section">
-                <h3>4. Comment Policy</h3>
-                <p>
-                    Users must not post abusive, harmful, illegal, or spam content.
-                    Hacking-related or malicious links are strictly prohibited.
-                    Admin reserves the right to remove any comment without notice.
-                </p>
-            </div>
+    <h3>9. Policy Updates</h3>
 
-            <div class="privacy-section">
-                <h3>5. Account Security</h3>
-                <p>
-                    Users are responsible for maintaining the confidentiality of their login credentials.
-                    Do not share your account details with anyone.
-                    Report any suspicious activity immediately.
-                </p>
-            </div>
+    <div style="border:2px dotted #555; padding:15px; border-radius:8px;">
 
-            <div class="privacy-section">
-                <h3>6. Third-Party Links</h3>
-                <p>
-                    Our app may contain links to third-party websites such as YouTube or external downloads.
-                    We are not responsible for the content or privacy practices of third-party platforms.
-                </p>
-            </div>
+        <p>
+            • Our Privacy Policy may be updated or modified from time to time
+            in order to reflect changes in our services, legal requirements,
+            or improvements to our platform.
+        </p>
 
-            <div class="privacy-section">
-                <h3>7. Data Protection</h3>
-                <p>
-                    We use secure servers and reasonable protection methods to safeguard user data.
-                    However, no online system can guarantee complete security.
-                </p>
-            </div>
+        <p>
+            • We encourage users to review this policy periodically so that
+            they stay informed about how we protect and manage user information.
+        </p>
 
-            <div class="privacy-section">
-                <h3>8. Children's Privacy</h3>
-                <p>
-                    We do not knowingly collect personal information from children without guardian consent.
-                </p>
-            </div>
+        <p>
+            • Continued use of our website or application after any policy
+            updates means that you accept and agree to the revised Privacy Policy.
+        </p>
 
-            <div class="privacy-section">
-                <h3>9. Policy Updates</h3>
-                <p>
-                    We may update this policy from time to time.
-                    Continued use of the app means you agree to the updated policy.
-                </p>
-            </div>
+    </div>
 
-            <div class="privacy-section">
-                <h3>10. Contact Us</h3>
-                <p>
-                    If you have any questions regarding security or privacy,
-                    please contact us through our official support channel or Telegram.
-                </p>
-            </div>
+</div>
+
+           <div class="privacy-section">
+    <h3>10. Contact Us</h3>
+
+    <p>
+        • If you have any questions, concerns, or suggestions regarding our
+        privacy policy, security practices, or the way we handle user data,
+        please feel free to contact us.
+    </p>
+
+    <p>
+        • <span style="text-decoration: underline; font-weight:bold;">
+        You can reach us through our official support channel for assistance
+        related to privacy, security, or account issues.
+        </span>
+    </p>
+
+    <p>
+        • <span style="text-decoration: underline; font-weight:bold;">
+        You may also contact us through our official Telegram support group
+        for faster communication and updates.
+        </span>
+    </p>
+
+    <p>
+        • Our support team will review your request and try to respond
+        as soon as possible to help resolve your concerns.
+    </p>
+
+</div>
+
+<div class="privacy-section">
+    <h3>11. DMCA / Copyright Policy</h3>
+
+    <p>
+        We respect the intellectual property rights of others and expect our
+        users to do the same. If you believe that any content available on this
+        website violates your copyright, you may submit a copyright complaint
+        and request the removal of the content.
+    </p>
+
+    <p>
+        To submit a copyright claim, please provide the following information:
+    </p>
+
+    <p>
+        • Your full name and contact information.<br>
+        • A description of the copyrighted work that you believe has been infringed.<br>
+        • The exact URL or location of the content on our website.<br>
+        • Proof that you are the copyright owner or authorized to act on behalf of the owner.<br>
+        • A statement confirming that the information provided in the complaint is accurate.
+    </p>
+
+    <p>
+        • Once we receive a valid copyright complaint, we will review the request
+        and take appropriate action, which may include removing or disabling
+        access to the reported content.
+    </p>
+
+    <p>
+        • If you wish to request content removal, please contact us through our
+        official support email:
+        <strong>kapildasdasdas@gmail.com.com</strong>
+    </p>
+
+</div>
+
+<div class="privacy-section">
+    <h3>12. Google AdSense & Cookies</h3>
+
+    <p>
+        Our website uses advertising services provided by 
+        <strong>Google AdSense</strong> to display advertisements to visitors.
+        Google may use cookies and similar technologies to serve ads based
+        on a user's previous visits to this website or other websites.
+    </p>
+
+    <p>
+        • Third-party vendors, including Google, use cookies to serve ads
+        based on users’ prior visits to our website or other websites on
+        the internet.
+    </p>
+
+    <p>
+        • Google’s use of advertising cookies enables it and its partners
+        to serve ads to users based on their visit to this site and/or
+        other sites on the internet.
+    </p>
+
+    <p>
+        • Users may choose to disable personalized advertising by visiting
+        Google Ads Settings.
+    </p>
+
+    <p>
+        • You can also choose to disable cookies through your individual
+        browser options. More detailed information about cookie management
+        is available in the browser’s respective settings.
+    </p>
+
+    <p>
+        By using our website, you consent to the use of cookies and
+        advertising technologies in accordance with this policy.
+    </p>
+
+</div>
+
+<div class="privacy-section">
+    <h3>13. Content Policy</h3>
+
+    <p>
+        Our website does not host or distribute illegal APK files or modified
+        applications. We respect the intellectual property rights of developers
+        and follow responsible content practices.
+    </p>
+
+    <p>
+        • This platform only provides <strong>Sketchware Pro SWB project files,
+        UI/UX design examples, and educational development resources</strong>
+        for learning and development purposes.
+    </p>
+
+    <p>
+        • The content shared on this website is intended to help developers
+        understand project structures, user interface design, and mobile
+        application development concepts.
+    </p>
+
+    <p>
+        • We do not encourage piracy, unauthorized distribution, or the
+        sharing of paid applications without permission from the original
+        developers.
+    </p>
+
+    <p>
+        • If any content is found to violate copyright or developer rights,
+        it will be reviewed and removed upon receiving a valid request
+        from the rightful owner.
+    </p>
+
+</div>
+
+<div class="privacy-section">
+    <h3>14. Cookies Policy</h3>
+
+    <div style="border:2px dotted #666; padding:15px; border-radius:8px;">
+
+        <p>
+            Our website uses cookies and similar technologies to improve user
+            experience, analyze website traffic, and display relevant
+            advertisements.
+        </p>
+
+        <p>
+            • This website may store small data files called <strong>cookies</strong>
+            on your device to help the website function properly and remember
+            user preferences.
+        </p>
+
+        <p>
+            • Third-party vendors, including <strong>Google</strong>, may use
+            cookies to serve advertisements based on a user’s previous visits
+            to this website or other websites on the internet.
+        </p>
+
+        <p>
+            • These cookies help deliver more relevant ads and measure the
+            effectiveness of advertising campaigns.
+        </p>
+
+        <p>
+            • Users can choose to disable cookies through their individual
+            browser settings. Most web browsers allow users to control,
+            block, or delete cookies from their devices.
+        </p>
+
+        <p>
+            • By continuing to use this website, you agree to the use of
+            cookies in accordance with this Cookies Policy.
+        </p>
+
+    </div>
+
+</div>
 
         </div>
     </div>
