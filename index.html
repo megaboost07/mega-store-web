@@ -231,9 +231,9 @@
 
         /* Scrollbar: white thumb as requested (#ffffff) */
         /* WebKit */
-        *::-webkit-scrollbar { width: 10px; height: 10px; }
+        *::-webkit-scrollbar { width: 0px; height: 0px; }
         *::-webkit-scrollbar-track { background: transparent; }
-        *::-webkit-scrollbar-thumb { background: #ffffff; border-radius: 999px; border: 2px solid rgba(0,0,0,0.04); }
+        *::-webkit-scrollbar-thumb { background: #ffffff; border-radius: 999px; border: 0px solid rgba(0,0,0,0.00); }
         *::-webkit-scrollbar-corner { background: transparent; }
         /* Firefox */
         html { scrollbar-color: #ffffff transparent; scrollbar-width: thin; }
@@ -385,8 +385,8 @@
         .banner-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px; background: linear-gradient(transparent, rgba(0,0,0,0.08)); color: var(--text); font-size: 14px; font-weight: bold; }
 
         .app-row { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; padding-bottom: 10px; }
-        .app-card { min-width: 105px; max-width: 105px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; background: var(--card); padding: 10px; border-radius: 22px; border: 1px solid var(--glass-border); position: relative; }
-        .icon-box { width: 85px; height: 85px; border-radius: 18px; overflow: hidden; margin-bottom: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.02); display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.02); position:relative; }
+        .app-card { min-width: 99px; max-width: 99px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; background: var(--card); padding: 10px; border-radius: 22px; border: 1px solid var(--glass-border); position: relative; }
+        .icon-box { width: 75px; height: 75px; border-radius: 18px; overflow: hidden; margin-bottom: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.02); display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.02); position:relative; }
         .icon-box img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.18s ease; opacity: 1; }
 
         /* while icon is loading/hidden show neutral pulsing animation */
@@ -402,7 +402,7 @@
 
         /* small inline stats under each app icon */
         .app-stats { display:flex; gap:8px; align-items:center; font-size:11px; color: #6b7280; }
-        .app-stats .stat { display:flex; gap:6px; align-items:center; padding:4px 6px; border-radius:12px; background: rgba(0,0,0,0.03); border: 1px solid var(--glass-border); }
+        .app-stats .stat { display:flex; gap:6px; align-items:center; padding:3px 3px; border-radius:12px; background: rgba(0,0,0,0.03); border: 1px solid var(--glass-border); }
         .app-stats .stat i { color: var(--primary); font-size:12px; }
         .app-stats .stat .num { font-weight:700; color:var(--text); font-size:12px; }
 
@@ -1561,7 +1561,7 @@ body.logged-in #loginOverlay{
         <div class="login-box">
             <div class="login-logo">
                 <h1>Mega Store</h1>
-                <p>Welcome to mega store continue</p>
+                <p>Login account</p>
             </div>
 
             <!-- Already Logged In State -->
@@ -2487,7 +2487,10 @@ color:#b30000;
 
 <header>
     <div class="left-header">
-        <div class="brand">Mega store</div>
+        <div class="brand">
+         <div class="brand">Mega store</div>
+<span style="font-size:20px; font-weight:bold; margin-left:0px;"></span>
+</div>
         <!-- Header search container: hidden by default and shown only when Search nav is active -->
         <div id="headerSearchContainer" class="search-container" style="display:none;">
             <i class="fa-solid fa-magnifying-glass" style="opacity: 0.5;"></i>
@@ -4615,7 +4618,7 @@ function openDetail(id, skipPush) {
             ${(p.ss || []).map(s=>`<img src="${s}" loading="lazy" decoding="async" onclick="zoomImage('${s}')" onload="onSSLoad(this)" onerror="onSSLoadError(this)">`).join('')}
         </div>
 
-        <div class="detail-section-title">About</div>
+        <div class="detail-section-title">depression</div>
         <div class="detail-about">${linkify(p.desc || 'No description available.')}</div>
 
         <div class="comment-section">
@@ -4625,8 +4628,8 @@ function openDetail(id, skipPush) {
               <div style="font-weight:700">${escapeHtml(saved.name || 'Anonymous')}</div>
             </div>
             <textarea id="cText" placeholder="Write a comment..." rows="3" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--glass-border);background:var(--card);color:var(--text);resize:none;"></textarea>
-            <button class="detail-download-btn" style="margin:12px 0;background:linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);" onclick="postComment(${id})">
-                <i class="fa-solid fa-paper-plane"></i> Post Comment
+            <button class="detail-download-btn" style="margin:11px 0;background:linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);" onclick="postComment(${id})">
+                <i class="fa-solid fa-paper-plane"></i> Send
             </button>
             <div id="commentList">
                 ${commsArr.map(c => {
