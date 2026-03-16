@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Mega Store - Login</title>
     <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,577 +14,384 @@
 
         body {
             min-height: 100vh;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated Background with World Map */
-        .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 50%, #1e3a5f 100%);
-            overflow: hidden;
-        }
-
-        /* World Map Background Image */
-        .world-map-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=2000&q=80');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.12;
-            filter: grayscale(100%) brightness(1.5) contrast(1.2);
-            animation: slowZoom 20s ease-in-out infinite alternate;
-        }
-
-        @keyframes slowZoom {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-50%, -50%) scale(1.1); }
-        }
-
-        /* Animated Particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(100, 150, 255, 0.5);
-            border-radius: 50%;
-            animation: float 15s infinite;
-            box-shadow: 0 0 8px rgba(100, 150, 255, 0.6);
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        /* Gradient Overlay */
-        .gradient-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
-        }
-
-        /* Main Container */
-        .main-container {
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             padding: 20px;
-            position: relative;
-            z-index: 1;
         }
 
-        /* Glassmorphism Login Card */
-        .login-card {
+        .login-container {
             width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: 40px 32px;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-            position: relative;
-            overflow: hidden;
+            max-width: 380px;
         }
 
-        /* Logo Section - SMALLER LOGO */
-        .logo-section {
+        /* Clean White Card */
+        .login-box {
+            background: #ffffff;
+            border-radius: 0;
+            padding: 40px 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .login-logo {
             text-align: center;
-            margin-bottom: 32px;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 40px;
         }
 
         .logo-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 16px;
-        }
-
-        /* Small Logo Icon */
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-            border-radius: 16px;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+        }
+
+        .login-logo img {
+            width: 45px;
+            height: 45px;
+            filter: brightness(0) invert(1);
+        }
+
+        .login-logo h1 {
             font-size: 28px;
-            box-shadow: 
-                0 10px 30px rgba(59, 130, 246, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 40%,
-                rgba(255, 255, 255, 0.2) 50%,
-                transparent 60%
-            );
-            animation: iconShine 3s infinite;
-        }
-
-        @keyframes iconShine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        /* Mega Store Text */
-        .brand-title {
-            font-size: 28px;
+            color: #111827;
             font-weight: 700;
-            color: #ffffff;
             margin-bottom: 8px;
-            letter-spacing: -0.5px;
         }
 
-        .brand-subtitle {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
+        .login-logo p {
+            color: #6b7280;
+            font-size: 15px;
             font-weight: 400;
         }
 
-        /* Google Login Button Container */
-        .social-login {
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Blue Google Button - Full Width */
-        .google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            padding: 14px 20px;
-            background: #3b82f6;
-            border: none;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-            position: relative;
+        /* Hidden Google Button Container */
+        .google-hidden-container {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
             overflow: hidden;
         }
 
-        .google-btn:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        /* Clean Google Button */
+        .google-login-section {
+            margin-bottom: 24px;
         }
 
-        .google-btn:active {
-            transform: translateY(0);
+        .custom-google-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: #ffffff;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .google-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .custom-google-btn:hover {
+            border-color: #d1d5db;
+            background: #fafafa;
+        }
+
+        .custom-google-btn:active {
+            transform: scale(0.98);
+        }
+
+        .google-icon-wrapper {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .google-icon {
-            width: 22px;
-            height: 22px;
-            background: white;
-            border-radius: 50%;
-            padding: 2px;
-            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
         }
 
         /* Divider */
         .divider {
-            display: flex;
-            align-items: center;
+            text-align: center;
             margin: 24px 0;
             position: relative;
-            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .divider-line {
+        .divider::before,
+        .divider::after {
+            content: '';
             flex: 1;
             height: 1px;
-            background: rgba(255, 255, 255, 0.15);
+            background: #e5e7eb;
         }
 
-        .divider-text {
-            padding: 0 16px;
-            color: rgba(255, 255, 255, 0.5);
+        .divider span {
+            color: #9ca3af;
             font-size: 12px;
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
-        /* Form Styling */
-        .login-form {
-            position: relative;
-            z-index: 1;
-        }
-
+        /* Input Fields */
         .input-group {
             margin-bottom: 16px;
-            position: relative;
         }
 
-        .input-field {
+        .input-group input {
             width: 100%;
-            padding: 14px 16px 14px 48px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 16px;
+            border: 1.5px solid #e5e7eb;
             border-radius: 12px;
-            color: #ffffff;
             font-size: 15px;
+            background: #ffffff;
+            color: #111827;
+            transition: all 0.2s ease;
             font-weight: 400;
-            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
             outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .input-field::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+        .input-group input::placeholder {
+            color: #9ca3af;
         }
 
-        .input-field:focus {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 18px;
-        }
-
-        .input-field:focus + .input-icon {
-            color: #3b82f6;
-        }
-
-        /* Remember Me Only - Centered, No Forgot Password */
-        .form-options {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            margin-bottom: 20px;
-        }
-
+        /* Remember Me */
         .remember-me {
             display: flex;
             align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.8);
+            gap: 10px;
+            margin-bottom: 24px;
             font-size: 14px;
-            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            font-weight: 400;
         }
 
-        .remember-me input {
-            display: none;
-        }
-
-        .custom-checkbox {
+        .remember-me input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.05);
+            accent-color: #667eea;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1.5px solid #d1d5db;
         }
 
-        .remember-me input:checked + .custom-checkbox {
-            background: #3b82f6;
-            border-color: #3b82f6;
-        }
-
-        .remember-me input:checked + .custom-checkbox::after {
-            content: '✓';
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        /* Purple Sign In Button */
+        /* Clean Login Button */
         .login-btn {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
             border: none;
             border-radius: 12px;
-            color: #ffffff;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
         .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-        }
-
-        .login-btn:hover::before {
-            left: 100%;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
         }
 
         .login-btn:active {
             transform: translateY(0);
         }
 
+        .btn-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .login-btn:hover .btn-icon {
+            transform: translateX(3px);
+        }
+
         /* Messages */
-        .message {
+        .login-error, .login-success {
             padding: 12px 16px;
             border-radius: 10px;
-            font-size: 13px;
-            font-weight: 500;
+            font-size: 14px;
             margin-bottom: 20px;
             display: none;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(10px);
+            font-weight: 500;
         }
 
-        .message.show {
-            display: flex;
+        .login-error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
         }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
+        .login-success {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
         }
 
-        .success-message {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #86efac;
+        .login-error.show, .login-success.show {
+            display: block;
         }
 
         /* Footer */
         .login-footer {
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
-            position: relative;
-            z-index: 1;
+            margin-top: 32px;
+            padding-top: 0;
+            border-top: none;
         }
 
-        .footer-text {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
-            font-weight: 400;
-            margin-bottom: 12px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .footer-link {
-            color: rgba(255, 255, 255, 0.7);
+        .login-footer-text {
+            color: #6b7280;
             font-size: 13px;
+            font-weight: 400;
+        }
+
+        .login-footer-link {
+            color: #667eea;
             font-weight: 500;
+            cursor: pointer;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.2s;
         }
 
-        .footer-link:hover {
-            color: #3b82f6;
+        .login-footer-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
         }
 
-        /* Modal */
-        .modal-overlay {
+        /* Privacy Modal */
+        #privacyModal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 10000;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-            opacity: 1;
+            padding: 20px;
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            max-width: 450px;
-            width: 90%;
+            background: #ffffff;
+            max-width: 420px;
+            width: 100%;
             max-height: 80vh;
             overflow-y: auto;
-            padding: 28px;
+            border-radius: 16px;
+            padding: 24px;
             position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.show .modal-content {
-            transform: scale(1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .modal-close {
             position: absolute;
             top: 16px;
             right: 16px;
+            background: none;
+            border: none;
             width: 32px;
             height: 32px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 18px;
+            border-radius: 8px;
+            font-size: 20px;
             cursor: pointer;
+            color: #6b7280;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
         }
 
         .modal-close:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
+            background: #f3f4f6;
+            color: #111827;
         }
 
-        .modal-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ffffff;
+        .modal-content h2 {
             margin-bottom: 16px;
+            color: #111827;
+            font-size: 20px;
+            font-weight: 600;
         }
 
-        .modal-body {
-            color: rgba(255, 255, 255, 0.7);
+        .modal-content p {
+            color: #4b5563;
             font-size: 14px;
             line-height: 1.6;
-        }
-
-        .modal-body h3 {
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 600;
-            margin: 16px 0 8px 0;
-        }
-
-        .modal-body p {
             margin-bottom: 12px;
+        }
+
+        .modal-content strong {
+            color: #111827;
+            font-weight: 600;
         }
 
         /* Responsive */
         @media (max-width: 480px) {
-            .login-card {
-                padding: 32px 24px;
-                margin: 10px;
+            body {
+                padding: 16px;
             }
 
-            .brand-title {
+            .login-box {
+                padding: 24px 0;
+            }
+
+            .login-logo h1 {
                 font-size: 24px;
             }
 
-            .logo-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+            .logo-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+
+            .login-logo img {
+                width: 40px;
+                height: 40px;
             }
         }
 
         /* Loading Animation */
-        .loading-spinner {
-            display: none;
+        .loading {
+            display: inline-block;
             width: 18px;
             height: 18px;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #ffffff;
             border-radius: 50%;
+            border-top-color: #ffffff;
             animation: spin 0.8s linear infinite;
             margin-left: 8px;
         }
@@ -594,277 +399,116 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        .login-btn.loading .loading-spinner {
-            display: inline-block;
-        }
-
-        .login-btn.loading .btn-text {
-            opacity: 0.8;
-        }
-
-        /* Status Text */
-        .status-text {
-            margin-top: 8px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            text-align: center;
-        }
     </style>
     <!-- Google Identity Services Script -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-container">
-        <div class="world-map-bg"></div>
-        <div class="gradient-overlay"></div>
-        <div class="particles" id="particles"></div>
-    </div>
-
-    <!-- Main Container -->
-    <div class="main-container">
-        <div class="login-card">
-            <!-- Logo Section - SMALLER -->
-            <div class="logo-section">
-                <h1 class="brand-title">Mega Store</h1>
-                <p class="brand-subtitle">Welcome back! Sign in to continue</p>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <div class="logo-wrapper">
+                    <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="Mega Store">
+                </div>
+                <h1>Mega Store</h1>
+                <p>Welcome back! Sign in to continue</p>
             </div>
 
-            <!-- Messages -->
-            <div id="loginError" class="message error-message">
-                <span>⚠️</span>
+            <!-- Error/Success Messages -->
+            <div id="loginError" class="login-error">
                 <span id="loginErrorText"></span>
             </div>
-            <div id="loginSuccess" class="message success-message">
-                <span>✓</span>
+            <div id="loginSuccess" class="login-success">
                 <span id="loginSuccessText"></span>
             </div>
 
-            <!-- Google Login Section - Only One Blue Button -->
-            <div class="social-login">
-                <button class="google-btn" onclick="handleGoogleSignIn()" id="googleSignInBtn">
-                    <svg class="google-icon" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    <span id="googleBtnText">Sign in with Google</span>
-                </button>
-                <div id="googleStatus" class="status-text"></div>
-                
-                <!-- Hidden Google One Tap Configuration -->
+            <!-- Hidden Google Button (Functional) -->
+            <div class="google-hidden-container">
                 <div id="g_id_onload"
                      data-client_id="866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com"
-                     data-callback="handleGoogleCredentialResponse"
+                     data-callback="handleGoogleLogin"
                      data-auto_prompt="false">
+                </div>
+                <div id="hiddenGoogleBtn" class="g_id_signin"
+                     data-type="icon"
+                     data-size="large"
+                     data-theme="outline"
+                     data-text="sign_in_with"
+                     data-shape="rectangular"
+                     data-logo_alignment="left">
                 </div>
             </div>
 
-            <!-- Divider -->
+            <!-- Clean Google Button -->
+            <div class="google-login-section">
+                <button class="custom-google-btn" onclick="triggerGoogleLogin()">
+                    <div class="google-icon-wrapper">
+                        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                    </div>
+                    <span>Continue with Google</span>
+                </button>
+            </div>
+
             <div class="divider">
-                <div class="divider-line"></div>
-                <span class="divider-text">Or continue with</span>
-                <div class="divider-line"></div>
+                <span>or continue with email</span>
             </div>
 
             <!-- Login Form -->
-            <form id="simpleLoginForm" class="login-form" onsubmit="handleSimpleLogin(event)">
+            <form id="simpleLoginForm" onsubmit="handleSimpleLogin(event)">
                 <div class="input-group">
-                    <input type="text" id="loginUsername" class="input-field" placeholder="Username" required minlength="3" maxlength="20">
-                    <span class="input-icon">👤</span>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required minlength="3" maxlength="20">
                 </div>
-                
                 <div class="input-group">
-                    <input type="email" id="loginEmail" class="input-field" placeholder="Email address" required>
-                    <span class="input-icon">✉️</span>
+                    <input type="email" id="loginEmail" placeholder="Enter your email address" required>
                 </div>
-
-                <!-- Only Remember Me - No Forgot Password -->
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" id="rememberMe" checked>
-                        <span class="custom-checkbox"></span>
-                        <span>Remember me</span>
-                    </label>
-                </div>
-
-                <!-- Purple Sign In Button -->
-                <button type="submit" class="login-btn" id="loginBtn">
-                    <span class="btn-text">Sign In to Account</span>
-                    <span class="loading-spinner"></span>
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe" checked>
+                    <span>Remember me for 30 days</span>
+                </label>
+                <button type="submit" class="login-btn">
+                    <span>Sign In</span>
+                    <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                 </button>
             </form>
 
             <!-- Footer -->
             <div class="login-footer">
-                <p class="footer-text">© 2026 Mega Store. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="#" class="footer-link" onclick="openPrivacyModal(); return false;">Privacy Policy</a>
-                    <a href="#" class="footer-link" onclick="openTermsModal(); return false;">Terms of Service</a>
-                </div>
+                <span class="login-footer-text">
+                    © 2026 Mega Store • 
+                    <span class="login-footer-link" onclick="openPrivacyModal()">Privacy Policy</span>
+                </span>
             </div>
         </div>
     </div>
 
-   <!-- Privacy Modal -->
-<div id="privacyModal" class="modal-overlay" onclick="closePrivacyModal(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <button class="modal-close" onclick="closePrivacyModal()">×</button>
-        <h2 class="modal-title">Privacy Policy</h2>
-        <div class="modal-body">
+    <!-- Privacy Modal -->
+    <div id="privacyModal" onclick="closePrivacyModalOutside(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closePrivacyModal()">×</button>
+            <h2>Privacy Policy</h2>
+            <div>
+                <p><strong>1. Information We Collect</strong></p>
+                <p>We collect basic information like username and email to improve our services and provide you with a personalized experience.</p>
 
-            <h3>1. Information We Collect</h3>
-            <p>
-            At Mega Store, we collect certain information when users interact with our website.
-            This information may include your username, email address, login information, and
-            other details you voluntarily provide when signing up or logging into your account.
-            We may also automatically collect certain technical data such as browser type,
-            device information, IP address, pages visited, and time spent on our website.
-            </p>
+                <p><strong>2. How We Use Your Information</strong></p>
+                <p>We use this information to operate and improve our platform, communicate with you, and ensure the security of your account.</p>
 
-            <h3>2. How We Use Your Information</h3>
-            <p>
-            The information we collect is used to operate and improve our website services.
-            We use the data to manage user accounts, improve website performance,
-            personalize the user experience, prevent fraudulent activities,
-            and communicate important updates or service notifications.
-            This information helps us understand how visitors interact with our website.
-            </p>
+                <p><strong>3. Data Protection</strong></p>
+                <p>We take reasonable measures to protect user data from unauthorized access, alteration, or disclosure using industry-standard encryption.</p>
 
-            <h3>3. Cookies and Tracking Technologies</h3>
-            <p>
-            Mega Store uses cookies and similar technologies to improve user experience.
-            Cookies help us remember user preferences and optimize the website for future visits.
-            These cookies may also help analyze website traffic and performance.
-            Users can disable cookies through their browser settings if they prefer.
-            </p>
-
-            <h3>4. Google Sign-In</h3>
-            <p>
-            Our website may allow users to sign in using Google authentication.
-            When you sign in using Google, we may receive basic information such as your name
-            and email address. This information is used only for account login and identification
-            purposes and will not be shared or sold to third parties.
-            </p>
-
-            <h3>5. Google AdSense and Advertising</h3>
-            <p>
-            Mega Store may display advertisements through Google AdSense and other advertising partners.
-            Google may use cookies, including the DART cookie, to show ads to users based on
-            their visits to this and other websites on the internet. These cookies help provide
-            relevant advertisements and measure advertising performance.
-            Users can choose to disable personalized ads through Google's ad settings.
-            </p>
-
-            <h3>6. Third-Party Services</h3>
-            <p>
-            Our website may include links or services from third-party providers.
-            These third-party services may collect data according to their own privacy policies.
-            Mega Store is not responsible for the privacy practices or content of external websites.
-            </p>
-
-            <h3>7. Data Security</h3>
-            <p>
-            We implement appropriate technical and organizational security measures
-            to protect your personal information from unauthorized access, disclosure,
-            modification, or destruction. However, no online platform can guarantee
-            complete security of data transmission over the internet.
-            </p>
-
-            <h3>8. Children's Information</h3>
-            <p>
-            Protecting children's privacy is very important to us.
-            Mega Store does not knowingly collect personal information from children
-            under the age of 13. If you believe that a child has provided personal
-            information on our website, please contact us and we will remove the data immediately.
-            </p>
-
-            <h3>9. Updates to This Policy</h3>
-            <p>
-            We may update this Privacy Policy from time to time to reflect changes
-            in our services or legal requirements. When updates occur,
-            the revised version will be posted on this page.
-            </p>
-
+                <p><strong>4. Your Rights</strong></p>
+                <p>You have the right to access, update, or delete your personal information at any time through your account settings.</p>
+            </div>
         </div>
     </div>
-</div>
-
-<!-- Terms Modal -->
-<div id="termsModal" class="modal-overlay" onclick="closeTermsModal(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <button class="modal-close" onclick="closeTermsModal()">×</button>
-        <h2 class="modal-title">Terms of Service</h2>
-        <div class="modal-body">
-
-            <h3>1. Acceptance of Terms</h3>
-            <p>
-            By accessing and using the Mega Store website,
-            you agree to comply with these Terms of Service.
-            If you do not agree with any part of these terms,
-            you should not use this website or its services.
-            </p>
-
-            <h3>2. User Accounts</h3>
-            <p>
-            Some features of the website require users to create an account.
-            Users are responsible for maintaining the confidentiality of their
-            login credentials and for all activities that occur under their account.
-            </p>
-
-            <h3>3. Website Usage Rules</h3>
-            <p>
-            Users agree not to misuse the website in any way.
-            This includes attempting to hack, disrupt, or damage the website,
-            uploading malicious software, or using the platform for illegal activities.
-            </p>
-
-            <h3>4. Intellectual Property</h3>
-            <p>
-            All content available on Mega Store including text, graphics,
-            images, logos, and software belongs to Mega Store or its licensors.
-            Users may not copy, reproduce, or distribute any content without permission.
-            </p>
-
-            <h3>5. Third-Party Links</h3>
-            <p>
-            Our website may contain links to external websites.
-            These websites operate independently and have their own terms and privacy policies.
-            Mega Store is not responsible for the content or policies of these third-party websites.
-            </p>
-
-            <h3>6. Advertising</h3>
-            <p>
-            Mega Store may display advertisements provided by third-party networks
-            such as Google AdSense. We do not control the content of these advertisements
-            and are not responsible for the products or services promoted by advertisers.
-            </p>
-
-            <h3>7. Limitation of Liability</h3>
-            <p>
-            Mega Store will not be responsible for any direct or indirect damages
-            resulting from the use of our website or inability to access the website.
-            All services are provided on an "as-is" basis without warranties.
-            </p>
-
-            <h3>8. Termination</h3>
-            <p>
-            We reserve the right to suspend or terminate user accounts
-            that violate these Terms of Service or misuse the platform.
-            </p>
-
-            <h3>9. Changes to Terms</h3>
-            <p>
-            Mega Store may modify these Terms of Service at any time.
-            Continued use of the website after changes indicates acceptance
-            of the updated terms.
-            </p>
-
-        </div>
-    </div>
-</div>
 
     <script>
         /* ========== LOGIN SYSTEM ========== */
@@ -877,123 +521,80 @@
         const GOOGLE_USER_ID_KEY = "MEGA_STORE_GOOGLE_USER_ID";
         const GOOGLE_USER_PIC_KEY = "MEGA_STORE_GOOGLE_USER_PIC";
 
-        // Create floating particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                container.appendChild(particle);
-            }
-        }
-
-        createParticles();
-
-        // Update button status
-        function updateGoogleStatus(message, isError = false) {
-            const statusEl = document.getElementById('googleStatus');
-            statusEl.textContent = message;
-            statusEl.style.color = isError ? '#fca5a5' : 'rgba(255, 255, 255, 0.5)';
-        }
-
-        // Check if Google API is loaded
-        function isGoogleApiLoaded() {
-            return typeof google !== 'undefined' && google.accounts && google.accounts.id;
-        }
-
-        // Initialize Google Sign In
-        function initializeGoogleSignIn() {
-            if (!isGoogleApiLoaded()) {
-                console.log('Google API not loaded yet, retrying...');
-                updateGoogleStatus('Loading Google Sign-In...');
-                setTimeout(initializeGoogleSignIn, 1000);
-                return;
-            }
-
-            try {
-                // Initialize with your Client ID
-                google.accounts.id.initialize({
-                    client_id: "866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com",
-                    callback: handleGoogleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true,
-                    context: 'signin'
-                });
-
-                console.log('Google Sign-In initialized successfully');
-                updateGoogleStatus('');
-                
-                // Enable button
-                const btn = document.getElementById('googleSignInBtn');
-                btn.disabled = false;
-                
-            } catch (error) {
-                console.error('Error initializing Google Sign-In:', error);
-                updateGoogleStatus('Error: ' + error.message, true);
-            }
-        }
-
-        // Check login status
+        // Check if already logged in
         function checkLoginStatus() {
             const isLoggedIn = localStorage.getItem(LOGIN_KEY) === 'true' || 
                               localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true';
+
             if (isLoggedIn) {
-                // Already logged in, redirect to index
                 window.location.href = 'index.html';
             }
         }
 
         checkLoginStatus();
 
+        // Trigger Google Login
+        function triggerGoogleLogin() {
+            const hiddenBtn = document.querySelector('#hiddenGoogleBtn div[role=button]');
+            if (hiddenBtn) {
+                hiddenBtn.click();
+            } else {
+                const fallbackBtn = document.querySelector('.google-hidden-container div[role=button]');
+                if (fallbackBtn) {
+                    fallbackBtn.click();
+                }
+            }
+        }
+
         // Show error message
         function showLoginError(message) {
             const errorEl = document.getElementById('loginError');
             const errorText = document.getElementById('loginErrorText');
-            errorText.textContent = message;
-            errorEl.classList.add('show');
-            setTimeout(() => errorEl.classList.remove('show'), 5000);
+            if (errorEl && errorText) {
+                errorText.textContent = message;
+                errorEl.classList.add('show');
+                setTimeout(() => errorEl.classList.remove('show'), 5000);
+            }
         }
 
         // Show success message
         function showLoginSuccess(message) {
             const successEl = document.getElementById('loginSuccess');
             const successText = document.getElementById('loginSuccessText');
-            successText.textContent = message;
-            successEl.classList.add('show');
-            setTimeout(() => successEl.classList.remove('show'), 3000);
+            if (successEl && successText) {
+                successText.textContent = message;
+                successEl.classList.add('show');
+                setTimeout(() => successEl.classList.remove('show'), 3000);
+            }
         }
 
         // Handle Simple Login
         function handleSimpleLogin(event) {
             event.preventDefault();
-            
-            const btn = document.getElementById('loginBtn');
-            btn.classList.add('loading');
 
             const username = document.getElementById('loginUsername').value.trim();
             const email = document.getElementById('loginEmail').value.trim().toLowerCase();
             const rememberMe = document.getElementById('rememberMe').checked;
+            const btn = document.querySelector('.login-btn');
 
             if (!username || !email) {
                 showLoginError('Please enter both username and email');
-                btn.classList.remove('loading');
                 return;
             }
 
             if (username.length < 3) {
                 showLoginError('Username must be at least 3 characters');
-                btn.classList.remove('loading');
                 return;
             }
 
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 showLoginError('Please enter a valid email address');
-                btn.classList.remove('loading');
                 return;
             }
+
+            // Show loading state
+            btn.innerHTML = '<span>Signing In...</span><span class="loading"></span>';
+            btn.disabled = true;
 
             setTimeout(() => {
                 const usersDB = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || {};
@@ -1021,38 +622,17 @@
             }, 1000);
         }
 
-        // Handle Google Credential Response (JWT Token)
-        function handleGoogleCredentialResponse(response) {
-            console.log('Google credential response received:', response);
-            
+        // Handle Google Login
+        function handleGoogleLogin(response) {
             try {
-                // Check if credential exists
-                if (!response || !response.credential) {
-                    throw new Error('No credential received from Google');
-                }
-
                 const credential = response.credential;
-                
-                // Decode JWT token properly
-                const payload = parseJwt(credential);
-                
-                if (!payload) {
-                    throw new Error('Failed to decode JWT token');
-                }
+                const payload = JSON.parse(atob(credential.split('.')[1]));
 
-                console.log('Decoded Google payload:', payload);
-
-                // Extract user info from payload
                 const googleId = payload.sub;
                 const email = payload.email;
-                const name = payload.name || (email ? email.split('@')[0] : 'Google User');
+                const name = payload.name || email.split('@')[0];
                 const picture = payload.picture || '';
 
-                if (!googleId || !email) {
-                    throw new Error('Incomplete user data received');
-                }
-
-                // Store login info in localStorage
                 localStorage.setItem(GOOGLE_LOGIN_KEY, 'true');
                 localStorage.setItem(GOOGLE_USER_ID_KEY, googleId);
                 localStorage.setItem(GOOGLE_USER_PIC_KEY, picture);
@@ -1061,7 +641,6 @@
                 localStorage.setItem(LOGIN_EMAIL_KEY, email);
                 localStorage.setItem(LOGIN_TIME_KEY, new Date().toISOString());
 
-                // Update users database
                 const usersDB = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || {};
                 usersDB[name] = {
                     email: email,
@@ -1075,219 +654,57 @@
 
                 showLoginSuccess('Google login successful! Redirecting...');
 
-                // Redirect to index.html after 1.5 seconds
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1500);
 
             } catch (error) {
                 console.error('Google login error:', error);
-                showLoginError('Google login failed: ' + error.message);
-                updateGoogleStatus('Error: ' + error.message, true);
+                showLoginError('Google login failed. Please try again.');
             }
         }
 
-        // Parse JWT token without using atob directly on potentially malformed data
-        function parseJwt(token) {
-            try {
-                // Split the token
-                const parts = token.split('.');
-                if (parts.length !== 3) {
-                    throw new Error('Invalid JWT format');
-                }
-
-                // Decode base64url to base64
-                const base64Url = parts[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                
-                // Add padding if needed
-                const padding = '='.repeat((4 - base64.length % 4) % 4);
-                const paddedBase64 = base64 + padding;
-
-                // Decode
-                const jsonPayload = decodeURIComponent(
-                    atob(paddedBase64)
-                        .split('')
-                        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                        .join('')
-                );
-
-                return JSON.parse(jsonPayload);
-            } catch (e) {
-                console.error('JWT parsing error:', e);
-                return null;
-            }
-        }
-
-        // Google Sign In Handler - Trigger the popup
-        function handleGoogleSignIn() {
-            if (!isGoogleApiLoaded()) {
-                showLoginError('Google Sign-In is still loading. Please wait...');
-                return;
-            }
-
-            try {
-                // Disable button temporarily
-                const btn = document.getElementById('googleSignInBtn');
-                btn.disabled = true;
-                document.getElementById('googleBtnText').textContent = 'Connecting...';
-
-                // Request access token using OAuth2
-                const client = google.accounts.oauth2.initTokenClient({
-                    client_id: "866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com",
-                    scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid',
-                    callback: (tokenResponse) => {
-                        console.log('Token response:', tokenResponse);
-                        
-                        if (tokenResponse && tokenResponse.access_token) {
-                            // Fetch user info using the access token
-                            fetchUserInfo(tokenResponse.access_token);
-                        } else {
-                            showLoginError('Failed to get access token');
-                            resetGoogleButton();
-                        }
-                    },
-                    error_callback: (error) => {
-                        console.error('OAuth error:', error);
-                        if (error.type === 'popup_closed') {
-                            updateGoogleStatus('Login cancelled');
-                        } else {
-                            showLoginError('Google Sign-In error: ' + (error.message || error.type));
-                        }
-                        resetGoogleButton();
-                    }
-                });
-
-                // Request the token
-                client.requestAccessToken();
-                
-            } catch (error) {
-                console.error('Error triggering Google Sign-In:', error);
-                showLoginError('Could not start Google Sign-In: ' + error.message);
-                resetGoogleButton();
-                
-                // Try fallback method
-                tryOneTapFallback();
-            }
-        }
-
-        // Fetch user info from Google API
-        function fetchUserInfo(accessToken) {
-            fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-                headers: {
-                    'Authorization': 'Bearer ' + accessToken
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user info: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(userInfo => {
-                console.log('User info fetched:', userInfo);
-                
-                // Create mock credential response
-                const mockCredential = btoa(JSON.stringify({
-                    sub: userInfo.id,
-                    email: userInfo.email,
-                    name: userInfo.name,
-                    picture: userInfo.picture
-                }));
-
-                // Process as Google login
-                handleGoogleCredentialResponse({
-                    credential: mockCredential
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching user info:', error);
-                showLoginError('Failed to get user information from Google');
-                resetGoogleButton();
-            });
-        }
-
-        // Try One Tap as fallback
-        function tryOneTapFallback() {
-            try {
-                google.accounts.id.prompt((notification) => {
-                    if (notification.isNotDisplayed()) {
-                        const reason = notification.getNotDisplayedReason();
-                        console.log('One Tap not displayed:', reason);
-                        showLoginError('Google Sign-In not available. Please try again.');
-                    }
-                });
-            } catch (e) {
-                console.error('One Tap fallback failed:', e);
-            }
-        }
-
-        // Reset Google button state
-        function resetGoogleButton() {
-            const btn = document.getElementById('googleSignInBtn');
-            btn.disabled = false;
-            document.getElementById('googleBtnText').textContent = 'Sign in with Google';
-        }
-
-        // Modal Functions
+        // Privacy Modal Functions
         function openPrivacyModal() {
-            document.getElementById('privacyModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePrivacyModal(event) {
-            if (!event || event.target.id === 'privacyModal' || event.target.closest('.modal-close')) {
-                document.getElementById('privacyModal').classList.remove('show');
-                document.body.style.overflow = '';
+            const modal = document.getElementById('privacyModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }
 
-        function openTermsModal() {
-            document.getElementById('termsModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeTermsModal(event) {
-            if (!event || event.target.id === 'termsModal' || event.target.closest('.modal-close')) {
-                document.getElementById('termsModal').classList.remove('show');
-                document.body.style.overflow = '';
+        function closePrivacyModal() {
+            const modal = document.getElementById('privacyModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         }
 
-        // Close modals on Escape key
-        document.addEventListener('keydown', (e) => {
+        function closePrivacyModalOutside(event) {
+            if (event.target.id === 'privacyModal') {
+                closePrivacyModal();
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closePrivacyModal();
-                closeTermsModal();
             }
         });
 
-        // Input focus effects
-        document.querySelectorAll('.input-field').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.01)';
-            });
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
-
-        // Initialize when page loads
-        window.addEventListener('load', () => {
-            // Disable button initially
-            document.getElementById('googleSignInBtn').disabled = true;
-            
-            // Wait for Google script to load
-            setTimeout(initializeGoogleSignIn, 1500);
-        });
-
-        // Handle script load errors
-        window.addEventListener('error', (e) => {
-            if (e.target.src && e.target.src.includes('accounts.google.com')) {
-                console.error('Failed to load Google Sign-In script');
-                updateGoogleStatus('Failed to load Google Sign-In', true);
+        // Initialize Google Identity Services
+        window.onload = function() {
+            if (window.google && google.accounts) {
+                google.accounts.id.initialize({
+                    client_id: '866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com',
+                    callback: handleGoogleLogin,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
             }
-        }, true);
+        };
     </script>
 </body>
 </html>
