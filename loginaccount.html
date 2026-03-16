@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Mega Store - Login</title>
     <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -196,43 +197,57 @@
             font-weight: 400;
         }
 
-        /* Google Login Button - Blue Color */
+        /* Google Login Button Container */
         .social-login {
             margin-bottom: 24px;
             position: relative;
             z-index: 1;
         }
 
+        /* Blue Google Button - Full Width */
         .google-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             width: 100%;
-            padding: 12px 20px;
+            padding: 14px 20px;
             background: #3b82f6;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: #ffffff;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
         .google-btn:hover {
             background: #2563eb;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .google-btn:active {
+            transform: translateY(0);
+        }
+
+        .google-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .google-icon {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             background: white;
             border-radius: 50%;
             padding: 2px;
+            flex-shrink: 0;
         }
 
         /* Divider */
@@ -587,7 +602,16 @@
         .login-btn.loading .btn-text {
             opacity: 0.8;
         }
+
+        /* Status Text */
+        .status-text {
+            margin-top: 8px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
     </style>
+    <!-- Google Identity Services Script -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
@@ -603,7 +627,6 @@
         <div class="login-card">
             <!-- Logo Section - SMALLER -->
             <div class="logo-section">
-               
                 <h1 class="brand-title">Mega Store</h1>
                 <p class="brand-subtitle">Welcome back! Sign in to continue</p>
             </div>
@@ -618,19 +641,20 @@
                 <span id="loginSuccessText"></span>
             </div>
 
-            <!-- Google Login - Blue Button -->
+            <!-- Google Login Section - Only One Blue Button -->
             <div class="social-login">
-                <button class="google-btn" onclick="handleGoogleSignIn()">
+                <button class="google-btn" onclick="handleGoogleSignIn()" id="googleSignInBtn">
                     <svg class="google-icon" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    <span>Sign in with Google</span>
+                    <span id="googleBtnText">Sign in with Google</span>
                 </button>
+                <div id="googleStatus" class="status-text"></div>
                 
-                <!-- Hidden Google One Tap -->
+                <!-- Google Sign In Container (Hidden) -->
                 <div id="g_id_onload"
                      data-client_id="866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com"
                      data-callback="handleGoogleLogin"
@@ -679,7 +703,6 @@
                 <div class="footer-links">
                     <a href="#" class="footer-link" onclick="openPrivacyModal(); return false;">Privacy Policy</a>
                     <a href="#" class="footer-link" onclick="openTermsModal(); return false;">Terms of Service</a>
-                    
                 </div>
             </div>
         </div>
@@ -768,7 +791,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Terms Modal -->
 <div id="termsModal" class="modal-overlay" onclick="closeTermsModal(event)">
@@ -870,12 +892,57 @@
 
         createParticles();
 
+        // Update button status
+        function updateGoogleStatus(message, isError = false) {
+            const statusEl = document.getElementById('googleStatus');
+            statusEl.textContent = message;
+            statusEl.style.color = isError ? '#fca5a5' : 'rgba(255, 255, 255, 0.5)';
+        }
+
+        // Check if Google API is loaded
+        function isGoogleApiLoaded() {
+            return typeof google !== 'undefined' && google.accounts && google.accounts.id;
+        }
+
+        // Initialize Google Sign In
+        function initializeGoogleSignIn() {
+            if (!isGoogleApiLoaded()) {
+                console.log('Google API not loaded yet, retrying...');
+                updateGoogleStatus('Loading Google Sign-In...');
+                setTimeout(initializeGoogleSignIn, 1000);
+                return;
+            }
+
+            try {
+                // Initialize with your Client ID
+                google.accounts.id.initialize({
+                    client_id: "866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com",
+                    callback: handleGoogleLogin,
+                    auto_select: false,
+                    cancel_on_tap_outside: true,
+                    context: 'signin',
+                    ux_mode: 'popup'
+                });
+
+                console.log('Google Sign-In initialized successfully');
+                updateGoogleStatus('');
+                
+                // Enable button
+                const btn = document.getElementById('googleSignInBtn');
+                btn.disabled = false;
+                
+            } catch (error) {
+                console.error('Error initializing Google Sign-In:', error);
+                updateGoogleStatus('Error: ' + error.message, true);
+            }
+        }
+
         // Check login status
         function checkLoginStatus() {
             const isLoggedIn = localStorage.getItem(LOGIN_KEY) === 'true' || 
                               localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true';
             if (isLoggedIn) {
-                window.location.href = 'index.html';
+                // window.location.href = 'index.html';
             }
         }
 
@@ -949,22 +1016,31 @@
                 showLoginSuccess('Login successful! Redirecting...');
 
                 setTimeout(() => {
-                    window.location.href = 'home';
+                    window.location.href = 'index.html';
                 }, 1500);
             }, 1000);
         }
 
-        // Handle Google Login
+        // Handle Google Login Callback
         function handleGoogleLogin(response) {
+            console.log('Google login response received:', response);
+            
             try {
+                if (!response || !response.credential) {
+                    throw new Error('No credential received');
+                }
+
                 const credential = response.credential;
                 const payload = JSON.parse(atob(credential.split('.')[1]));
+
+                console.log('Google payload:', payload);
 
                 const googleId = payload.sub;
                 const email = payload.email;
                 const name = payload.name || email.split('@')[0];
                 const picture = payload.picture || '';
 
+                // Store login info
                 localStorage.setItem(GOOGLE_LOGIN_KEY, 'true');
                 localStorage.setItem(GOOGLE_USER_ID_KEY, googleId);
                 localStorage.setItem(GOOGLE_USER_PIC_KEY, picture);
@@ -973,6 +1049,7 @@
                 localStorage.setItem(LOGIN_EMAIL_KEY, email);
                 localStorage.setItem(LOGIN_TIME_KEY, new Date().toISOString());
 
+                // Update users database
                 const usersDB = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || {};
                 usersDB[name] = {
                     email: email,
@@ -992,17 +1069,107 @@
 
             } catch (error) {
                 console.error('Google login error:', error);
-                showLoginError('Google login failed. Please try again.');
+                showLoginError('Google login failed: ' + error.message);
+                updateGoogleStatus('Login failed: ' + error.message, true);
             }
         }
 
         // Google Sign In Handler
         function handleGoogleSignIn() {
-            // Initialize Google Sign-In
-            if (typeof google !== 'undefined' && google.accounts) {
-                google.accounts.id.prompt();
-            } else {
-                showLoginError('Google Sign-In loading... Please try again in a moment.');
+            if (!isGoogleApiLoaded()) {
+                showLoginError('Google Sign-In is still loading. Please wait...');
+                return;
+            }
+
+            try {
+                // Request an access token
+                const tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: "866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com",
+                    scope: 'email profile openid',
+                    callback: (tokenResponse) => {
+                        console.log('Token response:', tokenResponse);
+                        if (tokenResponse && tokenResponse.access_token) {
+                            // Get user info using the access token
+                            fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                                headers: {
+                                    'Authorization': 'Bearer ' + tokenResponse.access_token
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(userInfo => {
+                                console.log('User info:', userInfo);
+                                // Create a mock credential response
+                                handleGoogleLogin({
+                                    credential: btoa(JSON.stringify({
+                                        sub: userInfo.sub,
+                                        email: userInfo.email,
+                                        name: userInfo.name,
+                                        picture: userInfo.picture
+                                    }))
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error fetching user info:', error);
+                                showLoginError('Failed to get user information');
+                            });
+                        }
+                    },
+                    error_callback: (error) => {
+                        console.error('OAuth error:', error);
+                        if (error.type !== 'popup_closed') {
+                            showLoginError('Google Sign-In error: ' + (error.message || 'Unknown error'));
+                        }
+                    }
+                });
+
+                tokenClient.requestAccessToken();
+                
+            } catch (error) {
+                console.error('Error triggering Google Sign-In:', error);
+                
+                // Fallback: Try the One Tap method
+                try {
+                    google.accounts.id.prompt((notification) => {
+                        if (notification.isNotDisplayed()) {
+                            showLoginError('Google Sign-In popup blocked. Please allow popups for this site.');
+                        }
+                    });
+                } catch (e) {
+                    showLoginError('Could not start Google Sign-In. Please try again.');
+                }
+            }
+        }
+
+        // Alternative: Use the newer FedCM method if available
+        function handleGoogleSignInFedCM() {
+            if (!isGoogleApiLoaded()) {
+                showLoginError('Google Sign-In is still loading. Please wait...');
+                return;
+            }
+
+            try {
+                // Try using the One Tap UI
+                google.accounts.id.prompt((notification) => {
+                    console.log('Prompt notification:', notification);
+                    
+                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                        // If One Tap doesn't work, show error
+                        const reason = notification.getNotDisplayedReason();
+                        console.log('Not displayed reason:', reason);
+                        
+                        if (reason === 'browser_not_supported') {
+                            showLoginError('Your browser does not support Google Sign-In');
+                        } else if (reason === 'invalid_client') {
+                            showLoginError('Invalid Google Client ID. Please check configuration.');
+                        } else {
+                            showLoginError('Google Sign-In not available. Reason: ' + reason);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('FedCM error:', error);
+                // Fall back to OAuth method
+                handleGoogleSignIn();
             }
         }
 
@@ -1048,6 +1215,23 @@
                 this.parentElement.style.transform = 'scale(1)';
             });
         });
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            // Disable button initially
+            document.getElementById('googleSignInBtn').disabled = true;
+            
+            // Wait for Google script to load
+            setTimeout(initializeGoogleSignIn, 1500);
+        });
+
+        // Handle script load errors
+        window.addEventListener('error', (e) => {
+            if (e.target.src && e.target.src.includes('accounts.google.com')) {
+                console.error('Failed to load Google Sign-In script');
+                updateGoogleStatus('Failed to load Google Sign-In', true);
+            }
+        }, true);
     </script>
 </body>
 </html>
