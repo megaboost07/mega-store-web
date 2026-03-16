@@ -1548,10 +1548,70 @@ body:not(.logged-in) .bottom-nav{
 body.logged-in #loginOverlay{
     display:none !important;
 }
+
+/* Google Login Button Styling */
+.g_id_signin {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+#googleLoginSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Already Logged In State Styling */
+.already-logged-in {
+    text-align: center;
+    padding: 20px;
+}
+
+.already-logged-in h3 {
+    color: #111827;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.already-logged-in p {
+    color: #6b7280;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.dark-mode .already-logged-in h3 {
+    color: #f1f5f9;
+}
+
+.dark-mode .already-logged-in p {
+    color: #94a3b8;
+}
+
+/* Google Account Badge */
+.google-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: #3c4043;
+}
+
+.google-badge i {
+    color: #4285f4;
+}
+
+/* End of Login System Styles */
        
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2753772773698567"
      crossorigin="anonymous"></script>
+<!-- Google Identity Services Script -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body onload="initApp()">
 
@@ -1568,8 +1628,8 @@ body.logged-in #loginOverlay{
             <div id="alreadyLoggedIn" class="already-logged-in" style="display: none;">
                 <h3>Welcome</h3>
                 <p><strong id="loggedInUser"></strong></p>
-    
-                </button>
+                <button onclick="continueToApp()" class="login-btn" style="margin-top:15px;">Continue to App</button>
+                <button onclick="showLoginForm()" class="login-btn" style="margin-top:10px; background:#6b7280;">Switch Account</button>
             </div>
 
             <!-- Simple Login Form -->
@@ -1582,6 +1642,27 @@ body.logged-in #loginOverlay{
                 <div id="loginSuccess" class="login-success">
                     <i class="fa-solid fa-circle-check"></i>
                     <span id="loginSuccessText"></span>
+                </div>
+
+                <!-- Google Login Button -->
+                <div id="googleLoginSection" style="margin-bottom:20px;">
+                    <div id="g_id_onload"
+                         data-client_id="866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com"
+                         data-callback="handleGoogleLogin"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-size="large"
+                         data-theme="outline"
+                         data-text="sign_in_with"
+                         data-shape="rectangular"
+                         data-logo_alignment="left">
+                    </div>
+                </div>
+
+                <div style="text-align:center; margin:15px 0; color:#6b7280; font-size:14px;">
+                    <span>────────── or ──────────</span>
                 </div>
 
                 <!-- Simple Login Form - Username & Email only -->
@@ -2835,6 +2916,9 @@ const LOGIN_USER_KEY = "MEGA_STORE_LOGIN_USER";
 const LOGIN_EMAIL_KEY = "MEGA_STORE_LOGIN_EMAIL";
 const LOGIN_TIME_KEY = "MEGA_STORE_LOGIN_TIME";
 const USERS_DB_KEY = "MEGA_STORE_USERS_DB";
+const GOOGLE_LOGIN_KEY = "MEGA_STORE_GOOGLE_LOGIN";
+const GOOGLE_USER_ID_KEY = "MEGA_STORE_GOOGLE_USER_ID";
+const GOOGLE_USER_PIC_KEY = "MEGA_STORE_GOOGLE_USER_PIC";
 
 // Simple encryption (base64)
 function encryptPassword(password) {
@@ -2863,9 +2947,60 @@ function getCurrentUser() {
     return {
         username: localStorage.getItem(LOGIN_USER_KEY) || '',
         email: localStorage.getItem(LOGIN_EMAIL_KEY) || '',
-        loginTime: localStorage.getItem(LOGIN_TIME_KEY) || ''
+        loginTime: localStorage.getItem(LOGIN_TIME_KEY) || '',
+        isGoogleUser: localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true',
+        googleUserId: localStorage.getItem(GOOGLE_USER_ID_KEY) || '',
+        googleUserPic: localStorage.getItem(GOOGLE_USER_PIC_KEY) || ''
     };
 }
+
+// Handle Google Login callback
+window.handleGoogleLogin = function(response) {
+    try {
+        // Decode the JWT token from Google
+        const credential = response.credential;
+        const payload = JSON.parse(atob(credential.split('.')[1]));
+
+        const googleId = payload.sub;
+        const email = payload.email;
+        const name = payload.name || email.split('@')[0];
+        const picture = payload.picture || '';
+
+        // Store Google login data
+        localStorage.setItem(GOOGLE_LOGIN_KEY, 'true');
+        localStorage.setItem(GOOGLE_USER_ID_KEY, googleId);
+        localStorage.setItem(GOOGLE_USER_PIC_KEY, picture);
+
+        // Store as regular login too
+        localStorage.setItem(LOGIN_KEY, 'true');
+        localStorage.setItem(LOGIN_USER_KEY, name);
+        localStorage.setItem(LOGIN_EMAIL_KEY, email);
+        localStorage.setItem(LOGIN_TIME_KEY, new Date().toISOString());
+        localStorage.setItem(USER_NAME_KEY, name);
+
+        // Save user to database
+        const usersDB = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || {};
+        usersDB[name] = {
+            email: email,
+            googleId: googleId,
+            googlePic: picture,
+            createdAt: usersDB[name]?.createdAt || new Date().toISOString(),
+            lastLogin: new Date().toISOString(),
+            isGoogleUser: true
+        };
+        localStorage.setItem(USERS_DB_KEY, JSON.stringify(usersDB));
+
+        showLoginSuccess('Google login successful! Welcome, ' + name);
+
+        setTimeout(() => {
+            completeLogin();
+        }, 1500);
+
+    } catch (error) {
+        console.error('Google login error:', error);
+        showLoginError('Google login failed. Please try again.');
+    }
+};
 
 // Show login error
 function showLoginError(message) {
@@ -3066,11 +3201,26 @@ window.showLoginForm = function() {
 
 // Logout function
 window.logout = function() {
+    // Clear regular login data
     localStorage.removeItem(LOGIN_KEY);
     localStorage.removeItem(LOGIN_USER_KEY);
     localStorage.removeItem(LOGIN_EMAIL_KEY);
     localStorage.removeItem(LOGIN_TIME_KEY);
     sessionStorage.removeItem(LOGIN_KEY);
+
+    // Clear Google login data
+    localStorage.removeItem(GOOGLE_LOGIN_KEY);
+    localStorage.removeItem(GOOGLE_USER_ID_KEY);
+    localStorage.removeItem(GOOGLE_USER_PIC_KEY);
+
+    // Sign out from Google
+    if (typeof google !== 'undefined' && google.accounts) {
+        try {
+            google.accounts.id.disableAutoSelect();
+        } catch (e) {
+            console.log('Google sign out error:', e);
+        }
+    }
 
     document.body.classList.remove('logged-in');
     location.reload();
@@ -3079,8 +3229,9 @@ window.logout = function() {
 // Initialize login system
 function initLoginSystem() {
     const isUserLoggedIn = localStorage.getItem(LOGIN_KEY) === 'true' || sessionStorage.getItem(LOGIN_KEY) === 'true';
+    const isGoogleLoggedIn = localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true';
 
-    if (isUserLoggedIn) {
+    if (isUserLoggedIn || isGoogleLoggedIn) {
         const user = getCurrentUser();
 
         const loginTime = new Date(user.loginTime);
@@ -3088,10 +3239,14 @@ function initLoginSystem() {
         const daysDiff = (now - loginTime) / (1000 * 60 * 60 * 24);
 
         if (daysDiff > 7) {
+            // Clear all login data
             localStorage.removeItem(LOGIN_KEY);
             localStorage.removeItem(LOGIN_USER_KEY);
             localStorage.removeItem(LOGIN_EMAIL_KEY);
             localStorage.removeItem(LOGIN_TIME_KEY);
+            localStorage.removeItem(GOOGLE_LOGIN_KEY);
+            localStorage.removeItem(GOOGLE_USER_ID_KEY);
+            localStorage.removeItem(GOOGLE_USER_PIC_KEY);
             sessionStorage.removeItem(LOGIN_KEY);
             return;
         }
@@ -3100,9 +3255,10 @@ function initLoginSystem() {
         document.getElementById('loginFormsContainer').style.display = 'none';
         document.getElementById('loggedInUser').textContent = user.username;
 
+        // Auto-continue to app after 1.5 seconds (faster for returning users)
         setTimeout(() => {
             completeLogin();
-        }, 2000);
+        }, 1500);
     } else {
         document.getElementById('alreadyLoggedIn').style.display = 'none';
         document.getElementById('loginFormsContainer').style.display = 'block';
@@ -3434,7 +3590,14 @@ function refreshProfileUI() {
     const { name, avatar, useAccountPic } = getStoredProfile();
     const headerAvatar = document.getElementById('headerAvatar');
 
-    if (useAccountPic && avatar && headerAvatar) {
+    // Check if user logged in with Google and has a profile picture
+    const googleUserPic = localStorage.getItem(GOOGLE_USER_PIC_KEY);
+    const isGoogleUser = localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true';
+
+    if (isGoogleUser && googleUserPic && headerAvatar) {
+        // Use Google profile picture
+        headerAvatar.src = googleUserPic;
+    } else if (useAccountPic && avatar && headerAvatar) {
         headerAvatar.src = avatar;
     } else if (headerAvatar) {
         headerAvatar.src = createLetterAvatar(name || 'User', 72);
@@ -3443,7 +3606,14 @@ function refreshProfileUI() {
     // profile modal preview (if open)
     const profilePreview = document.getElementById('profilePreview');
     if (profilePreview) {
-        const src = (useAccountPic && avatar) ? avatar : createLetterAvatar(name || 'User', 128);
+        let src;
+        if (isGoogleUser && googleUserPic) {
+            src = googleUserPic;
+        } else if (useAccountPic && avatar) {
+            src = avatar;
+        } else {
+            src = createLetterAvatar(name || 'User', 128);
+        }
         profilePreview.src = src;
     }
 
@@ -5408,6 +5578,8 @@ function openProfileModal() {
     // Get login credentials
     const username = localStorage.getItem(LOGIN_USER_KEY) || '';
     const email = localStorage.getItem(LOGIN_EMAIL_KEY) || '';
+    const isGoogleUser = localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true';
+    const googleUserPic = localStorage.getItem(GOOGLE_USER_PIC_KEY);
 
     // Populate Account Information fields FIRST
     const usernameEl = document.getElementById('profileUsernameDisplay');
@@ -5415,8 +5587,20 @@ function openProfileModal() {
     const display = document.getElementById('profileDisplayName');
 
     if (usernameEl) usernameEl.textContent = username || 'Not logged in';
-    if (emailEl) emailEl.textContent = email || 'Not available';
+    if (emailEl) {
+        if (isGoogleUser) {
+            emailEl.innerHTML = email + ' <span style="color:#4285f4; font-size:12px;"><i class="fa-brands fa-google"></i> Google Account</span>';
+        } else {
+            emailEl.textContent = email || 'Not available';
+        }
+    }
     if (display) display.textContent = username || 'Your Profile';
+
+    // Update profile preview with Google picture if available
+    const profilePreview = document.getElementById('profilePreview');
+    if (profilePreview && isGoogleUser && googleUserPic) {
+        profilePreview.src = googleUserPic;
+    }
 
     // populate other fields
     const stored = getStoredProfile();
