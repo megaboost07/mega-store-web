@@ -10,427 +10,266 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            padding: 20px;
-        }
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+background: linear-gradient(135deg, #ffffff, #00c8ff);
+padding: 20px;
+}
 
-        .login-container {
-            width: 100%;
-            max-width: 380px;
-        }
+.login-container {    
+        width: 100%;    
+        max-width: 400px;    
+    }    
 
-        /* Clean White Card */
-        .login-box {
-            background: #ffffff;
-            border-radius: 0;
-            padding: 40px 0;
-            box-shadow: none;
-            border: none;
-        }
+    .login-box {    
+        background: linear-gradient(135deg, #ffffff, #ffffff);    
+        border-radius: 20px;    
+        padding: 40px 30px;    
+        box-shadow: 0 20px 60px rgba(9,9,9,9.9);    
+    }    
 
-        .login-logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+    .login-logo {    
+        text-align: center;    
+        margin-bottom: 30px;    
+    }    
 
-        .logo-wrapper {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
-        }
+    .login-logo img {    
+        width: 80px;    
+        height: 80px;    
+        border-radius: 20px;    
+        margin-bottom: 15px;    
+    }    
 
-        .login-logo img {
-            width: 45px;
-            height: 45px;
-            filter: brightness(0) invert(1);
-        }
+    .login-logo h1 {    
+        font-size: 28px;    
+        color: #111827;    
+        font-weight: 700;    
+    }    
 
-        .login-logo h1 {
-            font-size: 28px;
-            color: #111827;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
+    .login-logo p {    
+        color: #6b7280;    
+        font-size: 14px;    
+        margin-top: 5px;    
+    }    
 
-        .login-logo p {
-            color: #6b7280;
-            font-size: 15px;
-            font-weight: 400;
-        }
+    /* Google Login Button */    
+    .google-login-section {    
+        margin-bottom: 25px;    
+        display: flex;    
+        justify-content: center;    
+    }    
 
-        /* Hidden Google Button Container */
-        .google-hidden-container {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-            width: 0;
-            height: 0;
-            overflow: hidden;
-        }
+    /* Divider */    
+    .divider {    
+        text-align: center;    
+        margin: 20px 0;    
+        position: relative;    
+    }    
 
-        /* Clean Google Button */
-        .google-login-section {
-            margin-bottom: 24px;
-        }
+    .divider::before {    
+        content: '';    
+        position: absolute;    
+        top: 50%;    
+        left: 0;    
+        right: 0;    
+        height: 1px;    
+        background: #e5e7eb;    
+    }    
 
-        .custom-google-btn {
-            width: 100%;
-            padding: 14px 20px;
-            background: #ffffff;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #374151;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
+    .divider span {    
+        background: #ffffff;    
+        padding: 0 15px;    
+        color: #9ca3af;    
+        font-size: 13px;    
+        position: relative;    
+    }    
 
-        .custom-google-btn:hover {
-            border-color: #d1d5db;
-            background: #fafafa;
-        }
+    /* Input Fields */    
+    .input-group {    
+        margin-bottom: 15px;    
+    }    
 
-        .custom-google-btn:active {
-            transform: scale(0.98);
-        }
+    .input-group input {    
+        width: 100%;    
+        padding: 14px 16px;    
+        border: 2px solid #e5e7eb;    
+        border-radius: 12px;    
+        font-size: 15px;    
+        background: #f9fafb;    
+        color: #111827;    
+        transition: all 0.3s ease;    
+    }    
 
-        .google-icon-wrapper {
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .input-group input:focus {    
+        background: #ffffff;    
+        outline: none;    
+        border-color: #667eea;    
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);    
+    }    
 
-        .google-icon {
-            width: 100%;
-            height: 100%;
-        }
+    .input-group input::placeholder {    
+        color: #9ca3af;    
+    }    
 
-        /* Divider */
-        .divider {
-            text-align: center;
-            margin: 24px 0;
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+    /* Remember Me */    
+    .remember-me {    
+        display: flex;    
+        align-items: center;    
+        gap: 10px;    
+        margin-bottom: 10px;    
+        font-size: 14px;    
+        color: #374151;    
+        cursor: pointer;    
+    }    
 
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
-        }
+    .remember-me input {    
+        width: 18px;    
+        height: 18px;    
+        accent-color: #667eea;    
+        cursor: pointer;    
+    }    
 
-        .divider span {
-            color: #9ca3af;
-            font-size: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
+    /* Login Button */    
+    .login-btn {    
+        width: 100%;    
+        padding: 15px;    
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);    
+        color: #ffffff;    
+        border: none;    
+        border-radius: 12px;    
+        font-size: 16px;    
+        font-weight: 600;    
+        cursor: pointer;    
+        transition: all 0.3s ease;    
+    }    
 
-        /* Input Fields */
-        .input-group {
-            margin-bottom: 16px;
-        }
+    .login-btn:hover {    
+        transform: translateY(-2px);    
+        box-shadow: 0 8px 25px rgba(302, 526, 234, 0.0);    
+    }    
 
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 15px;
-            background: #ffffff;
-            color: #111827;
-            transition: all 0.2s ease;
-            font-weight: 400;
-        }
+    .login-btn:active {    
+        transform: translateY(0);    
+    }    
 
-        .input-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+    /* Messages */    
+    .login-error, .login-success {    
+        padding: 12px 16px;    
+        border-radius: 10px;    
+        font-size: 14px;    
+        margin-bottom: 15px;    
+        display: none;    
+    }    
 
-        .input-group input::placeholder {
-            color: #9ca3af;
-        }
+    .login-error {    
+        background: #fee2e2;    
+        color: #b91c1c;    
+        border: 1px solid #fecaca;    
+    }    
 
-        /* Remember Me */
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: #374151;
-            cursor: pointer;
-            font-weight: 400;
-        }
+    .login-success {    
+        background: #dcfce7;    
+        color: #166534;    
+        border: 1px solid #bbf7d0;    
+    }    
 
-        .remember-me input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #667eea;
-            cursor: pointer;
-            border-radius: 4px;
-            border: 1.5px solid #d1d5db;
-        }
+    .login-error.show, .login-success.show {    
+        display: block;    
+    }    
 
-        /* Clean Login Button */
-        .login-btn {
-            width: 100%;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
+    /* Footer */    
+    .login-footer {    
+        text-align: center;    
+        margin-top: 25px;    
+        padding-top: 20px;    
+        border-top: 1px solid #e5e7eb;    
+    }    
 
-        .login-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-        }
+    .login-footer-text {    
+        color: #6b7280;    
+        font-size: 13px;    
+    }    
 
-        .login-btn:active {
-            transform: translateY(0);
-        }
+    .login-footer-link {    
+        color: #667eea;    
+        font-weight: 600;    
+        cursor: pointer;    
+        text-decoration: none;    
+    }    
 
-        .btn-icon {
-            transition: transform 0.2s ease;
-        }
+    .login-footer-link:hover {    
+        text-decoration: underline;    
+    }    
 
-        .login-btn:hover .btn-icon {
-            transform: translateX(3px);
-        }
+    /* Responsive */    
+    @media (max-width: 480px) {    
+        .login-box {    
+            padding: 30px 20px;    
+        }    
 
-        /* Messages */
-        .login-error, .login-success {
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 14px;
-            margin-bottom: 20px;
-            display: none;
-            font-weight: 500;
-        }
+        .login-logo h1 {    
+            font-size: 24px;    
+        }    
+    }    
+</style>    
+<!-- Google Identity Services Script -->    
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
-        .login-error {
-            background: #fef2f2;
-            color: #dc2626;
-            border: 1px solid #fecaca;
-        }
+</head>    
+<body>    
+    <div class="login-container">    
+        <div class="login-box">    
+            <div class="login-logo">    <h1>Mega Store</h1>    
+            <p>Sign in to continue</p>    
+        </div>    
 
-        .login-success {
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1px solid #bbf7d0;
-        }
+        <!-- Error/Success Messages -->    
+        <div id="loginError" class="login-error">    
+            <span id="loginErrorText"></span>    
+        </div>    
+        <div id="loginSuccess" class="login-success">    
+            <span id="loginSuccessText"></span>    
+        </div>    
 
-        .login-error.show, .login-success.show {
-            display: block;
-        }
+            
 
-        /* Footer */
-        .login-footer {
-            text-align: center;
-            margin-top: 32px;
-            padding-top: 0;
-            border-top: none;
-        }
 
-        .login-footer-text {
-            color: #6b7280;
-            font-size: 13px;
-            font-weight: 400;
-        }
+        <!-- Simple Login Form -->    
+        <form id="simpleLoginForm" onsubmit="handleSimpleLogin(event)">    
+            <div class="input-group">    
+                <input type="text" id="loginUsername" placeholder="Username" required minlength="3" maxlength="20">    
+            </div>    
+            <div class="input-group">    
+                <input type="email" id="loginEmail" placeholder="Email" required>    
+            </div>    
+            <label class="remember-me">    
+                <input type="checkbox" id="rememberMe" checked>    
+                <span>Remember me</span>    
+            </label>    
+            <button type="submit" class="login-btn">Sign In</button>    
+        </form>    
 
-        .login-footer-link {
-            color: #667eea;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
+        <div class="divider">    
+            <span>or</span>    
+        </div>
 
-        .login-footer-link:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
 
-        /* Privacy Modal */
-        #privacyModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
 
-        .modal-content {
-            background: #ffffff;
-            max-width: 420px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            border-radius: 16px;
-            padding: 24px;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: none;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            font-size: 20px;
-            cursor: pointer;
-            color: #6b7280;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .modal-close:hover {
-            background: #f3f4f6;
-            color: #111827;
-        }
-
-        .modal-content h2 {
-            margin-bottom: 16px;
-            color: #111827;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .modal-content p {
-            color: #4b5563;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-
-        .modal-content strong {
-            color: #111827;
-            font-weight: 600;
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            body {
-                padding: 16px;
-            }
-
-            .login-box {
-                padding: 24px 0;
-            }
-
-            .login-logo h1 {
-                font-size: 24px;
-            }
-
-            .logo-wrapper {
-                width: 70px;
-                height: 70px;
-            }
-
-            .login-logo img {
-                width: 40px;
-                height: 40px;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #ffffff;
-            animation: spin 0.8s linear infinite;
-            margin-left: 8px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
-    <!-- Google Identity Services Script -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-</head>
-<body>
-    <div class="login-container">
-        <div class="login-box">
-            <div class="login-logo">
-                <div class="logo-wrapper">
-                    <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="Mega Store">
-                </div>
-                <h1>Mega Store</h1>
-                <p>Welcome back! Sign in to continue</p>
-            </div>
-
-            <!-- Error/Success Messages -->
-            <div id="loginError" class="login-error">
-                <span id="loginErrorText"></span>
-            </div>
-            <div id="loginSuccess" class="login-success">
-                <span id="loginSuccessText"></span>
-            </div>
-
-            <!-- Hidden Google Button (Functional) -->
-            <div class="google-hidden-container">
+<!-- Google Login Button -->
+            <div class="google-login-section">
                 <div id="g_id_onload"
                      data-client_id="866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com"
                      data-callback="handleGoogleLogin"
                      data-auto_prompt="false">
                 </div>
-                <div id="hiddenGoogleBtn" class="g_id_signin"
-                     data-type="icon"
+                <div class="g_id_signin"
+                     data-type="standard"
                      data-size="large"
                      data-theme="outline"
                      data-text="sign_in_with"
@@ -438,46 +277,6 @@
                      data-logo_alignment="left">
                 </div>
             </div>
-
-            <!-- Clean Google Button -->
-            <div class="google-login-section">
-                <button class="custom-google-btn" onclick="triggerGoogleLogin()">
-                    <div class="google-icon-wrapper">
-                        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                    </div>
-                    <span>Continue with Google</span>
-                </button>
-            </div>
-
-            <div class="divider">
-                <span>or continue with email</span>
-            </div>
-
-            <!-- Login Form -->
-            <form id="simpleLoginForm" onsubmit="handleSimpleLogin(event)">
-                <div class="input-group">
-                    <input type="text" id="loginUsername" placeholder="Enter your username" required minlength="3" maxlength="20">
-                </div>
-                <div class="input-group">
-                    <input type="email" id="loginEmail" placeholder="Enter your email address" required>
-                </div>
-                <label class="remember-me">
-                    <input type="checkbox" id="rememberMe" checked>
-                    <span>Remember me for 30 days</span>
-                </label>
-                <button type="submit" class="login-btn">
-                    <span>Sign In</span>
-                    <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </button>
-            </form>
 
             <!-- Footer -->
             <div class="login-footer">
@@ -489,23 +288,20 @@
         </div>
     </div>
 
+ 
+
     <!-- Privacy Modal -->
-    <div id="privacyModal" onclick="closePrivacyModalOutside(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="closePrivacyModal()">×</button>
-            <h2>Privacy Policy</h2>
-            <div>
-                <p><strong>1. Information We Collect</strong></p>
-                <p>We collect basic information like username and email to improve our services and provide you with a personalized experience.</p>
-
-                <p><strong>2. How We Use Your Information</strong></p>
-                <p>We use this information to operate and improve our platform, communicate with you, and ensure the security of your account.</p>
-
-                <p><strong>3. Data Protection</strong></p>
-                <p>We take reasonable measures to protect user data from unauthorized access, alteration, or disclosure using industry-standard encryption.</p>
-
-                <p><strong>4. Your Rights</strong></p>
-                <p>You have the right to access, update, or delete your personal information at any time through your account settings.</p>
+    <div id="privacyModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center;">
+        <div style="background:#fff; max-width:500px; width:90%; max-height:80vh; overflow-y:auto; border-radius:16px; padding:25px; position:relative;">
+            <button onclick="closePrivacyModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:24px; cursor:pointer;">×</button>
+            <h2 style="margin-bottom:15px; color:#111827;">Privacy Policy</h2>
+            <div style="color:#374151; font-size:14px; line-height:1.6;">
+                <p style="margin-bottom:10px;"><strong>1. Information We Collect</strong></p>
+                <p style="margin-bottom:15px;">We collect basic information like username and email to improve our services.</p>
+                <p style="margin-bottom:10px;"><strong>2. How We Use Your Information</strong></p>
+                <p style="margin-bottom:15px;">We use this information to operate and improve our platform.</p>
+                <p style="margin-bottom:10px;"><strong>3. Data Protection</strong></p>
+                <p>We take reasonable measures to protect user data from unauthorized access.</p>
             </div>
         </div>
     </div>
@@ -521,30 +317,19 @@
         const GOOGLE_USER_ID_KEY = "MEGA_STORE_GOOGLE_USER_ID";
         const GOOGLE_USER_PIC_KEY = "MEGA_STORE_GOOGLE_USER_PIC";
 
-        // Check if already logged in
+        // Check if already logged in - redirect to index.html
         function checkLoginStatus() {
             const isLoggedIn = localStorage.getItem(LOGIN_KEY) === 'true' || 
                               localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true';
 
             if (isLoggedIn) {
+                // Already logged in, redirect to main app
                 window.location.href = 'index.html';
             }
         }
 
+        // Run check on page load
         checkLoginStatus();
-
-        // Trigger Google Login
-        function triggerGoogleLogin() {
-            const hiddenBtn = document.querySelector('#hiddenGoogleBtn div[role=button]');
-            if (hiddenBtn) {
-                hiddenBtn.click();
-            } else {
-                const fallbackBtn = document.querySelector('.google-hidden-container div[role=button]');
-                if (fallbackBtn) {
-                    fallbackBtn.click();
-                }
-            }
-        }
 
         // Show error message
         function showLoginError(message) {
@@ -575,7 +360,6 @@
             const username = document.getElementById('loginUsername').value.trim();
             const email = document.getElementById('loginEmail').value.trim().toLowerCase();
             const rememberMe = document.getElementById('rememberMe').checked;
-            const btn = document.querySelector('.login-btn');
 
             if (!username || !email) {
                 showLoginError('Please enter both username and email');
@@ -592,34 +376,29 @@
                 return;
             }
 
-            // Show loading state
-            btn.innerHTML = '<span>Signing In...</span><span class="loading"></span>';
-            btn.disabled = true;
+            // Store user data
+            const usersDB = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || {};
+            usersDB[username] = {
+                email: email,
+                createdAt: usersDB[username]?.createdAt || new Date().toISOString(),
+                lastLogin: new Date().toISOString()
+            };
+            localStorage.setItem(USERS_DB_KEY, JSON.stringify(usersDB));
+
+            localStorage.setItem(LOGIN_KEY, 'true');
+            localStorage.setItem(LOGIN_USER_KEY, username);
+            localStorage.setItem(LOGIN_EMAIL_KEY, email);
+            localStorage.setItem(LOGIN_TIME_KEY, new Date().toISOString());
+
+            if (!rememberMe) {
+                sessionStorage.setItem(LOGIN_KEY, 'true');
+            }
+
+            showLoginSuccess('Login successful! Redirecting...');
 
             setTimeout(() => {
-                const usersDB = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || {};
-                usersDB[username] = {
-                    email: email,
-                    createdAt: usersDB[username]?.createdAt || new Date().toISOString(),
-                    lastLogin: new Date().toISOString()
-                };
-                localStorage.setItem(USERS_DB_KEY, JSON.stringify(usersDB));
-
-                localStorage.setItem(LOGIN_KEY, 'true');
-                localStorage.setItem(LOGIN_USER_KEY, username);
-                localStorage.setItem(LOGIN_EMAIL_KEY, email);
-                localStorage.setItem(LOGIN_TIME_KEY, new Date().toISOString());
-
-                if (!rememberMe) {
-                    sessionStorage.setItem(LOGIN_KEY, 'true');
-                }
-
-                showLoginSuccess('Login successful! Redirecting...');
-
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
-            }, 1000);
+                window.location.href = 'index.html';
+            }, 1500);
         }
 
         // Handle Google Login
@@ -633,14 +412,18 @@
                 const name = payload.name || email.split('@')[0];
                 const picture = payload.picture || '';
 
+                // Store Google login data
                 localStorage.setItem(GOOGLE_LOGIN_KEY, 'true');
                 localStorage.setItem(GOOGLE_USER_ID_KEY, googleId);
                 localStorage.setItem(GOOGLE_USER_PIC_KEY, picture);
+
+                // Store as regular login
                 localStorage.setItem(LOGIN_KEY, 'true');
                 localStorage.setItem(LOGIN_USER_KEY, name);
                 localStorage.setItem(LOGIN_EMAIL_KEY, email);
                 localStorage.setItem(LOGIN_TIME_KEY, new Date().toISOString());
 
+                // Save user to database
                 const usersDB = JSON.parse(localStorage.getItem(USERS_DB_KEY)) || {};
                 usersDB[name] = {
                     email: email,
@@ -669,7 +452,6 @@
             const modal = document.getElementById('privacyModal');
             if (modal) {
                 modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
             }
         }
 
@@ -677,34 +459,15 @@
             const modal = document.getElementById('privacyModal');
             if (modal) {
                 modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
             }
         }
 
-        function closePrivacyModalOutside(event) {
-            if (event.target.id === 'privacyModal') {
-                closePrivacyModal();
-            }
-        }
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
+        // Close modal on outside click
+        document.getElementById('privacyModal').addEventListener('click', function(e) {
+            if (e.target === this) {
                 closePrivacyModal();
             }
         });
-
-        // Initialize Google Identity Services
-        window.onload = function() {
-            if (window.google && google.accounts) {
-                google.accounts.id.initialize({
-                    client_id: '866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com',
-                    callback: handleGoogleLogin,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
-            }
-        };
     </script>
 </body>
 </html>
