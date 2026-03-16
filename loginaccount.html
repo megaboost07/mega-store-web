@@ -654,10 +654,10 @@
                 </button>
                 <div id="googleStatus" class="status-text"></div>
                 
-                <!-- Google Sign In Container (Hidden) -->
+                <!-- Hidden Google One Tap Configuration -->
                 <div id="g_id_onload"
                      data-client_id="866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com"
-                     data-callback="handleGoogleLogin"
+                     data-callback="handleGoogleCredentialResponse"
                      data-auto_prompt="false">
                 </div>
             </div>
@@ -917,11 +917,10 @@
                 // Initialize with your Client ID
                 google.accounts.id.initialize({
                     client_id: "866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com",
-                    callback: handleGoogleLogin,
+                    callback: handleGoogleCredentialResponse,
                     auto_select: false,
                     cancel_on_tap_outside: true,
-                    context: 'signin',
-                    ux_mode: 'popup'
+                    context: 'signin'
                 });
 
                 console.log('Google Sign-In initialized successfully');
@@ -942,7 +941,8 @@
             const isLoggedIn = localStorage.getItem(LOGIN_KEY) === 'true' || 
                               localStorage.getItem(GOOGLE_LOGIN_KEY) === 'true';
             if (isLoggedIn) {
-                // window.location.href = 'index.html';
+                // Already logged in, redirect to index
+                window.location.href = 'index.html';
             }
         }
 
@@ -1021,26 +1021,38 @@
             }, 1000);
         }
 
-        // Handle Google Login Callback
-        function handleGoogleLogin(response) {
-            console.log('Google login response received:', response);
+        // Handle Google Credential Response (JWT Token)
+        function handleGoogleCredentialResponse(response) {
+            console.log('Google credential response received:', response);
             
             try {
+                // Check if credential exists
                 if (!response || !response.credential) {
-                    throw new Error('No credential received');
+                    throw new Error('No credential received from Google');
                 }
 
                 const credential = response.credential;
-                const payload = JSON.parse(atob(credential.split('.')[1]));
+                
+                // Decode JWT token properly
+                const payload = parseJwt(credential);
+                
+                if (!payload) {
+                    throw new Error('Failed to decode JWT token');
+                }
 
-                console.log('Google payload:', payload);
+                console.log('Decoded Google payload:', payload);
 
+                // Extract user info from payload
                 const googleId = payload.sub;
                 const email = payload.email;
-                const name = payload.name || email.split('@')[0];
+                const name = payload.name || (email ? email.split('@')[0] : 'Google User');
                 const picture = payload.picture || '';
 
-                // Store login info
+                if (!googleId || !email) {
+                    throw new Error('Incomplete user data received');
+                }
+
+                // Store login info in localStorage
                 localStorage.setItem(GOOGLE_LOGIN_KEY, 'true');
                 localStorage.setItem(GOOGLE_USER_ID_KEY, googleId);
                 localStorage.setItem(GOOGLE_USER_PIC_KEY, picture);
@@ -1063,6 +1075,7 @@
 
                 showLoginSuccess('Google login successful! Redirecting...');
 
+                // Redirect to index.html after 1.5 seconds
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1500);
@@ -1070,11 +1083,43 @@
             } catch (error) {
                 console.error('Google login error:', error);
                 showLoginError('Google login failed: ' + error.message);
-                updateGoogleStatus('Login failed: ' + error.message, true);
+                updateGoogleStatus('Error: ' + error.message, true);
             }
         }
 
-        // Google Sign In Handler
+        // Parse JWT token without using atob directly on potentially malformed data
+        function parseJwt(token) {
+            try {
+                // Split the token
+                const parts = token.split('.');
+                if (parts.length !== 3) {
+                    throw new Error('Invalid JWT format');
+                }
+
+                // Decode base64url to base64
+                const base64Url = parts[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                
+                // Add padding if needed
+                const padding = '='.repeat((4 - base64.length % 4) % 4);
+                const paddedBase64 = base64 + padding;
+
+                // Decode
+                const jsonPayload = decodeURIComponent(
+                    atob(paddedBase64)
+                        .split('')
+                        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+                        .join('')
+                );
+
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error('JWT parsing error:', e);
+                return null;
+            }
+        }
+
+        // Google Sign In Handler - Trigger the popup
         function handleGoogleSignIn() {
             if (!isGoogleApiLoaded()) {
                 showLoginError('Google Sign-In is still loading. Please wait...');
@@ -1082,95 +1127,106 @@
             }
 
             try {
-                // Request an access token
-                const tokenClient = google.accounts.oauth2.initTokenClient({
+                // Disable button temporarily
+                const btn = document.getElementById('googleSignInBtn');
+                btn.disabled = true;
+                document.getElementById('googleBtnText').textContent = 'Connecting...';
+
+                // Request access token using OAuth2
+                const client = google.accounts.oauth2.initTokenClient({
                     client_id: "866576663821-qncmnobstkeku3cen5r2akr8bg2ildev.apps.googleusercontent.com",
-                    scope: 'email profile openid',
+                    scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid',
                     callback: (tokenResponse) => {
                         console.log('Token response:', tokenResponse);
+                        
                         if (tokenResponse && tokenResponse.access_token) {
-                            // Get user info using the access token
-                            fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                                headers: {
-                                    'Authorization': 'Bearer ' + tokenResponse.access_token
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(userInfo => {
-                                console.log('User info:', userInfo);
-                                // Create a mock credential response
-                                handleGoogleLogin({
-                                    credential: btoa(JSON.stringify({
-                                        sub: userInfo.sub,
-                                        email: userInfo.email,
-                                        name: userInfo.name,
-                                        picture: userInfo.picture
-                                    }))
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error fetching user info:', error);
-                                showLoginError('Failed to get user information');
-                            });
+                            // Fetch user info using the access token
+                            fetchUserInfo(tokenResponse.access_token);
+                        } else {
+                            showLoginError('Failed to get access token');
+                            resetGoogleButton();
                         }
                     },
                     error_callback: (error) => {
                         console.error('OAuth error:', error);
-                        if (error.type !== 'popup_closed') {
-                            showLoginError('Google Sign-In error: ' + (error.message || 'Unknown error'));
+                        if (error.type === 'popup_closed') {
+                            updateGoogleStatus('Login cancelled');
+                        } else {
+                            showLoginError('Google Sign-In error: ' + (error.message || error.type));
                         }
+                        resetGoogleButton();
                     }
                 });
 
-                tokenClient.requestAccessToken();
+                // Request the token
+                client.requestAccessToken();
                 
             } catch (error) {
                 console.error('Error triggering Google Sign-In:', error);
+                showLoginError('Could not start Google Sign-In: ' + error.message);
+                resetGoogleButton();
                 
-                // Fallback: Try the One Tap method
-                try {
-                    google.accounts.id.prompt((notification) => {
-                        if (notification.isNotDisplayed()) {
-                            showLoginError('Google Sign-In popup blocked. Please allow popups for this site.');
-                        }
-                    });
-                } catch (e) {
-                    showLoginError('Could not start Google Sign-In. Please try again.');
-                }
+                // Try fallback method
+                tryOneTapFallback();
             }
         }
 
-        // Alternative: Use the newer FedCM method if available
-        function handleGoogleSignInFedCM() {
-            if (!isGoogleApiLoaded()) {
-                showLoginError('Google Sign-In is still loading. Please wait...');
-                return;
-            }
+        // Fetch user info from Google API
+        function fetchUserInfo(accessToken) {
+            fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user info: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(userInfo => {
+                console.log('User info fetched:', userInfo);
+                
+                // Create mock credential response
+                const mockCredential = btoa(JSON.stringify({
+                    sub: userInfo.id,
+                    email: userInfo.email,
+                    name: userInfo.name,
+                    picture: userInfo.picture
+                }));
 
+                // Process as Google login
+                handleGoogleCredentialResponse({
+                    credential: mockCredential
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error);
+                showLoginError('Failed to get user information from Google');
+                resetGoogleButton();
+            });
+        }
+
+        // Try One Tap as fallback
+        function tryOneTapFallback() {
             try {
-                // Try using the One Tap UI
                 google.accounts.id.prompt((notification) => {
-                    console.log('Prompt notification:', notification);
-                    
-                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                        // If One Tap doesn't work, show error
+                    if (notification.isNotDisplayed()) {
                         const reason = notification.getNotDisplayedReason();
-                        console.log('Not displayed reason:', reason);
-                        
-                        if (reason === 'browser_not_supported') {
-                            showLoginError('Your browser does not support Google Sign-In');
-                        } else if (reason === 'invalid_client') {
-                            showLoginError('Invalid Google Client ID. Please check configuration.');
-                        } else {
-                            showLoginError('Google Sign-In not available. Reason: ' + reason);
-                        }
+                        console.log('One Tap not displayed:', reason);
+                        showLoginError('Google Sign-In not available. Please try again.');
                     }
                 });
-            } catch (error) {
-                console.error('FedCM error:', error);
-                // Fall back to OAuth method
-                handleGoogleSignIn();
+            } catch (e) {
+                console.error('One Tap fallback failed:', e);
             }
+        }
+
+        // Reset Google button state
+        function resetGoogleButton() {
+            const btn = document.getElementById('googleSignInBtn');
+            btn.disabled = false;
+            document.getElementById('googleBtnText').textContent = 'Sign in with Google';
         }
 
         // Modal Functions
