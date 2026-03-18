@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login - MEGA STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #00c853;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* App Bar */
+        .app-bar {
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+        
+        /* Login Card */
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: var(--shadow-2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .login-logo .material-icons {
+            font-size: 55px;
+            color: white;
+        }
+        
+        .login-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--background);
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper .material-icons {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+        
+        .input-wrapper .form-input {
+            padding-left: 48px;
+        }
+        
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: var(--background);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Form Container */
+        .form-container {
+            display: none;
+        }
+        
+        .form-container.active {
+            display: block;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #323232;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 300;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.error {
+            background: #e53935;
+        }
+        
+        .toast.success {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <button class="back-btn" onclick="location.href='home.html'">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">Sign In</h1>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <span class="material-icons">apps</span>
+                </div>
+                <h1>Welcome to MEGA STORE</h1>
+                <p>Sign in to continue</p>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('login')">Login</button>
+                <button class="tab" onclick="switchTab('register')">Register</button>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="form-container active" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">email</span>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">lock</span>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="login()">
+                    <span class="material-icons">login</span>
+                    Sign In
+                </button>
+            </div>
+            
+            <!-- Register Form -->
+            <div class="form-container" id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">person</span>
+                        <input type="text" class="form-input" id="regName" placeholder="Enter your name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">email</span>
+                        <input type="email" class="form-input" id="regEmail" placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">lock</span>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Create password">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="register()">
+                    <span class="material-icons">person_add</span>
+                    Create Account
+                </button>
+            </div>
+            
+
+        </div>
+    </main>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
+            authDomain: "swb-project-92ac0.firebaseapp.com",
+            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
+            projectId: "swb-project-92ac0",
+            storageBucket: "swb-project-92ac0.firebasestorage.app",
+            messagingSenderId: "990131286731",
+            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
+            measurementId: "G-J8QE2NJY5W"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // Check theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Check if already logged in
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            location.href = 'profile.html';
+        }
+        
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+        
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            // Check in Firebase
+            database.ref('users').orderByChild('email').equalTo(email).once('value')
+                .then(snapshot => {
+                    const users = snapshot.val();
+                    if (users) {
+                        const userId = Object.keys(users)[0];
+                        const user = users[userId];
+                        
+                        if (user.password === password) {
+                            const userData = {
+                                id: userId,
+                                name: user.name,
+                                email: user.email,
+                                photo: user.photo || null
+                            };
+                            localStorage.setItem('currentUser', JSON.stringify(userData));
+                            showToast('Login successful!', 'success');
+                            setTimeout(() => location.href = 'profile.html', 1000);
+                        } else {
+                            showToast('Invalid password', 'error');
+                        }
+                    } else {
+                        showToast('User not found', 'error');
+                    }
+                });
+        }
+        
+        function register() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            
+            if (!name || !email || !password) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            // Check if email exists
+            database.ref('users').orderByChild('email').equalTo(email).once('value')
+                .then(snapshot => {
+                    if (snapshot.val()) {
+                        showToast('Email already registered', 'error');
+                        return;
+                    }
+                    
+                    // Create new user
+                    const newUserRef = database.ref('users').push();
+                    const userData = {
+                        name: name,
+                        email: email,
+                        password: password,
+                        createdAt: new Date().toISOString(),
+                        downloads: 0,
+                        likes: 0,
+                        ratings: 0
+                    };
+                    
+                    newUserRef.set(userData).then(() => {
+                        const currentUserData = {
+                            id: newUserRef.key,
+                            name: name,
+                            email: email,
+                            photo: null
+                        };
+                        localStorage.setItem('currentUser', JSON.stringify(currentUserData));
+                        showToast('Account created!', 'success');
+                        setTimeout(() => location.href = 'profile.html', 1000);
+                    });
+                });
+        }
+        
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast' + (type ? ' ' + type : '');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
