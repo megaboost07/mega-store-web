@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>All Apps - MEGA STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #00c853;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        /* App Bar */
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        /* Filter Tabs */
+        .filter-tabs {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            box-shadow: var(--shadow-1);
+            z-index: 99;
+        }
+        
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .filter-tab {
+            padding: 8px 20px;
+            border: 1px solid var(--divider);
+            background: var(--surface);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        
+        .filter-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 140px;
+            padding: 16px;
+        }
+        
+        /* Apps Grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        
+        .app-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow-1);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .app-card:hover {
+            box-shadow: var(--shadow-2);
+            transform: translateY(-4px);
+        }
+        
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 0 auto 12px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .app-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+        
+        .app-developer {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 8px;
+        }
+        
+        .app-stats {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .app-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .app-stats .material-icons {
+            font-size: 14px;
+            color: #ffb300;
+        }
+        
+        /* List View */
+        .apps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .app-list-item {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow-1);
+            display: flex;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .app-list-item:hover {
+            box-shadow: var(--shadow-2);
+        }
+        
+        .app-list-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .app-list-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .app-list-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .app-list-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .app-list-developer {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .app-list-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .app-list-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .app-list-meta .material-icons {
+            font-size: 14px;
+            color: #ffb300;
+        }
+        
+        .app-list-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 50%;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        /* View Toggle */
+        .view-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            box-shadow: var(--shadow-2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 90;
+            transition: all 0.2s;
+        }
+        
+        .view-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .view-toggle .material-icons {
+            font-size: 24px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state .material-icons {
+            font-size: 80px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item .material-icons {
+            font-size: 24px;
+        }
+        
+        .nav-item span:last-child {
+            font-size: 11px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">All Apps</h1>
+    </header>
+    
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterApps('all')">All</button>
+        <button class="filter-tab" onclick="filterApps('new')">New</button>
+        <button class="filter-tab" onclick="filterApps('trending')">Trending</button>
+        <button class="filter-tab" onclick="filterApps('liked')">Most Liked</button>
+        <button class="filter-tab" onclick="filterApps('editing')">Editing</button>
+        <button class="filter-tab" onclick="filterApps('premium')">Premium</button>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div id="appsContainer" class="apps-grid">
+            <div class="empty-state">
+                <span class="material-icons">hourglass_empty</span>
+                <h3>Loading apps...</h3>
+            </div>
+        </div>
+    </main>
+    
+    <!-- View Toggle -->
+    <button class="view-toggle" onclick="toggleView()">
+        <span class="material-icons" id="viewIcon">view_list</span>
+    </button>
+    
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <span class="material-icons">home</span>
+            <span>Home</span>
+        </a>
+        <a href="allapp.html" class="nav-item active">
+            <span class="material-icons">apps</span>
+            <span>All Apps</span>
+        </a>
+        <a href="search.html" class="nav-item">
+            <span class="material-icons">search</span>
+            <span>Search</span>
+        </a>
+        <a href="news.html" class="nav-item">
+            <span class="material-icons">newspaper</span>
+            <span>News</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <span class="material-icons">person</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
+            authDomain: "swb-project-92ac0.firebaseapp.com",
+            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
+            projectId: "swb-project-92ac0",
+            storageBucket: "swb-project-92ac0.firebasestorage.app",
+            messagingSenderId: "990131286731",
+            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
+            measurementId: "G-J8QE2NJY5W"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // State
+        let currentFilter = 'all';
+        let isGridView = true;
+        let allApps = [];
+        
+        // Check theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Load apps
+        loadApps();
+        
+        // Check URL params for category
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        if (categoryParam) {
+            filterApps(categoryParam);
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.toLowerCase().includes(categoryParam)) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+        
+        function loadApps() {
+            database.ref('apps').on('value', (snapshot) => {
+                const apps = snapshot.val();
+                if (apps) {
+                    allApps = Object.entries(apps).map(([id, app]) => ({ id, ...app }));
+                    renderApps();
+                } else {
+                    document.getElementById('appsContainer').innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <span class="material-icons">inbox</span>
+                            <h3>No apps available</h3>
+                        </div>
+                    `;
+                }
+            });
+        }
+        
+        function filterApps(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.toLowerCase() === category || 
+                    (category === 'all' && tab.textContent === 'All')) {
+                    tab.classList.add('active');
+                }
+            });
+            renderApps();
+        }
+        
+        function renderApps() {
+            const container = document.getElementById('appsContainer');
+            let filteredApps = allApps;
+            
+            if (currentFilter !== 'all') {
+                filteredApps = allApps.filter(app => app.category === currentFilter);
+            }
+            
+            if (filteredApps.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <span class="material-icons">inbox</span>
+                        <h3>No apps in this category</h3>
+                    </div>
+                `;
+                return;
+            }
+            
+            if (isGridView) {
+                container.className = 'apps-grid';
+                container.innerHTML = filteredApps.map(app => `
+                    <div class="app-card" onclick="openApp('${app.id}')">
+                        <div class="app-icon">
+                            <img src="${app.icon || 'https://via.placeholder.com/80'}" alt="${app.name}">
+                        </div>
+                        <div class="app-name">${app.name}</div>
+                        <div class="app-developer">${app.developer || 'Unknown'}</div>
+                        <div class="app-stats">
+                            <span><span class="material-icons">star</span>${app.rating || '0.0'}</span>
+                            <span><span class="material-icons">download</span>${formatNumber(app.downloads || 0)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.className = 'apps-list';
+                container.innerHTML = filteredApps.map(app => `
+                    <div class="app-list-item" onclick="openApp('${app.id}')">
+                        <div class="app-list-icon">
+                            <img src="${app.icon || 'https://via.placeholder.com/64'}" alt="${app.name}">
+                        </div>
+                        <div class="app-list-info">
+                            <div class="app-list-name">${app.name}</div>
+                            <div class="app-list-developer">${app.developer || 'Unknown'}</div>
+                            <div class="app-list-meta">
+                                <span><span class="material-icons">star</span>${app.rating || '0.0'}</span>
+                                <span><span class="material-icons">download</span>${formatNumber(app.downloads || 0)}</span>
+                                <span><span class="material-icons">visibility</span>${formatNumber(app.views || 0)}</span>
+                            </div>
+                        </div>
+                        <div class="app-list-download">
+                            <span class="material-icons">download</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function toggleView() {
+            isGridView = !isGridView;
+            document.getElementById('viewIcon').textContent = isGridView ? 'view_list' : 'grid_view';
+            renderApps();
+        }
+        
+        function openApp(appId) {
+            window.location.href = `app-details.html?id=${appId}`;
+        }
+        
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num;
+        }
+    </script>
+</body>
+</html>

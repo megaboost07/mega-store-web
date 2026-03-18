@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Profile - MEGA STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #00c853;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        /* App Bar */
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 64px;
+            padding: 16px;
+        }
+        
+        /* Profile Header */
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            color: white;
+            margin-bottom: 24px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: var(--shadow-2);
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-avatar .material-icons {
+            font-size: 60px;
+            color: var(--primary);
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .profile-email {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        /* Menu Section */
+        .menu-section {
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background 0.2s;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+        }
+        
+        .menu-item:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        .menu-item:not(:last-child) {
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .menu-item .material-icons {
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+        
+        .menu-item span:last-child {
+            flex: 1;
+        }
+        
+        .menu-item .arrow {
+            color: var(--text-secondary);
+        }
+        
+        /* Login Prompt */
+        .login-prompt {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 48px 24px;
+            text-align: center;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .login-prompt .material-icons {
+            font-size: 0px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        
+        .login-prompt h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .login-prompt p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        
+        .login-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .login-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item .material-icons {
+            font-size: 24px;
+        }
+        
+        .nav-item span:last-child {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #323232;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 300;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">Profile</h1>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div id="profileContent">
+            <!-- Content loaded by JS -->
+        </div>
+    </main>
+    
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <span class="material-icons">home</span>
+            <span>Home</span>
+        </a>
+        <a href="allapp.html" class="nav-item">
+            <span class="material-icons">apps</span>
+            <span>All Apps</span>
+        </a>
+        <a href="search.html" class="nav-item">
+            <span class="material-icons">search</span>
+            <span>Search</span>
+        </a>
+        <a href="news.html" class="nav-item">
+            <span class="material-icons">newspaper</span>
+            <span>News</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <span class="material-icons">person</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
+            authDomain: "swb-project-92ac0.firebaseapp.com",
+            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
+            projectId: "swb-project-92ac0",
+            storageBucket: "swb-project-92ac0.firebasestorage.app",
+            messagingSenderId: "990131286731",
+            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
+            measurementId: "G-J8QE2NJY5W"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // Check theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Check user
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        // Render profile
+        renderProfile();
+        
+        function renderProfile() {
+            const container = document.getElementById('profileContent');
+            
+            if (!currentUser) {
+                container.innerHTML = `
+                    <div class="login-prompt">
+                        <span class="material-icons">account_circle</span>
+                        <h2>Sign In Required</h2>
+                        <p>Sign in to access your profile and track your activity</p>
+                        <a href="login.html" class="login-btn">
+                            <span class="material-icons">login</span>
+                            Sign In
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Load user stats
+            database.ref(`users/${currentUser.id}`).once('value').then(snapshot => {
+                const userData = snapshot.val() || {};
+                
+                container.innerHTML = `
+                    <!-- Profile Header -->
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            ${currentUser.photo ? 
+                                `<img src="${currentUser.photo}" alt="${currentUser.name}">` : 
+                                `<span class="material-icons">person</span>`
+                            }
+                        </div>
+                        <h2 class="profile-name">${currentUser.name}</h2>
+                        <p class="profile-email">${currentUser.email}</p>
+                    </div>
+                    
+                    <!-- Social Links -->
+                    <div class="menu-section">
+                        <a href="https://www.youtube.com/@kapil_h4x_live" target="_blank" class="menu-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0000">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            <span>YouTube Channel</span>
+                            <span class="material-icons arrow">open_in_new</span>
+                        </a>
+                        <a href="https://t.me/mega_store_in" target="_blank" class="menu-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#0088cc">
+                                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                            </svg>
+                            <span>Telegram Channel</span>
+                            <span class="material-icons arrow">open_in_new</span>
+                        </a>
+                        <a href="https://www.instagram.com/mega_boost_ofl?igsh=MWh6bHdtMmJxeWhqeA==" target="_blank" class="menu-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <defs>
+                                    <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#f58529"/>
+                                        <stop offset="50%" style="stop-color:#dd2a7b"/>
+                                        <stop offset="100%" style="stop-color:#8134af"/>
+                                    </linearGradient>
+                                </defs>
+                                <path fill="url(#ig-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            <span>Instagram Account</span>
+                            <span class="material-icons arrow">open_in_new</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Menu -->
+                    <div class="menu-section">
+                        <a href="home.html" class="menu-item">
+                            <span class="material-icons">home</span>
+                            <span>Home</span>
+                            <span class="material-icons arrow">chevron_right</span>
+                        </a>
+                        <a href="allapp.html" class="menu-item">
+                            <span class="material-icons">apps</span>
+                            <span>My Apps</span>
+                            <span class="material-icons arrow">chevron_right</span>
+                        </a>
+                        <button class="menu-item" onclick="toggleDarkMode()">
+                            <span class="material-icons">${savedTheme === 'dark' ? 'light_mode' : 'dark_mode'}</span>
+                            <span>${savedTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                            <span class="material-icons arrow">chevron_right</span>
+                        </button>
+                    </div>
+                    
+                    <div class="menu-section">
+                        <a href="about.html" class="menu-item">
+                            <span class="material-icons">info</span>
+                            <span>About Us</span>
+                            <span class="material-icons arrow">chevron_right</span>
+                        </a>
+                        <a href="contact.html" class="menu-item">
+                            <span class="material-icons">contact_mail</span>
+                            <span>Contact Us</span>
+                            <span class="material-icons arrow">chevron_right</span>
+                        </a>
+                        <a href="privacy.html" class="menu-item">
+                            <span class="material-icons">privacy_tip</span>
+                            <span>Privacy Policy</span>
+                            <span class="material-icons arrow">chevron_right</span>
+                        </a>
+                    </div>
+                    
+                    <div class="menu-section">
+                        <button class="menu-item" onclick="logout()">
+                            <span class="material-icons" style="color: #e53935;">logout</span>
+                            <span style="color: #e53935;">Logout</span>
+                        </button>
+                    </div>
+                `;
+            });
+        }
+        
+        function toggleDarkMode() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            renderProfile();
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            showToast('Logged out successfully');
+            setTimeout(() => location.reload(), 1000);
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

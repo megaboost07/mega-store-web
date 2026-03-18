@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>About Us - MEGA STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        .main-content {
+            margin-top: 64px;
+            padding: 24px;
+        }
+        
+        .about-header {
+            text-align: center;
+            padding: 32px 0;
+        }
+        
+        .about-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .about-logo .material-icons {
+            font-size: 60px;
+            color: white;
+        }
+        
+        .about-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .about-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        .about-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .about-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .about-section h2 .material-icons {
+            color: var(--primary);
+        }
+        
+        .about-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            color: var(--text-secondary);
+        }
+        
+        .feature-list li .material-icons {
+            color: var(--primary);
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-item p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">About Us</h1>
+    </header>
+    
+    <main class="main-content">
+        <div class="about-header">
+            <div class="about-logo">
+                <span class="material-icons">apps</span>
+            </div>
+            <h1>MEGA STORE</h1>
+            <p>Your Ultimate App Destination</p>
+        </div>
+        
+        <div class="about-section">
+            <h2><span class="material-icons">info</span> Who We Are</h2>
+            <p>MEGA STORE is a premium app store platform designed to provide users with a curated collection of high-quality applications. We believe in making app discovery simple, secure, and enjoyable.</p>
+            <p>Our platform connects developers with users, offering a seamless experience for downloading and managing applications across various categories.</p>
+        </div>
+        
+        <div class="about-section">
+            <h2><span class="material-icons">star</span> Key Features</h2>
+            <ul class="feature-list">
+                <li><span class="material-icons">check_circle</span> Curated Premium Apps</li>
+                <li><span class="material-icons">check_circle</span> Fast & Secure Downloads</li>
+                <li><span class="material-icons">check_circle</span> Regular Updates</li>
+                <li><span class="material-icons">check_circle</span> User Reviews & Ratings</li>
+                <li><span class="material-icons">check_circle</span> Personalized Recommendations</li>
+            </ul>
+        </div>
+        
+        <div class="about-section">
+            <h2><span class="material-icons">trending_up</span> Our Growth</h2>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <h3>10K+</h3>
+                    <p>Apps</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1M+</h3>
+                    <p>Downloads</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500K+</h3>
+                    <p>Users</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2><span class="material-icons">contact_mail</span> Contact</h2>
+            <p>Have questions or suggestions? We'd love to hear from you!</p>
+            <p>Email: support@mega-store.com</p>
+        </div>
+    </main>
+    
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+</body>
+</html>

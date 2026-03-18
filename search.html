@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Search - MEGA STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #00c853;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        /* Search Bar */
+        .search-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 12px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-input-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: var(--background);
+            border-radius: 24px;
+            padding: 8px 16px;
+            gap: 12px;
+        }
+        
+        .search-input-wrapper .material-icons {
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            color: var(--text-primary);
+            outline: none;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .clear-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .clear-btn.visible {
+            opacity: 1;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 64px;
+            padding: 16px;
+        }
+        
+        /* Search Suggestions */
+        .suggestions-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .suggestion-chip {
+            padding: 8px 16px;
+            background: var(--surface);
+            border: 1px solid var(--divider);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .suggestion-chip:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Search Results */
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .result-item {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow-1);
+            display: flex;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .result-item:hover {
+            box-shadow: var(--shadow-2);
+        }
+        
+        .result-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .result-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .result-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .result-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .result-developer {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .result-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .result-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .result-meta .material-icons {
+            font-size: 14px;
+            color: #ffb300;
+        }
+        
+        /* Screenshots Preview */
+        .screenshots-preview {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .screenshots-preview::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .screenshot-thumb {
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .screenshot-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Toggle Screenshots */
+        .toggle-screenshots {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 8px 0;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .toggle-screenshots .material-icons {
+            font-size: 18px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state .material-icons {
+            font-size: 80px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item .material-icons {
+            font-size: 24px;
+        }
+        
+        .nav-item span:last-child {
+            font-size: 11px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Search Bar -->
+    <header class="search-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <div class="search-input-wrapper">
+            <span class="material-icons">search</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search apps..." autocomplete="off">
+            <button class="clear-btn" id="clearBtn" onclick="clearSearch()">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Suggestions -->
+        <div class="suggestions-section" id="suggestionsSection">
+            <h2 class="section-title">Popular Searches</h2>
+            <div class="suggestion-chips">
+                <button class="suggestion-chip" onclick="quickSearch('Games')">Games</button>
+                <button class="suggestion-chip" onclick="quickSearch('Editor')">Editor</button>
+                <button class="suggestion-chip" onclick="quickSearch('Social')">Social</button>
+                <button class="suggestion-chip" onclick="quickSearch('Music')">Music</button>
+                <button class="suggestion-chip" onclick="quickSearch('Video')">Video</button>
+                <button class="suggestion-chip" onclick="quickSearch('Productivity')">Productivity</button>
+            </div>
+        </div>
+        
+        <!-- Results -->
+        <div id="resultsContainer" style="display: none;">
+            <h2 class="section-title">Search Results</h2>
+            <div class="results-list" id="resultsList"></div>
+        </div>
+        
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState">
+            <span class="material-icons">search</span>
+            <h3>Search for apps</h3>
+            <p>Type to find your favorite apps</p>
+        </div>
+    </main>
+    
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <span class="material-icons">home</span>
+            <span>Home</span>
+        </a>
+        <a href="allapp.html" class="nav-item">
+            <span class="material-icons">apps</span>
+            <span>All Apps</span>
+        </a>
+        <a href="search.html" class="nav-item active">
+            <span class="material-icons">search</span>
+            <span>Search</span>
+        </a>
+        <a href="news.html" class="nav-item">
+            <span class="material-icons">newspaper</span>
+            <span>News</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <span class="material-icons">person</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
+            authDomain: "swb-project-92ac0.firebaseapp.com",
+            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
+            projectId: "swb-project-92ac0",
+            storageBucket: "swb-project-92ac0.firebasestorage.app",
+            messagingSenderId: "990131286731",
+            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
+            measurementId: "G-J8QE2NJY5W"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // State
+        let allApps = [];
+        let showScreenshots = {};
+        
+        // Check theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Load all apps
+        database.ref('apps').on('value', (snapshot) => {
+            const apps = snapshot.val();
+            if (apps) {
+                allApps = Object.entries(apps).map(([id, app]) => ({ id, ...app }));
+            }
+        });
+        
+        // Search input
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            clearBtn.classList.toggle('visible', query.length > 0);
+            
+            if (query.length > 0) {
+                performSearch(query);
+            } else {
+                showSuggestions();
+            }
+        });
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch(e.target.value.trim());
+            }
+        });
+        
+        function clearSearch() {
+            searchInput.value = '';
+            clearBtn.classList.remove('visible');
+            showSuggestions();
+            searchInput.focus();
+        }
+        
+        function quickSearch(term) {
+            searchInput.value = term;
+            clearBtn.classList.add('visible');
+            performSearch(term);
+        }
+        
+        function showSuggestions() {
+            document.getElementById('suggestionsSection').style.display = 'block';
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'block';
+            document.getElementById('emptyState').innerHTML = `
+                <span class="material-icons">search</span>
+                <h3>Search for apps</h3>
+                <p>Type to find your favorite apps</p>
+            `;
+        }
+        
+        function performSearch(query) {
+            if (!query) {
+                showSuggestions();
+                return;
+            }
+            
+            const lowerQuery = query.toLowerCase();
+            const results = allApps.filter(app => 
+                app.name?.toLowerCase().includes(lowerQuery) ||
+                app.developer?.toLowerCase().includes(lowerQuery) ||
+                app.category?.toLowerCase().includes(lowerQuery) ||
+                app.description?.toLowerCase().includes(lowerQuery)
+            );
+            
+            document.getElementById('suggestionsSection').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+            
+            const resultsList = document.getElementById('resultsList');
+            
+            if (results.length === 0) {
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('emptyState').innerHTML = `
+                    <span class="material-icons">search_off</span>
+                    <h3>No results found</h3>
+                    <p>Try different keywords</p>
+                `;
+                resultsList.innerHTML = '';
+                return;
+            }
+            
+            document.getElementById('emptyState').style.display = 'none';
+            
+            resultsList.innerHTML = results.map(app => `
+                <div class="result-item" onclick="openApp('${app.id}')">
+                    <div class="result-icon">
+                        <img src="${app.icon || 'https://via.placeholder.com/64'}" alt="${app.name}">
+                    </div>
+                    <div class="result-info">
+                        <div class="result-name">${app.name}</div>
+                        <div class="result-developer">${app.developer || 'Unknown'}</div>
+                        <div class="result-meta">
+                            <span><span class="material-icons">star</span>${app.rating || '0.0'}</span>
+                            <span><span class="material-icons">download</span>${formatNumber(app.downloads || 0)}</span>
+                            <span><span class="material-icons">favorite</span>${formatNumber(app.likes || 0)}</span>
+                        </div>
+                        ${app.screenshots ? `
+                            <div class="toggle-screenshots" onclick="toggleScreenshots(event, '${app.id}')">
+                                <span class="material-icons">${showScreenshots[app.id] ? 'expand_less' : 'expand_more'}</span>
+                                ${showScreenshots[app.id] ? 'Hide screenshots' : 'Show screenshots'}
+                            </div>
+                            ${showScreenshots[app.id] ? `
+                                <div class="screenshots-preview">
+                                    ${app.screenshots.slice(0, 3).map(url => `
+                                        <div class="screenshot-thumb">
+                                            <img src="${url}" alt="Screenshot">
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function toggleScreenshots(event, appId) {
+            event.stopPropagation();
+            showScreenshots[appId] = !showScreenshots[appId];
+            performSearch(searchInput.value.trim());
+        }
+        
+        function openApp(appId) {
+            window.location.href = `app-details.html?id=${appId}`;
+        }
+        
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num;
+        }
+        
+        // Focus search on load
+        window.addEventListener('load', () => {
+            searchInput.focus();
+        });
+    </script>
+</body>
+</html>

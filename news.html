@@ -2,158 +2,525 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>News - MEGA STORE</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #00c853;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        /* App Bar */
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 64px;
+            padding: 16px;
+        }
+        
+        /* News List */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .news-card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            transition: all 0.2s;
+        }
+        
+        .news-card:hover {
+            box-shadow: var(--shadow-2);
+        }
+        
+        .news-media {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+        }
+        
+        .news-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .news-media iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .news-video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+        }
+        
+        .news-video-overlay .material-icons {
+            font-size: 64px;
+            color: white;
+            opacity: 0.9;
+        }
+        
+        .news-content {
+            padding: 16px;
+        }
+        
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .news-date .material-icons {
+            font-size: 14px;
+        }
+        
+        .news-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .news-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .news-actions {
+            display: flex;
+            gap: 8px;
+            padding: 8px 16px 16px;
+        }
+        
+        .news-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .news-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .news-btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .news-btn-secondary {
+            background: var(--background);
+            color: var(--text-primary);
+        }
+        
+        .news-btn-secondary:hover {
+            background: var(--divider);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state .material-icons {
+            font-size: 80px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item .material-icons {
+            font-size: 24px;
+        }
+        
+        .nav-item span:last-child {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 800px;
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-body {
+            aspect-ratio: 16/9;
+        }
+        
+        .modal-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <a href="home.html" class="logo">
-            <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE">
-            <span>MEGA STORE</span>
-        </a>
-        <div class="header-actions">
-            <a href="search.html" class="icon-btn">
-                <i class="fas fa-search"></i>
-            </a>
-            <a href="profile.html" class="icon-btn">
-                <i class="fas fa-user"></i>
-            </a>
-        </div>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">News & Updates</h1>
     </header>
-
+    
     <!-- Main Content -->
     <main class="main-content">
-        <div class="section-header">
-            <h2 class="section-title">
-                <i class="fas fa-newspaper" style="color: var(--primary);"></i> Latest News
-            </h2>
-        </div>
-
-        <!-- News List -->
         <div class="news-list" id="newsList">
-            <div class="spinner"></div>
+            <div class="empty-state">
+                <span class="material-icons">hourglass_empty</span>
+                <h3>Loading news...</h3>
+            </div>
         </div>
     </main>
-
+    
+    <!-- Video Modal -->
+    <div class="modal-overlay" id="videoModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title">Video</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+    
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="home.html" class="nav-item">
-            <i class="fas fa-home"></i>
+            <span class="material-icons">home</span>
             <span>Home</span>
         </a>
         <a href="allapp.html" class="nav-item">
-            <i class="fas fa-th-large"></i>
-            <span>Apps</span>
+            <span class="material-icons">apps</span>
+            <span>All Apps</span>
+        </a>
+        <a href="search.html" class="nav-item">
+            <span class="material-icons">search</span>
+            <span>Search</span>
         </a>
         <a href="news.html" class="nav-item active">
-            <i class="fas fa-newspaper"></i>
+            <span class="material-icons">newspaper</span>
             <span>News</span>
         </a>
         <a href="profile.html" class="nav-item">
-            <i class="fas fa-user"></i>
+            <span class="material-icons">person</span>
             <span>Profile</span>
         </a>
     </nav>
-
-    <!-- Toast -->
-    <div id="toast" class="toast"></div>
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    <script src="../firebase-config.js"></script>
-    <script src="js/main.js"></script>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check login
-            const currentUser = localStorage.getItem('currentUser');
-            if (!currentUser) {
-                window.location.href = 'login-account.html?redirect=' + encodeURIComponent(window.location.href);
-                return;
-            }
-
-            // Apply saved theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-            }
-
-            loadNews();
-        });
-
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
+            authDomain: "swb-project-92ac0.firebaseapp.com",
+            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
+            projectId: "swb-project-92ac0",
+            storageBucket: "swb-project-92ac0.firebasestorage.app",
+            messagingSenderId: "990131286731",
+            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
+            measurementId: "G-J8QE2NJY5W"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // Check theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Load news
+        loadNews();
+        
         function loadNews() {
-            const newsList = document.getElementById('newsList');
-
-            db.ref('news').orderByChild('createdAt').limitToLast(20).once('value', (snapshot) => {
+            database.ref('news').orderByChild('date').on('value', (snapshot) => {
                 const news = snapshot.val();
+                const newsList = document.getElementById('newsList');
                 
                 if (!news) {
                     newsList.innerHTML = `
                         <div class="empty-state">
-                            <i class="fas fa-newspaper"></i>
-                            <h3>No News Yet</h3>
-                            <p>Check back later for updates!</p>
+                            <span class="material-icons">newspaper</span>
+                            <h3>No news available</h3>
+                            <p>Check back later for updates</p>
                         </div>
                     `;
                     return;
                 }
-
-                const newsArray = Object.entries(news).map(([id, item]) => ({ id, ...item }));
-                newsArray.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-                newsList.innerHTML = '';
-                newsArray.forEach(item => {
-                    newsList.innerHTML += createNewsCard(item);
-                });
+                
+                const newsArray = Object.entries(news)
+                    .map(([id, item]) => ({ id, ...item }))
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                newsList.innerHTML = newsArray.map(item => {
+                    const isVideo = item.mediaUrl && (item.mediaUrl.includes('youtube') || item.mediaUrl.includes('youtu.be'));
+                    const videoId = isVideo ? extractVideoId(item.mediaUrl) : null;
+                    
+                    return `
+                        <article class="news-card">
+                            ${isVideo ? `
+                                <div class="news-media" onclick="openVideo('${videoId}')">
+                                    <img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg" alt="${item.title}">
+                                    <div class="news-video-overlay">
+                                        <span class="material-icons">play_circle</span>
+                                    </div>
+                                </div>
+                            ` : item.mediaUrl ? `
+                                <div class="news-media">
+                                    <img src="${item.mediaUrl}" alt="${item.title}">
+                                </div>
+                            ` : ''}
+                            <div class="news-content">
+                                <div class="news-date">
+                                    <span class="material-icons">calendar_today</span>
+                                    ${formatDate(item.date)}
+                                </div>
+                                <h2 class="news-title">${item.title}</h2>
+                                <p class="news-description">${item.description}</p>
+                            </div>
+                            ${isVideo ? `
+                                <div class="news-actions">
+                                    <button class="news-btn news-btn-primary" onclick="openVideo('${videoId}')">
+                                        <span class="material-icons">play_arrow</span>
+                                        Watch Video
+                                    </button>
+                                    <button class="news-btn news-btn-secondary" onclick="shareNews('${item.id}')">
+                                        <span class="material-icons">share</span>
+                                        Share
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </article>
+                    `;
+                }).join('');
             });
         }
-
-        function createNewsCard(item) {
-            const date = item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'Recently';
-            
-            let mediaContent = '';
-            
-            if (item.videoUrl) {
-                // YouTube video
-                const videoId = extractYouTubeId(item.videoUrl);
-                if (videoId) {
-                    mediaContent = `
-                        <div class="news-video">
-                            <iframe src="https://www.youtube.com/embed/${videoId}" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    `;
-                }
-            } else if (item.image) {
-                mediaContent = `<img src="${item.image}" alt="${item.title}" class="news-image" loading="lazy">`;
-            }
-
-            return `
-                <div class="news-card fade-in">
-                    ${mediaContent}
-                    <div class="news-content">
-                        <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px;">
-                            <i class="fas fa-calendar"></i> ${date}
-                        </div>
-                        <h3 class="news-title">${item.title}</h3>
-                        <p class="news-desc">${item.description}</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        function extractYouTubeId(url) {
+        
+        function extractVideoId(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
+            return match && match[2].length === 11 ? match[2] : null;
+        }
+        
+        function openVideo(videoId) {
+            const modal = document.getElementById('videoModal');
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allowfullscreen></iframe>`;
+            modal.classList.add('active');
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('videoModal');
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = '';
+            modal.classList.remove('active');
+        }
+        
+        function shareNews(newsId) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'MEGA STORE News',
+                    url: window.location.href
+                });
+            } else {
+                alert('Link copied to clipboard!');
+            }
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
         }
     </script>
 </body>

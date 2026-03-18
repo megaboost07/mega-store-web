@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>App Details - MEGA STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #00c853;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            --shadow-3: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+        
+        /* App Bar */
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn, .share-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons, .share-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 64px;
+        }
+        
+        /* App Header */
+        .app-header {
+            background: var(--surface);
+            padding: 24px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .app-icon-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-2);
+            flex-shrink: 0;
+        }
+        
+        .app-icon-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .app-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .app-name-large {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .app-developer-large {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .app-rating-large {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .app-rating-large .material-icons {
+            font-size: 18px;
+            color: #ffb300;
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            background: var(--surface);
+            display: flex;
+            justify-content: space-around;
+            padding: 16px 24px;
+            border-top: 1px solid var(--divider);
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            background: var(--surface);
+            padding: 16px 24px;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: var(--background);
+            color: var(--text-primary);
+            border: 1px solid var(--divider);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--divider);
+        }
+        
+        .btn-liked {
+            background: #e53935;
+            color: white;
+        }
+        
+        /* Screenshots */
+        .screenshots-section {
+            background: var(--surface);
+            padding: 6px;
+            margin-top: 8px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .screenshots-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 8px;
+        }
+        
+        .screenshots-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .screenshot-item {
+            width: 200px;
+            height: 360px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .screenshot-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Description */
+        .description-section {
+            background: var(--surface);
+            padding: 24px;
+            margin-top: 8px;
+        }
+        
+        .description-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        
+        /* Rating Section */
+        .rating-section {
+            background: var(--surface);
+            padding: 24px;
+            margin-top: 8px;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        
+        .rating-stars .material-icons {
+            font-size: 40px;
+            color: var(--divider);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .rating-stars .material-icons.active {
+            color: #ffb300;
+        }
+        
+        .rating-stars .material-icons:hover,
+        .rating-stars .material-icons:hover ~ .material-icons {
+            color: #ffb300;
+        }
+        
+        /* Comments Section */
+        .comments-section {
+            background: var(--surface);
+            padding: 24px;
+            margin-top: 8px;
+        }
+        
+        .comment-input-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .comment-avatar .material-icons {
+            color: var(--text-secondary);
+        }
+        
+        .comment-input-area {
+            flex: 1;
+        }
+        
+        .comment-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--divider);
+            border-radius: 20px;
+            font-size: 14px;
+            background: var(--background);
+            color: var(--text-primary);
+            resize: none;
+            font-family: inherit;
+        }
+        
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .comment-submit {
+            margin-top: 8px;
+            padding: 8px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            float: right;
+        }
+        
+        .comment-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .comment-author {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .comment-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .comment-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .comment-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        
+        .comment-action {
+            font-size: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .comment-action:hover {
+            color: var(--primary);
+        }
+        
+        /* Download Bar */
+        .download-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            padding: 12px 24px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+        
+        .download-bar .btn {
+            flex: 1;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #323232;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 300;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 64px;
+            color: var(--text-secondary);
+        }
+        
+        .loading .material-icons {
+            font-size: 48px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">App Details</h1>
+        <button class="share-btn" onclick="shareApp()">
+            <span class="material-icons">share</span>
+        </button>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="loading">
+            <span class="material-icons">refresh</span>
+            <p>Loading...</p>
+        </div>
+    </main>
+    
+    <!-- Download Bar -->
+    <div class="download-bar" id="downloadBar" style="display: none;">
+        <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
+            <span class="material-icons">favorite</span>
+            <span id="likeText">Like</span>
+        </button>
+        <button class="btn btn-primary" onclick="downloadApp()">
+            <span class="material-icons">download</span>
+            Download
+        </button>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
+            authDomain: "swb-project-92ac0.firebaseapp.com",
+            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
+            projectId: "swb-project-92ac0",
+            storageBucket: "swb-project-92ac0.firebasestorage.app",
+            messagingSenderId: "990131286731",
+            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
+            measurementId: "G-J8QE2NJY5W"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // Get app ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const appId = urlParams.get('id');
+        
+        // State
+        let appData = null;
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let hasLiked = false;
+        let userRating = 0;
+        
+        // Check theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Load app data
+        if (appId) {
+            loadAppData();
+        } else {
+            document.getElementById('mainContent').innerHTML = `
+                <div class="loading">
+                    <span class="material-icons">error</span>
+                    <p>App not found</p>
+                </div>
+            `;
+        }
+        
+        function loadAppData() {
+            database.ref(`apps/${appId}`).once('value').then(snapshot => {
+                appData = snapshot.val();
+                if (appData) {
+                    renderAppDetails();
+                    incrementViews();
+                    checkUserActions();
+                } else {
+                    document.getElementById('mainContent').innerHTML = `
+                        <div class="loading">
+                            <span class="material-icons">error</span>
+                            <p>App not found</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+        
+        function renderAppDetails() {
+            const screenshots = appData.screenshots || [];
+            
+            document.getElementById('mainContent').innerHTML = `
+                <!-- App Header -->
+                <div class="app-header">
+                    <div class="app-icon-large">
+                        <img src="${appData.icon || 'https://via.placeholder.com/100'}" alt="${appData.name}">
+                    </div>
+                    <div class="app-info">
+                        <h1 class="app-name-large">${appData.name}</h1>
+                        <p class="app-developer-large">${appData.developer || 'Unknown Developer'}</p>
+                        <div class="app-rating-large">
+                            <span class="material-icons">star</span>
+                            <span>${appData.rating || '0.0'}</span>
+                            <span>(${formatNumber(appData.ratingsCount || 0)})</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats Bar -->
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-value">${formatNumber(appData.downloads || 0)}</div>
+                        <div class="stat-label">Downloads</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${appData.size || 'N/A'}</div>
+                        <div class="stat-label">Size</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatNumber(appData.views || 0)}</div>
+                        <div class="stat-label">Views</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${formatNumber(appData.likes || 0)}</div>
+                        <div class="stat-label">Likes</div>
+                    </div>
+                </div>
+                
+                <!-- Screenshots -->
+                ${screenshots.length > 0 ? `
+                    <div class="screenshots-section">
+                        <h2 class="section-title">Screenshots</h2>
+                        <div class="screenshots-scroll">
+                            ${screenshots.map(url => `
+                                <div class="screenshot-item">
+                                    <img src="${url}" alt="Screenshot">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <!-- Description -->
+                <div class="description-section">
+                    <h2 class="section-title">About this app</h2>
+                    <p class="description-text">${appData.description || 'No description available.'}</p>
+                </div>
+                
+                <!-- Rating -->
+                <div class="rating-section">
+                    <h2 class="section-title">Rate this app</h2>
+                    <div class="rating-stars" id="ratingStars">
+                        ${[1, 2, 3, 4, 5].map(i => `
+                            <span class="material-icons" onclick="rateApp(${i})">star</span>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <!-- Comments -->
+                <div class="comments-section">
+                    <h2 class="section-title">Comments</h2>
+                    <div class="comment-input-wrapper">
+                        <div class="comment-avatar">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="comment-input-area">
+                            <textarea class="comment-input" id="commentInput" placeholder="Write a comment..."></textarea>
+                            <button class="comment-submit" onclick="postComment()">Post</button>
+                        </div>
+                    </div>
+                    <div id="commentsList"></div>
+                </div>
+            `;
+            
+            document.getElementById('downloadBar').style.display = 'flex';
+            loadComments();
+        }
+        
+        function incrementViews() {
+            // One view per user account
+            if (!currentUser) return;
+            
+            const userViewRef = database.ref(`appViews/${appId}/${currentUser.id}`);
+            userViewRef.once('value').then(snapshot => {
+                if (!snapshot.val()) {
+                    // User hasn't viewed this app yet
+                    userViewRef.set(true);
+                    database.ref(`apps/${appId}/views`).transaction(current => (current || 0) + 1);
+                }
+            });
+        }
+        
+        function checkUserActions() {
+            if (!currentUser) return;
+            
+            // Check if liked
+            database.ref(`appLikes/${appId}/${currentUser.id}`).once('value').then(snapshot => {
+                hasLiked = snapshot.val() === true;
+                updateLikeButton();
+            });
+            
+            // Check rating
+            database.ref(`appRatings/${appId}/${currentUser.id}`).once('value').then(snapshot => {
+                userRating = snapshot.val() || 0;
+                updateRatingStars();
+            });
+        }
+        
+        function toggleLike() {
+            if (!currentUser) {
+                showToast('Please login to like');
+                return;
+            }
+            
+            const likeRef = database.ref(`appLikes/${appId}/${currentUser.id}`);
+            const likesCountRef = database.ref(`apps/${appId}/likes`);
+            
+            if (hasLiked) {
+                likeRef.remove();
+                likesCountRef.transaction(current => Math.max(0, (current || 0) - 1));
+                hasLiked = false;
+            } else {
+                likeRef.set(true);
+                likesCountRef.transaction(current => (current || 0) + 1);
+                hasLiked = true;
+            }
+            
+            updateLikeButton();
+        }
+        
+        function updateLikeButton() {
+            const btn = document.getElementById('likeBtn');
+            const text = document.getElementById('likeText');
+            if (hasLiked) {
+                btn.classList.add('btn-liked');
+                btn.classList.remove('btn-secondary');
+                text.textContent = 'Liked';
+            } else {
+                btn.classList.remove('btn-liked');
+                btn.classList.add('btn-secondary');
+                text.textContent = 'Like';
+            }
+        }
+        
+        function rateApp(rating) {
+            if (!currentUser) {
+                showToast('Please login to rate');
+                return;
+            }
+            
+            userRating = rating;
+            database.ref(`appRatings/${appId}/${currentUser.id}`).set(rating);
+            
+            // Update average rating
+            database.ref(`appRatings/${appId}`).once('value').then(snapshot => {
+                const ratings = snapshot.val() || {};
+                const values = Object.values(ratings);
+                const average = values.reduce((a, b) => a + b, 0) / values.length;
+                database.ref(`apps/${appId}`).update({
+                    rating: average.toFixed(1),
+                    ratingsCount: values.length
+                });
+            });
+            
+            updateRatingStars();
+            showToast('Rating submitted!');
+        }
+        
+        function updateRatingStars() {
+            const stars = document.querySelectorAll('#ratingStars .material-icons');
+            stars.forEach((star, index) => {
+                if (index < userRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        function downloadApp() {
+            if (!currentUser) {
+                showToast('Please login to download');
+                return;
+            }
+            
+            // Check if already downloaded
+            database.ref(`userDownloads/${currentUser.id}/${appId}`).once('value').then(snapshot => {
+                if (!snapshot.val()) {
+                    // Record download
+                    database.ref(`userDownloads/${currentUser.id}/${appId}`).set(true);
+                    database.ref(`apps/${appId}/downloads`).transaction(current => (current || 0) + 1);
+                    database.ref(`stats/totalDownloads`).transaction(current => (current || 0) + 1);
+                    database.ref(`users/${currentUser.id}/downloads`).transaction(current => (current || 0) + 1);
+                }
+                
+                // Open download link
+                if (appData.downloadLink) {
+                    window.open(appData.downloadLink, '_blank');
+                } else {
+                    showToast('Download link not available');
+                }
+            });
+        }
+        
+        function postComment() {
+            if (!currentUser) {
+                showToast('Please login to comment');
+                return;
+            }
+            
+            const text = document.getElementById('commentInput').value.trim();
+            if (!text) {
+                showToast('Please write a comment');
+                return;
+            }
+            
+            const commentRef = database.ref(`comments/${appId}`).push();
+            commentRef.set({
+                userId: currentUser.id,
+                userName: currentUser.name,
+                text: text,
+                timestamp: new Date().toISOString()
+            });
+            
+            document.getElementById('commentInput').value = '';
+            showToast('Comment posted!');
+        }
+        
+        function loadComments() {
+            database.ref(`comments/${appId}`).orderByChild('timestamp').on('value', snapshot => {
+                const comments = snapshot.val();
+                const container = document.getElementById('commentsList');
+                
+                if (!comments) {
+                    container.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No comments yet</p>';
+                    return;
+                }
+                
+                const commentsArray = Object.entries(comments)
+                    .map(([id, c]) => ({ id, ...c }))
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                container.innerHTML = commentsArray.map(comment => `
+                    <div class="comment-item">
+                        <div class="comment-avatar">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-header">
+                                <span class="comment-author">${comment.userName}</span>
+                                <span class="comment-date">${formatDate(comment.timestamp)}</span>
+                            </div>
+                            <p class="comment-text">${comment.text}</p>
+                            ${currentUser && currentUser.id === comment.userId ? `
+                                <div class="comment-actions">
+                                    <span class="comment-action" onclick="deleteComment('${comment.id}')">
+                                        <span class="material-icons">delete</span> Delete
+                                    </span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+        
+        function deleteComment(commentId) {
+            database.ref(`comments/${appId}/${commentId}`).remove();
+            showToast('Comment deleted');
+        }
+        
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: appData?.name || 'Check out this app',
+                    text: `Download ${appData?.name} from MEGA STORE`,
+                    url: window.location.href
+                });
+            } else {
+                // Copy to clipboard
+                navigator.clipboard.writeText(window.location.href);
+                showToast('Link copied to clipboard');
+            }
+        }
+        
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num;
+        }
+        
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
