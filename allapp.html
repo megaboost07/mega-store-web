@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Apps - MEGA STORE</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="home.html" class="logo">
+            <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE">
+            <span>MEGA STORE</span>
+        </a>
+        <div class="header-actions">
+            <a href="search.html" class="icon-btn">
+                <i class="fas fa-search"></i>
+            </a>
+            <a href="profile.html" class="icon-btn">
+                <i class="fas fa-user"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Category Tabs -->
+        <div class="category-tabs" style="display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px;">
+            <button class="tab-btn active" data-category="all" onclick="filterApps('all')">
+                <i class="fas fa-th-large"></i> All
+            </button>
+            <button class="tab-btn" data-category="new" onclick="filterApps('new')">
+                <i class="fas fa-clock"></i> New
+            </button>
+            <button class="tab-btn" data-category="trending" onclick="filterApps('trending')">
+                <i class="fas fa-fire"></i> Trending
+            </button>
+            <button class="tab-btn" data-category="liked" onclick="filterApps('liked')">
+                <i class="fas fa-heart"></i> Most Liked
+            </button>
+            <button class="tab-btn" data-category="editing" onclick="filterApps('editing')">
+                <i class="fas fa-edit"></i> Editing
+            </button>
+        </div>
+
+        <!-- Apps Grid -->
+        <div class="apps-grid" id="appsGrid">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Load More -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn btn-secondary" id="loadMoreBtn" onclick="loadMore()" style="width: auto; padding: 12px 40px; display: none;">
+                <i class="fas fa-spinner"></i> Load More
+            </button>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="allapp.html" class="nav-item active">
+            <i class="fas fa-th-large"></i>
+            <span>Apps</span>
+        </a>
+        <a href="news.html" class="nav-item">
+            <i class="fas fa-newspaper"></i>
+            <span>News</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="../firebase-config.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let currentCategory = 'all';
+        let allApps = [];
+        let displayedApps = 0;
+        const APPS_PER_LOAD = 12;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check login
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login-account.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+
+            // Check URL params for category
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            
+            if (category) {
+                currentCategory = category;
+                updateActiveTab(category);
+            }
+
+            loadApps();
+        });
+
+        function updateActiveTab(category) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === category);
+            });
+        }
+
+        function filterApps(category) {
+            currentCategory = category;
+            updateActiveTab(category);
+            displayedApps = 0;
+            loadApps();
+        }
+
+        function loadApps() {
+            const grid = document.getElementById('appsGrid');
+            grid.innerHTML = '<div class="spinner"></div>';
+
+            let query = db.ref('apps');
+
+            query.once('value', (snapshot) => {
+                const apps = snapshot.val();
+                
+                if (!apps) {
+                    grid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <i class="fas fa-box-open"></i>
+                            <h3>No Apps Found</h3>
+                            <p>Check back later for new apps!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                allApps = Object.entries(apps).map(([id, app]) => ({ id, ...app }));
+
+                // Filter by category
+                if (currentCategory !== 'all') {
+                    allApps = allApps.filter(app => app.category === currentCategory);
+                }
+
+                // Sort by createdAt (newest first)
+                allApps.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+                renderApps();
+            });
+        }
+
+        function renderApps() {
+            const grid = document.getElementById('appsGrid');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            
+            const appsToShow = allApps.slice(0, displayedApps + APPS_PER_LOAD);
+            
+            if (displayedApps === 0) {
+                grid.innerHTML = '';
+            }
+
+            appsToShow.slice(displayedApps).forEach(app => {
+                grid.innerHTML += createAppCard(app);
+            });
+
+            displayedApps = appsToShow.length;
+
+            // Show/hide load more button
+            loadMoreBtn.style.display = displayedApps < allApps.length ? 'inline-flex' : 'none';
+
+            // Show empty state if no apps
+            if (allApps.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No Apps Found</h3>
+                        <p>No apps in this category yet.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function loadMore() {
+            renderApps();
+        }
+
+        function createAppCard(app) {
+            const rating = app.rating || 0;
+            const downloads = formatNumber(app.downloads || 0);
+            
+            return `
+                <a href="download.html?id=${app.id}" class="app-card fade-in">
+                    <div class="app-icon">
+                        <img src="${app.icon}" alt="${app.name}" loading="lazy">
+                    </div>
+                    <div class="app-name">${app.name}</div>
+                    <div class="app-meta">
+                        <span class="app-rating">
+                            <i class="fas fa-star"></i> ${rating.toFixed(1)}
+                        </span>
+                        <span class="app-downloads">
+                            <i class="fas fa-download"></i> ${downloads}
+                        </span>
+                    </div>
+                </a>
+            `;
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+    </script>
+</body>
+</html>

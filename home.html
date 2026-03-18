@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - MEGA STORE</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="home.html" class="logo">
+            <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE">
+            <span>MEGA STORE</span>
+        </a>
+        <div class="header-actions">
+            <a href="search.html" class="icon-btn">
+                <i class="fas fa-search"></i>
+            </a>
+            <a href="profile.html" class="icon-btn">
+                <i class="fas fa-user"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Banner Slider -->
+        <div class="banner-slider" id="bannerSlider">
+            <div class="banner-container" id="bannerContainer">
+                <!-- Banners will be loaded dynamically -->
+            </div>
+            <div class="banner-dots" id="bannerDots"></div>
+        </div>
+
+        <!-- New Upload Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-clock" style="color: var(--primary-light);"></i> New Upload
+                </h2>
+                <a href="allapp.html?category=new" class="see-all">
+                    See All <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+            <div class="apps-scroll" id="newUploadSection">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- Trending Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-fire" style="color: #f59e0b;"></i> Trending
+                </h2>
+                <a href="allapp.html?category=trending" class="see-all">
+                    See All <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+            <div class="apps-scroll" id="trendingSection">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- Most Liked Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-heart" style="color: #ec4899;"></i> Most Liked
+                </h2>
+                <a href="allapp.html?category=liked" class="see-all">
+                    See All <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+            <div class="apps-scroll" id="mostLikedSection">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- Editing Apps Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-edit" style="color: #10b981;"></i> Editing Apps
+                </h2>
+                <a href="allapp.html?category=editing" class="see-all">
+                    See All <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+            <div class="apps-scroll" id="editingSection">
+                <div class="spinner"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="allapp.html" class="nav-item">
+            <i class="fas fa-th-large"></i>
+            <span>Apps</span>
+        </a>
+        <a href="news.html" class="nav-item">
+            <i class="fas fa-newspaper"></i>
+            <span>News</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="../firebase-config.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Check login status FIRST
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                // Not logged in, redirect to login with this page as redirect
+                window.location.href = 'login-account.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+
+            // Load all sections
+            loadBanners();
+            loadAppsByCategory('newUpload', 'newUploadSection');
+            loadAppsByCategory('trending', 'trendingSection');
+            loadAppsByCategory('mostLiked', 'mostLikedSection');
+            loadAppsByCategory('editing', 'editingSection');
+        });
+
+        // Load Banners
+        function loadBanners() {
+            const bannerContainer = document.getElementById('bannerContainer');
+            const bannerDots = document.getElementById('bannerDots');
+
+            db.ref('banners').once('value', (snapshot) => {
+                const banners = snapshot.val();
+                if (!banners) {
+                    // Default banners if none exist
+                    const defaultBanners = [
+                        {
+                            image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800',
+                            title: 'Discover Amazing Apps',
+                            link: 'allapp.html'
+                        },
+                        {
+                            image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800',
+                            title: 'Latest Updates',
+                            link: 'news.html'
+                        }
+                    ];
+                    renderBanners(defaultBanners);
+                    return;
+                }
+
+                const bannerList = Object.values(banners);
+                renderBanners(bannerList);
+            });
+
+            function renderBanners(bannerList) {
+                bannerContainer.innerHTML = '';
+                bannerDots.innerHTML = '';
+
+                bannerList.forEach((banner, index) => {
+                    // Create slide
+                    const slide = document.createElement('div');
+                    slide.className = 'banner-slide';
+                    slide.innerHTML = `
+                        <a href="${banner.link || '#'}">
+                            <img src="${banner.image}" alt="${banner.title}" loading="lazy">
+                            <div class="banner-content">
+                                <h2>${banner.title}</h2>
+                            </div>
+                        </a>
+                    `;
+                    bannerContainer.appendChild(slide);
+
+                    // Create dot
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                    dot.onclick = () => goToSlide(index);
+                    bannerDots.appendChild(dot);
+                });
+
+                // Start auto-slide
+                startAutoSlide(bannerList.length);
+            }
+        }
+
+        let currentSlide = 0;
+        let slideInterval;
+
+        function startAutoSlide(totalSlides) {
+            slideInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                goToSlide(currentSlide);
+            }, 5000);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            const container = document.getElementById('bannerContainer');
+            container.style.transform = `translateX(-${index * 100}%)`;
+
+            // Update dots
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Load Apps by Category
+        function loadAppsByCategory(category, containerId) {
+            const container = document.getElementById(containerId);
+            
+            db.ref('apps').orderByChild('category').equalTo(category).limitToLast(10).once('value', (snapshot) => {
+                const apps = snapshot.val();
+                
+                if (!apps) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="padding: 30px;">
+                            <i class="fas fa-box-open"></i>
+                            <p>No apps found</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const appList = Object.entries(apps).map(([id, app]) => ({ id, ...app }));
+                
+                // Sort by createdAt (newest first)
+                appList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+                container.innerHTML = '';
+                appList.forEach(app => {
+                    container.innerHTML += createAppCard(app);
+                });
+            });
+        }
+
+        // Create App Card HTML
+        function createAppCard(app) {
+            const rating = app.rating || 0;
+            const downloads = formatNumber(app.downloads || 0);
+            
+            return `
+                <a href="download.html?id=${app.id}" class="app-card fade-in">
+                    <div class="app-icon">
+                        <img src="${app.icon}" alt="${app.name}" loading="lazy">
+                    </div>
+                    <div class="app-name">${app.name}</div>
+                    <div class="app-meta">
+                        <span class="app-rating">
+                            <i class="fas fa-star"></i> ${rating.toFixed(1)}
+                        </span>
+                        <span class="app-downloads">
+                            <i class="fas fa-download"></i> ${downloads}
+                        </span>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Format Number
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+    </script>
+</body>
+</html>

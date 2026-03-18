@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - MEGA STORE</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="home.html" class="logo">
+            <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE">
+            <span>MEGA STORE</span>
+        </a>
+        <div class="header-actions">
+            <a href="profile.html" class="icon-btn">
+                <i class="fas fa-user"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Search Box -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search apps, games..." autocomplete="off">
+        </div>
+
+        <!-- Search Results -->
+        <div class="search-results" id="searchResults" style="display: none;">
+            <!-- Results will appear here -->
+        </div>
+
+        <!-- Recent Searches -->
+        <div id="recentSearches">
+            <h3 style="margin-bottom: 15px; color: var(--text-secondary); font-size: 1rem;">
+                <i class="fas fa-history"></i> Recent Searches
+            </h3>
+            <div id="recentTags"></div>
+        </div>
+
+        <!-- Popular Categories -->
+        <div id="popularCategories" style="margin-top: 30px;">
+            <h3 style="margin-bottom: 15px; color: var(--text-secondary); font-size: 1rem;">
+                <i class="fas fa-fire"></i> Popular Categories
+            </h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <a href="allapp.html?category=trending" class="category-tag">
+                    <i class="fas fa-fire"></i> Trending
+                </a>
+                <a href="allapp.html?category=new" class="category-tag">
+                    <i class="fas fa-clock"></i> New Uploads
+                </a>
+                <a href="allapp.html?category=liked" class="category-tag">
+                    <i class="fas fa-heart"></i> Most Liked
+                </a>
+                <a href="allapp.html?category=editing" class="category-tag">
+                    <i class="fas fa-edit"></i> Editing
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="../firebase-config.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let allApps = [];
+        let searchTimeout;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check login
+            const userData = localStorage.getItem('currentUser');
+            if (!userData) {
+                window.location.href = 'login-account.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+
+            // Load all apps from Firebase
+            loadAllApps();
+            loadRecentSearches();
+            
+            // Focus search input
+            document.getElementById('searchInput').focus();
+        });
+
+        // Load all apps for search
+        function loadAllApps() {
+            db.ref('apps').once('value', (snapshot) => {
+                const apps = snapshot.val();
+                if (apps) {
+                    allApps = Object.entries(apps).map(([id, app]) => ({ id, ...app }));
+                }
+            });
+        }
+
+        // Search input handler
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const query = e.target.value.trim().toLowerCase();
+            
+            clearTimeout(searchTimeout);
+            
+            if (query.length === 0) {
+                document.getElementById('searchResults').style.display = 'none';
+                document.getElementById('recentSearches').style.display = 'block';
+                document.getElementById('popularCategories').style.display = 'block';
+                return;
+            }
+
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        });
+
+        // Perform search
+        function performSearch(query) {
+            const results = allApps.filter(app => {
+                const nameMatch = app.name && app.name.toLowerCase().includes(query);
+                const devMatch = app.developer && app.developer.toLowerCase().includes(query);
+                const descMatch = app.description && app.description.toLowerCase().includes(query);
+                return nameMatch || devMatch || descMatch;
+            });
+
+            displayResults(results, query);
+            
+            // Save to recent searches
+            if (results.length > 0) {
+                saveRecentSearch(query);
+            }
+
+            // Show results, hide other sections
+            document.getElementById('searchResults').style.display = 'block';
+            document.getElementById('recentSearches').style.display = 'none';
+            document.getElementById('popularCategories').style.display = 'none';
+        }
+
+        // Display search results
+        function displayResults(results, query) {
+            const container = document.getElementById('searchResults');
+            
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No Results Found</h3>
+                        <p>No apps matching "${query}"</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                    Found ${results.length} result${results.length > 1 ? 's' : ''} for "${query}"
+                </p>
+                ${results.map(app => createSearchResult(app)).join('')}
+            `;
+        }
+
+        // Create search result item
+        function createSearchResult(app) {
+            const rating = app.rating || 0;
+            const downloads = formatNumber(app.downloads || 0);
+            
+            return `
+                <a href="download.html?id=${app.id}" class="search-item fade-in">
+                    <img src="${app.icon}" alt="${app.name}">
+                    <div class="search-item-info">
+                        <h4>${app.name}</h4>
+                        <p>${app.developer || 'Unknown Developer'} • 
+                           <i class="fas fa-star" style="color: #fbbf24;"></i> ${rating.toFixed(1)} • 
+                           <i class="fas fa-download"></i> ${downloads}
+                        </p>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: var(--text-secondary);"></i>
+                </a>
+            `;
+        }
+
+        // Save recent search
+        function saveRecentSearch(query) {
+            let recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+            recent = recent.filter(s => s !== query);
+            recent.unshift(query);
+            recent = recent.slice(0, 8);
+            localStorage.setItem('recentSearches', JSON.stringify(recent));
+        }
+
+        // Load recent searches
+        function loadRecentSearches() {
+            const recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+            const container = document.getElementById('recentTags');
+            
+            if (recent.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">No recent searches</p>';
+                return;
+            }
+
+            container.innerHTML = recent.map(search => `
+                <span class="recent-tag" onclick="quickSearch('${search}')">
+                    <i class="fas fa-history"></i> ${search}
+                </span>
+            `).join('');
+        }
+
+        // Quick search from recent
+        function quickSearch(query) {
+            document.getElementById('searchInput').value = query;
+            performSearch(query.toLowerCase());
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

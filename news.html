@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News - MEGA STORE</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="home.html" class="logo">
+            <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE">
+            <span>MEGA STORE</span>
+        </a>
+        <div class="header-actions">
+            <a href="search.html" class="icon-btn">
+                <i class="fas fa-search"></i>
+            </a>
+            <a href="profile.html" class="icon-btn">
+                <i class="fas fa-user"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-newspaper" style="color: var(--primary);"></i> Latest News
+            </h2>
+        </div>
+
+        <!-- News List -->
+        <div class="news-list" id="newsList">
+            <div class="spinner"></div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="allapp.html" class="nav-item">
+            <i class="fas fa-th-large"></i>
+            <span>Apps</span>
+        </a>
+        <a href="news.html" class="nav-item active">
+            <i class="fas fa-newspaper"></i>
+            <span>News</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="../firebase-config.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check login
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login-account.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+
+            loadNews();
+        });
+
+        function loadNews() {
+            const newsList = document.getElementById('newsList');
+
+            db.ref('news').orderByChild('createdAt').limitToLast(20).once('value', (snapshot) => {
+                const news = snapshot.val();
+                
+                if (!news) {
+                    newsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-newspaper"></i>
+                            <h3>No News Yet</h3>
+                            <p>Check back later for updates!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const newsArray = Object.entries(news).map(([id, item]) => ({ id, ...item }));
+                newsArray.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+                newsList.innerHTML = '';
+                newsArray.forEach(item => {
+                    newsList.innerHTML += createNewsCard(item);
+                });
+            });
+        }
+
+        function createNewsCard(item) {
+            const date = item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'Recently';
+            
+            let mediaContent = '';
+            
+            if (item.videoUrl) {
+                // YouTube video
+                const videoId = extractYouTubeId(item.videoUrl);
+                if (videoId) {
+                    mediaContent = `
+                        <div class="news-video">
+                            <iframe src="https://www.youtube.com/embed/${videoId}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    `;
+                }
+            } else if (item.image) {
+                mediaContent = `<img src="${item.image}" alt="${item.title}" class="news-image" loading="lazy">`;
+            }
+
+            return `
+                <div class="news-card fade-in">
+                    ${mediaContent}
+                    <div class="news-content">
+                        <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 8px;">
+                            <i class="fas fa-calendar"></i> ${date}
+                        </div>
+                        <h3 class="news-title">${item.title}</h3>
+                        <p class="news-desc">${item.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function extractYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+    </script>
+</body>
+</html>
