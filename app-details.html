@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <style>
         * {
             margin: 0;
@@ -20,21 +21,40 @@
             --primary-dark: #1557b0;
             --secondary: #00c853;
             --background: #f8f9fa;
-            --surface: #ffffff;
+            --surface: #f8f9fa;
             --text-primary: #202124;
             --text-secondary: #5f6368;
             --divider: #dadce0;
             --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
             --shadow-3: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+            --link-color: #1a73e8;
+            --link-bg: #e8f0fe;
+            --star-color: #ffb300;
+            --star-empty: #e0e0e0;
+            --highlight-bg: #fff8e1;
+
+            /* Comment / reply colors (default/light) */
+            --comment-bg: #ffffff;      /* comment card background */
+            --reply-bg: #f7f9fb;        /* reply bubble background */
+            --comment-text-color: var(--text-primary);
         }
         
         [data-theme="dark"] {
-            --background: #121212;
-            --surface: #1e1e1e;
+            --background: #0B121E;
+            --surface: #0B121E;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --divider: #333333;
+            --link-color: #8ab4f8;
+            --link-bg: #1a3a5c;
+            --star-empty: #424242;
+            --highlight-bg: #2d2a1e;
+
+            /* Comment / reply colors for dark theme */
+            --comment-bg: #0F1720;    /* darker card for comment */
+            --reply-bg: #151E28;      /* slightly different for reply bubble */
+            --comment-text-color: #E6EEF8;
         }
         
         body {
@@ -70,6 +90,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .back-btn:hover, .share-btn:hover {
+            background: rgba(0,0,0,0.05);
         }
         
         .back-btn .material-icons, .share-btn .material-icons {
@@ -200,6 +225,8 @@
         
         .btn-primary:hover {
             background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-2);
         }
         
         .btn-secondary {
@@ -220,7 +247,7 @@
         /* Screenshots */
         .screenshots-section {
             background: var(--surface);
-            padding: 6px;
+            padding: 10px;
             margin-top: 8px;
         }
         
@@ -228,6 +255,7 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 16px;
+            color: var(--text-primary);
         }
         
         .screenshots-scroll {
@@ -243,18 +271,142 @@
         }
         
         .screenshot-item {
-            width: 200px;
-            height: 360px;
+            height: 180px;
+            width: auto;
             border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
             box-shadow: var(--shadow-1);
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        
+        .screenshot-item:hover {
+            transform: scale(1.02);
         }
         
         .screenshot-item img {
+            height: 100%;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+        
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .lightbox.active .lightbox-img {
+            transform: scale(1);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 1001;
+            transition: background 0.2s;
+        }
+        
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .lightbox-close .material-icons {
+            font-size: 28px;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background 0.2s;
+            z-index: 1001;
+        }
+        
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .lightbox-nav.prev {
+            left: 20px;
+        }
+        
+        .lightbox-nav.next {
+            right: 20px;
+        }
+        
+        .lightbox-nav .material-icons {
+            font-size: 32px;
+        }
+        
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
         }
         
         /* Description */
@@ -268,121 +420,379 @@
             color: var(--text-secondary);
             line-height: 1.8;
             font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
         
-        /* Rating Section */
+        .description-text a {
+            color: var(--link-color);
+            text-decoration: none;
+            background: var(--link-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            word-break: break-all;
+            font-weight: 500;
+            display: inline-block;
+            margin: 2px 0;
+            transition: all 0.2s;
+        }
+        
+        .description-text a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+        
+        /* Play Store Style Rating Section */
         .rating-section {
             background: var(--surface);
             padding: 24px;
             margin-top: 8px;
         }
         
-        .rating-stars {
+        .rating-overview {
             display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin: 16px 0;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
         }
         
-        .rating-stars .material-icons {
-            font-size: 40px;
-            color: var(--divider);
+        .rating-big {
+            text-align: center;
+        }
+        
+        .rating-number {
+            font-size: 56px;
+            font-weight: 300;
+            line-height: 1;
+            color: var(--text-primary);
+        }
+        
+        .rating-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        .rating-bars {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .rating-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .bar-star {
+            font-size: 12px;
+            color: var(--text-secondary);
+            width: 10px;
+        }
+        
+        .bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--divider);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            background: var(--star-color);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Interactive Star Rating */
+        .user-rating-section {
+            border-top: 1px solid var(--divider);
+            padding-top: 24px;
+            margin-top: 24px;
+        }
+        
+        .user-rating-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .star-rating-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            position: relative;
+        }
+        
+        .star-btn {
+            background: none;
+            border: none;
             cursor: pointer;
+            padding: 4px;
+            transition: transform 0.2s;
+            position: relative;
+        }
+        
+        .star-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .star-btn .material-icons {
+            font-size: 40px;
+            color: var(--star-empty);
             transition: color 0.2s;
         }
         
-        .rating-stars .material-icons.active {
-            color: #ffb300;
+        .star-btn.active .material-icons {
+            color: var(--star-color);
         }
         
-        .rating-stars .material-icons:hover,
-        .rating-stars .material-icons:hover ~ .material-icons {
-            color: #ffb300;
+        .star-btn.half-active .material-icons {
+            background: linear-gradient(90deg, var(--star-color) 50%, var(--star-empty) 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        /* Comments Section */
+        .star-btn.animate {
+            animation: starPop 0.3s ease;
+        }
+        
+        @keyframes starPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+        
+        .rating-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            min-height: 20px;
+        }
+        
+        .rating-hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+        
+        /* Modern Comments Section */
         .comments-section {
             background: var(--surface);
             padding: 24px;
             margin-top: 8px;
         }
         
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .comments-count {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
         .comment-input-wrapper {
             display: flex;
             gap: 12px;
             margin-bottom: 24px;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .comment-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--background);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: var(--shadow-1);
         }
         
         .comment-avatar .material-icons {
-            color: var(--text-secondary);
+            color: white;
+            font-size: 20px;
         }
         
         .comment-input-area {
             flex: 1;
+            background: var(--background);
+            border-radius: 20px;
+            padding: 12px 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .comment-input-area:focus-within {
+            background: var(--surface);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--link-bg);
         }
         
         .comment-input {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--divider);
-            border-radius: 20px;
+            border: none;
+            background: transparent;
             font-size: 14px;
-            background: var(--background);
             color: var(--text-primary);
             resize: none;
             font-family: inherit;
-        }
-        
-        .comment-input:focus {
             outline: none;
-            border-color: var(--primary);
+            min-height: 20px;
         }
         
-        .comment-submit {
-            margin-top: 8px;
+        .comment-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .comment-actions-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--divider);
+        }
+        
+        .comment-btn {
             padding: 8px 20px;
+            border: none;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .comment-btn-cancel {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        
+        .comment-btn-cancel:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        .comment-btn-submit {
             background: var(--primary);
             color: white;
-            border: none;
-            border-radius: 16px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            float: right;
+            box-shadow: 0 2px 4px rgba(26,115,232,0.3);
+        }
+        
+        .comment-btn-submit:hover:not(:disabled) {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 8px rgba(26,115,232,0.4);
+            transform: translateY(-1px);
+        }
+        
+        .comment-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Comment Item - Modern Card Style */
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
         
         .comment-item {
             display: flex;
             gap: 12px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--divider);
+            padding: 16px;
+            background: var(--comment-bg);
+            border-radius: 16px;
+            transition: all 0.2s;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .comment-item:hover {
+            box-shadow: var(--shadow-1);
+            transform: translateY(-2px);
         }
         
         .comment-content {
             flex: 1;
+            min-width: 0;
         }
         
         .comment-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 8px;
         }
         
+        .comment-author-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
         .comment-author {
-            font-weight: 500;
+            font-weight: 600;
             font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .comment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--primary);
+            background: var(--link-bg);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            width: fit-content;
         }
         
         .comment-date {
@@ -392,14 +802,17 @@
         
         .comment-text {
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--comment-text-color);
             line-height: 1.6;
+            margin-bottom: 12px;
+            word-wrap: break-word;
         }
         
         .comment-actions {
             display: flex;
-            gap: 16px;
-            margin-top: 8px;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
         }
         
         .comment-action {
@@ -409,10 +822,270 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            transition: all 0.2s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: transparent;
+            border: none;
         }
         
         .comment-action:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--text-primary);
+        }
+        
+        .comment-action.active {
             color: var(--primary);
+            background: var(--link-bg);
+        }
+        
+        .comment-action .material-icons {
+            font-size: 16px;
+        }
+        
+        .comment-action.liked {
+            color: #e53935;
+        }
+        
+        /* Nested Replies System */
+        .replies-container {
+            margin-top: 12px;
+            margin-left: 52px;
+            position: relative;
+        }
+        
+        .replies-container::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--divider);
+            border-radius: 1px;
+        }
+        
+        .reply-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            position: relative;
+        }
+        
+        .reply-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 24px;
+            width: 20px;
+            height: 2px;
+            background: var(--divider);
+            border-radius: 1px;
+        }
+        
+        .reply-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .reply-avatar .material-icons {
+            font-size: 16px;
+            color: white;
+        }
+        
+        .reply-content {
+            flex: 1;
+            background: var(--reply-bg);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--divider);
+        }
+        
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .reply-author {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+        
+        .reply-to {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-left: 4px;
+        }
+        
+        .reply-to::before {
+            content: '•';
+            margin-right: 4px;
+            color: var(--divider);
+        }
+        
+        .reply-date {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        .reply-text {
+            font-size: 13px;
+            color: var(--comment-text-color);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .reply-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .reply-action {
+            font-size: 11px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        
+        .reply-action:hover {
+            background: var(--background);
+            color: var(--text-primary);
+        }
+        
+        /* Reply Input */
+        .reply-input-wrapper {
+            display: none;
+            gap: 12px;
+            margin-top: 12px;
+            margin-left: 52px;
+            animation: slideDown 0.3s ease;
+            position: relative;
+        }
+        
+        .reply-input-wrapper::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 20px;
+            width: 20px;
+            height: 2px;
+            background: var(--divider);
+        }
+        
+        .reply-input-wrapper.active {
+            display: flex;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .nested-reply-input {
+            margin-left: 44px;
+            margin-top: 8px;
+        }
+        
+        .nested-reply-input::before {
+            left: -28px;
+            width: 16px;
+        }
+        
+        /* View Replies Button */
+        .view-replies-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.2s;
+            margin-top: 8px;
+            margin-left: 52px;
+            width: fit-content;
+            background: var(--link-bg);
+            border: none;
+        }
+        
+        .view-replies-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .view-replies-btn .material-icons {
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        
+        .view-replies-btn.expanded .material-icons {
+            transform: rotate(180deg);
+        }
+        
+        .replies-list {
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .replies-list.active {
+            display: block;
+        }
+        
+        .reply-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 4px;
+            font-weight: 600;
+        }
+        
+        /* Nested Reply Level 2+ */
+        .nested-reply {
+            margin-left: 44px;
+        }
+        
+        .nested-reply::before {
+            left: -28px;
+            width: 16px;
+        }
+        
+        .nested-reply .reply-content {
+            background: var(--highlight-bg);
         }
         
         /* Download Bar */
@@ -447,6 +1120,7 @@
             opacity: 0;
             transition: all 0.3s;
             z-index: 300;
+            box-shadow: var(--shadow-2);
         }
         
         .toast.show {
@@ -470,6 +1144,93 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state .material-icons {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .lightbox-nav.prev {
+                left: 10px;
+            }
+            
+            .lightbox-nav.next {
+                right: 10px;
+            }
+            
+            .lightbox-nav .material-icons {
+                font-size: 24px;
+            }
+            
+            .replies-container {
+                margin-left: 0;
+            }
+            
+            .replies-container::before {
+                left: 20px;
+            }
+            
+            .reply-item::before {
+                left: -20px;
+                width: 12px;
+            }
+            
+            .reply-input-wrapper {
+                margin-left: 0;
+            }
+            
+            .reply-input-wrapper::before {
+                left: 20px;
+            }
+            
+            .view-replies-btn {
+                margin-left: 0;
+            }
+            
+            .nested-reply {
+                margin-left: 28px;
+            }
+            
+            .rating-overview {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .star-btn .material-icons {
+                font-size: 32px;
+            }
+        }
+        
+        /* Highlight animation for new comments */
+        @keyframes highlight {
+            0% { background: var(--highlight-bg); }
+            100% { background: var(--background); }
+        }
+        
+        .comment-item.new {
+            animation: highlight 2s ease;
+        }
     </style>
 </head>
 <body>
@@ -492,6 +1253,23 @@
         </div>
     </main>
     
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightbox()">
+            <span class="material-icons">close</span>
+        </button>
+        <button class="lightbox-nav prev" onclick="changeImage(-1)">
+            <span class="material-icons">chevron_left</span>
+        </button>
+        <div class="lightbox-content">
+            <img class="lightbox-img" id="lightboxImg" src="" alt="Screenshot">
+        </div>
+        <button class="lightbox-nav next" onclick="changeImage(1)">
+            <span class="material-icons">chevron_right</span>
+        </button>
+        <div class="lightbox-counter" id="lightboxCounter">1 / 5</div>
+    </div>
+    
     <!-- Download Bar -->
     <div class="download-bar" id="downloadBar" style="display: none;">
         <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
@@ -510,15 +1288,15 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
-            authDomain: "swb-project-92ac0.firebaseapp.com",
-            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
-            projectId: "swb-project-92ac0",
-            storageBucket: "swb-project-92ac0.firebasestorage.app",
-            messagingSenderId: "990131286731",
-            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
-            measurementId: "G-J8QE2NJY5W"
-        };
+           apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+           authDomain: "mega-store-2025.firebaseapp.com",
+           databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+           projectId: "mega-store-2025",
+           storageBucket: "mega-store-2025.firebasestorage.app",
+           messagingSenderId: "190838364165",
+           appId: "1:190838364165:web:43a969b7b852777061e46c",
+           measurementId: "G-CZR2N1HF9K"
+           };
         
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -532,6 +1310,20 @@
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let hasLiked = false;
         let userRating = 0;
+        let screenshots = [];
+        let currentImageIndex = 0;
+        let activeReplyInput = null;
+        let ratingDistribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+        
+        // Rating labels
+        const ratingLabels = {
+            0: 'Tap a star to rate',
+            1: 'Terrible',
+            2: 'Bad',
+            3: 'Okay',
+            4: 'Good',
+            5: 'Excellent'
+        };
         
         // Check theme
         const savedTheme = localStorage.getItem('theme') || 'light';
@@ -553,6 +1345,8 @@
             database.ref(`apps/${appId}`).once('value').then(snapshot => {
                 appData = snapshot.val();
                 if (appData) {
+                    screenshots = appData.screenshots || [];
+                    loadRatingDistribution();
                     renderAppDetails();
                     incrementViews();
                     checkUserActions();
@@ -567,8 +1361,52 @@
             });
         }
         
+        function loadRatingDistribution() {
+            database.ref(`appRatings/${appId}`).once('value').then(snapshot => {
+                const ratings = snapshot.val() || {};
+                ratingDistribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+                Object.values(ratings).forEach(rating => {
+                    if (rating >= 1 && rating <= 5) {
+                        ratingDistribution[Math.round(rating)]++;
+                    }
+                });
+                updateRatingBars();
+            });
+        }
+        
+        function linkifyText(text) {
+            if (!text) return '';
+            const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9._-]+\.[a-zA-Z]{2,}\/[^\s]*)/g;
+            return text.replace(urlPattern, function(url) {
+                let fullUrl = url;
+                if (!url.startsWith('http')) {
+                    fullUrl = 'https://' + url;
+                }
+                return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${url}</a>`;
+            });
+        }
+        
+        function getInitials(name) {
+            if (!name) return 'U';
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+        
         function renderAppDetails() {
-            const screenshots = appData.screenshots || [];
+            const screenshotsHtml = screenshots.length > 0 ? `
+                <div class="screenshots-section">
+                    <h2 class="section-title">Screenshots</h2>
+                    <div class="screenshots-scroll">
+                        ${screenshots.map((url, index) => `
+                            <div class="screenshot-item" onclick="openLightbox(${index})">
+                                <img src="${url}" alt="Screenshot ${index + 1}">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : '';
+            
+            const processedDescription = linkifyText(appData.description);
+            const userInitials = currentUser ? getInitials(currentUser.name) : 'U';
             
             document.getElementById('mainContent').innerHTML = `
                 <!-- App Header -->
@@ -608,63 +1446,256 @@
                 </div>
                 
                 <!-- Screenshots -->
-                ${screenshots.length > 0 ? `
-                    <div class="screenshots-section">
-                        <h2 class="section-title">Screenshots</h2>
-                        <div class="screenshots-scroll">
-                            ${screenshots.map(url => `
-                                <div class="screenshot-item">
-                                    <img src="${url}" alt="Screenshot">
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                ` : ''}
+                ${screenshotsHtml}
                 
                 <!-- Description -->
                 <div class="description-section">
                     <h2 class="section-title">About this app</h2>
-                    <p class="description-text">${appData.description || 'No description available.'}</p>
+                    <p class="description-text">${processedDescription || 'No description available.'}</p>
                 </div>
                 
-                <!-- Rating -->
+                <!-- Play Store Style Rating Section -->
                 <div class="rating-section">
-                    <h2 class="section-title">Rate this app</h2>
-                    <div class="rating-stars" id="ratingStars">
-                        ${[1, 2, 3, 4, 5].map(i => `
-                            <span class="material-icons" onclick="rateApp(${i})">star</span>
-                        `).join('')}
+                    <h2 class="section-title">Ratings & Reviews</h2>
+                    
+                    <div class="rating-overview">
+                        <div class="rating-big">
+                            <div class="rating-number">${appData.rating || '0.0'}</div>
+                            <div class="star-display">
+                                ${renderStaticStars(appData.rating || 0)}
+                            </div>
+                            <div class="rating-count">${formatNumber(appData.ratingsCount || 0)} reviews</div>
+                        </div>
+                        
+                        <div class="rating-bars" id="ratingBars">
+                            ${[5, 4, 3, 2, 1].map(star => `
+                                <div class="rating-bar-item">
+                                    <span class="bar-star">${star}</span>
+                                    <div class="bar-track">
+                                        <div class="bar-fill" id="bar-${star}" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="user-rating-section">
+                        <div class="user-rating-title">Rate this app</div>
+                        <div class="star-rating-container">
+                            <div class="star-rating" id="starRating">
+                                ${[1, 2, 3, 4, 5].map(i => `
+                                    <button class="star-btn" data-rating="${i}" onclick="rateApp(${i})" onmouseenter="hoverStar(${i})" onmouseleave="resetStar()">
+                                        <span class="material-icons">star</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+                            <div class="rating-label" id="ratingLabel">${ratingLabels[0]}</div>
+                            <div class="rating-hint">Your rating helps others find great apps</div>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Comments -->
+                <!-- Modern Comments Section -->
                 <div class="comments-section">
-                    <h2 class="section-title">Comments</h2>
+                    <div class="comments-header">
+                        <h2 class="section-title" style="margin: 0;">Comments</h2>
+                        <span class="comments-count" id="commentsCount">0 comments</span>
+                    </div>
+                    
                     <div class="comment-input-wrapper">
-                        <div class="comment-avatar">
-                            <span class="material-icons">person</span>
-                        </div>
-                        <div class="comment-input-area">
-                            <textarea class="comment-input" id="commentInput" placeholder="Write a comment..."></textarea>
-                            <button class="comment-submit" onclick="postComment()">Post</button>
+                        <div class="comment-avatar">${userInitials}</div>
+                        <div class="comment-input-area" style="flex: 1;">
+                            <textarea class="comment-input" id="commentInput" placeholder="Add a comment..." rows="1"></textarea>
+                            <div class="comment-actions-row" id="commentActions" style="display: none;">
+                                <button class="comment-btn comment-btn-cancel" onclick="cancelComment()">Cancel</button>
+                                <button class="comment-btn comment-btn-submit" onclick="postComment()" disabled>Comment</button>
+                            </div>
                         </div>
                     </div>
-                    <div id="commentsList"></div>
+                    
+                    <div class="comments-list" id="commentsList">
+                        <div class="empty-state">
+                            <span class="material-icons">chat_bubble_outline</span>
+                            <h3>No comments yet</h3>
+                            <p>Be the first to share your thoughts!</p>
+                        </div>
+                    </div>
                 </div>
             `;
             
+            // Add input event listeners
+            const commentInput = document.getElementById('commentInput');
+            if (commentInput) {
+                commentInput.addEventListener('focus', () => {
+                    document.getElementById('commentActions').style.display = 'flex';
+                    commentInput.rows = 3;
+                });
+                
+                commentInput.addEventListener('input', (e) => {
+                    const submitBtn = document.querySelector('.comment-btn-submit');
+                    if (submitBtn) {
+                        submitBtn.disabled = e.target.value.trim() === '';
+                    }
+                });
+            }
+            
             document.getElementById('downloadBar').style.display = 'flex';
+            updateRatingBars();
             loadComments();
         }
         
+        function renderStaticStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalf = rating % 1 >= 0.5;
+            let html = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    html += '<span class="material-icons" style="color: var(--star-color); font-size: 20px;">star</span>';
+                } else if (i === fullStars + 1 && hasHalf) {
+                    html += '<span class="material-icons" style="color: var(--star-color); font-size: 20px;">star_half</span>';
+                } else {
+                    html += '<span class="material-icons" style="color: var(--star-empty); font-size: 20px;">star_border</span>';
+                }
+            }
+            return html;
+        }
+        
+        function updateRatingBars() {
+            const total = Object.values(ratingDistribution).reduce((a, b) => a + b, 0);
+            if (total === 0) return;
+            
+            [5, 4, 3, 2, 1].forEach(star => {
+                const count = ratingDistribution[star];
+                const percentage = (count / total) * 100;
+                const bar = document.getElementById(`bar-${star}`);
+                if (bar) {
+                    setTimeout(() => {
+                        bar.style.width = percentage + '%';
+                    }, 100);
+                }
+            });
+        }
+        
+        function hoverStar(rating) {
+            const stars = document.querySelectorAll('.star-btn');
+            const label = document.getElementById('ratingLabel');
+            
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                    star.classList.add('animate');
+                    setTimeout(() => star.classList.remove('animate'), 300);
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+            
+            if (label) {
+                label.textContent = ratingLabels[rating];
+                label.style.color = 'var(--star-color)';
+            }
+        }
+        
+        function resetStar() {
+            const stars = document.querySelectorAll('.star-btn');
+            const label = document.getElementById('ratingLabel');
+            
+            stars.forEach((star, index) => {
+                if (index < userRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+            
+            if (label) {
+                label.textContent = ratingLabels[userRating] || ratingLabels[0];
+                label.style.color = 'var(--text-secondary)';
+            }
+        }
+        
+        function cancelComment() {
+            const commentInput = document.getElementById('commentInput');
+            const commentActions = document.getElementById('commentActions');
+            if (commentInput) {
+                commentInput.value = '';
+                commentInput.rows = 1;
+                commentInput.blur();
+            }
+            if (commentActions) {
+                commentActions.style.display = 'none';
+            }
+        }
+        
+        // Lightbox Functions
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightboxImg');
+            const counter = document.getElementById('lightboxCounter');
+            
+            img.src = screenshots[index];
+            counter.textContent = `${index + 1} / ${screenshots.length}`;
+            
+            lightbox.style.display = 'flex';
+            setTimeout(() => {
+                lightbox.classList.add('active');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox(event) {
+            if (event && event.target !== event.currentTarget && !event.target.closest('.lightbox-close')) {
+                return;
+            }
+            
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+        
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex < 0) {
+                currentImageIndex = screenshots.length - 1;
+            } else if (currentImageIndex >= screenshots.length) {
+                currentImageIndex = 0;
+            }
+            
+            const img = document.getElementById('lightboxImg');
+            const counter = document.getElementById('lightboxCounter');
+            
+            img.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                img.src = screenshots[currentImageIndex];
+                counter.textContent = `${currentImageIndex + 1} / ${screenshots.length}`;
+                img.style.opacity = '1';
+            }, 200);
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') changeImage(-1);
+                if (e.key === 'ArrowRight') changeImage(1);
+            }
+        });
+        
         function incrementViews() {
-            // One view per user account
             if (!currentUser) return;
             
             const userViewRef = database.ref(`appViews/${appId}/${currentUser.id}`);
             userViewRef.once('value').then(snapshot => {
                 if (!snapshot.val()) {
-                    // User hasn't viewed this app yet
                     userViewRef.set(true);
                     database.ref(`apps/${appId}/views`).transaction(current => (current || 0) + 1);
                 }
@@ -674,16 +1705,14 @@
         function checkUserActions() {
             if (!currentUser) return;
             
-            // Check if liked
             database.ref(`appLikes/${appId}/${currentUser.id}`).once('value').then(snapshot => {
                 hasLiked = snapshot.val() === true;
                 updateLikeButton();
             });
             
-            // Check rating
             database.ref(`appRatings/${appId}/${currentUser.id}`).once('value').then(snapshot => {
                 userRating = snapshot.val() || 0;
-                updateRatingStars();
+                resetStar();
             });
         }
         
@@ -732,7 +1761,15 @@
             userRating = rating;
             database.ref(`appRatings/${appId}/${currentUser.id}`).set(rating);
             
-            // Update average rating
+            // Animate stars
+            const stars = document.querySelectorAll('.star-btn');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('animate');
+                    setTimeout(() => star.classList.remove('animate'), 300);
+                }
+            });
+            
             database.ref(`appRatings/${appId}`).once('value').then(snapshot => {
                 const ratings = snapshot.val() || {};
                 const values = Object.values(ratings);
@@ -741,21 +1778,13 @@
                     rating: average.toFixed(1),
                     ratingsCount: values.length
                 });
+                
+                // Update distribution
+                loadRatingDistribution();
             });
             
-            updateRatingStars();
-            showToast('Rating submitted!');
-        }
-        
-        function updateRatingStars() {
-            const stars = document.querySelectorAll('#ratingStars .material-icons');
-            stars.forEach((star, index) => {
-                if (index < userRating) {
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                }
-            });
+            resetStar();
+            showToast(`Rated ${rating} stars!`);
         }
         
         function downloadApp() {
@@ -764,17 +1793,14 @@
                 return;
             }
             
-            // Check if already downloaded
             database.ref(`userDownloads/${currentUser.id}/${appId}`).once('value').then(snapshot => {
                 if (!snapshot.val()) {
-                    // Record download
                     database.ref(`userDownloads/${currentUser.id}/${appId}`).set(true);
                     database.ref(`apps/${appId}/downloads`).transaction(current => (current || 0) + 1);
                     database.ref(`stats/totalDownloads`).transaction(current => (current || 0) + 1);
                     database.ref(`users/${currentUser.id}/downloads`).transaction(current => (current || 0) + 1);
                 }
                 
-                // Open download link
                 if (appData.downloadLink) {
                     window.open(appData.downloadLink, '_blank');
                 } else {
@@ -800,20 +1826,219 @@
                 userId: currentUser.id,
                 userName: currentUser.name,
                 text: text,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                likes: {}
             });
             
             document.getElementById('commentInput').value = '';
+            cancelComment();
             showToast('Comment posted!');
+        }
+        
+        // Enhanced Reply System with Nested Replies
+        // BUGFIX: Improved container selection & insertion when replying to a reply (parentReplyId)
+        function toggleReplyInput(commentId, parentReplyId = null, replyToName = null) {
+            if (!currentUser) {
+                showToast('Please login to reply');
+                return;
+            }
+            
+            const inputId = parentReplyId ? `replyInput-${commentId}-${parentReplyId}` : `replyInput-${commentId}`;
+            const existingInput = document.getElementById(inputId);
+            
+            // Close any open reply input
+            if (activeReplyInput && activeReplyInput !== inputId) {
+                const prevInput = document.getElementById(activeReplyInput);
+                if (prevInput) {
+                    prevInput.classList.remove('active');
+                    prevInput.innerHTML = '';
+                    // Remove from DOM to avoid duplicates
+                    prevInput.remove();
+                }
+            }
+            
+            if (!existingInput) {
+                // Find proper insertion point
+                let inserted = false;
+                
+                // If replying to a specific reply (nested reply), insert right after that reply element
+                if (parentReplyId) {
+                    const parentReplyElem = document.getElementById(`reply-${parentReplyId}`);
+                    if (!parentReplyElem) {
+                        // fallback to the main comment content area
+                        console.warn('Parent reply element not found, falling back to comment content insertion.');
+                    } else {
+                        const replyDiv = createReplyInputDiv(inputId, replyToName);
+                        parentReplyElem.parentNode.insertBefore(replyDiv, parentReplyElem.nextSibling);
+                        replyDiv.classList.add('active');
+                        activeReplyInput = inputId;
+                        focusReplyInput(inputId);
+                        inserted = true;
+                    }
+                }
+                
+                // If not inserted above, append into the comment's reply-input-wrapper
+                if (!inserted) {
+                    const commentContent = document.querySelector(`#comment-${commentId} .comment-content`);
+                    if (!commentContent) return;
+                    
+                    const replyContainer = commentContent.querySelector('.reply-input-wrapper') || commentContent;
+                    const replyDiv = createReplyInputDiv(inputId, replyToName);
+                    replyContainer.appendChild(replyDiv);
+                    replyDiv.classList.add('active');
+                    activeReplyInput = inputId;
+                    focusReplyInput(inputId);
+                }
+            } else {
+                if (existingInput.classList.contains('active')) {
+                    existingInput.classList.remove('active');
+                    existingInput.remove();
+                    activeReplyInput = null;
+                } else {
+                    existingInput.classList.add('active');
+                    activeReplyInput = inputId;
+                    focusReplyInput(inputId);
+                }
+            }
+        }
+        
+        // Helper: create reply input element (keeps code DRY)
+        function createReplyInputDiv(inputId, replyToName) {
+            const replyDiv = document.createElement('div');
+            replyDiv.id = inputId;
+            replyDiv.className = inputId.includes('-') && inputId.split('-').length > 2 ? 'reply-input-wrapper nested-reply-input' : 'reply-input-wrapper';
+            
+            const userInitials = getInitials(currentUser.name);
+            const placeholder = replyToName ? `Reply to ${replyToName}...` : 'Add a reply...';
+            
+            replyDiv.innerHTML = `
+                <div class="reply-avatar">${userInitials}</div>
+                <div class="comment-input-area" style="flex: 1;">
+                    <textarea class="comment-input" id="replyText-${inputId}" placeholder="${placeholder}" rows="1" style="min-height: 36px; padding: 8px 12px;"></textarea>
+                    <div class="comment-actions-row" style="margin-top: 8px;">
+                        <button class="comment-btn comment-btn-cancel" onclick="cancelReply('${inputId}')">Cancel</button>
+                        <button class="comment-btn comment-btn-submit" id="replySubmit-${inputId}" onclick="postReply('${commentIdFromInputId(inputId)}', '${parentReplyIdFromInputId(inputId)}')" disabled>Reply</button>
+                    </div>
+                </div>
+            `;
+            
+            // Attach input listener (will be focused by caller)
+            setTimeout(() => {
+                const replyText = document.getElementById(`replyText-${inputId}`);
+                if (replyText) {
+                    replyText.addEventListener('input', (e) => {
+                        const submitBtn = document.getElementById(`replySubmit-${inputId}`);
+                        if (submitBtn) {
+                            submitBtn.disabled = e.target.value.trim() === '';
+                        }
+                    });
+                }
+            }, 50);
+            
+            return replyDiv;
+        }
+        
+        // Extract commentId from our inputId format
+        function commentIdFromInputId(inputId) {
+            // formats: replyInput-<commentId> or replyInput-<commentId>-<parentReplyId>
+            const parts = inputId.split('-');
+            // parts[1] is commentId (but if commentId contains hyphens this may break; this matches current id scheme)
+            return parts.slice(1, parts.length > 3 ? parts.length - 1 : 2).join('-') || '';
+        }
+        // Extract parentReplyId from inputId if present
+        function parentReplyIdFromInputId(inputId) {
+            const parts = inputId.split('-');
+            if (parts.length >= 4) {
+                return parts.slice(2).join('-');
+            }
+            return null;
+        }
+        
+        function focusReplyInput(inputId) {
+            const replyText = document.getElementById(`replyText-${inputId}`);
+            if (replyText) {
+                replyText.focus();
+            }
+        }
+        
+        function cancelReply(inputId) {
+            const replyInputDiv = document.getElementById(inputId);
+            if (replyInputDiv) {
+                replyInputDiv.classList.remove('active');
+                setTimeout(() => {
+                    replyInputDiv.remove();
+                }, 300);
+            }
+            activeReplyInput = null;
+        }
+        
+        function postReply(commentId, parentReplyId = null) {
+            if (!currentUser) return;
+            
+            const inputId = parentReplyId ? `replyInput-${commentId}-${parentReplyId}` : `replyInput-${commentId}`;
+            const textEl = document.getElementById(`replyText-${inputId}`);
+            if (!textEl) return;
+            const text = textEl.value.trim();
+            if (!text) return;
+            
+            const replyData = {
+                userId: currentUser.id,
+                userName: currentUser.name,
+                text: text,
+                timestamp: new Date().toISOString(),
+                likes: {},
+                parentReplyId: parentReplyId || null
+            };
+            
+            const replyRef = database.ref(`comments/${appId}/${commentId}/replies`).push();
+            replyRef.set(replyData).then(() => {
+                cancelReply(inputId);
+                showToast('Reply posted!');
+                
+                // Auto expand replies if hidden
+                const repliesList = document.getElementById(`repliesList-${commentId}`);
+                const viewBtn = document.getElementById(`viewRepliesBtn-${commentId}`);
+                if (repliesList && !repliesList.classList.contains('active')) {
+                    toggleReplies(commentId);
+                }
+            }).catch(err => {
+                console.error('Reply post failed', err);
+                showToast('Failed to post reply');
+            });
+        }
+        
+        function toggleReplies(commentId) {
+            const repliesList = document.getElementById(`repliesList-${commentId}`);
+            const viewBtn = document.getElementById(`viewRepliesBtn-${commentId}`);
+            
+            if (repliesList && viewBtn) {
+                if (repliesList.classList.contains('active')) {
+                    repliesList.classList.remove('active');
+                    viewBtn.classList.remove('expanded');
+                    viewBtn.innerHTML = viewBtn.innerHTML.replace('Hide', 'View').replace('expand_less', 'expand_more');
+                } else {
+                    repliesList.classList.add('active');
+                    viewBtn.classList.add('expanded');
+                    viewBtn.innerHTML = viewBtn.innerHTML.replace('View', 'Hide').replace('expand_more', 'expand_less');
+                }
+            }
         }
         
         function loadComments() {
             database.ref(`comments/${appId}`).orderByChild('timestamp').on('value', snapshot => {
                 const comments = snapshot.val();
                 const container = document.getElementById('commentsList');
+                const countElement = document.getElementById('commentsCount');
                 
                 if (!comments) {
-                    container.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No comments yet</p>';
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <span class="material-icons">chat_bubble_outline</span>
+                            <h3>No comments yet</h3>
+                            <p>Be the first to share your thoughts!</p>
+                        </div>
+                    `;
+                    if (countElement) countElement.textContent = '0 comments';
                     return;
                 }
                 
@@ -821,33 +2046,172 @@
                     .map(([id, c]) => ({ id, ...c }))
                     .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 
-                container.innerHTML = commentsArray.map(comment => `
-                    <div class="comment-item">
-                        <div class="comment-avatar">
-                            <span class="material-icons">person</span>
-                        </div>
-                        <div class="comment-content">
-                            <div class="comment-header">
-                                <span class="comment-author">${comment.userName}</span>
-                                <span class="comment-date">${formatDate(comment.timestamp)}</span>
+                if (countElement) {
+                    const totalReplies = commentsArray.reduce((acc, c) => acc + Object.keys(c.replies || {}).length, 0);
+                    const total = commentsArray.length + totalReplies;
+                    countElement.textContent = `${total} ${total === 1 ? 'comment' : 'comments'}`;
+                }
+                
+                container.innerHTML = commentsArray.map(comment => renderComment(comment)).join('');
+            });
+        }
+        
+        function renderComment(comment, isReply = false, parentId = null, level = 0) {
+            const commentInitials = getInitials(comment.userName);
+            const replies = comment.replies || {};
+            const repliesArray = Object.entries(replies)
+                .map(([id, r]) => ({ id, ...r }))
+                .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            
+            // Separate top-level replies and nested replies
+            const topLevelReplies = repliesArray.filter(r => !r.parentReplyId);
+            const nestedRepliesMap = {};
+            repliesArray.filter(r => r.parentReplyId).forEach(r => {
+                if (!nestedRepliesMap[r.parentReplyId]) nestedRepliesMap[r.parentReplyId] = [];
+                nestedRepliesMap[r.parentReplyId].push(r);
+            });
+            
+            const replyCount = repliesArray.length;
+            const hasReplies = replyCount > 0;
+            const isOwner = currentUser && currentUser.id === comment.userId;
+            
+            if (isReply) {
+                const nestedReplies = nestedRepliesMap[comment.id] || [];
+                
+                return `
+                    <div class="reply-item ${level > 0 ? 'nested-reply' : ''}" id="reply-${comment.id}">
+                        <div class="reply-avatar">${commentInitials}</div>
+                        <div class="reply-content">
+                            <div class="reply-header">
+                                <div>
+                                    <span class="reply-author">${comment.userName}</span>
+                                    ${comment.parentReplyName ? `<span class="reply-to">@${comment.parentReplyName}</span>` : ''}
+                                </div>
+                                <span class="reply-date">${formatDate(comment.timestamp)}</span>
                             </div>
-                            <p class="comment-text">${comment.text}</p>
-                            ${currentUser && currentUser.id === comment.userId ? `
-                                <div class="comment-actions">
-                                    <span class="comment-action" onclick="deleteComment('${comment.id}')">
-                                        <span class="material-icons">delete</span> Delete
-                                    </span>
+                            <p class="reply-text">${escapeHtml(comment.text)}</p>
+                            <div class="reply-actions" id="replyActions-${comment.id}">
+                                <button class="reply-action ${comment.likes && comment.likes[currentUser?.id] ? 'liked' : ''}" onclick="likeReply('${parentId}', '${comment.id}')">
+                                    <span class="material-icons" style="font-size: 14px;">thumb_up</span>
+                                    ${comment.likes && Object.keys(comment.likes).length > 0 ? Object.keys(comment.likes).length : 'Like'}
+                                </button>
+                                <button class="reply-action" onclick="toggleReplyInput('${parentId}', '${comment.id}', '${comment.userName}')">
+                                    Reply
+                                </button>
+                                ${isOwner ? `
+                                    <button class="reply-action" onclick="deleteReply('${parentId}', '${comment.id}')" style="color: #e53935;">
+                                        Delete
+                                    </button>
+                                ` : ''}
+                            </div>
+                            ${nestedReplies.length > 0 ? `
+                                <div style="margin-top: 12px; margin-left: -12px;">
+                                    ${nestedReplies.map(nr => renderComment({...nr, parentReplyName: comment.userName}, true, parentId, level + 1)).join('')}
                                 </div>
                             ` : ''}
                         </div>
                     </div>
-                `).join('');
+                `;
+            }
+            
+            let repliesHtml = '';
+            if (hasReplies) {
+                repliesHtml = `
+                    <button class="view-replies-btn" id="viewRepliesBtn-${comment.id}" onclick="toggleReplies('${comment.id}')">
+                        <span class="material-icons">expand_more</span>
+                        <span>${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}</span>
+                    </button>
+                    <div class="replies-list" id="repliesList-${comment.id}">
+                        <div class="replies-container">
+                            ${topLevelReplies.map(reply => renderComment(reply, true, comment.id, 0)).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="comment-item" id="comment-${comment.id}">
+                    <div class="comment-avatar">${commentInitials}</div>
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <div class="comment-author-info">
+                                <span class="comment-author">${comment.userName}</span>
+                                ${isOwner ? '<span class="comment-badge"><span class="material-icons" style="font-size: 10px;">edit</span> You</span>' : ''}
+                            </div>
+                            <span class="comment-date">${formatDate(comment.timestamp)}</span>
+                        </div>
+                        <p class="comment-text">${escapeHtml(comment.text)}</p>
+                        <div class="comment-actions">
+                            <button class="comment-action ${comment.likes && comment.likes[currentUser?.id] ? 'active liked' : ''}" onclick="likeComment('${comment.id}')">
+                                <span class="material-icons">thumb_up</span>
+                                <span>${comment.likes && Object.keys(comment.likes).length > 0 ? Object.keys(comment.likes).length : 'Like'}</span>
+                            </button>
+                            <button class="comment-action" onclick="toggleReplyInput('${comment.id}')">
+                                <span class="material-icons">reply</span>
+                                <span>Reply</span>
+                            </button>
+                            ${isOwner ? `
+                                <button class="comment-action" onclick="deleteComment('${comment.id}')" style="color: #e53935;">
+                                    <span class="material-icons">delete</span>
+                                    <span>Delete</span>
+                                </button>
+                            ` : ''}
+                        </div>
+                        <div class="reply-input-wrapper" id="replyInput-${comment.id}"></div>
+                        ${repliesHtml}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function likeComment(commentId) {
+            if (!currentUser) {
+                showToast('Please login to like');
+                return;
+            }
+            
+            const likeRef = database.ref(`comments/${appId}/${commentId}/likes/${currentUser.id}`);
+            likeRef.once('value').then(snapshot => {
+                if (snapshot.val()) {
+                    likeRef.remove();
+                } else {
+                    likeRef.set(true);
+                }
+            });
+        }
+        
+        function likeReply(commentId, replyId) {
+            if (!currentUser) {
+                showToast('Please login to like');
+                return;
+            }
+            
+            const likeRef = database.ref(`comments/${appId}/${commentId}/replies/${replyId}/likes/${currentUser.id}`);
+            likeRef.once('value').then(snapshot => {
+                if (snapshot.val()) {
+                    likeRef.remove();
+                } else {
+                    likeRef.set(true);
+                }
             });
         }
         
         function deleteComment(commentId) {
+            if (!confirm('Are you sure you want to delete this comment?')) return;
             database.ref(`comments/${appId}/${commentId}`).remove();
             showToast('Comment deleted');
+        }
+        
+        function deleteReply(commentId, replyId) {
+            if (!confirm('Are you sure you want to delete this reply?')) return;
+            database.ref(`comments/${appId}/${commentId}/replies/${replyId}`).remove();
+            showToast('Reply deleted');
         }
         
         function shareApp() {
@@ -858,7 +2222,6 @@
                     url: window.location.href
                 });
             } else {
-                // Copy to clipboard
                 navigator.clipboard.writeText(window.location.href);
                 showToast('Link copied to clipboard');
             }
@@ -872,11 +2235,31 @@
         
         function formatDate(timestamp) {
             const date = new Date(timestamp);
-            return date.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-            });
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) {
+                const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+                if (diffHours === 0) {
+                    const diffMinutes = Math.floor(diffTime / (1000 * 60));
+                    if (diffMinutes === 0) return 'Just now';
+                    return `${diffMinutes}m ago`;
+                }
+                return `${diffHours}h ago`;
+            } else if (diffDays === 1) {
+                return 'Yesterday';
+            } else if (diffDays < 7) {
+                return `${diffDays}d ago`;
+            } else if (diffDays < 30) {
+                return `${Math.floor(diffDays / 7)}w ago`;
+            } else {
+                return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+                });
+            }
         }
         
         function showToast(message) {

@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <style>
         * {
             margin: 0;
@@ -26,14 +27,18 @@
             --divider: #dadce0;
             --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            --link-color: #1a73e8;
+            --link-bg: #e8f0fe;
         }
         
         [data-theme="dark"] {
-            --background: #121212;
-            --surface: #1e1e1e;
+            --background: #0B121E;
+            --surface: #121A2A;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --divider: #333333;
+            --link-color: #8ab4f8;
+            --link-bg: #1a3a5c;
         }
         
         body {
@@ -113,12 +118,26 @@
             aspect-ratio: 16/9;
             background: #000;
             position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+        }
+        
+        [data-theme="dark"] .news-media {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
         .news-media img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.1);
+        }
+        
+        .news-media img.loaded {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .news-media iframe {
@@ -137,6 +156,7 @@
             align-items: center;
             justify-content: center;
             background: rgba(0,0,0,0.3);
+            z-index: 3;
         }
         
         .news-video-overlay .material-icons {
@@ -170,14 +190,84 @@
             line-height: 1.4;
         }
         
+        /* UPDATED: Full description visible, no clamping */
         .news-description {
             font-size: 14px;
             color: var(--text-secondary);
             line-height: 1.6;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        /* NEW: Link styling in description */
+        .news-description a {
+            color: var(--link-color);
+            text-decoration: none;
+            background: var(--link-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            word-break: break-all;
+            font-weight: 500;
+            display: inline-block;
+            margin: 2px 0;
+            transition: all 0.2s;
+        }
+        
+        .news-description a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+        
+        /* NEW: Links section styling */
+        .links-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--divider);
+        }
+        
+        .links-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .links-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--link-bg);
+            color: var(--link-color);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            max-width: 100%;
             overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .external-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .external-link .material-icons {
+            font-size: 14px;
         }
         
         .news-actions {
@@ -338,6 +428,51 @@
             height: 100%;
             border: none;
         }
+        
+        /* Progressive Image Loading Styles */
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+        
+        .progressive-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .img-skeleton {
+            background: linear-gradient(90deg, 
+                var(--background) 25%, 
+                var(--surface) 50%, 
+                var(--background) 75%
+            );
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .placeholder-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: var(--text-secondary);
+            opacity: 0.3;
+            z-index: 2;
+        }
+        
+        .progressive-image-wrapper img {
+            position: relative;
+            z-index: 2;
+        }
     </style>
 </head>
 <body>
@@ -399,15 +534,15 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
-            authDomain: "swb-project-92ac0.firebaseapp.com",
-            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
-            projectId: "swb-project-92ac0",
-            storageBucket: "swb-project-92ac0.firebasestorage.app",
-            messagingSenderId: "990131286731",
-            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
-            measurementId: "G-J8QE2NJY5W"
-        };
+           apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+           authDomain: "mega-store-2025.firebaseapp.com",
+           databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+           projectId: "mega-store-2025",
+           storageBucket: "mega-store-2025.firebasestorage.app",
+           messagingSenderId: "190838364165",
+           appId: "1:190838364165:web:43a969b7b852777061e46c",
+           measurementId: "G-CZR2N1HF9K"
+           };
         
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -416,10 +551,121 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         
+        // Progressive Image Loading Variables
+        let imageObserver;
+        
+        // Initialize Progressive Image Loading
+        function initImageObserver() {
+            const options = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            };
+            
+            imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadImage(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+        }
+        
+        function loadImage(imgContainer) {
+            const img = imgContainer.querySelector('img');
+            const skeleton = imgContainer.querySelector('.img-skeleton');
+            const placeholder = imgContainer.querySelector('.placeholder-icon');
+            
+            if (!img || !img.dataset.src) return;
+            
+            const tempImage = new Image();
+            
+            tempImage.onload = function() {
+                img.src = tempImage.src;
+                img.classList.add('loaded');
+                
+                // Remove skeleton and placeholder with fade out
+                if (skeleton) {
+                    skeleton.style.opacity = '0';
+                    skeleton.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => skeleton.remove(), 300);
+                }
+                
+                if (placeholder) {
+                    placeholder.style.opacity = '0';
+                    placeholder.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => placeholder.remove(), 300);
+                }
+            };
+            
+            tempImage.onerror = function() {
+                // Show error state or keep placeholder
+                if (placeholder) {
+                    placeholder.textContent = 'broken_image';
+                    placeholder.style.opacity = '0.5';
+                }
+                if (skeleton) skeleton.remove();
+            };
+            
+            // Start loading
+            tempImage.src = img.dataset.src;
+        }
+        
+        // Create Progressive Image HTML
+        function createProgressiveImage(src, alt) {
+            return `
+                <div class="progressive-image-wrapper">
+                    <div class="img-skeleton"></div>
+                    <span class="material-icons placeholder-icon">image</span>
+                    <img data-src="${src}" 
+                         alt="${alt}" 
+                         loading="lazy"
+                         onerror="this.src='https://via.placeholder.com/800x450/333/666?text=Image+Error'">
+                </div>
+            `;
+        }
+        
+        // NEW: Function to detect and convert URLs to clickable links
+        function linkifyText(text) {
+            if (!text) return '';
+            
+            // URL regex pattern
+            const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9._-]+\.[a-zA-Z]{2,}\/[^\s]*)/g;
+            
+            // Replace URLs with anchor tags
+            return text.replace(urlPattern, function(url) {
+                let fullUrl = url;
+                if (!url.startsWith('http')) {
+                    fullUrl = 'https://' + url;
+                }
+                return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+        
+        // NEW: Extract links from text for separate display
+        function extractLinks(text) {
+            if (!text) return [];
+            
+            const urlPattern = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9._-]+\.[a-zA-Z]{2,}\/[^\s]*)/g;
+            const matches = text.match(urlPattern) || [];
+            
+            return matches.map(url => {
+                let fullUrl = url;
+                if (!url.startsWith('http')) {
+                    fullUrl = 'https://' + url;
+                }
+                return { text: url, url: fullUrl };
+            });
+        }
+        
         // Load news
         loadNews();
         
         function loadNews() {
+            // Initialize observer first
+            initImageObserver();
+            
             database.ref('news').orderByChild('date').on('value', (snapshot) => {
                 const news = snapshot.val();
                 const newsList = document.getElementById('newsList');
@@ -442,19 +688,47 @@
                 newsList.innerHTML = newsArray.map(item => {
                     const isVideo = item.mediaUrl && (item.mediaUrl.includes('youtube') || item.mediaUrl.includes('youtu.be'));
                     const videoId = isVideo ? extractVideoId(item.mediaUrl) : null;
+                    const imageUrl = isVideo ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : item.mediaUrl;
+                    
+                    // Process description - convert links to clickable
+                    const processedDescription = linkifyText(item.description);
+                    
+                    // Extract links for separate display at top
+                    const extractedLinks = extractLinks(item.description);
+                    
+                    // Create links section HTML if links exist
+                    let linksSectionHtml = '';
+                    if (extractedLinks.length > 0) {
+                        linksSectionHtml = `
+                            <div class="links-section">
+                                <div class="links-label">
+                                    <span class="material-icons">link</span>
+                                    Links (${extractedLinks.length})
+                                </div>
+                                <div class="links-container">
+                                    ${extractedLinks.map(link => `
+                                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="external-link">
+                                            <span class="material-icons">open_in_new</span>
+                                            ${link.text.length > 30 ? link.text.substring(0, 30) + '...' : link.text}
+                                        </a>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
                     
                     return `
                         <article class="news-card">
                             ${isVideo ? `
                                 <div class="news-media" onclick="openVideo('${videoId}')">
-                                    <img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg" alt="${item.title}">
+                                    ${createProgressiveImage(imageUrl, item.title)}
                                     <div class="news-video-overlay">
                                         <span class="material-icons">play_circle</span>
                                     </div>
                                 </div>
                             ` : item.mediaUrl ? `
                                 <div class="news-media">
-                                    <img src="${item.mediaUrl}" alt="${item.title}">
+                                    ${createProgressiveImage(imageUrl, item.title)}
                                 </div>
                             ` : ''}
                             <div class="news-content">
@@ -463,7 +737,12 @@
                                     ${formatDate(item.date)}
                                 </div>
                                 <h2 class="news-title">${item.title}</h2>
-                                <p class="news-description">${item.description}</p>
+                                
+                                <!-- Links shown first if available -->
+                                ${linksSectionHtml}
+                                
+                                <!-- Full description with clickable links -->
+                                <div class="news-description">${processedDescription}</div>
                             </div>
                             ${isVideo ? `
                                 <div class="news-actions">
@@ -480,6 +759,13 @@
                         </article>
                     `;
                 }).join('');
+                
+                // Observe all new images
+                setTimeout(() => {
+                    document.querySelectorAll('.progressive-image-wrapper').forEach(wrapper => {
+                        imageObserver.observe(wrapper);
+                    });
+                }, 100);
             });
         }
         
@@ -522,6 +808,16 @@
                 day: 'numeric'
             });
         }
+        
+        // Preload images for visible viewport on initial load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.progressive-image-wrapper').forEach((wrapper, index) => {
+                if (index < 2) { // Load first 2 images immediately
+                    loadImage(wrapper);
+                    imageObserver.unobserve(wrapper);
+                }
+            });
+        });
     </script>
 </body>
 </html>

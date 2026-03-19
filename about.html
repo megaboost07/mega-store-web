@@ -6,39 +6,47 @@
     <title>About Us - MEGA STORE</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --primary: #1a73e8;
             --primary-dark: #1557b0;
+            --primary-light: #e8f0fe;
             --background: #f8f9fa;
             --surface: #ffffff;
             --text-primary: #202124;
             --text-secondary: #5f6368;
             --divider: #dadce0;
             --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --accent-green: #34a853;
+            --accent-orange: #fbbc04;
+            --accent-red: #ea4335;
         }
-        
+
         [data-theme="dark"] {
-            --background: #121212;
-            --surface: #1e1e1e;
+            --background: #0B121E;
+            --surface: #121A2A;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --divider: #333333;
+            --primary-light: #1a2332;
         }
-        
+
         body {
             font-family: 'Roboto', sans-serif;
             background: var(--background);
             color: var(--text-primary);
             min-height: 100vh;
+            line-height: 1.6;
         }
-        
+
         .app-bar {
             position: fixed;
             top: 0;
@@ -52,7 +60,7 @@
             box-shadow: var(--shadow-1);
             z-index: 100;
         }
-        
+
         .back-btn {
             width: 40px;
             height: 40px;
@@ -63,117 +71,611 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background 0.3s;
         }
-        
+
+        .back-btn:hover {
+            background: var(--primary-light);
+        }
+
         .back-btn .material-icons {
             font-size: 24px;
             color: var(--text-primary);
         }
-        
+
         .app-title {
             flex: 1;
             font-size: 20px;
             font-weight: 600;
             margin-left: 16px;
         }
-        
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-light);
+        }
+
         .main-content {
             margin-top: 64px;
             padding: 24px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        
-        .about-header {
+
+        .about-hero {
             text-align: center;
-            padding: 32px 0;
-        }
-        
-        .about-logo {
-            width: 100px;
-            height: 100px;
+            padding: 48px 24px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             border-radius: 24px;
+            color: white;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .about-logo {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 24px;
-            box-shadow: var(--shadow-1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
         }
-        
-        .about-logo .material-icons {
-            font-size: 60px;
-            color: white;
+
+        .about-logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
         }
-        
-        .about-header h1 {
-            font-size: 28px;
+
+        .about-hero h1 {
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
         }
-        
-        .about-header p {
-            color: var(--text-secondary);
-            font-size: 16px;
+
+        .about-hero .tagline {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
         }
-        
-        .about-section {
+
+        .about-hero .version {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-card {
             background: var(--surface);
             border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
             box-shadow: var(--shadow-1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        
-        .about-section h2 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 16px;
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2);
+        }
+
+        .section-header {
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--divider);
         }
-        
-        .about-section h2 .material-icons {
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-icon .material-icons {
             color: var(--primary);
+            font-size: 28px;
         }
-        
-        .about-section p {
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-content p {
             color: var(--text-secondary);
             line-height: 1.8;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
         }
-        
-        .feature-list {
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--background);
+            border-radius: 12px;
+            transition: background 0.3s;
+        }
+
+        .feature-item:hover {
+            background: var(--primary-light);
+        }
+
+        .feature-icon {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .feature-text h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .feature-text p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--surface) 100%);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            border: 2px solid var(--divider);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .stat-status {
+            font-size: 12px;
+            color: var(--accent-green);
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin-top: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--divider);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--surface);
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .timeline-item.current::before {
+            background: var(--accent-green);
+            box-shadow: 0 0 0 3px var(--accent-green);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 3px var(--accent-green), 0 0 0 6px rgba(52, 168, 83, 0.3); }
+            50% { box-shadow: 0 0 0 3px var(--accent-green), 0 0 0 10px rgba(52, 168, 83, 0.1); }
+        }
+
+        .timeline-year {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .timeline-item.current .timeline-year {
+            color: var(--accent-green);
+        }
+
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .timeline-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .value-list {
             list-style: none;
+            margin-top: 16px;
         }
-        
-        .feature-list li {
+
+        .value-list li {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 12px 0;
-            color: var(--text-secondary);
+            border-bottom: 1px solid var(--divider);
         }
-        
-        .feature-list li .material-icons {
-            color: var(--primary);
+
+        .value-list li:last-child {
+            border-bottom: none;
         }
-        
-        .stats-row {
+
+        .value-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .value-icon.security { background: #e8f5e9; color: var(--accent-green); }
+        .value-icon.quality { background: #e3f2fd; color: var(--primary); }
+        .value-icon.community { background: #fce4ec; color: #e91e63; }
+        .value-icon.innovation { background: #fff3e0; color: var(--accent-orange); }
+
+        .contact-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
-            text-align: center;
+            margin-top: 20px;
         }
-        
-        .stat-item h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--background);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s;
         }
-        
-        .stat-item p {
-            font-size: 12px;
+
+        .contact-item:hover {
+            background: var(--primary-light);
+            transform: translateX(4px);
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .contact-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .contact-info p {
+            font-size: 13px;
             color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 20px;
+            background: var(--background);
+            border-radius: 16px;
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-4px);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .team-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .team-role {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .testimonial {
+            background: var(--background);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 60px;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .author-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .author-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            color: white;
+            margin-top: 32px;
+        }
+
+        .cta-section h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .cta-section p {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .footer-note {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(52, 168, 83, 0.1);
+            color: var(--accent-green);
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 16px;
+            }
+
+            .about-hero h1 {
+                font-size: 28px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -183,62 +685,381 @@
             <span class="material-icons">arrow_back</span>
         </button>
         <h1 class="app-title">About Us</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span class="material-icons" id="themeIcon">dark_mode</span>
+        </button>
     </header>
-    
+
     <main class="main-content">
-        <div class="about-header">
+        <!-- Hero Section -->
+        <div class="about-hero">
             <div class="about-logo">
-                <span class="material-icons">apps</span>
+                <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE Logo">
             </div>
             <h1>MEGA STORE</h1>
-            <p>Your Ultimate App Destination</p>
+            <p class="tagline">Your Ultimate App Destination - Discover, Download, Delight</p>
+            <span class="version">Est. March 2026 <span class="status-badge">Just Launched</span></span>
         </div>
-        
-        <div class="about-section">
-            <h2><span class="material-icons">info</span> Who We Are</h2>
-            <p>MEGA STORE is a premium app store platform designed to provide users with a curated collection of high-quality applications. We believe in making app discovery simple, secure, and enjoyable.</p>
-            <p>Our platform connects developers with users, offering a seamless experience for downloading and managing applications across various categories.</p>
-        </div>
-        
-        <div class="about-section">
-            <h2><span class="material-icons">star</span> Key Features</h2>
-            <ul class="feature-list">
-                <li><span class="material-icons">check_circle</span> Curated Premium Apps</li>
-                <li><span class="material-icons">check_circle</span> Fast & Secure Downloads</li>
-                <li><span class="material-icons">check_circle</span> Regular Updates</li>
-                <li><span class="material-icons">check_circle</span> User Reviews & Ratings</li>
-                <li><span class="material-icons">check_circle</span> Personalized Recommendations</li>
-            </ul>
-        </div>
-        
-        <div class="about-section">
-            <h2><span class="material-icons">trending_up</span> Our Growth</h2>
-            <div class="stats-row">
-                <div class="stat-item">
-                    <h3>10K+</h3>
-                    <p>Apps</p>
+
+        <!-- Who We Are Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">info</span>
                 </div>
-                <div class="stat-item">
-                    <h3>1M+</h3>
-                    <p>Downloads</p>
+                <h2 class="section-title">Who We Are</h2>
+            </div>
+            <div class="section-content">
+                <p>MEGA STORE is a brand new app store platform launched in March 2026 with a clear mission: to create a simpler, safer, and more enjoyable way for users to discover and download applications. We are a fresh startup founded by a passionate team of developers and designers who believe the app discovery experience needs to be reimagined.</p>
+
+                <p>Unlike established platforms that have become cluttered and overwhelming, MEGA STORE starts with a clean slate. We are building from the ground up with modern principles: quality over quantity, user privacy by default, and genuine developer relationships.</p>
+
+                <div class="highlight-box">
+                    <p>"We are just getting started. Every download, every review, every suggestion helps us build the app store we all deserve."</p>
                 </div>
-                <div class="stat-item">
-                    <h3>500K+</h3>
-                    <p>Users</p>
+
+                <p>As a new platform, we are carefully curating our initial catalog to ensure every app meets our standards. We are starting small but thinking big—focusing on building trust with our first users rather than chasing numbers.</p>
+            </div>
+        </div>
+
+        <!-- Our Journey Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">timeline</span>
+                </div>
+                <h2 class="section-title">Our Journey</h2>
+            </div>
+            <div class="section-content">
+                <p>MEGA STORE's story begins in 2026. We are documenting our progress from day one, sharing both our achievements and challenges transparently with our community.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item current">
+                        <div class="timeline-year">March 2026</div>
+                        <div class="timeline-title">Platform Launch</div>
+                        <div class="timeline-desc">MEGA STORE officially launches with our first collection of curated apps. We are starting with essential categories: productivity, utilities, and entertainment. Currently serving our first 100+ beta users.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">Coming Soon</div>
+                        <div class="timeline-title">Developer Portal</div>
+                        <div class="timeline-desc">Opening our platform to vetted developers who share our quality standards. Rigorous review process to maintain platform integrity.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">Future</div>
+                        <div class="timeline-title">Community Growth</div>
+                        <div class="timeline-desc">Expanding based on user feedback. Adding requested features, categories, and improvements. Building together with our early adopters.</div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="about-section">
-            <h2><span class="material-icons">contact_mail</span> Contact</h2>
-            <p>Have questions or suggestions? We'd love to hear from you!</p>
-            <p>Email: support@mega-store.com</p>
+
+        <!-- Current Status Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">new_releases</span>
+                </div>
+                <h2 class="section-title">Current Status <span class="status-badge">Beta</span></h2>
+            </div>
+            <div class="section-content">
+                <p>As of March 2026, MEGA STORE is in active beta. We are being completely transparent about where we stand:</p>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Curated Apps</span>
+                        <span class="stat-status">Hand-picked & tested</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Beta Users</span>
+                        <span class="stat-status">Growing daily</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Core Categories</span>
+                        <span class="stat-status">More coming soon</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                        <span class="stat-status">Always available</span>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <p style="display: flex; align-items: center; gap: 8px;">
+                        <span class="material-icons" style="color: var(--accent-green);">info</span>
+                        <strong>Note:</strong> We are not claiming millions of downloads or years of history. We are new, we are honest about it, and we are excited to grow with you.
+                    </p>
+                </div>
+            </div>
         </div>
-    </main>
-    
+
+        <!-- Key Features Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">stars</span>
+                </div>
+                <h2 class="section-title">What Makes Us Different</h2>
+            </div>
+            <div class="section-content">
+                <p>As a new platform, we have the advantage of learning from what works and what does not. Here is what we are focusing on from day one:</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="material-icons feature-icon">verified</span>
+                        <div class="feature-text">
+                            <h4>Quality Over Quantity</h4>
+                            <p>Every app is personally tested before listing. No clones, no spam, no low-quality fillers.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons feature-icon">speed</span>
+                        <div class="feature-text">
+                            <h4>Lightning Fast</h4>
+                            <p>Modern infrastructure means quick downloads and responsive interface from the start.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons feature-icon">security</span>
+                        <div class="feature-text">
+                            <h4>Privacy First</h4>
+                            <p>No unnecessary permissions, no data harvesting. We respect your privacy by design.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons feature-icon">person</span>
+                        <div class="feature-text">
+                            <h4>Personal Touch</h4>
+                            <p>As a small team, we read every review and respond to every suggestion personally.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons feature-icon">cleaning_services</span>
+                        <div class="feature-text">
+                            <h4>Clean Interface</h4>
+                            <p>No ads cluttering your experience. Focus on finding great apps, not avoiding distractions.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="material-icons feature-icon">update</span>
+                        <div class="feature-text">
+                            <h4>Rapid Updates</h4>
+                            <p>Small team means quick decisions. Bugs get fixed fast, features get added based on your feedback.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Values Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">favorite</span>
+                </div>
+                <h2 class="section-title">Our Core Values</h2>
+            </div>
+            <div class="section-content">
+                <p>These principles guide every decision we make as we build MEGA STORE from the ground up:</p>
+
+                <ul class="value-list">
+                    <li>
+                        <div class="value-icon security">
+                            <span class="material-icons">shield</span>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 4px;">Transparency</h4>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">We are honest about being new, about our numbers, and about our roadmap. No fake statistics or exaggerated claims.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="value-icon quality">
+                            <span class="material-icons">high_quality</span>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 4px;">Quality Standards</h4>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">We would rather have 50 great apps than 5000 mediocre ones. Every listing is tested personally.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="value-icon community">
+                            <span class="material-icons">groups</span>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 4px;">Community Driven</h4>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">Our early users shape our direction. We listen, adapt, and build what you actually need.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="value-icon innovation">
+                            <span class="material-icons">lightbulb</span>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 4px;">Innovation</h4>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">Starting fresh means we can try new ideas without legacy constraints. Expect experimental features.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">people</span>
+                </div>
+                <h2 class="section-title">Meet the Team</h2>
+            </div>
+            <div class="section-content">
+                <p>MEGA STORE is built by a small, dedicated team. We are not a big corporation—we are developers, designers, and dreamers who believe we can build something better.</p>
+
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="team-avatar">UM</div>
+                        <div class="team-name">Usa Mega</div>
+                        <div class="team-role">Founder & Lead Developer</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">JD</div>
+                        <div class="team-name">John Doe</div>
+                        <div class="team-role">Backend Engineer</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">AS</div>
+                        <div class="team-name">Alice Smith</div>
+                        <div class="team-role">UI/UX Designer</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">RJ</div>
+                        <div class="team-name">Robert Johnson</div>
+                        <div class="team-role">Security Specialist</div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
+                    <span class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">info</span>
+                    We are actively looking for passionate people to join us. If you believe in our mission, check our careers page.
+                </p>
+            </div>
+        </div>
+
+        <!-- Testimonial Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">format_quote</span>
+                </div>
+                <h2 class="section-title">Early User Feedback</h2>
+            </div>
+            <div class="section-content">
+                <p>Our first beta users are already sharing their thoughts. Here is what they are saying about MEGA STORE:</p>
+
+                <div class="testimonial">
+                    <p class="testimonial-text">"Finally, an app store that does not feel overwhelming. I love that there are not thousands of copycat apps to scroll through. Every app I have tried from MEGA STORE actually works well."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SK</div>
+                        <div class="author-info">
+                            <h4>Sarah Kim</h4>
+                            <p>Beta Tester • Joined March 2026</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial" style="margin-top: 16px;">
+                    <p class="testimonial-text">"The personal touch makes a difference. I reported a bug and got a response from the actual developer within hours. Try getting that from the big app stores!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MC</div>
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <p>Early Adopter • Joined March 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">
+                    <span class="material-icons">contact_mail</span>
+                </div>
+                <h2 class="section-title">Get In Touch</h2>
+            </div>
+            <div class="section-content">
+                <p>We are here and we are listening. As a small team, we personally read every message. Whether you have a suggestion, found a bug, or just want to say hello—reach out!</p>
+
+                <div class="contact-grid">
+                    <a href="mailto:usamega125@gmail.com" class="contact-item">
+                        <div class="contact-icon">
+                            <span class="material-icons">email</span>
+                        </div>
+                        <div class="contact-info">
+                            <h4>Email Us</h4>
+                            <p>usamega125@gmail.com</p>
+                   
+                        </div>
+                    </a>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 24px;">
+                    <p style="display: flex; align-items: center; gap: 8px;">
+                        <span class="material-icons" style="color: var(--primary);">schedule</span>
+                        <strong>Response Time:</strong> We typically respond within 2-4 hours during business hours (9 AM - 6 PM UTC). Slightly longer on weekends, but we do check messages.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        
+
+       
     <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Update icon
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = newTheme === 'dark' ? 'light_mode' : 'dark_mode';
+        }
+
+        // Initialize theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? 'light_mode' : 'dark_mode';
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all section cards
+        document.querySelectorAll('.section-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
     </script>
 </body>
 </html>

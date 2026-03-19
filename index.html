@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MEGA STORE - Premium App Store</title>
+    <title>MEGA STORE </title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <style>
         * {
             margin: 0;
@@ -29,9 +30,9 @@
             --shadow-3: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
         }
         
-        [data-theme="dark"] {
-            --background: #121212;
-            --surface: #1e1e1e;
+         [data-theme="dark"] {
+            --background: #0B121E;
+            --surface: #121A2A;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --divider: #333333;
@@ -303,7 +304,10 @@
         <header class="landing-header">
             <div class="logo">
                 <div class="logo-icon">
-                    <span class="material-icons">apps</span>
+                   <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" 
+     alt="Logo" 
+     class="icon-img"
+     style="height:40px; width:40px;">
                 </div>
                 <span class="logo-text">mega-store.in</span>
             </div>
@@ -347,15 +351,15 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
-            authDomain: "swb-project-92ac0.firebaseapp.com",
-            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
-            projectId: "swb-project-92ac0",
-            storageBucket: "swb-project-92ac0.firebasestorage.app",
-            messagingSenderId: "990131286731",
-            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
-            measurementId: "G-J8QE2NJY5W"
-        };
+           apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+           authDomain: "mega-store-2025.firebaseapp.com",
+           databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+           projectId: "mega-store-2025",
+           storageBucket: "mega-store-2025.firebasestorage.app",
+           messagingSenderId: "190838364165",
+           appId: "1:190838364165:web:43a969b7b852777061e46c",
+           measurementId: "G-CZR2N1HF9K"
+           };
         
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);

@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <style>
         * {
             margin: 0;
@@ -29,8 +30,8 @@
         }
         
         [data-theme="dark"] {
-            --background: #121212;
-            --surface: #1e1e1e;
+            --background: #0B121E;
+            --surface: #121A2A;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --divider: #333333;
@@ -157,12 +158,36 @@
             overflow: hidden;
             margin: 0 auto 12px;
             box-shadow: var(--shadow-1);
+            position: relative;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+        }
+        
+        [data-theme="dark"] .app-icon {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
         .app-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.1);
+        }
+        
+        .app-icon img.loaded {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .app-icon .placeholder-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: var(--text-secondary);
+            opacity: 0.3;
         }
         
         .app-name {
@@ -231,12 +256,36 @@
             border-radius: 16px;
             overflow: hidden;
             flex-shrink: 0;
+            position: relative;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+        }
+        
+        [data-theme="dark"] .app-list-icon {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
         .app-list-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.1);
+        }
+        
+        .app-list-icon img.loaded {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .app-list-icon .placeholder-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: var(--text-secondary);
+            opacity: 0.3;
         }
         
         .app-list-info {
@@ -285,6 +334,40 @@
             border-radius: 50%;
             color: white;
             flex-shrink: 0;
+        }
+        
+        /* Progressive Image Loading Animations */
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+        
+        .img-skeleton {
+            background: linear-gradient(90deg, 
+                var(--background) 25%, 
+                var(--surface) 50%, 
+                var(--background) 75%
+            );
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .progressive-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .progressive-image-wrapper img {
+            position: relative;
+            z-index: 2;
         }
         
         /* View Toggle */
@@ -373,6 +456,22 @@
             font-size: 11px;
             font-weight: 500;
         }
+        
+        /* Blur effect for progressive loading */
+        .blur-load {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .blur-load.loaded > img {
+            opacity: 1;
+        }
+        
+        .blur-load > img {
+            opacity: 0;
+            transition: opacity 200ms ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -436,15 +535,15 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
-            authDomain: "swb-project-92ac0.firebaseapp.com",
-            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
-            projectId: "swb-project-92ac0",
-            storageBucket: "swb-project-92ac0.firebasestorage.app",
-            messagingSenderId: "990131286731",
-            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
-            measurementId: "G-J8QE2NJY5W"
-        };
+           apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+           authDomain: "mega-store-2025.firebaseapp.com",
+           databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+           projectId: "mega-store-2025",
+           storageBucket: "mega-store-2025.firebasestorage.app",
+           messagingSenderId: "190838364165",
+           appId: "1:190838364165:web:43a969b7b852777061e46c",
+           measurementId: "G-CZR2N1HF9K"
+           };
         
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
@@ -453,10 +552,84 @@
         let currentFilter = 'all';
         let isGridView = true;
         let allApps = [];
+        let imageObserver;
         
         // Check theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Initialize Progressive Image Loading
+        function initImageObserver() {
+            const options = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            };
+            
+            imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadImage(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+        }
+        
+        function loadImage(imgContainer) {
+            const img = imgContainer.querySelector('img');
+            const skeleton = imgContainer.querySelector('.img-skeleton');
+            const placeholder = imgContainer.querySelector('.placeholder-icon');
+            
+            if (!img || !img.dataset.src) return;
+            
+            const tempImage = new Image();
+            
+            tempImage.onload = function() {
+                img.src = tempImage.src;
+                img.classList.add('loaded');
+                
+                // Remove skeleton and placeholder with fade out
+                if (skeleton) {
+                    skeleton.style.opacity = '0';
+                    skeleton.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => skeleton.remove(), 300);
+                }
+                
+                if (placeholder) {
+                    placeholder.style.opacity = '0';
+                    placeholder.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => placeholder.remove(), 300);
+                }
+            };
+            
+            tempImage.onerror = function() {
+                // Show error state or keep placeholder
+                if (placeholder) {
+                    placeholder.textContent = 'broken_image';
+                    placeholder.style.opacity = '0.5';
+                }
+                if (skeleton) skeleton.remove();
+            };
+            
+            // Start loading
+            tempImage.src = img.dataset.src;
+        }
+        
+        // Create Progressive Image HTML
+        function createProgressiveImage(src, alt, size = '80') {
+            const placeholder = 'https://via.placeholder.com/' + size + '/e0e0e0/999999?text=...';
+            return `
+                <div class="progressive-image-wrapper">
+                    <div class="img-skeleton"></div>
+                    <span class="material-icons placeholder-icon">image</span>
+                    <img data-src="${src || placeholder}" 
+                         alt="${alt}" 
+                         loading="lazy"
+                         onerror="this.src='${placeholder}'">
+                </div>
+            `;
+        }
         
         // Load apps
         loadApps();
@@ -475,6 +648,9 @@
         }
         
         function loadApps() {
+            // Initialize observer first
+            initImageObserver();
+            
             database.ref('apps').on('value', (snapshot) => {
                 const apps = snapshot.val();
                 if (apps) {
@@ -526,7 +702,7 @@
                 container.innerHTML = filteredApps.map(app => `
                     <div class="app-card" onclick="openApp('${app.id}')">
                         <div class="app-icon">
-                            <img src="${app.icon || 'https://via.placeholder.com/80'}" alt="${app.name}">
+                            ${createProgressiveImage(app.icon, app.name, '80')}
                         </div>
                         <div class="app-name">${app.name}</div>
                         <div class="app-developer">${app.developer || 'Unknown'}</div>
@@ -541,7 +717,7 @@
                 container.innerHTML = filteredApps.map(app => `
                     <div class="app-list-item" onclick="openApp('${app.id}')">
                         <div class="app-list-icon">
-                            <img src="${app.icon || 'https://via.placeholder.com/64'}" alt="${app.name}">
+                            ${createProgressiveImage(app.icon, app.name, '64')}
                         </div>
                         <div class="app-list-info">
                             <div class="app-list-name">${app.name}</div>
@@ -558,6 +734,13 @@
                     </div>
                 `).join('');
             }
+            
+            // Observe all new images
+            setTimeout(() => {
+                document.querySelectorAll('.progressive-image-wrapper').forEach(wrapper => {
+                    imageObserver.observe(wrapper);
+                });
+            }, 100);
         }
         
         function toggleView() {
@@ -575,6 +758,16 @@
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
             return num;
         }
+        
+        // Preload images for visible viewport on initial load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.progressive-image-wrapper').forEach((wrapper, index) => {
+                if (index < 6) { // Load first 6 images immediately
+                    loadImage(wrapper);
+                    imageObserver.unobserve(wrapper);
+                }
+            });
+        });
     </script>
 </body>
 </html>

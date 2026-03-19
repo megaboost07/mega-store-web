@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <style>
         * {
             margin: 0;
@@ -29,9 +30,9 @@
             --shadow-3: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
         }
         
-        [data-theme="dark"] {
-            --background: #121212;
-            --surface: #1e1e1e;
+         [data-theme="dark"] {
+            --background: #0B121E;
+            --surface: #121A2A;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --divider: #333333;
@@ -164,17 +165,28 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
         
         .drawer-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .drawer-avatar img.loaded {
+            opacity: 1;
         }
         
         .drawer-avatar .material-icons {
             font-size: 40px;
             color: var(--primary);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         
         .drawer-user-info h3 {
@@ -238,6 +250,11 @@
             overflow: hidden;
             margin-bottom: 24px;
             box-shadow: var(--shadow-2);
+            background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+        }
+        
+        [data-theme="dark"] .carousel-container {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
         .carousel-slide {
@@ -264,6 +281,14 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.05);
+        }
+        
+        .carousel-slide img.loaded {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .carousel-indicators {
@@ -419,71 +444,109 @@
             overflow-x: auto;
             padding-bottom: 8px;
             scrollbar-width: none;
+            align-items: flex-start;
         }
         
         .apps-scroll::-webkit-scrollbar {
             display: none;
         }
         
+        /* Updated App Card for "New Uploads" style (icon, name, rating-pill) */
         .app-card {
-            min-width: 100px;
-            text-align: center;
+            min-width: 140px;                 /* slightly wider for icon + name */
+            max-width: 160px;
+            text-align: left;                 /* name aligned left like example */
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
         }
         
         .app-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-2);
         }
         
         .app-icon {
-            width: 80px;
-            height: 80px;
+            width: 96px;
+            height: 96px;
             border-radius: 20px;
             overflow: hidden;
-            margin: 0 auto 8px;
+            margin: 0;
             box-shadow: var(--shadow-1);
             background: var(--surface);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .app-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.35s ease-in-out, transform 0.35s ease;
+            transform: scale(1.09);
+        }
+        
+        .app-icon img.loaded {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .app-name {
-            font-size: 13px;
-            font-weight: 500;
+            font-size: 14px;
+            font-weight: 600;
             color: var(--text-primary);
-            white-space: nowrap;
+            white-space: normal;
+            line-height: 1.15;
+            max-height: 2.3em; /* approx 2 lines */
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 100px;
         }
         
         .app-developer {
             font-size: 11px;
             color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100px;
         }
         
-        .app-rating {
+        /* rating pill (as in the screenshot) */
+        .rating-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(26,115,232,0.08); /* light blue with low opacity */
+            color: var(--primary);
+            padding: 6px 10px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 13px;
+            box-shadow: none;
+        }
+        
+        .rating-pill .material-icons {
+            font-size: 16px;
+            color: var(--primary);
+        }
+        
+        /* staking area under name */
+        .app-meta {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 4px;
-            font-size: 12px;
-            color: var(--text-secondary);
+            gap: 8px;
             margin-top: 4px;
         }
         
-        .app-rating .material-icons {
-            font-size: 14px;
-            color: #ffb300;
+        /* Dark mode adjustments for rating-pill for better contrast */
+        [data-theme="dark"] .rating-pill {
+            background: rgba(138,180,248,0.12); /* slightly darker bluish */
+            color: var(--link-color);
+        }
+        [data-theme="dark"] .rating-pill .material-icons {
+            color: var(--link-color);
         }
         
         /* Featured Apps Grid */
@@ -515,12 +578,26 @@
             border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
+            position: relative;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+        }
+        
+        [data-theme="dark"] .featured-icon {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
         .featured-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+            transform: scale(1.1);
+        }
+        
+        .featured-icon img.loaded {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .featured-info {
@@ -663,6 +740,63 @@
         .toast.show {
             transform: translateX(-50%) translateY(0);
             opacity: 1;
+        }
+        
+        /* Progressive Image Loading Styles */
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+        
+        .progressive-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .img-skeleton {
+            background: linear-gradient(90deg, 
+                var(--background) 25%, 
+                var(--surface) 50%, 
+                var(--background) 75%
+            );
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .placeholder-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: var(--text-secondary);
+            opacity: 0.3;
+            z-index: 2;
+        }
+        
+        .carousel-slide .progressive-image-wrapper {
+            height: 100%;
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 480px) {
+            .app-card {
+                min-width: 120px;
+                max-width: 140px;
+            }
+            .app-icon {
+                width: 80px;
+                height: 80px;
+                border-radius: 18px;
+            }
         }
     </style>
 </head>
@@ -869,15 +1003,15 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
-            authDomain: "swb-project-92ac0.firebaseapp.com",
-            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
-            projectId: "swb-project-92ac0",
-            storageBucket: "swb-project-92ac0.firebasestorage.app",
-            messagingSenderId: "990131286731",
-            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
-            measurementId: "G-J8QE2NJY5W"
-        };
+           apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+           authDomain: "mega-store-2025.firebaseapp.com",
+           databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+           projectId: "mega-store-2025",
+           storageBucket: "mega-store-2025.firebasestorage.app",
+           messagingSenderId: "190838364165",
+           appId: "1:190838364165:web:43a969b7b852777061e46c",
+           measurementId: "G-CZR2N1HF9K"
+           };
         
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -891,6 +1025,82 @@
         // Check user login status
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         updateDrawerUser();
+        
+        // Progressive Image Loading Variables
+        let imageObserver;
+        
+        // Initialize Progressive Image Loading
+        function initImageObserver() {
+            const options = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            };
+            
+            imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadImage(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+        }
+        
+        function loadImage(imgContainer) {
+            const img = imgContainer.querySelector('img');
+            const skeleton = imgContainer.querySelector('.img-skeleton');
+            const placeholder = imgContainer.querySelector('.placeholder-icon');
+            
+            if (!img || !img.dataset.src) return;
+            
+            const tempImage = new Image();
+            
+            tempImage.onload = function() {
+                img.src = tempImage.src;
+                img.classList.add('loaded');
+                
+                // Remove skeleton and placeholder with fade out
+                if (skeleton) {
+                    skeleton.style.opacity = '0';
+                    skeleton.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => skeleton.remove(), 300);
+                }
+                
+                if (placeholder) {
+                    placeholder.style.opacity = '0';
+                    placeholder.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => placeholder.remove(), 300);
+                }
+            };
+            
+            tempImage.onerror = function() {
+                // Show error state or keep placeholder
+                if (placeholder) {
+                    placeholder.textContent = 'broken_image';
+                    placeholder.style.opacity = '0.5';
+                }
+                if (skeleton) skeleton.remove();
+            };
+            
+            // Start loading
+            tempImage.src = img.dataset.src;
+        }
+        
+        // Create Progressive Image HTML
+        function createProgressiveImage(src, alt, size = '80') {
+            const placeholder = 'https://via.placeholder.com/' + size + '/e0e0e0/999999?text=...';
+            return `
+                <div class="progressive-image-wrapper">
+                    <div class="img-skeleton"></div>
+                    <span class="material-icons placeholder-icon">image</span>
+                    <img data-src="${src || placeholder}" 
+                         alt="${alt}" 
+                         loading="lazy"
+                         onerror="this.src='${placeholder}'">
+                </div>
+            `;
+        }
         
         // Load apps data
         loadApps();
@@ -936,7 +1146,21 @@
                 userName.textContent = currentUser.name || 'User';
                 userEmail.textContent = currentUser.email || '';
                 if (currentUser.photo) {
-                    avatar.innerHTML = `<img src="${currentUser.photo}" alt="Profile">`;
+                    avatar.innerHTML = `
+                        <div class="progressive-image-wrapper">
+                            <div class="img-skeleton"></div>
+                            <span class="material-icons placeholder-icon">person</span>
+                            <img data-src="${currentUser.photo}" 
+                                 alt="Profile" 
+                                 class="loaded"
+                                 onload="this.classList.add('loaded')">
+                        </div>
+                    `;
+                    // Load avatar image immediately
+                    setTimeout(() => {
+                        const wrapper = avatar.querySelector('.progressive-image-wrapper');
+                        if (wrapper) loadImage(wrapper);
+                    }, 100);
                 }
                 loginItem.style.display = 'none';
                 logoutItem.style.display = 'flex';
@@ -965,6 +1189,9 @@
         
         // Load Apps
         function loadApps() {
+            // Initialize observer first
+            initImageObserver();
+            
             database.ref('apps').on('value', (snapshot) => {
                 const apps = snapshot.val();
                 if (apps) {
@@ -985,6 +1212,13 @@
                     // Featured
                     const featured = appsArray.slice(0, 6);
                     renderFeaturedGrid('featuredApps', featured);
+                    
+                    // Observe all new images
+                    setTimeout(() => {
+                        document.querySelectorAll('.progressive-image-wrapper').forEach(wrapper => {
+                            imageObserver.observe(wrapper);
+                        });
+                    }, 100);
                 } else {
                     renderEmpty('newUploads');
                     renderEmpty('trendingApps');
@@ -995,25 +1229,33 @@
         }
         
         // Render App Scroll
+        // Updated markup to match the requested style: icon (rounded), name below, rating in a pill
         function renderAppScroll(containerId, apps) {
             const container = document.getElementById(containerId);
-            if (apps.length === 0) {
+            if (!container) return;
+            if (!apps || apps.length === 0) {
                 renderEmpty(containerId);
                 return;
             }
-            container.innerHTML = apps.map(app => `
+            container.innerHTML = apps.map(app => {
+                const rating = app.rating ? (typeof app.rating === 'number' ? app.rating.toFixed(1) : app.rating) : '0.0';
+                return `
                 <div class="app-card" onclick="openApp('${app.id}')">
-                    <div class="app-icon">
-                        <img src="${app.icon || 'https://via.placeholder.com/80'}" alt="${app.name}">
+                    <div class="app-icon" aria-hidden="true">
+                        ${createProgressiveImage(app.icon, app.name, '96')}
                     </div>
-                    <div class="app-name">${app.name}</div>
-                    <div class="app-developer">${app.developer || 'Unknown'}</div>
-                    <div class="app-rating">
-                        <span class="material-icons">star</span>
-                        ${app.rating || '0.0'}
+                    <div>
+                        <div class="app-name">${escapeHtml(app.name)}</div>
+                        <div class="app-meta">
+                            <span class="rating-pill" aria-label="rating ${rating}">
+                                <span class="material-icons">star</span>
+                                ${rating}
+                            </span>
+                        </div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
         
         // Render Featured Grid
@@ -1026,7 +1268,7 @@
             container.innerHTML = apps.map(app => `
                 <div class="featured-card" onclick="openApp('${app.id}')">
                     <div class="featured-icon">
-                        <img src="${app.icon || 'https://via.placeholder.com/56'}" alt="${app.name}">
+                        ${createProgressiveImage(app.icon, app.name, '56')}
                     </div>
                     <div class="featured-info">
                         <div class="featured-name">${app.name}</div>
@@ -1080,6 +1322,17 @@
         function openApp(appId) {
             window.location.href = `app-details.html?id=${appId}`;
         }
+
+        // Utility to escape HTML in JS-inserted strings
+        function escapeHtml(text) {
+            if (!text && text !== 0) return '';
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
         
         // Carousel Banner
         let banners = [];
@@ -1109,7 +1362,14 @@
                 slidesHTML += `
                     <div class="carousel-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
                         <a href="${banner.linkUrl}" target="_blank">
-                            <img src="${banner.imageUrl}" alt="Banner ${index + 1}">
+                            <div class="progressive-image-wrapper">
+                                <div class="img-skeleton"></div>
+                                <span class="material-icons placeholder-icon">image</span>
+                                <img data-src="${banner.imageUrl}" 
+                                     alt="Banner ${index + 1}"
+                                     onload="this.classList.add('loaded')"
+                                     onerror="this.src='https://via.placeholder.com/800x400/333/666?text=Banner'">
+                            </div>
                         </a>
                     </div>
                 `;
@@ -1136,6 +1396,12 @@
                 `).join('');
             }
             
+            // Load first banner immediately
+            setTimeout(() => {
+                const firstSlide = container.querySelector('.carousel-slide.active .progressive-image-wrapper');
+                if (firstSlide) loadImage(firstSlide);
+            }, 100);
+            
             // Start auto-play
             startCarousel();
         }
@@ -1159,6 +1425,13 @@
                 indicator.classList.toggle('active', i === index);
             });
             
+            // Load image for active slide
+            const activeSlide = slides[index];
+            if (activeSlide) {
+                const wrapper = activeSlide.querySelector('.progressive-image-wrapper');
+                if (wrapper) loadImage(wrapper);
+            }
+            
             currentSlide = index;
         }
         
@@ -1179,6 +1452,16 @@
         
         // Load banners on page load
         loadBanners();
+        
+        // Preload visible images on window load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.progressive-image-wrapper').forEach((wrapper, index) => {
+                if (index < 4) { // Load first 4 images immediately
+                    loadImage(wrapper);
+                    if (imageObserver) imageObserver.unobserve(wrapper);
+                }
+            });
+        });
     </script>
 </body>
 </html>
