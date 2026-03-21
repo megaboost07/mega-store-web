@@ -246,7 +246,209 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
-    </style>
+    
+        .guideline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .guideline-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .guideline-section {
+            margin-bottom: 24px;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .guideline-header {
+            background: var(--background);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .guideline-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .guideline-header .material-icons {
+            color: var(--primary);
+        }
+
+        .guideline-content {
+            padding: 16px;
+        }
+
+        .guideline-content ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .guideline-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag.urgent {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .tag.normal {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .tag.email {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .priority-section .guideline-content {
+            display: grid;
+            gap: 12px;
+        }
+
+        .priority-box {
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .priority-box.critical {
+            background: #ffebee;
+            border-color: #c62828;
+        }
+
+        .priority-box.high {
+            background: #fff3e0;
+            border-color: #ef6c00;
+        }
+
+        .priority-box.medium {
+            background: #fffde7;
+            border-color: #f9a825;
+        }
+
+        .priority-box.low {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+
+        .priority-box h4 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+        }
+
+        .priority-box p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .tips-section .guideline-content {
+            display: grid;
+            gap: 12px;
+        }
+
+        .tip-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .tip-number {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .tip-box p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .quick-reference {
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--background);
+            border-radius: 12px;
+        }
+
+        .quick-reference h4 {
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .ref-table th {
+            background: var(--surface);
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid var(--divider);
+            font-weight: 600;
+        }
+
+        .ref-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .ref-table tr:hover {
+            background: rgba(26, 115, 232, 0.04);
+        }
+
+        [data-theme="dark"] .tip-box {
+            background: #1e293b;
+        }
+
+        [data-theme="dark"] .quick-reference {
+            background: #1e293b;
+        }
+</style>
 </head>
 <body>
     <header class="app-bar">
@@ -308,6 +510,233 @@
                     Send Message
                 </button>
             </form>
+        </div>
+        
+        <div class="contact-card">
+            <h2><span class="material-icons">access_time</span> Contact Guidelines - Complete Details</h2>
+
+            <div class="guideline-section">
+                <div class="guideline-header">
+                    <span class="material-icons">phone_in_talk</span>
+                    <h3>When & How to Call?</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Best Time to Call:</strong></p>
+                    <ul>
+                        <li><strong>Monday - Saturday:</strong> 10:00 AM to 6:00 PM (Business Hours)</li>
+                        <li><strong>Sunday:</strong> Emergency cases only - 12:00 PM to 4:00 PM</li>
+                        <li><strong>Lunch Break:</strong> 1:30 PM to 2:30 PM (avoid calling)</li>
+                    </ul>
+
+                    <p><strong>Before You Call:</strong></p>
+                    <ul>
+                        <li>Keep your <strong>Order Number</strong> ready (if order related)</li>
+                        <li>Remember your <strong>registered mobile number</strong></li>
+                        <li>Prepare notes to clearly explain your problem</li>
+                        <li>Keep pen and paper handy to note down details</li>
+                    </ul>
+
+                    <p><strong>Call is Best For:</strong></p>
+                    <div class="tag-container">
+                        <span class="tag urgent">Urgent Issues</span>
+                        <span class="tag urgent">Order Problems</span>
+                        <span class="tag urgent">Payment Failures</span>
+                        <span class="tag urgent">Delivery Issues</span>
+                        <span class="tag urgent">Account Locked</span>
+                    </div>
+
+                    <p style="margin-top: 12px; color: #d32f2f;"><strong>Average Response Time:</strong> Instant (connect in 2-5 minutes)</p>
+                </div>
+            </div>
+
+            <div class="guideline-section">
+                <div class="guideline-header">
+                    <span class="material-icons">chat</span>
+                    <h3>When & How to Message/Chat?</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Availability:</strong></p>
+                    <ul>
+                        <li><strong>24/7:</strong> You can send messages anytime</li>
+                        <li><strong>Reply Time:</strong> Usually within 2-4 hours (during business hours)</li>
+                        <li><strong>Night Messages:</strong> Messages sent after 9:00 PM will be replied next morning</li>
+                    </ul>
+
+                    <p><strong>How to Write Effective Messages:</strong></p>
+                    <ul>
+                        <li><strong>Keep subject clear:</strong> Be specific like "Order #12345 - Delivery Issue"</li>
+                        <li><strong>Provide details:</strong> When it happened, what is the problem, what you expect</li>
+                        <li><strong>Attach screenshots:</strong> Photos of error messages or issues</li>
+                        <li><strong>Keep it short and clear:</strong> But include all important information</li>
+                    </ul>
+
+                    <p><strong>Message is Best For:</strong></p>
+                    <div class="tag-container">
+                        <span class="tag normal">General Queries</span>
+                        <span class="tag normal">Product Questions</span>
+                        <span class="tag normal">Feedback/Suggestions</span>
+                        <span class="tag normal">Price Inquiries</span>
+                        <span class="tag normal">Non-Urgent Issues</span>
+                    </div>
+
+                    <p style="margin-top: 12px; color: #1976d2;"><strong>Average Response Time:</strong> 2-4 hours</p>
+                </div>
+            </div>
+
+            <div class="guideline-section">
+                <div class="guideline-header">
+                    <span class="material-icons">email</span>
+                    <h3>When & How to Email?</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Best Time:</strong></p>
+                    <ul>
+                        <li><strong>Business Hours:</strong> 9:00 AM to 7:00 PM</li>
+                        <li><strong>Response Time:</strong> Guaranteed reply within 24 hours</li>
+                        <li><strong>Weekend Emails:</strong> Will be replied on Monday</li>
+                    </ul>
+
+                    <p><strong>Email Format:</strong></p>
+                    <ul>
+                        <li><strong>Subject Line:</strong> Clear and specific - "[Order #12345] Return Request"</li>
+                        <li><strong>Body:</strong> Professional but friendly tone</li>
+                        <li><strong>Attachments:</strong> Include invoices, screenshots, photos</li>
+                        <li><strong>Contact Info:</strong> Provide your phone number and alternate email</li>
+                    </ul>
+
+                    <p><strong>Email is Best For:</strong></p>
+                    <div class="tag-container">
+                        <span class="tag email">Detailed Issues</span>
+                        <span class="tag email">Documentation Required</span>
+                        <span class="tag email">Official Communication</span>
+                        <span class="tag email">Bulk Orders</span>
+                        <span class="tag email">Business Partnerships</span>
+                    </div>
+
+                    <p style="margin-top: 12px; color: #388e3c;"><strong>Average Response Time:</strong> 24 hours</p>
+                </div>
+            </div>
+
+            <div class="guideline-section priority-section">
+                <div class="guideline-header">
+                    <span class="material-icons">priority_high</span>
+                    <h3>Priority Levels - How Urgent is Your Issue?</h3>
+                </div>
+                <div class="guideline-content">
+                    <div class="priority-box critical">
+                        <h4>Critical (Immediate Response)</h4>
+                        <p>Payment deducted but order not confirmed | Account hacked | Fraud activity</p>
+                        <p><strong>Action:</strong> Call immediately!</p>
+                    </div>
+
+                    <div class="priority-box high">
+                        <h4>High (2-4 Hours Response)</h4>
+                        <p>Wrong item received | Damaged product | Delivery delay (urgent)</p>
+                        <p><strong>Action:</strong> Call or message us</p>
+                    </div>
+
+                    <div class="priority-box medium">
+                        <h4>Medium (24 Hours Response)</h4>
+                        <p>Return request | Refund status | Product inquiry | General complaints</p>
+                        <p><strong>Action:</strong> Message or email us</p>
+                    </div>
+
+                    <div class="priority-box low">
+                        <h4>Low (48-72 Hours Response)</h4>
+                        <p>Feedback | Suggestions | General questions | Future order inquiries</p>
+                        <p><strong>Action:</strong> Email us</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guideline-section tips-section">
+                <div class="guideline-header">
+                    <span class="material-icons">lightbulb</span>
+                    <h3>Pro Tips - Get Faster Response</h3>
+                </div>
+                <div class="guideline-content">
+                    <div class="tip-box">
+                        <span class="tip-number">1</span>
+                        <p><strong>Always Keep Order Number Ready:</strong> Mention order number in every communication - your issue will be resolved faster!</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">2</span>
+                        <p><strong>Choose the Right Channel:</strong> Urgent? → Call | General query? → Message | Detailed issue? → Email</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">3</span>
+                        <p><strong>Contact During Business Hours:</strong> Call between 10 AM - 6 PM for instant solution!</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">4</span>
+                        <p><strong>Provide Clear Information:</strong> Explain problem step-by-step, attach screenshots</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">5</span>
+                        <p><strong>Follow Up:</strong> If no reply in 24 hours, contact again with reference number</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">6</span>
+                        <p><strong>Be Polite:</strong> Respectful communication gets you priority response</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guideline-section weekend-section">
+                <div class="guideline-header">
+                    <span class="material-icons">event_busy</span>
+                    <h3>Weekend & Holiday Schedule</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Closed Days:</strong></p>
+                    <ul>
+                        <li>Sunday: Limited support (Emergency only via Call)</li>
+                        <li>National Holidays: Email support only (48 hours response)</li>
+                    </ul>
+                    <p style="margin-top: 10px; color: #f57c00;"><strong>Tip:</strong> Non-urgent messages sent on weekend will be replied on Monday</p>
+                </div>
+            </div>
+
+            <div class="quick-reference">
+                <h4>Quick Reference Chart</h4>
+                <table class="ref-table">
+                    <tr>
+                        <th>Issue Type</th>
+                        <th>Best Method</th>
+                        <th>Response Time</th>
+                    </tr>
+                    <tr>
+                        <td>Payment Problem</td>
+                        <td>Call</td>
+                        <td>Instant</td>
+                    </tr>
+                    <tr>
+                        <td>Order Tracking</td>
+                        <td>Message</td>
+                        <td>2-4 hours</td>
+                    </tr>
+                    <tr>
+                        <td>Return/Refund</td>
+                        <td>Email</td>
+                        <td>24 hours</td>
+                    </tr>
+                    <tr>
+                        <td>Product Inquiry</td>
+                        <td>Message</td>
+                        <td>2-4 hours</td>
+                    </tr>
+                    <tr>
+                        <td>Business Partnership</td>
+                        <td>Email</td>
+                        <td>24-48 hours</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </main>
     

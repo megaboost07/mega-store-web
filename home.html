@@ -53,10 +53,11 @@
             left: 0;
             right: 0;
             height: 64px;
+            padding: 11px 11px;
             background: var(--surface);
             display: flex;
             align-items: center;
-            padding: 0 16px;
+            position: fixed;
             box-shadow: var(--shadow-1);
             z-index: 100;
         }
@@ -242,16 +243,16 @@
         }
         
         /* Carousel Banner */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 210px;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-2);
-            background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
-        }
+         .carousel-container {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9; /* YouTube jaisa */
+          border-radius: 16px;
+          overflow: hidden;
+          margin-bottom: 24px;
+          box-shadow: var(--shadow-2);
+          background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+          }
         
         [data-theme="dark"] .carousel-container {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -269,12 +270,15 @@
         
         .carousel-slide.active {
             opacity: 1;
+            z-index: 2;
         }
         
         .carousel-slide a {
             display: block;
             width: 100%;
             height: 100%;
+            cursor: pointer;
+            text-decoration: none;
         }
         
         .carousel-slide img {
@@ -442,9 +446,12 @@
             display: flex;
             gap: 16px;
             overflow-x: auto;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
             scrollbar-width: none;
             align-items: flex-start;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
         }
         
         .apps-scroll::-webkit-scrollbar {
@@ -453,15 +460,17 @@
         
         /* Updated App Card for "New Uploads" style (icon, name, rating-pill) */
         .app-card {
-            min-width: 140px;                 /* slightly wider for icon + name */
+            min-width: 140px;
             max-width: 160px;
-            text-align: left;                 /* name aligned left like example */
+            text-align: left;
+            padding: 10px 10px;
             cursor: pointer;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
             display: flex;
             flex-direction: column;
             gap: 8px;
             align-items: flex-start;
+            scroll-snap-align: start;
         }
         
         .app-card:hover {
@@ -497,20 +506,31 @@
             transform: scale(1);
         }
         
+        /* APP NAME - Max 2 lines then ... (Hide extra text) */
         .app-name {
             font-size: 14px;
             font-weight: 600;
             color: var(--text-primary);
-            white-space: normal;
-            line-height: 1.15;
-            max-height: 2.3em; /* approx 2 lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;          /* Max 2 lines */
+            -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            line-height: 1.2;
+            max-height: 2.4em;
+            width: 140px;                   /* Fixed width for consistent truncation */
+            word-wrap: break-word;
         }
         
+        /* APP DEVELOPER - Single line with ... */
         .app-developer {
             font-size: 11px;
             color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 140px;
+            width: 100%;
         }
         
         /* rating pill (as in the screenshot) */
@@ -518,7 +538,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(26,115,232,0.08); /* light blue with low opacity */
+            background: rgba(26,115,232,0.08);
             color: var(--primary);
             padding: 6px 10px;
             border-radius: 14px;
@@ -542,51 +562,49 @@
         
         /* Dark mode adjustments for rating-pill for better contrast */
         [data-theme="dark"] .rating-pill {
-            background: rgba(138,180,248,0.12); /* slightly darker bluish */
+            background: rgba(138,180,248,0.12);
             color: var(--link-color);
         }
         [data-theme="dark"] .rating-pill .material-icons {
             color: var(--link-color);
         }
         
-        /* Featured Apps Grid */
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        
-        .featured-card {
+        /* Featured Apps Horizontal Card */
+        .featured-card-horizontal {
+            min-width: 280px;
+            max-width: 280px;
             background: var(--surface);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 16px;
             box-shadow: var(--shadow-1);
             display: flex;
             gap: 12px;
             cursor: pointer;
             transition: all 0.2s;
+            scroll-snap-align: start;
+            flex-shrink: 0;
         }
         
-        .featured-card:hover {
+        .featured-card-horizontal:hover {
             box-shadow: var(--shadow-2);
             transform: translateY(-2px);
         }
         
-        .featured-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
+        .featured-icon-large {
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
             overflow: hidden;
             flex-shrink: 0;
             position: relative;
             background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
         }
         
-        [data-theme="dark"] .featured-icon {
+        [data-theme="dark"] .featured-icon-large {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
-        .featured-icon img {
+        .featured-icon-large img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -595,54 +613,65 @@
             transform: scale(1.1);
         }
         
-        .featured-icon img.loaded {
+        .featured-icon-large img.loaded {
             opacity: 1;
             transform: scale(1);
         }
         
-        .featured-info {
+        .featured-info-horizontal {
             flex: 1;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;           /* Important for text truncation */
         }
         
-        .featured-name {
-            font-size: 14px;
-            font-weight: 500;
+        /* FEATURED APP NAME - Single line with ... */
+        .featured-name-large {
+            font-size: 16px;
+            font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 170px;
+            width: 100%;
+            margin-bottom: 4px;
         }
         
-        .featured-developer {
-            font-size: 12px;
+        /* FEATURED DEVELOPER NAME - Single line with ... */
+        .featured-developer-large {
+            font-size: 13px;
             color: var(--text-secondary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 170px;
+            width: 100%;
+            margin-bottom: 8px;
         }
         
-        .featured-size {
-            font-size: 11px;
+        .featured-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
             color: var(--text-secondary);
-            margin-top: 4px;
         }
         
-        .featured-rating {
+        .featured-stat-item {
             display: flex;
             align-items: center;
             gap: 4px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
         }
         
-        .featured-rating .material-icons {
+        .featured-stat-item .material-icons {
             font-size: 14px;
             color: #ffb300;
         }
         
-        /* Bottom Navigation */
+        /* Bottom Navigation - Updated with Center FAB */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -655,6 +684,7 @@
             justify-content: space-around;
             align-items: center;
             z-index: 100;
+            padding: 0 8px;
         }
         
         .nav-item {
@@ -662,13 +692,14 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            padding: 8px 16px;
+            padding: 8px 12px;
             color: var(--text-secondary);
             text-decoration: none;
             transition: all 0.2s;
             border: none;
             background: transparent;
             cursor: pointer;
+            flex: 1;
         }
         
         .nav-item.active {
@@ -682,6 +713,228 @@
         .nav-item span:last-child {
             font-size: 11px;
             font-weight: 500;
+        }
+        
+        /* Center Upload Button */
+        .upload-fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(26,115,232,0.4);
+            transition: all 0.3s;
+            margin-top: -20px;
+            position: relative;
+            z-index: 101;
+        }
+        
+        .upload-fab:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 16px rgba(26,115,232,0.5);
+        }
+        
+        .upload-fab:active {
+            transform: scale(0.95);
+        }
+        
+        .upload-fab .material-icons {
+            font-size: 28px;
+        }
+        
+        /* Upload Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--surface);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            overflow-y: auto;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        
+        .modal-close:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-label .optional {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .screenshots-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .screenshot-input {
+            position: relative;
+        }
+        
+        .screenshot-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed var(--divider);
+            border-radius: 8px;
+            font-size: 13px;
+            background: var(--background);
+            color: var(--text-primary);
+        }
+        
+        .screenshot-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            border-style: solid;
+        }
+        
+        .screenshot-number {
+            position: absolute;
+            top: -8px;
+            left: 8px;
+            background: var(--primary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-2);
+        }
+        
+        .submit-btn:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .submit-btn .material-icons {
+            font-size: 20px;
         }
         
         /* Loading Skeleton */
@@ -724,7 +977,7 @@
         /* Toast Notification */
         .toast {
             position: fixed;
-            bottom: 80px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: #323232;
@@ -786,6 +1039,15 @@
             height: 100%;
         }
 
+        /* Loading state for carousel */
+        .carousel-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-secondary);
+        }
+
         /* Responsive tweaks */
         @media (max-width: 480px) {
             .app-card {
@@ -793,12 +1055,35 @@
                 max-width: 140px;
             }
             .app-icon {
-                width: 80px;
-                height: 80px;
-                border-radius: 18px;
+                width: 100px;
+                height:100px;
+                border-radius: 20px;
+            }
+            .app-name {
+                width: 120px;           /* Mobile pe thoda chota */
+                font-size: 13px;
+            }
+            .app-developer {
+                max-width: 120px;
+            }
+            .featured-card-horizontal {
+                min-width: 260px;
+                max-width: 260px;
+            }
+            .featured-name-large,
+            .featured-developer-large {
+                max-width: 150px;       /* Mobile pe adjust */
+            }
+            .screenshots-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
+
+  <!-- Google AdSense Code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2753772773698567"
+        crossorigin="anonymous"></script>
+
 </head>
 <body>
     <!-- App Bar -->
@@ -874,24 +1159,15 @@
     <main class="main-content" style="padding: 10px;">
         <!-- Carousel Banner -->
         <div class="carousel-container" id="carouselContainer">
-            <div class="carousel-slide active">
-                <a href="#">
-                    <img src="https://i.supaimg.com/5e44bfb0-1348-45dd-9ddf-1a19def5bb20.jpg" alt="Banner 1">
-                </a>
+            <div class="carousel-loading" id="carouselLoading">
+                <span></span>
             </div>
-            <div class="carousel-indicators" id="carouselIndicators"></div>
-            <button class="carousel-nav prev" onclick="prevSlide()">
-                <span class="material-icons">chevron_left</span>
-            </button>
-            <button class="carousel-nav next" onclick="nextSlide()">
-                <span class="material-icons">chevron_right</span>
-            </button>
         </div>
         
         <!-- Hero Section -->
         <section class="hero-section" style="margin: 0 1px 24px;">
             <h2 class="hero-title">Welcome to MEGA STORE</h2>
-            <p class="hero-subtitle">Discover premium apps for your device</p>
+            <p class="hero-subtitle">Discover sketchware project  for your device</p>
             <div class="hero-stats">
                 <div class="hero-stat">
                     <div class="hero-stat-value" id="totalApps">0</div>
@@ -921,6 +1197,16 @@
                     <span class="material-icons">hourglass_empty</span>
                     <p>Loading apps...</p>
                 </div>
+            <div class="apps-scroll" id="trendingApps">
+                <div class="empty-state" style="padding: 24px;">
+                    <span class="material-icons">hourglass_empty</span>
+                    <p>Loading apps...</p>
+                </div>
+            <div class="apps-scroll" id="trendingApps">
+                <div class="empty-state" style="padding: 24px;">
+                    <span class="material-icons">hourglass_empty</span>
+                    <p>Loading apps...</p>
+                </div>
             </div>
         </section>
         
@@ -932,6 +1218,16 @@
                     See All <span class="material-icons">chevron_right</span>
                 </a>
             </div>
+            <div class="apps-scroll" id="trendingApps">
+                <div class="empty-state" style="padding: 24px;">
+                    <span class="material-icons">hourglass_empty</span>
+                    <p>Loading apps...</p>
+                </div>
+            <div class="apps-scroll" id="trendingApps">
+                <div class="empty-state" style="padding: 24px;">
+                    <span class="material-icons">hourglass_empty</span>
+                    <p>Loading apps...</p>
+                </div>
             <div class="apps-scroll" id="trendingApps">
                 <div class="empty-state" style="padding: 24px;">
                     <span class="material-icons">hourglass_empty</span>
@@ -953,10 +1249,20 @@
                     <span class="material-icons">hourglass_empty</span>
                     <p>Loading apps...</p>
                 </div>
+            <div class="apps-scroll" id="trendingApps">
+                <div class="empty-state" style="padding: 24px;">
+                    <span class="material-icons">hourglass_empty</span>
+                    <p>Loading apps...</p>
+                </div>
+            <div class="apps-scroll" id="trendingApps">
+                <div class="empty-state" style="padding: 24px;">
+                    <span class="material-icons">hourglass_empty</span>
+                    <p>Loading apps...</p>
+                </div>
             </div>
         </section>
         
-        <!-- Featured Apps -->
+        <!-- Featured Apps - Horizontal Scrolling -->
         <section class="category-section">
             <div class="section-header">
                 <h2 class="section-title">Featured Apps</h2>
@@ -964,8 +1270,8 @@
                     See All <span class="material-icons">chevron_right</span>
                 </a>
             </div>
-            <div class="featured-grid" id="featuredApps">
-                <div class="empty-state" style="grid-column: 1/-1;">
+            <div class="apps-scroll" id="featuredApps">
+                <div class="empty-state" style="padding: 24px;">
                     <span class="material-icons">hourglass_empty</span>
                     <p>Loading apps...</p>
                 </div>
@@ -973,7 +1279,7 @@
         </section>
     </main>
     
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation - Updated with Upload FAB -->
     <nav class="bottom-nav">
         <a href="home.html" class="nav-item active">
             <span class="material-icons">home</span>
@@ -983,10 +1289,12 @@
             <span class="material-icons">apps</span>
             <span>All Apps</span>
         </a>
-        <a href="search.html" class="nav-item">
-            <span class="material-icons">search</span>
-            <span>Search</span>
-        </a>
+        
+        <!-- Center Upload Button -->
+        <button class="upload-fab" onclick="openUploadModal()" title="Upload App">
+            <span class="material-icons">add</span>
+        </button>
+        
         <a href="news.html" class="nav-item">
             <span class="material-icons">newspaper</span>
             <span>News</span>
@@ -996,6 +1304,85 @@
             <span>Profile</span>
         </a>
     </nav>
+    
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="uploadModal" onclick="closeUploadModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload New App</h2>
+                <button class="modal-close" onclick="closeUploadModal()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            
+            <form id="uploadForm" onsubmit="handleUpload(event)">
+                <div class="form-group">
+                    <label class="form-label">App Name *</label>
+                    <input type="text" class="form-input" id="appName" required placeholder="Enter app name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Developer Name *</label>
+                    <input type="text" class="form-input" id="developerName" required placeholder="Enter developer name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">App Icon URL *</label>
+                    <input type="url" class="form-input" id="appIconUrl" required placeholder="https://example.com/icon.png">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Download URL *</label>
+                    <input type="url" class="form-input" id="downloadUrl" required placeholder="https://example.com/app.swb">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">File Size *</label>
+                    <input type="text" class="form-input" id="fileSize" required placeholder="e.g., 25 MB">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Screenshots <span class="optional">(Optional - Max 6)</span></label>
+                    <div class="screenshots-container">
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">1</span>
+                            <input type="url" class="screenshot-url" placeholder="Screenshot 1 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">2</span>
+                            <input type="url" class="screenshot-url" placeholder="Screenshot 2 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">3</span>
+                            <input type="url" class="screenshot-url" placeholder="Screenshot 3 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">4</span>
+                            <input type="url" class="screenshot-url" placeholder="Screenshot 4 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">5</span>
+                            <input type="url" class="screenshot-url" placeholder="Screenshot 5 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">6</span>
+                            <input type="url" class="screenshot-url" placeholder="Screenshot 6 URL">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea class="form-textarea" id="appDescription" required placeholder="Enter app description..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="material-icons">cloud_upload</span>
+                    Upload App
+                </button>
+            </form>
+        </div>
+    </div>
     
     <!-- Toast -->
     <div class="toast" id="toast"></div>
@@ -1060,7 +1447,6 @@
                 img.src = tempImage.src;
                 img.classList.add('loaded');
                 
-                // Remove skeleton and placeholder with fade out
                 if (skeleton) {
                     skeleton.style.opacity = '0';
                     skeleton.style.transition = 'opacity 0.3s ease';
@@ -1075,7 +1461,6 @@
             };
             
             tempImage.onerror = function() {
-                // Show error state or keep placeholder
                 if (placeholder) {
                     placeholder.textContent = 'broken_image';
                     placeholder.style.opacity = '0.5';
@@ -1083,11 +1468,9 @@
                 if (skeleton) skeleton.remove();
             };
             
-            // Start loading
             tempImage.src = img.dataset.src;
         }
         
-        // Create Progressive Image HTML
         function createProgressiveImage(src, alt, size = '80') {
             const placeholder = 'https://via.placeholder.com/' + size + '/e0e0e0/999999?text=...';
             return `
@@ -1102,17 +1485,56 @@
             `;
         }
         
-        // Load apps data
-        loadApps();
-        loadStats();
+        // Load apps data - LATEST FIRST
+        function loadApps() {
+            initImageObserver();
+            
+            database.ref('apps').on('value', (snapshot) => {
+                const apps = snapshot.val();
+                if (apps) {
+                    let appsArray = Object.entries(apps).map(([id, app]) => ({ id, ...app }));
+                    
+                    appsArray.sort((a, b) => {
+                        let timeA = a.createdAt || a.timestamp || a.uploadedAt || a.date || 0;
+                        let timeB = b.createdAt || b.timestamp || b.uploadedAt || b.date || 0;
+                        
+                        if (typeof timeA === 'string') timeA = new Date(timeA).getTime();
+                        if (typeof timeB === 'string') timeB = new Date(timeB).getTime();
+                        
+                        return timeB - timeA;
+                    });
+                    
+                    const newApps = appsArray.slice(0, 10);
+                    renderAppScroll('newUploads', newApps);
+                    
+                    const trending = appsArray.filter(a => a.category === 'trending').slice(0, 10);
+                    renderAppScroll('trendingApps', trending);
+                    
+                    const liked = appsArray.filter(a => a.category === 'liked').slice(0, 10);
+                    renderAppScroll('mostLiked', liked);
+                    
+                    const featured = appsArray.slice(0, 8);
+                    renderFeaturedHorizontal('featuredApps', featured);
+                    
+                    setTimeout(() => {
+                        document.querySelectorAll('.progressive-image-wrapper').forEach(wrapper => {
+                            imageObserver.observe(wrapper);
+                        });
+                    }, 100);
+                } else {
+                    renderEmpty('newUploads');
+                    renderEmpty('trendingApps');
+                    renderEmpty('mostLiked');
+                    renderEmpty('featuredApps');
+                }
+            });
+        }
         
-        // Toggle Drawer
         function toggleDrawer() {
             document.querySelector('.drawer').classList.toggle('active');
             document.querySelector('.drawer-overlay').classList.toggle('active');
         }
         
-        // Toggle Dark Mode
         function toggleDarkMode() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -1134,7 +1556,6 @@
             }
         }
         
-        // Update Drawer User
         function updateDrawerUser() {
             const userName = document.getElementById('drawerUserName');
             const userEmail = document.getElementById('drawerUserEmail');
@@ -1156,7 +1577,6 @@
                                  onload="this.classList.add('loaded')">
                         </div>
                     `;
-                    // Load avatar image immediately
                     setTimeout(() => {
                         const wrapper = avatar.querySelector('.progressive-image-wrapper');
                         if (wrapper) loadImage(wrapper);
@@ -1172,14 +1592,12 @@
             }
         }
         
-        // Logout
         function logout() {
             localStorage.removeItem('currentUser');
             showToast('Logged out successfully');
             setTimeout(() => location.reload(), 1000);
         }
         
-        // Show Toast
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -1187,49 +1605,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
         
-        // Load Apps
-        function loadApps() {
-            // Initialize observer first
-            initImageObserver();
-            
-            database.ref('apps').on('value', (snapshot) => {
-                const apps = snapshot.val();
-                if (apps) {
-                    const appsArray = Object.entries(apps).map(([id, app]) => ({ id, ...app }));
-                    
-                    // New Uploads
-                    const newApps = appsArray.filter(a => a.category === 'new' || !a.category).slice(0, 10);
-                    renderAppScroll('newUploads', newApps);
-                    
-                    // Trending Apps
-                    const trending = appsArray.filter(a => a.category === 'trending').slice(0, 10);
-                    renderAppScroll('trendingApps', trending);
-                    
-                    // Most Liked
-                    const liked = appsArray.filter(a => a.category === 'liked').slice(0, 10);
-                    renderAppScroll('mostLiked', liked);
-                    
-                    // Featured
-                    const featured = appsArray.slice(0, 6);
-                    renderFeaturedGrid('featuredApps', featured);
-                    
-                    // Observe all new images
-                    setTimeout(() => {
-                        document.querySelectorAll('.progressive-image-wrapper').forEach(wrapper => {
-                            imageObserver.observe(wrapper);
-                        });
-                    }, 100);
-                } else {
-                    renderEmpty('newUploads');
-                    renderEmpty('trendingApps');
-                    renderEmpty('mostLiked');
-                    renderEmpty('featuredApps');
-                }
-            });
-        }
-        
-        // Render App Scroll
-        // Updated markup to match the requested style: icon (rounded), name below, rating in a pill
         function renderAppScroll(containerId, apps) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -1244,7 +1619,7 @@
                     <div class="app-icon" aria-hidden="true">
                         ${createProgressiveImage(app.icon, app.name, '96')}
                     </div>
-                    <div>
+                    <div style="width: 100%; overflow: hidden;">
                         <div class="app-name">${escapeHtml(app.name)}</div>
                         <div class="app-meta">
                             <span class="rating-pill" aria-label="rating ${rating}">
@@ -1258,32 +1633,44 @@
             }).join('');
         }
         
-        // Render Featured Grid
-        function renderFeaturedGrid(containerId, apps) {
+        function renderFeaturedHorizontal(containerId, apps) {
             const container = document.getElementById(containerId);
+            if (!container) return;
             if (apps.length === 0) {
                 renderEmpty(containerId);
                 return;
             }
-            container.innerHTML = apps.map(app => `
-                <div class="featured-card" onclick="openApp('${app.id}')">
-                    <div class="featured-icon">
-                        ${createProgressiveImage(app.icon, app.name, '56')}
+            
+            container.innerHTML = apps.map(app => {
+                const rating = app.rating ? (typeof app.rating === 'number' ? app.rating.toFixed(1) : app.rating) : '0.0';
+                return `
+                <div class="featured-card-horizontal" onclick="openApp('${app.id}')">
+                    <div class="featured-icon-large">
+                        ${createProgressiveImage(app.icon, app.name, '72')}
                     </div>
-                    <div class="featured-info">
-                        <div class="featured-name">${app.name}</div>
-                        <div class="featured-developer">${app.developer || 'Unknown'}</div>
-                        <div class="featured-size">${app.size || 'Unknown size'}</div>
-                        <div class="featured-rating">
-                            <span class="material-icons">star</span>
-                            ${app.rating || '0.0'} (${app.downloads || 0})
+                    <div class="featured-info-horizontal">
+                        <div class="featured-name-large">${escapeHtml(app.name)}</div>
+                        <div class="featured-developer-large">${escapeHtml(app.developer || 'Unknown Developer')}</div>
+                        <div class="featured-stats">
+                            <div class="featured-stat-item">
+                                <span class="material-icons">star</span>
+                                <span>${rating}</span>
+                            </div>
+                            <div class="featured-stat-item">
+                                <span class="material-icons">download</span>
+                                <span>${formatNumber(app.downloads || 0)}</span>
+                            </div>
+                            <div class="featured-stat-item">
+                                <span class="material-icons">save</span>
+                                <span>${app.size || 'N/A'}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
         
-        // Render Empty
         function renderEmpty(containerId) {
             const container = document.getElementById(containerId);
             container.innerHTML = `
@@ -1294,7 +1681,6 @@
             `;
         }
         
-        // Load Stats
         function loadStats() {
             database.ref('apps').on('value', (snapshot) => {
                 const apps = snapshot.val();
@@ -1311,19 +1697,16 @@
             });
         }
         
-        // Format Number
         function formatNumber(num) {
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
             return num;
         }
         
-        // Open App
         function openApp(appId) {
             window.location.href = `app-details.html?id=${appId}`;
         }
 
-        // Utility to escape HTML in JS-inserted strings
         function escapeHtml(text) {
             if (!text && text !== 0) return '';
             return String(text)
@@ -1334,38 +1717,66 @@
                 .replace(/'/g, '&#039;');
         }
         
-        // Carousel Banner
         let banners = [];
         let currentSlide = 0;
         let carouselInterval;
         
-        // Load banners from Firebase
         function loadBanners() {
             database.ref('banners').orderByChild('createdAt').on('value', (snapshot) => {
                 const data = snapshot.val();
+                console.log("Firebase se aaya data:", data);
+                
                 if (data) {
-                    banners = Object.entries(data).map(([id, banner]) => ({ id, ...banner }));
+                    banners = Object.entries(data).map(([id, banner]) => ({ 
+                        id, 
+                        ...banner 
+                    }));
+                    
+                    // SABSE IMPORTANT YAHAN HAI: Newest first (descending order)
+                    banners.sort((a, b) => {
+                        const dateA = new Date(a.createdAt || 0);
+                        const dateB = new Date(b.createdAt || 0);
+                        return dateB - dateA; // Descending order - newest pehle
+                    });
+                    
+                    console.log("Banners array (newest first):", banners);
                     renderCarousel();
+                } else {
+                    console.log("Koi banner nahi mila Firebase mein");
+                    document.getElementById('carouselContainer').innerHTML = 
+                        '<div class="carousel-loading">No banners available</div>';
                 }
+            }, (error) => {
+                console.error("Firebase error:", error);
             });
         }
         
         function renderCarousel() {
             const container = document.getElementById('carouselContainer');
-            const indicators = document.getElementById('carouselIndicators');
             
-            if (banners.length === 0) return;
+            if (banners.length === 0) {
+                console.log("Banners array khali hai");
+                return;
+            }
             
-            // Render slides
             let slidesHTML = '';
+            
+            // Ab banners array already sorted hai (newest first)
             banners.forEach((banner, index) => {
+                const linkUrl = banner.linkUrl ? banner.linkUrl.trim() : '#';
+                const imageUrl = banner.imageUrl || '';
+                
+                console.log(`Banner ${index}: linkUrl = ${linkUrl}, createdAt = ${banner.createdAt}`);
+                
                 slidesHTML += `
                     <div class="carousel-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
-                        <a href="${banner.linkUrl}" target="_blank">
+                        <a href="${linkUrl}" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
                             <div class="progressive-image-wrapper">
                                 <div class="img-skeleton"></div>
                                 <span class="material-icons placeholder-icon">image</span>
-                                <img data-src="${banner.imageUrl}" 
+                                <img data-src="${imageUrl}" 
                                      alt="Banner ${index + 1}"
                                      onload="this.classList.add('loaded')"
                                      onerror="this.src='https://via.placeholder.com/800x400/333/666?text=Banner'">
@@ -1375,9 +1786,13 @@
                 `;
             });
             
-            // Keep navigation buttons
             slidesHTML += `
-                <div class="carousel-indicators" id="carouselIndicators"></div>
+                <div class="carousel-indicators" id="carouselIndicators">
+                    ${banners.map((_, index) => `
+                        <div class="carousel-indicator ${index === 0 ? 'active' : ''}" 
+                             onclick="goToSlide(${index})"></div>
+                    `).join('')}
+                </div>
                 <button class="carousel-nav prev" onclick="prevSlide()">
                     <span class="material-icons">chevron_left</span>
                 </button>
@@ -1388,21 +1803,11 @@
             
             container.innerHTML = slidesHTML;
             
-            // Render indicators
-            const indicatorsContainer = document.getElementById('carouselIndicators');
-            if (indicatorsContainer) {
-                indicatorsContainer.innerHTML = banners.map((_, index) => `
-                    <div class="carousel-indicator ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>
-                `).join('');
-            }
-            
-            // Load first banner immediately
             setTimeout(() => {
                 const firstSlide = container.querySelector('.carousel-slide.active .progressive-image-wrapper');
                 if (firstSlide) loadImage(firstSlide);
             }, 100);
             
-            // Start auto-play
             startCarousel();
         }
         
@@ -1425,7 +1830,6 @@
                 indicator.classList.toggle('active', i === index);
             });
             
-            // Load image for active slide
             const activeSlide = slides[index];
             if (activeSlide) {
                 const wrapper = activeSlide.querySelector('.progressive-image-wrapper');
@@ -1447,20 +1851,97 @@
         
         function goToSlide(index) {
             showSlide(index);
-            startCarousel(); // Reset timer
+            startCarousel();
         }
         
-        // Load banners on page load
+        // Upload Modal Functions
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeUploadModal(event) {
+            if (!event || event.target === document.getElementById('uploadModal')) {
+                document.getElementById('uploadModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function handleUpload(event) {
+            event.preventDefault();
+            
+            // Check if user is logged in
+            if (!currentUser) {
+                showToast('Please login to upload app');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="material-icons">hourglass_top</span> Uploading...';
+            
+            // Get all screenshot URLs - filter out empty ones (OPTIONAL now)
+            const screenshotInputs = document.querySelectorAll('.screenshot-url');
+            const screenshots = Array.from(screenshotInputs)
+                .map(input => input.value.trim())
+                .filter(url => url !== '');
+            
+            const appData = {
+                name: document.getElementById('appName').value.trim(),
+                developer: document.getElementById('developerName').value.trim(),
+                icon: document.getElementById('appIconUrl').value.trim(),
+                downloadUrl: document.getElementById('downloadUrl').value.trim(),
+                size: document.getElementById('fileSize').value.trim(),
+                screenshots: screenshots,
+                description: document.getElementById('appDescription').value.trim(),
+                rating: 0.0,
+                downloads: 0,
+                createdAt: new Date().toISOString(),
+                timestamp: Date.now(),
+                category: 'new',
+                userId: currentUser.id  // YE LINE ADD KI HAI - User ID save ho rahi hai
+            };
+            
+            // Push to Firebase
+            const newAppRef = database.ref('apps').push();
+            newAppRef.set(appData)
+                .then(() => {
+                    showToast('App uploaded successfully!');
+                    document.getElementById('uploadForm').reset();
+                    closeUploadModal();
+                    
+                    // Refresh the new uploads section
+                    loadApps();
+                })
+                .catch((error) => {
+                    console.error('Upload error:', error);
+                    showToast('Upload failed. Please try again.');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span class="material-icons">cloud_upload</span> Upload App';
+                });
+        }
+        
+        // Initialize
+        loadApps();
+        loadStats();
         loadBanners();
         
-        // Preload visible images on window load
         window.addEventListener('load', () => {
             document.querySelectorAll('.progressive-image-wrapper').forEach((wrapper, index) => {
-                if (index < 4) { // Load first 4 images immediately
+                if (index < 4) {
                     loadImage(wrapper);
                     if (imageObserver) imageObserver.unobserve(wrapper);
                 }
             });
+        });
+        
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeUploadModal();
+            }
         });
     </script>
 </body>

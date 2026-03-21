@@ -126,7 +126,7 @@
         /* Main Content */
         .main-content {
             margin-top: 140px;
-            padding: 16px;
+            padding: 16px 16px;
         }
         
         /* Apps Grid */
@@ -473,6 +473,10 @@
             transition: opacity 200ms ease-in-out;
         }
     </style>
+
+  <!-- Google AdSense Code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2753772773698567"
+        crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- App Bar -->
@@ -500,7 +504,13 @@
                 <span class="material-icons">hourglass_empty</span>
                 <h3>Loading apps...</h3>
             </div>
-        </div>
+        <div id="appsContainer" class="apps-grid">
+            <div class="empty-state">
+                <span class="material-icons">hourglass_empty</span>
+                <h3>Loading apps...</h3>
+            </div>
+         </div>
+      </div>
     </main>
     
     <!-- View Toggle -->

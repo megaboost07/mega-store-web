@@ -20,41 +20,33 @@
             --primary: #1a73e8;
             --primary-dark: #1557b0;
             --secondary: #00c853;
-            --background: #f8f9fa;
-            --surface: #f8f9fa;
-            --text-primary: #202124;
-            --text-secondary: #5f6368;
-            --divider: #dadce0;
-            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
-            --shadow-3: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
-            --link-color: #1a73e8;
+            --background: #ffffff;
+            --surface: #ffffff;
+            --text-primary: #0f0f0f;
+            --text-secondary: #606060;
+            --divider: #e5e5e5;
+            --shadow-1: 0 1px 2px rgba(0,0,0,0.1);
+            --link-color: #065fd4;
             --link-bg: #e8f0fe;
-            --star-color: #ffb300;
-            --star-empty: #e0e0e0;
+            --star-color: #ffc107;
+            --star-empty: #ddd;
             --highlight-bg: #fff8e1;
-
-            /* Comment / reply colors (default/light) */
-            --comment-bg: #ffffff;      /* comment card background */
-            --reply-bg: #f7f9fb;        /* reply bubble background */
-            --comment-text-color: var(--text-primary);
+            --reply-bg: #f9f9f9;
+            --comment-text-color: #0f0f0f;
         }
         
         [data-theme="dark"] {
-            --background: #0B121E;
-            --surface: #0B121E;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --divider: #333333;
-            --link-color: #8ab4f8;
+            --background: #121A2A;
+            --surface: #121A2A;
+            --text-primary: #f1f1f1;
+            --text-secondary: #aaa;
+            --divider: #333;
+            --link-color: #3ea6ff;
             --link-bg: #1a3a5c;
             --star-empty: #424242;
             --highlight-bg: #2d2a1e;
-
-            /* Comment / reply colors for dark theme */
-            --comment-bg: #0F1720;    /* darker card for comment */
-            --reply-bg: #151E28;      /* slightly different for reply bubble */
-            --comment-text-color: #E6EEF8;
+            --reply-bg: #1a1a1a;
+            --comment-text-color: #f1f1f1;
         }
         
         body {
@@ -71,7 +63,7 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 64px;
+            height: 56px;
             background: var(--surface);
             display: flex;
             align-items: center;
@@ -111,7 +103,7 @@
         
         /* Main Content */
         .main-content {
-            margin-top: 64px;
+            margin-top: 56px;
         }
         
         /* App Header */
@@ -120,6 +112,7 @@
             padding: 24px;
             display: flex;
             gap: 20px;
+            position: relative;
         }
         
         .app-icon-large {
@@ -127,7 +120,7 @@
             height: 100px;
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: var(--shadow-2);
+            box-shadow: var(--shadow-1);
             flex-shrink: 0;
         }
         
@@ -166,7 +159,40 @@
         
         .app-rating-large .material-icons {
             font-size: 18px;
-            color: #ffb300;
+            color: var(--star-color);
+        }
+
+        /* Edit Button - Top Right (REMOVED - Now at bottom) */
+        .app-header-actions {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+        }
+        
+        .edit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .edit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(26,115,232,0.3);
+        }
+        
+        .edit-btn .material-icons {
+            font-size: 16px;
         }
         
         /* Stats Bar */
@@ -226,7 +252,7 @@
         .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-1px);
-            box-shadow: var(--shadow-2);
+            box-shadow: var(--shadow-1);
         }
         
         .btn-secondary {
@@ -243,12 +269,25 @@
             background: #e53935;
             color: white;
         }
+
+        /* Edit Button Style for Bottom Bar */
+        .btn-edit {
+            background: #ff9800;
+            color: white;
+            border: none;
+        }
+        
+        .btn-edit:hover {
+            background: #f57c00;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255,152,0,0.3);
+        }
         
         /* Screenshots */
         .screenshots-section {
             background: var(--surface);
-            padding: 10px;
-            margin-top: 8px;
+            padding: 8px 8px;
+            margin-top: 4px;
         }
         
         .section-title {
@@ -260,10 +299,11 @@
         
         .screenshots-scroll {
             display: flex;
+           padding: 15px 15px;
             gap: 12px;
             overflow-x: auto;
             scrollbar-width: none;
-            padding-bottom: 8px;
+            padding-bottom: 0px;
         }
         
         .screenshots-scroll::-webkit-scrollbar {
@@ -442,7 +482,7 @@
             opacity: 0.8;
         }
         
-        /* Play Store Style Rating Section */
+        /* Rating Section */
         .rating-section {
             background: var(--surface);
             padding: 24px;
@@ -507,7 +547,6 @@
             transition: width 0.5s ease;
         }
         
-        /* Interactive Star Rating */
         .user-rating-section {
             border-top: 1px solid var(--divider);
             padding-top: 24px;
@@ -557,23 +596,6 @@
             color: var(--star-color);
         }
         
-        .star-btn.half-active .material-icons {
-            background: linear-gradient(90deg, var(--star-color) 50%, var(--star-empty) 50%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .star-btn.animate {
-            animation: starPop 0.3s ease;
-        }
-        
-        @keyframes starPop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.4); }
-            100% { transform: scale(1); }
-        }
-        
         .rating-label {
             font-size: 14px;
             color: var(--text-secondary);
@@ -581,99 +603,75 @@
             min-height: 20px;
         }
         
-        .rating-hint {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 8px;
-        }
-        
-        /* Modern Comments Section */
+        /* ===== COMMENTS SECTION - CLEAN DESIGN ===== */
         .comments-section {
             background: var(--surface);
-            padding: 24px;
+            padding: 16px;
             margin-top: 8px;
         }
         
         .comments-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 24px;
+            margin-bottom: 24px;
         }
         
         .comments-count {
-            font-size: 14px;
-            color: var(--text-secondary);
+            font-size: 16px;
             font-weight: 500;
+            color: var(--text-primary);
         }
         
+        /* Comment Input Box */
         .comment-input-wrapper {
             display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-            animation: slideUp 0.3s ease;
+            gap: 16px;
+            margin-bottom: 32px;
         }
         
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .comment-avatar {
+        .user-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: #065fd4;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
             color: white;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: var(--shadow-1);
+            font-weight: 500;
+            font-size: 16px;
+            overflow: hidden;
         }
         
-        .comment-avatar .material-icons {
-            color: white;
-            font-size: 20px;
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .comment-input-area {
             flex: 1;
-            background: var(--background);
-            border-radius: 20px;
-            padding: 12px 16px;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        
-        .comment-input-area:focus-within {
-            background: var(--surface);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--link-bg);
         }
         
         .comment-input {
             width: 100%;
             border: none;
+            border-bottom: 1px solid var(--divider);
             background: transparent;
             font-size: 14px;
             color: var(--text-primary);
             resize: none;
             font-family: inherit;
             outline: none;
-            min-height: 20px;
+            min-height: 24px;
+            padding: 8px 0;
+            transition: border-color 0.2s;
         }
         
-        .comment-input::placeholder {
-            color: var(--text-secondary);
+        .comment-input:focus {
+            border-bottom-color: var(--text-primary);
         }
         
         .comment-actions-row {
@@ -681,16 +679,14 @@
             justify-content: flex-end;
             gap: 8px;
             margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--divider);
         }
         
         .comment-btn {
-            padding: 8px 20px;
+            padding: 10px 16px;
             border: none;
             border-radius: 18px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
@@ -709,294 +705,266 @@
         .comment-btn-submit {
             background: var(--primary);
             color: white;
-            box-shadow: 0 2px 4px rgba(26,115,232,0.3);
         }
         
         .comment-btn-submit:hover:not(:disabled) {
             background: var(--primary-dark);
-            box-shadow: 0 4px 8px rgba(26,115,232,0.4);
-            transform: translateY(-1px);
         }
         
         .comment-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
         
-        /* Comment Item - Modern Card Style */
+        /* ===== MAIN COMMENTS LIST ===== */
         .comments-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 24px;
         }
         
-        .comment-item {
+        /* ===== MAIN COMMENT THREAD ===== */
+        .comment-thread {
             display: flex;
-            gap: 12px;
-            padding: 16px;
-            background: var(--comment-bg);
-            border-radius: 16px;
-            transition: all 0.2s;
-            animation: fadeIn 0.3s ease;
+            gap: 16px;
+            position: relative;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--divider);
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Bina reply wale comment mein border hatane ke liye */
+        .comment-thread:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
         }
         
-        .comment-item:hover {
-            box-shadow: var(--shadow-1);
-            transform: translateY(-2px);
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            cursor: pointer;
         }
         
-        .comment-content {
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .comment-body {
             flex: 1;
             min-width: 0;
         }
         
         .comment-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
-        }
-        
-        .comment-author-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
         }
         
         .comment-author {
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 500;
+            font-size: 13px;
             color: var(--text-primary);
         }
         
-        .comment-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            color: var(--primary);
-            background: var(--link-bg);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-weight: 500;
-            width: fit-content;
-        }
-        
-        .comment-date {
+        .comment-time {
             font-size: 12px;
             color: var(--text-secondary);
         }
         
         .comment-text {
             font-size: 14px;
+            line-height: 1.4;
             color: var(--comment-text-color);
-            line-height: 1.6;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             word-wrap: break-word;
         }
         
-        .comment-actions {
+        /* Comment Actions */
+        .comment-actions-bar {
             display: flex;
-            gap: 8px;
             align-items: center;
-            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
         }
         
-        .comment-action {
-            font-size: 12px;
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px;
+            border: none;
+            background: transparent;
             color: var(--text-secondary);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 12px;
-            border-radius: 16px;
+            border-radius: 50%;
             transition: all 0.2s;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: transparent;
-            border: none;
+            font-size: 12px;
         }
         
-        .comment-action:hover {
+        .action-btn:hover {
             background: rgba(0,0,0,0.05);
+        }
+        
+        .action-btn .material-icons {
+            font-size: 20px;
+        }
+        
+        .action-btn.liked {
+            color: #065fd4;
+        }
+        
+        .more-options {
+            margin-left: auto;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .comment-thread:hover .more-options {
+            opacity: 1;
+        }
+        
+        /* ===== REPLIES CONTAINER ===== */
+        .replies-container {
+            margin-top: 12px;
+            padding-left: 0;
+        }
+        
+        .view-replies-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #065fd4;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 8px 0;
+            border: none;
+            background: transparent;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        
+        .view-replies-btn:hover {
             color: var(--text-primary);
         }
         
-        .comment-action.active {
-            color: var(--primary);
-            background: var(--link-bg);
+        .view-replies-btn .material-icons {
+            font-size: 20px;
+            transition: transform 0.3s;
         }
         
-        .comment-action .material-icons {
-            font-size: 16px;
+        .view-replies-btn.expanded .material-icons {
+            transform: rotate(180deg);
         }
         
-        .comment-action.liked {
-            color: #e53935;
+        .replies-list {
+            display: none;
+            flex-direction: column;
+            gap: 0;
+            background: var(--reply-bg);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 8px;
         }
         
-        /* Nested Replies System */
-        .replies-container {
-            margin-top: 12px;
-            margin-left: 52px;
-            position: relative;
+        .replies-list.active {
+            display: flex;
         }
         
-        .replies-container::before {
-            content: '';
-            position: absolute;
-            left: -36px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--divider);
-            border-radius: 1px;
-        }
-        
+        /* ===== REPLY ITEM - LINE BY LINE ===== */
         .reply-item {
             display: flex;
             gap: 12px;
             padding: 12px 0;
+            border-bottom: 1px solid var(--divider);
             position: relative;
         }
         
-        .reply-item::before {
-            content: '';
-            position: absolute;
-            left: -36px;
-            top: 24px;
-            width: 20px;
-            height: 2px;
-            background: var(--divider);
-            border-radius: 1px;
+        /* Har reply ke niche line, last wale mein nahi */
+        .reply-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .reply-item:first-child {
+            padding-top: 0;
         }
         
         .reply-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #9c27b0, #673ab7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow: hidden;
             flex-shrink: 0;
-            color: white;
-            font-weight: 600;
-            font-size: 12px;
         }
         
-        .reply-avatar .material-icons {
-            font-size: 16px;
-            color: white;
+        .reply-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .reply-content {
+        .reply-body {
             flex: 1;
-            background: var(--reply-bg);
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid var(--divider);
+            min-width: 0;
         }
         
         .reply-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            gap: 4px;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
         }
         
         .reply-author {
-            font-weight: 600;
+            font-weight: 500;
             font-size: 13px;
             color: var(--text-primary);
         }
         
         .reply-to {
+            color: #065fd4;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .reply-to:hover {
+            text-decoration: underline;
+        }
+        
+        .reply-time {
             font-size: 12px;
-            color: var(--text-secondary);
-            margin-left: 4px;
-        }
-        
-        .reply-to::before {
-            content: '•';
-            margin-right: 4px;
-            color: var(--divider);
-        }
-        
-        .reply-date {
-            font-size: 11px;
             color: var(--text-secondary);
         }
         
         .reply-text {
-            font-size: 13px;
+            font-size: 14px;
+            line-height: 1.4;
             color: var(--comment-text-color);
-            line-height: 1.5;
-            margin-bottom: 8px;
-        }
-        
-        .reply-actions {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .reply-action {
-            font-size: 11px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 12px;
-            transition: all 0.2s;
-        }
-        
-        .reply-action:hover {
-            background: var(--background);
-            color: var(--text-primary);
+            margin-bottom: 4px;
         }
         
         /* Reply Input */
-        .reply-input-wrapper {
+        .reply-input-container {
             display: none;
             gap: 12px;
             margin-top: 12px;
-            margin-left: 52px;
-            animation: slideDown 0.3s ease;
-            position: relative;
+            margin-bottom: 16px;
+            animation: slideDown 0.2s ease;
+            padding: 12px;
+            background: var(--reply-bg);
+            border-radius: 12px;
         }
         
-        .reply-input-wrapper::before {
-            content: '';
-            position: absolute;
-            left: -36px;
-            top: 20px;
-            width: 20px;
-            height: 2px;
-            background: var(--divider);
-        }
-        
-        .reply-input-wrapper.active {
+        .reply-input-container.active {
             display: flex;
         }
         
@@ -1011,99 +979,68 @@
             }
         }
         
-        .nested-reply-input {
-            margin-left: 44px;
-            margin-top: 8px;
-        }
-        
-        .nested-reply-input::before {
-            left: -28px;
-            width: 16px;
-        }
-        
-        /* View Replies Button */
-        .view-replies-btn {
+        .reply-input-actions {
             display: flex;
-            align-items: center;
+            justify-content: flex-end;
             gap: 8px;
-            color: var(--primary);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.2s;
             margin-top: 8px;
-            margin-left: 52px;
-            width: fit-content;
-            background: var(--link-bg);
-            border: none;
         }
         
-        .view-replies-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateX(4px);
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .more-options {
+                opacity: 1;
+            }
+            
+            .replies-list {
+                padding: 8px;
+            }
         }
         
-        .view-replies-btn .material-icons {
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state .material-icons {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .empty-state h3 {
             font-size: 18px;
-            transition: transform 0.3s;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
         
-        .view-replies-btn.expanded .material-icons {
-            transform: rotate(180deg);
-        }
-        
-        .replies-list {
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
-        
-        .replies-list.active {
-            display: block;
-        }
-        
-        .reply-badge {
-            background: var(--primary);
-            color: white;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 4px;
-            font-weight: 600;
-        }
-        
-        /* Nested Reply Level 2+ */
-        .nested-reply {
-            margin-left: 44px;
-        }
-        
-        .nested-reply::before {
-            left: -28px;
-            width: 16px;
-        }
-        
-        .nested-reply .reply-content {
-            background: var(--highlight-bg);
-        }
-        
-        /* Download Bar */
+        /* Download Bar - Updated for 3 buttons */
         .download-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: var(--surface);
-            padding: 12px 24px;
+            padding: 12px 16px;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
             display: flex;
-            gap: 12px;
+            gap: 8px;
             z-index: 100;
         }
         
         .download-bar .btn {
             flex: 1;
+            padding: 12px 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            min-width: 0;
+        }
+        
+        .download-bar .btn .material-icons {
+            font-size: 20px;
         }
         
         /* Toast */
@@ -1120,7 +1057,7 @@
             opacity: 0;
             transition: all 0.3s;
             z-index: 300;
-            box-shadow: var(--shadow-2);
+            box-shadow: var(--shadow-1);
         }
         
         .toast.show {
@@ -1144,94 +1081,207 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 48px 24px;
-            color: var(--text-secondary);
+
+        /* Edit Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
         }
         
-        .empty-state .material-icons {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.5;
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
         
-        .empty-state h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
+        .modal-content {
+            background: var(--surface);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: 24px 24px 0 0;
+            padding: 24px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            overflow-y: auto;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
             color: var(--text-primary);
         }
         
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .lightbox-nav {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .lightbox-nav.prev {
-                left: 10px;
-            }
-            
-            .lightbox-nav.next {
-                right: 10px;
-            }
-            
-            .lightbox-nav .material-icons {
-                font-size: 24px;
-            }
-            
-            .replies-container {
-                margin-left: 0;
-            }
-            
-            .replies-container::before {
-                left: 20px;
-            }
-            
-            .reply-item::before {
-                left: -20px;
-                width: 12px;
-            }
-            
-            .reply-input-wrapper {
-                margin-left: 0;
-            }
-            
-            .reply-input-wrapper::before {
-                left: 20px;
-            }
-            
-            .view-replies-btn {
-                margin-left: 0;
-            }
-            
-            .nested-reply {
-                margin-left: 28px;
-            }
-            
-            .rating-overview {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .star-btn .material-icons {
-                font-size: 32px;
-            }
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
         }
         
-        /* Highlight animation for new comments */
-        @keyframes highlight {
-            0% { background: var(--highlight-bg); }
-            100% { background: var(--background); }
+        .modal-close:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
         }
         
-        .comment-item.new {
-            animation: highlight 2s ease;
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-label .optional {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .screenshots-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .screenshot-input {
+            position: relative;
+        }
+        
+        .screenshot-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed var(--divider);
+            border-radius: 8px;
+            font-size: 13px;
+            background: var(--background);
+            color: var(--text-primary);
+        }
+        
+        .screenshot-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            border-style: solid;
+        }
+        
+        .screenshot-number {
+            position: absolute;
+            top: -8px;
+            left: 8px;
+            background: var(--primary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-2);
+        }
+        
+        .submit-btn:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .submit-btn .material-icons {
+            font-size: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .screenshots-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
+
+  <!-- Google AdSense Code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2753772773698567"
+        crossorigin="anonymous"></script>
+
 </head>
 <body>
     <!-- App Bar -->
@@ -1269,17 +1319,89 @@
         </button>
         <div class="lightbox-counter" id="lightboxCounter">1 / 5</div>
     </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal" onclick="closeEditModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit App</h2>
+                <button class="modal-close" onclick="closeEditModal()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            
+            <form id="editForm" onsubmit="handleEdit(event)">
+                <div class="form-group">
+                    <label class="form-label">App Name *</label>
+                    <input type="text" class="form-input" id="editAppName" required placeholder="Enter app name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Developer Name *</label>
+                    <input type="text" class="form-input" id="editDeveloperName" required placeholder="Enter developer name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">App Icon URL *</label>
+                    <input type="url" class="form-input" id="editAppIconUrl" required placeholder="https://example.com/icon.png">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Download URL *</label>
+                    <input type="url" class="form-input" id="editDownloadUrl" required placeholder="https://example.com/app.apk">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">File Size *</label>
+                    <input type="text" class="form-input" id="editFileSize" required placeholder="e.g., 25 MB">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">    Screenshots <span class="optional">(Optional - Max 6)</span></label>
+                    <div class="screenshots-container" id="editScreenshotsContainer">
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">1</span>
+                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 1 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">2</span>
+                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 2 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">3</span>
+                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 3 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">4</span>
+                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 4 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">5</span>
+                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 5 URL">
+                        </div>
+                        <div class="screenshot-input">
+                            <span class="screenshot-number">6</span>
+                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 6 URL">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea class="form-textarea" id="editDescription" required placeholder="Enter app description..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="editSubmitBtn">
+                    <span class="material-icons">save</span>
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
     
     <!-- Download Bar -->
     <div class="download-bar" id="downloadBar" style="display: none;">
-        <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
-            <span class="material-icons">favorite</span>
-            <span id="likeText">Like</span>
-        </button>
-        <button class="btn btn-primary" onclick="downloadApp()">
-            <span class="material-icons">download</span>
-            Download
-        </button>
+        <!-- Buttons will be dynamically inserted here by JavaScript -->
     </div>
     
     <!-- Toast -->
@@ -1314,6 +1436,7 @@
         let currentImageIndex = 0;
         let activeReplyInput = null;
         let ratingDistribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
+        let isAppOwner = false;  // YE VARIABLE CHECK KAREGA KI USER OWNER HAI YA NAHI
         
         // Rating labels
         const ratingLabels = {
@@ -1345,6 +1468,8 @@
             database.ref(`apps/${appId}`).once('value').then(snapshot => {
                 appData = snapshot.val();
                 if (appData) {
+                    // YE CHECK KAREGA KI CURRENT USER HI OWNER HAI
+                    checkIfOwner();
                     screenshots = appData.screenshots || [];
                     loadRatingDistribution();
                     renderAppDetails();
@@ -1359,6 +1484,25 @@
                     `;
                 }
             });
+        }
+
+        // YE FUNCTION CHECK KARTA HAI KI USER OWNER HAI YA NAHI
+        function checkIfOwner() {
+            if (!currentUser || !appData) {
+                isAppOwner = false;
+                return;
+            }
+            
+            // Check karo ki appData.userId match karta hai currentUser.id se
+            if (appData.userId && appData.userId === currentUser.id) {
+                isAppOwner = true;
+            } else {
+                isAppOwner = false;
+            }
+            
+            console.log("Current User:", currentUser ? currentUser.id : "Not logged in");
+            console.log("App UserID:", appData.userId);
+            console.log("Is Owner:", isAppOwner);
         }
         
         function loadRatingDistribution() {
@@ -1391,6 +1535,10 @@
             return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
         }
         
+        function getAvatarUrl(name, size = 40) {
+            return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=random&color=fff&size=${size}`;
+        }
+        
         function renderAppDetails() {
             const screenshotsHtml = screenshots.length > 0 ? `
                 <div class="screenshots-section">
@@ -1406,7 +1554,9 @@
             ` : '';
             
             const processedDescription = linkifyText(appData.description);
-            const userInitials = currentUser ? getInitials(currentUser.name) : 'U';
+            
+            // EDIT BUTTON YEHAN SE HATA DIYA (header se remove)
+            // Ab sirf bottom bar mein dikhega
             
             document.getElementById('mainContent').innerHTML = `
                 <!-- App Header -->
@@ -1454,7 +1604,7 @@
                     <p class="description-text">${processedDescription || 'No description available.'}</p>
                 </div>
                 
-                <!-- Play Store Style Rating Section -->
+                <!-- Rating Section -->
                 <div class="rating-section">
                     <h2 class="section-title">Ratings & Reviews</h2>
                     
@@ -1495,16 +1645,17 @@
                     </div>
                 </div>
                 
-                <!-- Modern Comments Section -->
+                <!-- YouTube Style Comments Section -->
                 <div class="comments-section">
                     <div class="comments-header">
-                        <h2 class="section-title" style="margin: 0;">Comments</h2>
-                        <span class="comments-count" id="commentsCount">0 comments</span>
+                        <span class="comments-count" id="commentsCount">0 Comments</span>
                     </div>
                     
                     <div class="comment-input-wrapper">
-                        <div class="comment-avatar">${userInitials}</div>
-                        <div class="comment-input-area" style="flex: 1;">
+                        <div class="user-avatar">
+                            ${currentUser ? `<img src="${getAvatarUrl(currentUser.name)}" alt="${currentUser.name}">` : 'U'}
+                        </div>
+                        <div class="comment-input-area">
                             <textarea class="comment-input" id="commentInput" placeholder="Add a comment..." rows="1"></textarea>
                             <div class="comment-actions-row" id="commentActions" style="display: none;">
                                 <button class="comment-btn comment-btn-cancel" onclick="cancelComment()">Cancel</button>
@@ -1528,7 +1679,6 @@
             if (commentInput) {
                 commentInput.addEventListener('focus', () => {
                     document.getElementById('commentActions').style.display = 'flex';
-                    commentInput.rows = 3;
                 });
                 
                 commentInput.addEventListener('input', (e) => {
@@ -1539,7 +1689,41 @@
                 });
             }
             
-            document.getElementById('downloadBar').style.display = 'flex';
+            // DOWNLOAD BAR KO UPDATE KARO - Edit button add karo
+            const downloadBar = document.getElementById('downloadBar');
+            
+            if (isAppOwner) {
+                // Agar owner hai toh 3 buttons dikhao: Like | Edit | Download
+                downloadBar.innerHTML = `
+                    <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
+                        <span class="material-icons">favorite</span>
+                        <span id="likeText">Like</span>
+                    </button>
+                    <button class="btn btn-edit" onclick="openEditModal()">
+                        <span class="material-icons">edit</span>
+                        Edit
+                    </button>
+                    <button class="btn btn-primary" onclick="downloadApp()">
+                        <span class="material-icons">download</span>
+                        Download
+                    </button>
+                `;
+            } else {
+                // Normal user ke liye sirf Like aur Download
+                downloadBar.innerHTML = `
+                    <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
+                        <span class="material-icons">favorite</span>
+                        <span id="likeText">Like</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="downloadApp()">
+                        <span class="material-icons">download</span>
+                        Download
+                    </button>
+                `;
+            }
+            
+            downloadBar.style.display = 'flex';
+            updateLikeButton(); // Like button ka state update karo
             updateRatingBars();
             loadComments();
         }
@@ -1584,8 +1768,6 @@
             stars.forEach((star, index) => {
                 if (index < rating) {
                     star.classList.add('active');
-                    star.classList.add('animate');
-                    setTimeout(() => star.classList.remove('animate'), 300);
                 } else {
                     star.classList.remove('active');
                 }
@@ -1620,7 +1802,6 @@
             const commentActions = document.getElementById('commentActions');
             if (commentInput) {
                 commentInput.value = '';
-                commentInput.rows = 1;
                 commentInput.blur();
             }
             if (commentActions) {
@@ -1741,6 +1922,8 @@
         function updateLikeButton() {
             const btn = document.getElementById('likeBtn');
             const text = document.getElementById('likeText');
+            if (!btn || !text) return; // Safety check
+            
             if (hasLiked) {
                 btn.classList.add('btn-liked');
                 btn.classList.remove('btn-secondary');
@@ -1761,15 +1944,6 @@
             userRating = rating;
             database.ref(`appRatings/${appId}/${currentUser.id}`).set(rating);
             
-            // Animate stars
-            const stars = document.querySelectorAll('.star-btn');
-            stars.forEach((star, index) => {
-                if (index < rating) {
-                    star.classList.add('animate');
-                    setTimeout(() => star.classList.remove('animate'), 300);
-                }
-            });
-            
             database.ref(`appRatings/${appId}`).once('value').then(snapshot => {
                 const ratings = snapshot.val() || {};
                 const values = Object.values(ratings);
@@ -1779,7 +1953,6 @@
                     ratingsCount: values.length
                 });
                 
-                // Update distribution
                 loadRatingDistribution();
             });
             
@@ -1801,8 +1974,8 @@
                     database.ref(`users/${currentUser.id}/downloads`).transaction(current => (current || 0) + 1);
                 }
                 
-                if (appData.downloadLink) {
-                    window.open(appData.downloadLink, '_blank');
+                if (appData.downloadUrl) {
+                    window.open(appData.downloadUrl, '_blank');
                 } else {
                     showToast('Download link not available');
                 }
@@ -1824,9 +1997,9 @@
             const commentRef = database.ref(`comments/${appId}`).push();
             commentRef.set({
                 userId: currentUser.id,
-                userName: currentUser.name,
+                userName: currentUser.name || 'Anonymous',
                 text: text,
-                timestamp: new Date().toISOString(),
+                timestamp: Date.now(),
                 likes: {}
             });
             
@@ -1835,8 +2008,7 @@
             showToast('Comment posted!');
         }
         
-        // Enhanced Reply System with Nested Replies
-        // BUGFIX: Improved container selection & insertion when replying to a reply (parentReplyId)
+        // YouTube Style Reply System
         function toggleReplyInput(commentId, parentReplyId = null, replyToName = null) {
             if (!currentUser) {
                 showToast('Please login to reply');
@@ -1844,148 +2016,105 @@
             }
             
             const inputId = parentReplyId ? `replyInput-${commentId}-${parentReplyId}` : `replyInput-${commentId}`;
-            const existingInput = document.getElementById(inputId);
+            let replyContainer = document.getElementById(inputId);
             
-            // Close any open reply input
+            // Close other open inputs
             if (activeReplyInput && activeReplyInput !== inputId) {
-                const prevInput = document.getElementById(activeReplyInput);
-                if (prevInput) {
-                    prevInput.classList.remove('active');
-                    prevInput.innerHTML = '';
-                    // Remove from DOM to avoid duplicates
-                    prevInput.remove();
+                const prevContainer = document.getElementById(activeReplyInput);
+                if (prevContainer) {
+                    prevContainer.classList.remove('active');
+                    prevContainer.innerHTML = '';
                 }
             }
             
-            if (!existingInput) {
-                // Find proper insertion point
-                let inserted = false;
+            if (!replyContainer) {
+                replyContainer = document.createElement('div');
+                replyContainer.id = inputId;
+                replyContainer.className = 'reply-input-container';
                 
-                // If replying to a specific reply (nested reply), insert right after that reply element
-                if (parentReplyId) {
-                    const parentReplyElem = document.getElementById(`reply-${parentReplyId}`);
-                    if (!parentReplyElem) {
-                        // fallback to the main comment content area
-                        console.warn('Parent reply element not found, falling back to comment content insertion.');
+                const insertAfter = parentReplyId ? 
+                    document.getElementById(`reply-${parentReplyId}`) : 
+                    document.getElementById(`comment-${commentId}`).querySelector('.comment-body');
+                
+                if (insertAfter) {
+                    if (parentReplyId) {
+                        insertAfter.parentNode.insertBefore(replyContainer, insertAfter.nextSibling);
                     } else {
-                        const replyDiv = createReplyInputDiv(inputId, replyToName);
-                        parentReplyElem.parentNode.insertBefore(replyDiv, parentReplyElem.nextSibling);
-                        replyDiv.classList.add('active');
-                        activeReplyInput = inputId;
-                        focusReplyInput(inputId);
-                        inserted = true;
+                        const actionsBar = insertAfter.querySelector('.comment-actions-bar');
+                        actionsBar.parentNode.insertBefore(replyContainer, actionsBar.nextSibling);
                     }
                 }
-                
-                // If not inserted above, append into the comment's reply-input-wrapper
-                if (!inserted) {
-                    const commentContent = document.querySelector(`#comment-${commentId} .comment-content`);
-                    if (!commentContent) return;
-                    
-                    const replyContainer = commentContent.querySelector('.reply-input-wrapper') || commentContent;
-                    const replyDiv = createReplyInputDiv(inputId, replyToName);
-                    replyContainer.appendChild(replyDiv);
-                    replyDiv.classList.add('active');
-                    activeReplyInput = inputId;
-                    focusReplyInput(inputId);
-                }
+            }
+            
+            if (replyContainer.classList.contains('active')) {
+                replyContainer.classList.remove('active');
+                replyContainer.innerHTML = '';
+                activeReplyInput = null;
             } else {
-                if (existingInput.classList.contains('active')) {
-                    existingInput.classList.remove('active');
-                    existingInput.remove();
-                    activeReplyInput = null;
-                } else {
-                    existingInput.classList.add('active');
-                    activeReplyInput = inputId;
-                    focusReplyInput(inputId);
-                }
-            }
-        }
-        
-        // Helper: create reply input element (keeps code DRY)
-        function createReplyInputDiv(inputId, replyToName) {
-            const replyDiv = document.createElement('div');
-            replyDiv.id = inputId;
-            replyDiv.className = inputId.includes('-') && inputId.split('-').length > 2 ? 'reply-input-wrapper nested-reply-input' : 'reply-input-wrapper';
-            
-            const userInitials = getInitials(currentUser.name);
-            const placeholder = replyToName ? `Reply to ${replyToName}...` : 'Add a reply...';
-            
-            replyDiv.innerHTML = `
-                <div class="reply-avatar">${userInitials}</div>
-                <div class="comment-input-area" style="flex: 1;">
-                    <textarea class="comment-input" id="replyText-${inputId}" placeholder="${placeholder}" rows="1" style="min-height: 36px; padding: 8px 12px;"></textarea>
-                    <div class="comment-actions-row" style="margin-top: 8px;">
-                        <button class="comment-btn comment-btn-cancel" onclick="cancelReply('${inputId}')">Cancel</button>
-                        <button class="comment-btn comment-btn-submit" id="replySubmit-${inputId}" onclick="postReply('${commentIdFromInputId(inputId)}', '${parentReplyIdFromInputId(inputId)}')" disabled>Reply</button>
+                const avatar = currentUser ? getAvatarUrl(currentUser.name, 24) : '';
+                const placeholder = replyToName ? `Reply to ${replyToName}...` : 'Add a reply...';
+                
+                replyContainer.innerHTML = `
+                    <div class="reply-avatar-small">
+                        ${currentUser ? `<img src="${avatar}" alt="" style="width:100%;height:100%;border-radius:50%;">` : 'U'}
                     </div>
-                </div>
-            `;
-            
-            // Attach input listener (will be focused by caller)
-            setTimeout(() => {
-                const replyText = document.getElementById(`replyText-${inputId}`);
-                if (replyText) {
-                    replyText.addEventListener('input', (e) => {
-                        const submitBtn = document.getElementById(`replySubmit-${inputId}`);
-                        if (submitBtn) {
+                    <div style="flex:1;">
+                        <textarea class="comment-input" id="replyText-${inputId}" placeholder="${placeholder}" rows="1" style="font-size:14px;"></textarea>
+                        <div class="reply-input-actions">
+                            <button class="comment-btn comment-btn-cancel" onclick="cancelReply('${inputId}')">Cancel</button>
+                            <button class="comment-btn comment-btn-submit" onclick="postReply('${commentId}', '${parentReplyId || ''}')" disabled>Reply</button>
+                        </div>
+                    </div>
+                `;
+                
+                replyContainer.classList.add('active');
+                activeReplyInput = inputId;
+                
+                setTimeout(() => {
+                    const textarea = document.getElementById(`replyText-${inputId}`);
+                    const submitBtn = replyContainer.querySelector('.comment-btn-submit');
+                    if (textarea) {
+                        textarea.focus();
+                        textarea.addEventListener('input', (e) => {
                             submitBtn.disabled = e.target.value.trim() === '';
-                        }
-                    });
-                }
-            }, 50);
-            
-            return replyDiv;
-        }
-        
-        // Extract commentId from our inputId format
-        function commentIdFromInputId(inputId) {
-            // formats: replyInput-<commentId> or replyInput-<commentId>-<parentReplyId>
-            const parts = inputId.split('-');
-            // parts[1] is commentId (but if commentId contains hyphens this may break; this matches current id scheme)
-            return parts.slice(1, parts.length > 3 ? parts.length - 1 : 2).join('-') || '';
-        }
-        // Extract parentReplyId from inputId if present
-        function parentReplyIdFromInputId(inputId) {
-            const parts = inputId.split('-');
-            if (parts.length >= 4) {
-                return parts.slice(2).join('-');
-            }
-            return null;
-        }
-        
-        function focusReplyInput(inputId) {
-            const replyText = document.getElementById(`replyText-${inputId}`);
-            if (replyText) {
-                replyText.focus();
+                        });
+                    }
+                }, 100);
             }
         }
         
         function cancelReply(inputId) {
-            const replyInputDiv = document.getElementById(inputId);
-            if (replyInputDiv) {
-                replyInputDiv.classList.remove('active');
-                setTimeout(() => {
-                    replyInputDiv.remove();
-                }, 300);
+            const container = document.getElementById(inputId);
+            if (container) {
+                container.classList.remove('active');
+                container.innerHTML = '';
             }
             activeReplyInput = null;
         }
         
-        function postReply(commentId, parentReplyId = null) {
+        function postReply(commentId, parentReplyId) {
             if (!currentUser) return;
+            
+            if (parentReplyId === '' || parentReplyId === 'null') {
+                parentReplyId = null;
+            }
             
             const inputId = parentReplyId ? `replyInput-${commentId}-${parentReplyId}` : `replyInput-${commentId}`;
             const textEl = document.getElementById(`replyText-${inputId}`);
-            if (!textEl) return;
+            
+            if (!textEl) {
+                console.error('Reply input not found:', inputId);
+                return;
+            }
+            
             const text = textEl.value.trim();
             if (!text) return;
             
             const replyData = {
                 userId: currentUser.id,
-                userName: currentUser.name,
+                userName: currentUser.name || 'Anonymous',
                 text: text,
-                timestamp: new Date().toISOString(),
+                timestamp: Date.now(),
                 likes: {},
                 parentReplyId: parentReplyId || null
             };
@@ -1995,14 +2124,13 @@
                 cancelReply(inputId);
                 showToast('Reply posted!');
                 
-                // Auto expand replies if hidden
                 const repliesList = document.getElementById(`repliesList-${commentId}`);
                 const viewBtn = document.getElementById(`viewRepliesBtn-${commentId}`);
                 if (repliesList && !repliesList.classList.contains('active')) {
                     toggleReplies(commentId);
                 }
             }).catch(err => {
-                console.error('Reply post failed', err);
+                console.error('Reply failed:', err);
                 showToast('Failed to post reply');
             });
         }
@@ -2015,11 +2143,13 @@
                 if (repliesList.classList.contains('active')) {
                     repliesList.classList.remove('active');
                     viewBtn.classList.remove('expanded');
-                    viewBtn.innerHTML = viewBtn.innerHTML.replace('Hide', 'View').replace('expand_less', 'expand_more');
+                    const count = viewBtn.querySelector('span').textContent.split(' ')[0];
+                    viewBtn.innerHTML = `<span class="material-icons">expand_more</span><span>${count} replies</span>`;
                 } else {
                     repliesList.classList.add('active');
                     viewBtn.classList.add('expanded');
-                    viewBtn.innerHTML = viewBtn.innerHTML.replace('View', 'Hide').replace('expand_more', 'expand_less');
+                    const count = viewBtn.querySelector('span').textContent.split(' ')[0];
+                    viewBtn.innerHTML = `<span class="material-icons">expand_less</span><span>Hide replies</span>`;
                 }
             }
         }
@@ -2038,127 +2168,131 @@
                             <p>Be the first to share your thoughts!</p>
                         </div>
                     `;
-                    if (countElement) countElement.textContent = '0 comments';
+                    if (countElement) countElement.textContent = '0 Comments';
                     return;
                 }
                 
                 const commentsArray = Object.entries(comments)
                     .map(([id, c]) => ({ id, ...c }))
-                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    .sort((a, b) => b.timestamp - a.timestamp);
+                
+                const totalCount = commentsArray.reduce((acc, c) => {
+                    return acc + 1 + (c.replies ? Object.keys(c.replies).length : 0);
+                }, 0);
                 
                 if (countElement) {
-                    const totalReplies = commentsArray.reduce((acc, c) => acc + Object.keys(c.replies || {}).length, 0);
-                    const total = commentsArray.length + totalReplies;
-                    countElement.textContent = `${total} ${total === 1 ? 'comment' : 'comments'}`;
+                    countElement.textContent = `${totalCount} Comments`;
                 }
                 
-                container.innerHTML = commentsArray.map(comment => renderComment(comment)).join('');
+                container.innerHTML = commentsArray.map(comment => renderCommentThread(comment)).join('');
             });
         }
         
-        function renderComment(comment, isReply = false, parentId = null, level = 0) {
-            const commentInitials = getInitials(comment.userName);
+        function renderCommentThread(comment) {
             const replies = comment.replies || {};
             const repliesArray = Object.entries(replies)
                 .map(([id, r]) => ({ id, ...r }))
-                .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                .sort((a, b) => a.timestamp - b.timestamp);
             
-            // Separate top-level replies and nested replies
-            const topLevelReplies = repliesArray.filter(r => !r.parentReplyId);
-            const nestedRepliesMap = {};
-            repliesArray.filter(r => r.parentReplyId).forEach(r => {
-                if (!nestedRepliesMap[r.parentReplyId]) nestedRepliesMap[r.parentReplyId] = [];
-                nestedRepliesMap[r.parentReplyId].push(r);
-            });
+            // Flatten replies - sabko ek list mein dikhana hai
+            const allReplies = flattenReplies(repliesArray);
             
             const replyCount = repliesArray.length;
             const hasReplies = replyCount > 0;
             const isOwner = currentUser && currentUser.id === comment.userId;
-            
-            if (isReply) {
-                const nestedReplies = nestedRepliesMap[comment.id] || [];
-                
-                return `
-                    <div class="reply-item ${level > 0 ? 'nested-reply' : ''}" id="reply-${comment.id}">
-                        <div class="reply-avatar">${commentInitials}</div>
-                        <div class="reply-content">
-                            <div class="reply-header">
-                                <div>
-                                    <span class="reply-author">${comment.userName}</span>
-                                    ${comment.parentReplyName ? `<span class="reply-to">@${comment.parentReplyName}</span>` : ''}
-                                </div>
-                                <span class="reply-date">${formatDate(comment.timestamp)}</span>
-                            </div>
-                            <p class="reply-text">${escapeHtml(comment.text)}</p>
-                            <div class="reply-actions" id="replyActions-${comment.id}">
-                                <button class="reply-action ${comment.likes && comment.likes[currentUser?.id] ? 'liked' : ''}" onclick="likeReply('${parentId}', '${comment.id}')">
-                                    <span class="material-icons" style="font-size: 14px;">thumb_up</span>
-                                    ${comment.likes && Object.keys(comment.likes).length > 0 ? Object.keys(comment.likes).length : 'Like'}
-                                </button>
-                                <button class="reply-action" onclick="toggleReplyInput('${parentId}', '${comment.id}', '${comment.userName}')">
-                                    Reply
-                                </button>
-                                ${isOwner ? `
-                                    <button class="reply-action" onclick="deleteReply('${parentId}', '${comment.id}')" style="color: #e53935;">
-                                        Delete
-                                    </button>
-                                ` : ''}
-                            </div>
-                            ${nestedReplies.length > 0 ? `
-                                <div style="margin-top: 12px; margin-left: -12px;">
-                                    ${nestedReplies.map(nr => renderComment({...nr, parentReplyName: comment.userName}, true, parentId, level + 1)).join('')}
-                                </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            }
+            const likeCount = comment.likes ? Object.keys(comment.likes).length : 0;
+            const isLiked = currentUser && comment.likes && comment.likes[currentUser.id];
             
             let repliesHtml = '';
             if (hasReplies) {
                 repliesHtml = `
-                    <button class="view-replies-btn" id="viewRepliesBtn-${comment.id}" onclick="toggleReplies('${comment.id}')">
-                        <span class="material-icons">expand_more</span>
-                        <span>${replyCount} ${replyCount === 1 ? 'reply' : 'replies'}</span>
-                    </button>
-                    <div class="replies-list" id="repliesList-${comment.id}">
-                        <div class="replies-container">
-                            ${topLevelReplies.map(reply => renderComment(reply, true, comment.id, 0)).join('')}
+                    <div class="replies-container">
+                        <button class="view-replies-btn" id="viewRepliesBtn-${comment.id}" onclick="toggleReplies('${comment.id}')">
+                            <span class="material-icons">expand_more</span>
+                            <span>${replyCount} replies</span>
+                        </button>
+                        <div class="replies-list" id="repliesList-${comment.id}">
+                            ${allReplies.map(reply => renderReplyItem(reply, comment.id)).join('')}
                         </div>
                     </div>
                 `;
             }
             
             return `
-                <div class="comment-item" id="comment-${comment.id}">
-                    <div class="comment-avatar">${commentInitials}</div>
-                    <div class="comment-content">
+                <div class="comment-thread" id="comment-${comment.id}">
+                    <div class="comment-avatar">
+                        <img src="${getAvatarUrl(comment.userName)}" alt="${comment.userName || 'User'}" onerror="this.src='https://ui-avatars.com/api/?name=User&background=random&color=fff&size=40'">
+                    </div>
+                    <div class="comment-body">
                         <div class="comment-header">
-                            <div class="comment-author-info">
-                                <span class="comment-author">${comment.userName}</span>
-                                ${isOwner ? '<span class="comment-badge"><span class="material-icons" style="font-size: 10px;">edit</span> You</span>' : ''}
-                            </div>
-                            <span class="comment-date">${formatDate(comment.timestamp)}</span>
+                            <span class="comment-author">${comment.userName || 'Anonymous'}</span>
+                            <span class="comment-time">• ${formatDate(comment.timestamp)}</span>
                         </div>
-                        <p class="comment-text">${escapeHtml(comment.text)}</p>
-                        <div class="comment-actions">
-                            <button class="comment-action ${comment.likes && comment.likes[currentUser?.id] ? 'active liked' : ''}" onclick="likeComment('${comment.id}')">
-                                <span class="material-icons">thumb_up</span>
-                                <span>${comment.likes && Object.keys(comment.likes).length > 0 ? Object.keys(comment.likes).length : 'Like'}</span>
+                        <div class="comment-text">${escapeHtml(comment.text)}</div>
+                        <div class="comment-actions-bar">
+                            <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="likeComment('${comment.id}')">
+                                <span class="material-icons">${isLiked ? 'thumb_up' : 'thumb_up_off_alt'}</span>
+                                ${likeCount > 0 ? `<span>${likeCount}</span>` : ''}
                             </button>
-                            <button class="comment-action" onclick="toggleReplyInput('${comment.id}')">
-                                <span class="material-icons">reply</span>
-                                <span>Reply</span>
+                            <button class="action-btn" onclick="toggleReplyInput('${comment.id}')">
+                                <span class="material-icons">comment</span>
                             </button>
                             ${isOwner ? `
-                                <button class="comment-action" onclick="deleteComment('${comment.id}')" style="color: #e53935;">
+                                <button class="action-btn" onclick="deleteComment('${comment.id}')" style="color:#ff0000;">
                                     <span class="material-icons">delete</span>
-                                    <span>Delete</span>
                                 </button>
                             ` : ''}
                         </div>
-                        <div class="reply-input-wrapper" id="replyInput-${comment.id}"></div>
                         ${repliesHtml}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Replies ko flat list mein convert karna (nested nahi, line by line)
+        function flattenReplies(repliesArray, level = 0, result = []) {
+            repliesArray.forEach(reply => {
+                result.push({ ...reply, level });
+                if (reply.replies) {
+                    const nested = Object.entries(reply.replies).map(([id, r]) => ({ id, ...r }));
+                    flattenReplies(nested, level + 1, result);
+                }
+            });
+            return result;
+        }
+        
+        function renderReplyItem(reply, commentId) {
+            const isOwner = currentUser && currentUser.id === reply.userId;
+            const likeCount = reply.likes ? Object.keys(reply.likes).length : 0;
+            const isLiked = currentUser && reply.likes && reply.likes[currentUser.id];
+            const replyToName = reply.parentReplyName || '';
+            
+            return `
+                <div class="reply-item" id="reply-${reply.id}">
+                    <div class="reply-avatar">
+                        <img src="${getAvatarUrl(reply.userName || 'User', 32)}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='https://ui-avatars.com/api/?name=U&background=random&color=fff&size=32'">
+                    </div>
+                    <div class="reply-body">
+                        <div class="reply-header">
+                            <span class="reply-author">${reply.userName || 'Anonymous'}</span>
+                            ${replyToName ? `<span style="color:var(--text-secondary);font-size:13px;"> @${replyToName}</span>` : ''}
+                            <span class="reply-time">• ${formatDate(reply.timestamp)}</span>
+                        </div>
+                        <div class="reply-text">${escapeHtml(reply.text)}</div>
+                        <div class="comment-actions-bar">
+                            <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="likeReply('${commentId}', '${reply.id}')">
+                                <span class="material-icons">${isLiked ? 'thumb_up' : 'thumb_up_off_alt'}</span>
+                                ${likeCount > 0 ? `<span>${likeCount}</span>` : ''}
+                            </button>
+                            <button class="action-btn" onclick="toggleReplyInput('${commentId}', '${reply.id}', '${reply.userName || 'User'}')">
+                                <span class="material-icons">comment</span>
+                            </button>
+                            ${isOwner ? `
+                                <button class="action-btn" onclick="deleteReply('${commentId}', '${reply.id}')" style="color:#ff0000;">
+                                    <span class="material-icons">delete</span>
+                                </button>
+                            ` : ''}
+                        </div>
                     </div>
                 </div>
             `;
@@ -2203,13 +2337,13 @@
         }
         
         function deleteComment(commentId) {
-            if (!confirm('Are you sure you want to delete this comment?')) return;
+            if (!confirm('Delete this comment?')) return;
             database.ref(`comments/${appId}/${commentId}`).remove();
             showToast('Comment deleted');
         }
         
         function deleteReply(commentId, replyId) {
-            if (!confirm('Are you sure you want to delete this reply?')) return;
+            if (!confirm('Delete this reply?')) return;
             database.ref(`comments/${appId}/${commentId}/replies/${replyId}`).remove();
             showToast('Reply deleted');
         }
@@ -2230,10 +2364,18 @@
         function formatNumber(num) {
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num;
+            return num || 0;
         }
         
         function formatDate(timestamp) {
+            if (!timestamp || isNaN(timestamp)) {
+                return 'just now';
+            }
+            
+            if (typeof timestamp === 'string') {
+                timestamp = new Date(timestamp).getTime();
+            }
+            
             const date = new Date(timestamp);
             const now = new Date();
             const diffTime = Math.abs(now - date);
@@ -2243,22 +2385,20 @@
                 const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
                 if (diffHours === 0) {
                     const diffMinutes = Math.floor(diffTime / (1000 * 60));
-                    if (diffMinutes === 0) return 'Just now';
+                    if (diffMinutes === 0) return 'just now';
                     return `${diffMinutes}m ago`;
                 }
                 return `${diffHours}h ago`;
             } else if (diffDays === 1) {
-                return 'Yesterday';
+                return '1 day ago';
             } else if (diffDays < 7) {
-                return `${diffDays}d ago`;
+                return `${diffDays} days ago`;
             } else if (diffDays < 30) {
                 return `${Math.floor(diffDays / 7)}w ago`;
+            } else if (diffDays < 365) {
+                return `${Math.floor(diffDays / 30)}mo ago`;
             } else {
-                return date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
-                });
+                return `${Math.floor(diffDays / 365)}y ago`;
             }
         }
         
@@ -2268,6 +2408,96 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
+        
+        // Edit Modal Functions
+        function openEditModal() {
+            if (!isAppOwner) {
+                showToast('You can only edit your own apps');
+                return;
+            }
+            
+            // Pre-fill form with current data
+            document.getElementById('editAppName').value = appData.name || '';
+            document.getElementById('editDeveloperName').value = appData.developer || '';
+            document.getElementById('editAppIconUrl').value = appData.icon || '';
+            document.getElementById('editDownloadUrl').value = appData.downloadUrl || '';
+            document.getElementById('editFileSize').value = appData.size || '';
+            document.getElementById('editDescription').value = appData.description || '';
+            
+            // Pre-fill screenshots
+            const screenshotInputs = document.querySelectorAll('.edit-screenshot-url');
+            const currentScreenshots = appData.screenshots || [];
+            screenshotInputs.forEach((input, index) => {
+                input.value = currentScreenshots[index] || '';
+            });
+            
+            document.getElementById('editModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeEditModal(event) {
+            if (!event || event.target === document.getElementById('editModal')) {
+                document.getElementById('editModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function handleEdit(event) {
+            event.preventDefault();
+            
+            if (!isAppOwner) {
+                showToast('Unauthorized');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('editSubmitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="material-icons">hourglass_top</span> Saving...';
+            
+            // Get all screenshot URLs
+            const screenshotInputs = document.querySelectorAll('.edit-screenshot-url');
+            const screenshots = Array.from(screenshotInputs)
+                .map(input => input.value.trim())
+                .filter(url => url !== '');
+            
+            const updatedData = {
+                name: document.getElementById('editAppName').value.trim(),
+                developer: document.getElementById('editDeveloperName').value.trim(),
+                icon: document.getElementById('editAppIconUrl').value.trim(),
+                downloadUrl: document.getElementById('editDownloadUrl').value.trim(),
+                size: document.getElementById('editFileSize').value.trim(),
+                screenshots: screenshots,
+                description: document.getElementById('editDescription').value.trim(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            // Update in Firebase
+            database.ref(`apps/${appId}`).update(updatedData)
+                .then(() => {
+                    showToast('App updated successfully!');
+                    closeEditModal();
+                    
+                    // Update local data and re-render
+                    appData = { ...appData, ...updatedData };
+                    renderAppDetails();
+                })
+                .catch((error) => {
+                    console.error('Update error:', error);
+                    showToast('Failed to update app');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span class="material-icons">save</span> Save Changes';
+                });
+        }
+        
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeEditModal();
+                closeLightbox();
+            }
+        });
     </script>
 </body>
 </html>
