@@ -92,22 +92,25 @@
             color: var(--text-primary);
         }
         
-        .search-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: transparent;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .search-btn .material-icons {
-            font-size: 24px;
-            color: var(--text-primary);
-        }
+    .search-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none; /* underline remove */
+    color: inherit; /* icon color same rahe */
+}
+
+.search-btn .material-icons {
+    font-size: 24px;
+    color: var(--text-primary);
+}
         
         /* Drawer */
         .drawer-overlay {
@@ -860,6 +863,127 @@
             resize: vertical;
         }
         
+        /* Image Upload Styles */
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .image-upload-box {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border: 2px dashed var(--divider);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--background);
+            overflow: hidden;
+        }
+        
+        .image-upload-box:hover {
+            border-color: var(--primary);
+            background: rgba(26,115,232,0.05);
+        }
+        
+        .image-upload-box.has-image {
+            border-style: solid;
+            border-color: var(--primary);
+        }
+        
+        .image-upload-box input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .image-upload-box .upload-icon {
+            font-size: 32px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .image-upload-box .upload-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        .image-upload-box .preview-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-upload-box .remove-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .image-upload-box .remove-image .material-icons {
+            font-size: 16px;
+        }
+        
+        .image-upload-box .upload-progress-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        
+        .image-upload-box .upload-progress-ring {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+        }
+        
+        .image-upload-box .upload-progress-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .image-upload-box .upload-progress-time {
+            color: rgba(255,255,255,0.8);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
         .screenshots-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -867,30 +991,43 @@
             margin-top: 8px;
         }
         
-        .screenshot-input {
+        .screenshot-upload {
             position: relative;
-        }
-        
-        .screenshot-input input {
-            width: 100%;
-            padding: 10px;
-            border: 1px dashed var(--divider);
-            border-radius: 8px;
-            font-size: 13px;
+            aspect-ratio: 9/16;
+            border: 2px dashed var(--divider);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
             background: var(--background);
-            color: var(--text-primary);
+            overflow: hidden;
         }
         
-        .screenshot-input input:focus {
-            outline: none;
+        .screenshot-upload:hover {
             border-color: var(--primary);
-            border-style: solid;
+            background: rgba(26,115,232,0.05);
         }
         
-        .screenshot-number {
+        .screenshot-upload.has-image {
+            border-style: solid;
+            border-color: var(--primary);
+        }
+        
+        .screenshot-upload input[type="file"] {
             position: absolute;
-            top: -8px;
-            left: 8px;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .screenshot-upload .screenshot-number {
+            position: absolute;
+            top: 4px;
+            left: 4px;
             background: var(--primary);
             color: white;
             width: 20px;
@@ -901,6 +1038,76 @@
             justify-content: center;
             font-size: 11px;
             font-weight: 600;
+            z-index: 5;
+        }
+        
+        .screenshot-upload .upload-icon {
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+        
+        .screenshot-upload .preview-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .screenshot-upload .remove-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .screenshot-upload .remove-image .material-icons {
+            font-size: 14px;
+        }
+        
+        .screenshot-upload .upload-progress-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        
+        .screenshot-upload .upload-progress-ring {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+        }
+        
+        .screenshot-upload .upload-progress-text {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        
+        .screenshot-upload .upload-progress-time {
+            color: rgba(255,255,255,0.8);
+            font-size: 9px;
+            margin-top: 1px;
         }
         
         .submit-btn {
@@ -1326,9 +1533,17 @@
                     <input type="text" class="form-input" id="developerName" required placeholder="Enter developer name">
                 </div>
                 
+                <!-- App Icon Upload -->
                 <div class="form-group">
-                    <label class="form-label">App Icon URL *</label>
-                    <input type="url" class="form-input" id="appIconUrl" required placeholder="https://example.com/icon.png">
+                    <label class="form-label">App Icon *</label>
+                    <div class="image-upload-container">
+                        <div class="image-upload-box" id="iconUploadBox">
+                            <input type="file" id="appIconFile" accept="image/*" onchange="handleIconUpload(this)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
+                            <span class="upload-text">Tap to upload icon</span>
+                        </div>
+                        <input type="hidden" id="appIconUrl" value="">
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -1341,32 +1556,39 @@
                     <input type="text" class="form-input" id="fileSize" required placeholder="e.g., 25 MB">
                 </div>
                 
+                <!-- Screenshots Upload -->
                 <div class="form-group">
                     <label class="form-label">Screenshots <span class="optional">(Optional - Max 6)</span></label>
-                    <div class="screenshots-container">
-                        <div class="screenshot-input">
+                    <div class="screenshots-container" id="screenshotsContainer">
+                        <div class="screenshot-upload" id="screenshotBox1">
                             <span class="screenshot-number">1</span>
-                            <input type="url" class="screenshot-url" placeholder="Screenshot 1 URL">
+                            <input type="file" accept="image/*" onchange="handleScreenshotUpload(this, 1)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="screenshotBox2">
                             <span class="screenshot-number">2</span>
-                            <input type="url" class="screenshot-url" placeholder="Screenshot 2 URL">
+                            <input type="file" accept="image/*" onchange="handleScreenshotUpload(this, 2)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="screenshotBox3">
                             <span class="screenshot-number">3</span>
-                            <input type="url" class="screenshot-url" placeholder="Screenshot 3 URL">
+                            <input type="file" accept="image/*" onchange="handleScreenshotUpload(this, 3)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="screenshotBox4">
                             <span class="screenshot-number">4</span>
-                            <input type="url" class="screenshot-url" placeholder="Screenshot 4 URL">
+                            <input type="file" accept="image/*" onchange="handleScreenshotUpload(this, 4)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="screenshotBox5">
                             <span class="screenshot-number">5</span>
-                            <input type="url" class="screenshot-url" placeholder="Screenshot 5 URL">
+                            <input type="file" accept="image/*" onchange="handleScreenshotUpload(this, 5)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="screenshotBox6">
                             <span class="screenshot-number">6</span>
-                            <input type="url" class="screenshot-url" placeholder="Screenshot 6 URL">
+                            <input type="file" accept="image/*" onchange="handleScreenshotUpload(this, 6)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
                     </div>
                 </div>
@@ -1388,6 +1610,13 @@
     <div class="toast" id="toast"></div>
     
     <script>
+        // ImgBB API Key
+        const IMGBB_API_KEY = 'f403648d51b37446c09a5a47d4fe4cd8';
+        
+        // Store uploaded image URLs
+        let uploadedIconUrl = '';
+        let uploadedScreenshots = {};
+        
         // Firebase Configuration
         const firebaseConfig = {
            apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
@@ -1483,6 +1712,239 @@
                          onerror="this.src='${placeholder}'">
                 </div>
             `;
+        }
+        
+        // Upload tracking variables
+        let uploadStartTime = 0;
+        let uploadProgress = 0;
+        
+        // Format time remaining
+        function formatTimeRemaining(bytesUploaded, bytesTotal, elapsedMs) {
+            if (bytesUploaded === 0) return 'Calculating...';
+            const speed = bytesUploaded / (elapsedMs / 1000); // bytes per second
+            const remainingBytes = bytesTotal - bytesUploaded;
+            const remainingSeconds = Math.ceil(remainingBytes / speed);
+            
+            if (remainingSeconds < 60) {
+                return `${remainingSeconds}s remaining`;
+            } else {
+                const mins = Math.floor(remainingSeconds / 60);
+                const secs = remainingSeconds % 60;
+                return `${mins}m ${secs}s remaining`;
+            }
+        }
+        
+        // Update progress overlay
+        function updateProgressOverlay(elementId, percent, timeText) {
+            const progressText = document.querySelector(`#${elementId} .upload-progress-text`);
+            const progressTime = document.querySelector(`#${elementId} .upload-progress-time`);
+            if (progressText) progressText.textContent = `${percent}%`;
+            if (progressTime) progressTime.textContent = timeText;
+        }
+        
+        // Upload image to ImgBB with XMLHttpRequest for progress tracking
+        function uploadToImgBB(file, onProgress) {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('key', IMGBB_API_KEY);
+                
+                uploadStartTime = Date.now();
+                uploadProgress = 0;
+                
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (event) => {
+                    if (event.lengthComputable) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        uploadProgress = percent;
+                        const elapsed = Date.now() - uploadStartTime;
+                        const timeText = formatTimeRemaining(event.loaded, event.total, elapsed);
+                        onProgress(percent, timeText);
+                    }
+                });
+                
+                xhr.addEventListener('load', () => {
+                    if (xhr.status === 200) {
+                        try {
+                            const data = JSON.parse(xhr.responseText);
+                            if (data.success) {
+                                resolve(data.data.url);
+                            } else {
+                                reject(new Error(data.error?.message || 'Upload failed'));
+                            }
+                        } catch (e) {
+                            reject(new Error('Invalid response'));
+                        }
+                    } else {
+                        reject(new Error(`HTTP ${xhr.status}`));
+                    }
+                });
+                
+                xhr.addEventListener('error', () => reject(new Error('Network error')));
+                xhr.addEventListener('abort', () => reject(new Error('Upload aborted')));
+                
+                xhr.open('POST', 'https://api.imgbb.com/1/upload');
+                xhr.send(formData);
+            });
+        }
+        
+        // Handle Icon Upload
+        async function handleIconUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const uploadBox = document.getElementById('iconUploadBox');
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select an image file');
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size should be less than 5MB');
+                return;
+            }
+            
+            // Show preview with progress overlay
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadBox.innerHTML = `
+                    <img src="${e.target.result}" class="preview-image" alt="Icon Preview">
+                    <div class="upload-progress-overlay" id="iconProgressOverlay">
+                        <div class="upload-progress-ring"></div>
+                        <div class="upload-progress-text">0%</div>
+                        <div class="upload-progress-time">Starting...</div>
+                    </div>
+                `;
+                uploadBox.classList.add('has-image');
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload to ImgBB
+            try {
+                const url = await uploadToImgBB(file, (percent, timeText) => {
+                    updateProgressOverlay('iconProgressOverlay', percent, timeText);
+                });
+                
+                uploadedIconUrl = url;
+                document.getElementById('appIconUrl').value = url;
+                
+                // Remove progress overlay after upload
+                const overlay = document.getElementById('iconProgressOverlay');
+                if (overlay) {
+                    overlay.remove();
+                }
+                
+                // Add remove button
+                uploadBox.innerHTML += `
+                    <button type="button" class="remove-image" onclick="removeIcon(event)">
+                        <span class="material-icons">close</span>
+                    </button>
+                `;
+                
+                showToast('Icon uploaded successfully!');
+            } catch (error) {
+                showToast('Failed to upload icon. Please try again.');
+                removeIcon({ stopPropagation: () => {} });
+            }
+        }
+        
+        // Remove Icon
+        function removeIcon(event) {
+            event.stopPropagation();
+            uploadedIconUrl = '';
+            document.getElementById('appIconUrl').value = '';
+            
+            const uploadBox = document.getElementById('iconUploadBox');
+            uploadBox.innerHTML = `
+                <input type="file" id="appIconFile" accept="image/*" onchange="handleIconUpload(this)">
+                <span class="material-icons upload-icon">add_photo_alternate</span>
+                <span class="upload-text">Tap to upload icon</span>
+            `;
+            uploadBox.classList.remove('has-image');
+        }
+        
+        // Handle Screenshot Upload
+        async function handleScreenshotUpload(input, index) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const uploadBox = document.getElementById(`screenshotBox${index}`);
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select an image file');
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size should be less than 5MB');
+                return;
+            }
+            
+            // Show preview with progress overlay
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadBox.innerHTML = `
+                    <span class="screenshot-number">${index}</span>
+                    <img src="${e.target.result}" class="preview-image" alt="Screenshot ${index}">
+                    <div class="upload-progress-overlay" id="screenshotProgressOverlay${index}">
+                        <div class="upload-progress-ring"></div>
+                        <div class="upload-progress-text">0%</div>
+                        <div class="upload-progress-time">Starting...</div>
+                    </div>
+                `;
+                uploadBox.classList.add('has-image');
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload to ImgBB
+            try {
+                const url = await uploadToImgBB(file, (percent, timeText) => {
+                    updateProgressOverlay(`screenshotProgressOverlay${index}`, percent, timeText);
+                });
+                
+                uploadedScreenshots[index] = url;
+                console.log(`Screenshot ${index} uploaded:`, url);
+                console.log('Current uploadedScreenshots:', uploadedScreenshots);
+                
+                // Remove progress overlay after upload
+                const overlay = document.getElementById(`screenshotProgressOverlay${index}`);
+                if (overlay) {
+                    overlay.remove();
+                }
+                
+                // Add remove button
+                uploadBox.innerHTML += `
+                    <button type="button" class="remove-image" onclick="removeScreenshot(event, ${index})">
+                        <span class="material-icons">close</span>
+                    </button>
+                `;
+                
+                showToast(`Screenshot ${index} uploaded successfully!`);
+            } catch (error) {
+                console.error(`Screenshot ${index} upload failed:`, error);
+                showToast(`Failed to upload screenshot ${index}. Please try again.`);
+                removeScreenshot({ stopPropagation: () => {} }, index);
+            }
+        }
+        
+        // Remove Screenshot
+        function removeScreenshot(event, index) {
+            event.stopPropagation();
+            delete uploadedScreenshots[index];
+            
+            const uploadBox = document.getElementById(`screenshotBox${index}`);
+            uploadBox.innerHTML = `
+                <span class="screenshot-number">${index}</span>
+                <input type="file" accept="image/*" onchange="handleScreenshotUpload(this, ${index})">
+                <span class="material-icons upload-icon">add_photo_alternate</span>
+            `;
+            uploadBox.classList.remove('has-image');
         }
         
         // Load apps data - LATEST FIRST
@@ -1867,7 +2329,7 @@
             }
         }
         
-        function handleUpload(event) {
+        async function handleUpload(event) {
             event.preventDefault();
             
             // Check if user is logged in
@@ -1876,20 +2338,29 @@
                 return;
             }
             
+            // Check if icon is uploaded
+            if (!uploadedIconUrl) {
+                showToast('Please upload an app icon');
+                return;
+            }
+            
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="material-icons">hourglass_top</span> Uploading...';
             
-            // Get all screenshot URLs - filter out empty ones (OPTIONAL now)
-            const screenshotInputs = document.querySelectorAll('.screenshot-url');
-            const screenshots = Array.from(screenshotInputs)
-                .map(input => input.value.trim())
-                .filter(url => url !== '');
+            // Get all uploaded screenshot URLs in correct order (1 to 6)
+            const screenshots = [];
+            for (let i = 1; i <= 6; i++) {
+                if (uploadedScreenshots[i]) {
+                    screenshots.push(uploadedScreenshots[i]);
+                }
+            }
+            console.log('Screenshots to save:', screenshots);
             
             const appData = {
                 name: document.getElementById('appName').value.trim(),
                 developer: document.getElementById('developerName').value.trim(),
-                icon: document.getElementById('appIconUrl').value.trim(),
+                icon: uploadedIconUrl,
                 downloadUrl: document.getElementById('downloadUrl').value.trim(),
                 size: document.getElementById('fileSize').value.trim(),
                 screenshots: screenshots,
@@ -1899,15 +2370,18 @@
                 createdAt: new Date().toISOString(),
                 timestamp: Date.now(),
                 category: 'new',
-                userId: currentUser.id  // YE LINE ADD KI HAI - User ID save ho rahi hai
+                userId: currentUser.id
             };
+            
+            console.log('Saving app data:', appData);
             
             // Push to Firebase
             const newAppRef = database.ref('apps').push();
             newAppRef.set(appData)
                 .then(() => {
+                    console.log('App saved successfully with ID:', newAppRef.key);
                     showToast('App uploaded successfully!');
-                    document.getElementById('uploadForm').reset();
+                    resetUploadForm();
                     closeUploadModal();
                     
                     // Refresh the new uploads section
@@ -1921,6 +2395,15 @@
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<span class="material-icons">cloud_upload</span> Upload App';
                 });
+        }
+        
+        // Reset upload form
+        function resetUploadForm() {
+            document.getElementById('uploadForm').reset();
+            removeIcon({ stopPropagation: () => {} });
+            for (let i = 1; i <= 6; i++) {
+                removeScreenshot({ stopPropagation: () => {} }, i);
+            }
         }
         
         // Initialize

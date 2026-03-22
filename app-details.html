@@ -1194,6 +1194,127 @@
             resize: vertical;
         }
         
+        /* Image Upload Styles */
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .image-upload-box {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border: 2px dashed var(--divider);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--background);
+            overflow: hidden;
+        }
+        
+        .image-upload-box:hover {
+            border-color: var(--primary);
+            background: rgba(26,115,232,0.05);
+        }
+        
+        .image-upload-box.has-image {
+            border-style: solid;
+            border-color: var(--primary);
+        }
+        
+        .image-upload-box input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .image-upload-box .upload-icon {
+            font-size: 32px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .image-upload-box .upload-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        
+        .image-upload-box .preview-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-upload-box .remove-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .image-upload-box .remove-image .material-icons {
+            font-size: 16px;
+        }
+        
+        .image-upload-box .upload-progress-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        
+        .image-upload-box .upload-progress-ring {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+        }
+        
+        .image-upload-box .upload-progress-text {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .image-upload-box .upload-progress-time {
+            color: rgba(255,255,255,0.8);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
         .screenshots-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1201,30 +1322,43 @@
             margin-top: 8px;
         }
         
-        .screenshot-input {
+        .screenshot-upload {
             position: relative;
-        }
-        
-        .screenshot-input input {
-            width: 100%;
-            padding: 10px;
-            border: 1px dashed var(--divider);
-            border-radius: 8px;
-            font-size: 13px;
+            aspect-ratio: 9/16;
+            border: 2px dashed var(--divider);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
             background: var(--background);
-            color: var(--text-primary);
+            overflow: hidden;
         }
         
-        .screenshot-input input:focus {
-            outline: none;
+        .screenshot-upload:hover {
             border-color: var(--primary);
-            border-style: solid;
+            background: rgba(26,115,232,0.05);
         }
         
-        .screenshot-number {
+        .screenshot-upload.has-image {
+            border-style: solid;
+            border-color: var(--primary);
+        }
+        
+        .screenshot-upload input[type="file"] {
             position: absolute;
-            top: -8px;
-            left: 8px;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .screenshot-upload .screenshot-number {
+            position: absolute;
+            top: 4px;
+            left: 4px;
             background: var(--primary);
             color: white;
             width: 20px;
@@ -1235,6 +1369,76 @@
             justify-content: center;
             font-size: 11px;
             font-weight: 600;
+            z-index: 5;
+        }
+        
+        .screenshot-upload .upload-icon {
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+        
+        .screenshot-upload .preview-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .screenshot-upload .remove-image {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .screenshot-upload .remove-image .material-icons {
+            font-size: 14px;
+        }
+        
+        .screenshot-upload .upload-progress-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+        
+        .screenshot-upload .upload-progress-ring {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+        }
+        
+        .screenshot-upload .upload-progress-text {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        
+        .screenshot-upload .upload-progress-time {
+            color: rgba(255,255,255,0.8);
+            font-size: 9px;
+            margin-top: 1px;
         }
         
         .submit-btn {
@@ -1266,6 +1470,12 @@
             cursor: not-allowed;
             transform: none;
         }
+
+          .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+       }
         
         .submit-btn .material-icons {
             font-size: 20px;
@@ -1290,8 +1500,8 @@
             <span class="material-icons">arrow_back</span>
         </button>
         <h1 class="app-title">App Details</h1>
-        <button class="share-btn" onclick="shareApp()">
-            <span class="material-icons">share</span>
+        <button class="search-btn" onclick="window.location.href='search.html'">
+        <span class="material-icons">search</span>
         </button>
     </header>
     
@@ -1341,9 +1551,17 @@
                     <input type="text" class="form-input" id="editDeveloperName" required placeholder="Enter developer name">
                 </div>
                 
+                <!-- App Icon Upload -->
                 <div class="form-group">
-                    <label class="form-label">App Icon URL *</label>
-                    <input type="url" class="form-input" id="editAppIconUrl" required placeholder="https://example.com/icon.png">
+                    <label class="form-label">App Icon *</label>
+                    <div class="image-upload-container">
+                        <div class="image-upload-box" id="editIconUploadBox">
+                            <input type="file" id="editAppIconFile" accept="image/*" onchange="handleEditIconUpload(this)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
+                            <span class="upload-text">Tap to upload icon</span>
+                        </div>
+                        <input type="hidden" id="editAppIconUrl" value="">
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -1356,32 +1574,39 @@
                     <input type="text" class="form-input" id="editFileSize" required placeholder="e.g., 25 MB">
                 </div>
                 
+                <!-- Screenshots Upload -->
                 <div class="form-group">
-                    <label class="form-label">    Screenshots <span class="optional">(Optional - Max 6)</span></label>
+                    <label class="form-label">Screenshots <span class="optional">(Optional - Max 6)</span></label>
                     <div class="screenshots-container" id="editScreenshotsContainer">
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="editScreenshotBox1">
                             <span class="screenshot-number">1</span>
-                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 1 URL">
+                            <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, 1)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="editScreenshotBox2">
                             <span class="screenshot-number">2</span>
-                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 2 URL">
+                            <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, 2)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="editScreenshotBox3">
                             <span class="screenshot-number">3</span>
-                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 3 URL">
+                            <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, 3)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="editScreenshotBox4">
                             <span class="screenshot-number">4</span>
-                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 4 URL">
+                            <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, 4)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="editScreenshotBox5">
                             <span class="screenshot-number">5</span>
-                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 5 URL">
+                            <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, 5)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
-                        <div class="screenshot-input">
+                        <div class="screenshot-upload" id="editScreenshotBox6">
                             <span class="screenshot-number">6</span>
-                            <input type="url" class="edit-screenshot-url" placeholder="Screenshot 6 URL">
+                            <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, 6)">
+                            <span class="material-icons upload-icon">add_photo_alternate</span>
                         </div>
                     </div>
                 </div>
@@ -1427,6 +1652,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const appId = urlParams.get('id');
         
+        // ImgBB API Key
+        const IMGBB_API_KEY = 'f403648d51b37446c09a5a47d4fe4cd8';
+        
+        // Store uploaded image URLs for edit
+        let editUploadedIconUrl = '';
+        let editUploadedScreenshots = {};
+        
         // State
         let appData = null;
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -1436,7 +1668,7 @@
         let currentImageIndex = 0;
         let activeReplyInput = null;
         let ratingDistribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
-        let isAppOwner = false;  // YE VARIABLE CHECK KAREGA KI USER OWNER HAI YA NAHI
+        let isAppOwner = false;
         
         // Rating labels
         const ratingLabels = {
@@ -1467,10 +1699,12 @@
         function loadAppData() {
             database.ref(`apps/${appId}`).once('value').then(snapshot => {
                 appData = snapshot.val();
+                console.log('App data loaded:', appData);
                 if (appData) {
                     // YE CHECK KAREGA KI CURRENT USER HI OWNER HAI
                     checkIfOwner();
                     screenshots = appData.screenshots || [];
+                    console.log('Screenshots loaded:', screenshots);
                     loadRatingDistribution();
                     renderAppDetails();
                     incrementViews();
@@ -1539,19 +1773,253 @@
             return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=random&color=fff&size=${size}`;
         }
         
+        // Upload tracking variables
+        let uploadStartTime = 0;
+        let uploadProgress = 0;
+        
+        // Format time remaining
+        function formatTimeRemaining(bytesUploaded, bytesTotal, elapsedMs) {
+            if (bytesUploaded === 0) return 'Calculating...';
+            const speed = bytesUploaded / (elapsedMs / 1000); // bytes per second
+            const remainingBytes = bytesTotal - bytesUploaded;
+            const remainingSeconds = Math.ceil(remainingBytes / speed);
+            
+            if (remainingSeconds < 60) {
+                return `${remainingSeconds}s remaining`;
+            } else {
+                const mins = Math.floor(remainingSeconds / 60);
+                const secs = remainingSeconds % 60;
+                return `${mins}m ${secs}s remaining`;
+            }
+        }
+        
+        // Update progress overlay
+        function updateProgressOverlay(elementId, percent, timeText) {
+            const progressText = document.querySelector(`#${elementId} .upload-progress-text`);
+            const progressTime = document.querySelector(`#${elementId} .upload-progress-time`);
+            if (progressText) progressText.textContent = `${percent}%`;
+            if (progressTime) progressTime.textContent = timeText;
+        }
+        
+        // Upload image to ImgBB with XMLHttpRequest for progress tracking
+        function uploadToImgBB(file, onProgress) {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('key', IMGBB_API_KEY);
+                
+                uploadStartTime = Date.now();
+                uploadProgress = 0;
+                
+                const xhr = new XMLHttpRequest();
+                
+                xhr.upload.addEventListener('progress', (event) => {
+                    if (event.lengthComputable) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        uploadProgress = percent;
+                        const elapsed = Date.now() - uploadStartTime;
+                        const timeText = formatTimeRemaining(event.loaded, event.total, elapsed);
+                        onProgress(percent, timeText);
+                    }
+                });
+                
+                xhr.addEventListener('load', () => {
+                    if (xhr.status === 200) {
+                        try {
+                            const data = JSON.parse(xhr.responseText);
+                            if (data.success) {
+                                resolve(data.data.url);
+                            } else {
+                                reject(new Error(data.error?.message || 'Upload failed'));
+                            }
+                        } catch (e) {
+                            reject(new Error('Invalid response'));
+                        }
+                    } else {
+                        reject(new Error(`HTTP ${xhr.status}`));
+                    }
+                });
+                
+                xhr.addEventListener('error', () => reject(new Error('Network error')));
+                xhr.addEventListener('abort', () => reject(new Error('Upload aborted')));
+                
+                xhr.open('POST', 'https://api.imgbb.com/1/upload');
+                xhr.send(formData);
+            });
+        }
+        
+        // Handle Edit Icon Upload
+        async function handleEditIconUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const uploadBox = document.getElementById('editIconUploadBox');
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select an image file');
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size should be less than 5MB');
+                return;
+            }
+            
+            // Show preview with progress overlay
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadBox.innerHTML = `
+                    <img src="${e.target.result}" class="preview-image" alt="Icon Preview">
+                    <div class="upload-progress-overlay" id="editIconProgressOverlay">
+                        <div class="upload-progress-ring"></div>
+                        <div class="upload-progress-text">0%</div>
+                        <div class="upload-progress-time">Starting...</div>
+                    </div>
+                `;
+                uploadBox.classList.add('has-image');
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload to ImgBB
+            try {
+                const url = await uploadToImgBB(file, (percent, timeText) => {
+                    updateProgressOverlay('editIconProgressOverlay', percent, timeText);
+                });
+                
+                editUploadedIconUrl = url;
+                document.getElementById('editAppIconUrl').value = url;
+                
+                // Remove progress overlay after upload
+                const overlay = document.getElementById('editIconProgressOverlay');
+                if (overlay) {
+                    overlay.remove();
+                }
+                
+                // Add remove button
+                uploadBox.innerHTML += `
+                    <button type="button" class="remove-image" onclick="removeEditIcon(event)">
+                        <span class="material-icons">close</span>
+                    </button>
+                `;
+                
+                showToast('Icon uploaded successfully!');
+            } catch (error) {
+                showToast('Failed to upload icon. Please try again.');
+                removeEditIcon({ stopPropagation: () => {} });
+            }
+        }
+        
+        // Remove Edit Icon
+        function removeEditIcon(event) {
+            event.stopPropagation();
+            editUploadedIconUrl = '';
+            document.getElementById('editAppIconUrl').value = '';
+            
+            const uploadBox = document.getElementById('editIconUploadBox');
+            uploadBox.innerHTML = `
+                <input type="file" id="editAppIconFile" accept="image/*" onchange="handleEditIconUpload(this)">
+                <span class="material-icons upload-icon">add_photo_alternate</span>
+                <span class="upload-text">Tap to upload icon</span>
+            `;
+            uploadBox.classList.remove('has-image');
+        }
+        
+        // Handle Edit Screenshot Upload
+        async function handleEditScreenshotUpload(input, index) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const uploadBox = document.getElementById(`editScreenshotBox${index}`);
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select an image file');
+                return;
+            }
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size should be less than 5MB');
+                return;
+            }
+            
+            // Show preview with progress overlay
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadBox.innerHTML = `
+                    <span class="screenshot-number">${index}</span>
+                    <img src="${e.target.result}" class="preview-image" alt="Screenshot ${index}">
+                    <div class="upload-progress-overlay" id="editScreenshotProgressOverlay${index}">
+                        <div class="upload-progress-ring"></div>
+                        <div class="upload-progress-text">0%</div>
+                        <div class="upload-progress-time">Starting...</div>
+                    </div>
+                `;
+                uploadBox.classList.add('has-image');
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload to ImgBB
+            try {
+                const url = await uploadToImgBB(file, (percent, timeText) => {
+                    updateProgressOverlay(`editScreenshotProgressOverlay${index}`, percent, timeText);
+                });
+                
+                editUploadedScreenshots[index] = url;
+                console.log(`Edit - Screenshot ${index} uploaded:`, url);
+                console.log('Edit - Current uploadedScreenshots:', editUploadedScreenshots);
+                
+                // Remove progress overlay after upload
+                const overlay = document.getElementById(`editScreenshotProgressOverlay${index}`);
+                if (overlay) {
+                    overlay.remove();
+                }
+                
+                // Add remove button
+                uploadBox.innerHTML += `
+                    <button type="button" class="remove-image" onclick="removeEditScreenshot(event, ${index})">
+                        <span class="material-icons">close</span>
+                    </button>
+                `;
+                
+                showToast(`Screenshot ${index} uploaded successfully!`);
+            } catch (error) {
+                console.error(`Edit - Screenshot ${index} upload failed:`, error);
+                showToast(`Failed to upload screenshot ${index}. Please try again.`);
+                removeEditScreenshot({ stopPropagation: () => {} }, index);
+            }
+        }
+        
+        // Remove Edit Screenshot
+        function removeEditScreenshot(event, index) {
+            event.stopPropagation();
+            delete editUploadedScreenshots[index];
+            
+            const uploadBox = document.getElementById(`editScreenshotBox${index}`);
+            uploadBox.innerHTML = `
+                <span class="screenshot-number">${index}</span>
+                <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, ${index})">
+                <span class="material-icons upload-icon">add_photo_alternate</span>
+            `;
+            uploadBox.classList.remove('has-image');
+        }
+        
         function renderAppDetails() {
+            console.log('Rendering app details, screenshots:', screenshots);
             const screenshotsHtml = screenshots.length > 0 ? `
                 <div class="screenshots-section">
-                    <h2 class="section-title">Screenshots</h2>
+                    <h2 class="section-title">Screenshots (${screenshots.length})</h2>
                     <div class="screenshots-scroll">
                         ${screenshots.map((url, index) => `
                             <div class="screenshot-item" onclick="openLightbox(${index})">
-                                <img src="${url}" alt="Screenshot ${index + 1}">
+                                <img src="${url}" alt="Screenshot ${index + 1}" onerror="console.error('Failed to load screenshot:', '${url}')">
                             </div>
                         `).join('')}
                     </div>
                 </div>
-            ` : '';
+            ` : '<div class="screenshots-section"><h2 class="section-title">Screenshots</h2><p style="padding: 16px; color: var(--text-secondary);">No screenshots available</p></div>';
             
             const processedDescription = linkifyText(appData.description);
             
@@ -2416,20 +2884,61 @@
                 return;
             }
             
+            // Reset uploaded images
+            editUploadedIconUrl = '';
+            editUploadedScreenshots = {};
+            
             // Pre-fill form with current data
             document.getElementById('editAppName').value = appData.name || '';
             document.getElementById('editDeveloperName').value = appData.developer || '';
-            document.getElementById('editAppIconUrl').value = appData.icon || '';
             document.getElementById('editDownloadUrl').value = appData.downloadUrl || '';
             document.getElementById('editFileSize').value = appData.size || '';
             document.getElementById('editDescription').value = appData.description || '';
             
+            // Set icon preview if exists
+            const iconUploadBox = document.getElementById('editIconUploadBox');
+            if (appData.icon) {
+                editUploadedIconUrl = appData.icon;
+                document.getElementById('editAppIconUrl').value = appData.icon;
+                iconUploadBox.innerHTML = `
+                    <img src="${appData.icon}" class="preview-image" alt="Icon Preview">
+                    <button type="button" class="remove-image" onclick="removeEditIcon(event)">
+                        <span class="material-icons">close</span>
+                    </button>
+                `;
+                iconUploadBox.classList.add('has-image');
+            } else {
+                iconUploadBox.innerHTML = `
+                    <input type="file" id="editAppIconFile" accept="image/*" onchange="handleEditIconUpload(this)">
+                    <span class="material-icons upload-icon">add_photo_alternate</span>
+                    <span class="upload-text">Tap to upload icon</span>
+                `;
+                iconUploadBox.classList.remove('has-image');
+            }
+            
             // Pre-fill screenshots
-            const screenshotInputs = document.querySelectorAll('.edit-screenshot-url');
             const currentScreenshots = appData.screenshots || [];
-            screenshotInputs.forEach((input, index) => {
-                input.value = currentScreenshots[index] || '';
-            });
+            for (let i = 1; i <= 6; i++) {
+                const uploadBox = document.getElementById(`editScreenshotBox${i}`);
+                if (currentScreenshots[i - 1]) {
+                    editUploadedScreenshots[i] = currentScreenshots[i - 1];
+                    uploadBox.innerHTML = `
+                        <span class="screenshot-number">${i}</span>
+                        <img src="${currentScreenshots[i - 1]}" class="preview-image" alt="Screenshot ${i}">
+                        <button type="button" class="remove-image" onclick="removeEditScreenshot(event, ${i})">
+                            <span class="material-icons">close</span>
+                        </button>
+                    `;
+                    uploadBox.classList.add('has-image');
+                } else {
+                    uploadBox.innerHTML = `
+                        <span class="screenshot-number">${i}</span>
+                        <input type="file" accept="image/*" onchange="handleEditScreenshotUpload(this, ${i})">
+                        <span class="material-icons upload-icon">add_photo_alternate</span>
+                    `;
+                    uploadBox.classList.remove('has-image');
+                }
+            }
             
             document.getElementById('editModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -2450,20 +2959,29 @@
                 return;
             }
             
+            // Check if icon is uploaded
+            if (!editUploadedIconUrl) {
+                showToast('Please upload an app icon');
+                return;
+            }
+            
             const submitBtn = document.getElementById('editSubmitBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="material-icons">hourglass_top</span> Saving...';
             
-            // Get all screenshot URLs
-            const screenshotInputs = document.querySelectorAll('.edit-screenshot-url');
-            const screenshots = Array.from(screenshotInputs)
-                .map(input => input.value.trim())
-                .filter(url => url !== '');
+            // Get all uploaded screenshot URLs in order
+            const screenshots = [];
+            for (let i = 1; i <= 6; i++) {
+                if (editUploadedScreenshots[i]) {
+                    screenshots.push(editUploadedScreenshots[i]);
+                }
+            }
+            console.log('Edit - Screenshots to save:', screenshots);
             
             const updatedData = {
                 name: document.getElementById('editAppName').value.trim(),
                 developer: document.getElementById('editDeveloperName').value.trim(),
-                icon: document.getElementById('editAppIconUrl').value.trim(),
+                icon: editUploadedIconUrl,
                 downloadUrl: document.getElementById('editDownloadUrl').value.trim(),
                 size: document.getElementById('editFileSize').value.trim(),
                 screenshots: screenshots,
@@ -2479,6 +2997,7 @@
                     
                     // Update local data and re-render
                     appData = { ...appData, ...updatedData };
+                    screenshots = screenshots;
                     renderAppDetails();
                 })
                 .catch((error) => {
