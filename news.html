@@ -62,6 +62,7 @@
             padding: 0 16px;
             box-shadow: var(--shadow-1);
             z-index: 100;
+            gap: 12px;
         }
         
         .back-btn {
@@ -74,6 +75,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         
         .back-btn .material-icons {
@@ -81,11 +83,73 @@
             color: var(--text-primary);
         }
         
-        .app-title {
+        /* Search Container - NEW */
+        .search-container {
             flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-box {
+            width: 100%;
+            height: 40px;
+            background: var(--background);
+            border: 1px solid var(--divider);
+            border-radius: 20px;
+            padding: 0 40px;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--surface);
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.1);
+        }
+        
+        .search-box::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: var(--divider);
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        
+        .clear-search.visible {
+            display: flex;
+        }
+        
+        .clear-search .material-icons {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .app-title {
             font-size: 20px;
             font-weight: 600;
-            margin-left: 16px;
+            display: none; /* Hidden when search is active */
         }
         
         /* Main Content */
@@ -329,6 +393,26 @@
             color: var(--text-primary);
         }
         
+        /* No Results State - NEW */
+        .no-results {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-secondary);
+        }
+        
+        .no-results .material-icons {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .no-results h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
         /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
@@ -486,6 +570,16 @@
         <button class="back-btn" onclick="history.back()">
             <span class="material-icons">arrow_back</span>
         </button>
+        
+        <!-- NEW: Search Container -->
+        <div class="search-container">
+            <span class="material-icons search-icon">search</span>
+            <input type="text" class="search-box" id="searchInput" placeholder="Search news..." autocomplete="off">
+            <button class="clear-search" id="clearSearch" onclick="clearSearch()">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+        
         <h1 class="app-title">News & post </h1>
     </header>
     
@@ -558,6 +652,10 @@
         
         // Progressive Image Loading Variables
         let imageObserver;
+        
+        // NEW: Search variables
+        let allNewsData = []; // Store all news for filtering
+        let currentSearchTerm = '';
         
         // Initialize Progressive Image Loading
         function initImageObserver() {
@@ -664,6 +762,221 @@
             });
         }
         
+        // NEW: Get search term from URL
+        function getSearchFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('search') || '';
+        }
+        
+        // NEW: Update URL with search term
+        function updateURL(searchTerm) {
+            const url = new URL(window.location);
+            if (searchTerm) {
+                url.searchParams.set('search', searchTerm);
+            } else {
+                url.searchParams.delete('search');
+            }
+            window.history.replaceState({}, '', url);
+        }
+        
+        // NEW: Search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            // Check URL for existing search term on load
+            const urlSearchTerm = getSearchFromURL();
+            if (urlSearchTerm) {
+                searchInput.value = urlSearchTerm;
+                currentSearchTerm = urlSearchTerm.toLowerCase().trim();
+                clearBtn.classList.add('visible');
+            }
+            
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value.toLowerCase().trim();
+                
+                // Show/hide clear button
+                if (currentSearchTerm.length > 0) {
+                    clearBtn.classList.add('visible');
+                } else {
+                    clearBtn.classList.remove('visible');
+                }
+                
+                // Update URL in real-time
+                updateURL(currentSearchTerm);
+                
+                // Filter and render news
+                filterAndRenderNews();
+            });
+            
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', () => {
+                const urlSearchTerm = getSearchFromURL();
+                searchInput.value = urlSearchTerm;
+                currentSearchTerm = urlSearchTerm.toLowerCase().trim();
+                
+                if (currentSearchTerm) {
+                    clearBtn.classList.add('visible');
+                } else {
+                    clearBtn.classList.remove('visible');
+                }
+                
+                filterAndRenderNews();
+            });
+        }
+        
+        // NEW: Clear search
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            searchInput.value = '';
+            currentSearchTerm = '';
+            clearBtn.classList.remove('visible');
+            searchInput.focus();
+            
+            // Clear URL
+            updateURL('');
+            
+            filterAndRenderNews();
+        }
+        
+        // NEW: Filter and render news based on search
+        function filterAndRenderNews() {
+            const newsList = document.getElementById('newsList');
+            
+            if (allNewsData.length === 0) {
+                newsList.innerHTML = `
+                    <div class="empty-state">
+                        <span class="material-icons">newspaper</span>
+                        <h3>No news available</h3>
+                        <p>Check back later for updates</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Filter news
+            const filteredNews = allNewsData.filter(item => {
+                if (!currentSearchTerm) return true;
+                
+                const titleMatch = item.title && item.title.toLowerCase().includes(currentSearchTerm);
+                const descMatch = item.description && item.description.toLowerCase().includes(currentSearchTerm);
+                const dateMatch = item.date && item.date.toLowerCase().includes(currentSearchTerm);
+                
+                return titleMatch || descMatch || dateMatch;
+            });
+            
+            // Render filtered news
+            if (filteredNews.length === 0) {
+                newsList.innerHTML = `
+                    <div class="no-results">
+                        <span class="material-icons">search_off</span>
+                        <h3>No results found</h3>
+                        <p>No news matching "${currentSearchTerm}"</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            renderNewsList(filteredNews);
+        }
+        
+        // NEW: Render news list HTML
+        function renderNewsList(newsArray) {
+            const newsList = document.getElementById('newsList');
+            
+            newsList.innerHTML = newsArray.map(item => {
+                const isVideo = item.mediaUrl && (item.mediaUrl.includes('youtube') || item.mediaUrl.includes('youtu.be'));
+                const videoId = isVideo ? extractVideoId(item.mediaUrl) : null;
+                const imageUrl = isVideo ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : item.mediaUrl;
+                
+                // Process description - convert links to clickable
+                const processedDescription = linkifyText(item.description);
+                
+                // Extract links for separate display at top
+                const extractedLinks = extractLinks(item.description);
+                
+                // Create links section HTML if links exist
+                let linksSectionHtml = '';
+                if (extractedLinks.length > 0) {
+                    linksSectionHtml = `
+                        <div class="links-section">
+                            <div class="links-label">
+                                <span class="material-icons">link</span>
+                                Links (${extractedLinks.length})
+                            </div>
+                            <div class="links-container">
+                                ${extractedLinks.map(link => `
+                                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="external-link">
+                                        <span class="material-icons">open_in_new</span>
+                                        ${link.text.length > 30 ? link.text.substring(0, 30) + '...' : link.text}
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                return `
+                    <article class="news-card">
+                        ${isVideo ? `
+                            <div class="news-media" onclick="openVideo('${videoId}')">
+                                ${createProgressiveImage(imageUrl, item.title)}
+                                <div class="news-video-overlay">
+                                    <span class="material-icons">play_circle</span>
+                                </div>
+                            </div>
+                        ` : item.mediaUrl ? `
+                            <div class="news-media">
+                                ${createProgressiveImage(imageUrl, item.title)}
+                            </div>
+                        ` : ''}
+                        <div class="news-content">
+                            <div class="news-date">
+                                <span class="material-icons">calendar_today</span>
+                                ${formatDate(item.date)}
+                            </div>
+                            <h2 class="news-title">${highlightText(item.title, currentSearchTerm)}</h2>
+                            
+                            <!-- Links shown first if available -->
+                            ${linksSectionHtml}
+                            
+                            <!-- Full description with clickable links -->
+                            <div class="news-description">${highlightText(processedDescription, currentSearchTerm)}</div>
+                        </div>
+                        ${isVideo ? `
+                            <div class="news-actions">
+                                <button class="news-btn news-btn-primary" onclick="openVideo('${videoId}')">
+                                    <span class="material-icons">play_arrow</span>
+                                    Watch Video
+                                </button>
+                                <button class="news-btn news-btn-secondary" onclick="shareNews('${item.id}')">
+                                    <span class="material-icons">share</span>
+                                    Share
+                                </button>
+                            </div>
+                        ` : ''}
+                    </article>
+                `;
+            }).join('');
+            
+            // Observe all new images
+            setTimeout(() => {
+                document.querySelectorAll('.progressive-image-wrapper').forEach(wrapper => {
+                    imageObserver.observe(wrapper);
+                });
+            }, 100);
+        }
+        
+        // NEW: Highlight search term in text
+        function highlightText(text, searchTerm) {
+            if (!searchTerm || !text) return text;
+            
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<mark style="background: rgba(26,115,232,0.2); color: inherit; padding: 0 2px; border-radius: 2px;">$1</mark>');
+        }
+        
         // Load news
         loadNews();
         
@@ -671,106 +984,25 @@
             // Initialize observer first
             initImageObserver();
             
+            // Setup search
+            setupSearch();
+            
             database.ref('news').orderByChild('date').on('value', (snapshot) => {
                 const news = snapshot.val();
-                const newsList = document.getElementById('newsList');
                 
                 if (!news) {
-                    newsList.innerHTML = `
-                        <div class="empty-state">
-                            <span class="material-icons">newspaper</span>
-                            <h3>No news available</h3>
-                            <p>Check back later for updates</p>
-                        </div>
-                    `;
+                    allNewsData = [];
+                    filterAndRenderNews();
                     return;
                 }
                 
-                const newsArray = Object.entries(news)
+                // Convert to array and store globally
+                allNewsData = Object.entries(news)
                     .map(([id, item]) => ({ id, ...item }))
                     .sort((a, b) => new Date(b.date) - new Date(a.date));
                 
-                newsList.innerHTML = newsArray.map(item => {
-                    const isVideo = item.mediaUrl && (item.mediaUrl.includes('youtube') || item.mediaUrl.includes('youtu.be'));
-                    const videoId = isVideo ? extractVideoId(item.mediaUrl) : null;
-                    const imageUrl = isVideo ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : item.mediaUrl;
-                    
-                    // Process description - convert links to clickable
-                    const processedDescription = linkifyText(item.description);
-                    
-                    // Extract links for separate display at top
-                    const extractedLinks = extractLinks(item.description);
-                    
-                    // Create links section HTML if links exist
-                    let linksSectionHtml = '';
-                    if (extractedLinks.length > 0) {
-                        linksSectionHtml = `
-                            <div class="links-section">
-                                <div class="links-label">
-                                    <span class="material-icons">link</span>
-                                    Links (${extractedLinks.length})
-                                </div>
-                                <div class="links-container">
-                                    ${extractedLinks.map(link => `
-                                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="external-link">
-                                            <span class="material-icons">open_in_new</span>
-                                            ${link.text.length > 30 ? link.text.substring(0, 30) + '...' : link.text}
-                                        </a>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    
-                    return `
-                        <article class="news-card">
-                            ${isVideo ? `
-                                <div class="news-media" onclick="openVideo('${videoId}')">
-                                    ${createProgressiveImage(imageUrl, item.title)}
-                                    <div class="news-video-overlay">
-                                        <span class="material-icons">play_circle</span>
-                                    </div>
-                                </div>
-                            ` : item.mediaUrl ? `
-                                <div class="news-media">
-                                    ${createProgressiveImage(imageUrl, item.title)}
-                                </div>
-                            ` : ''}
-                            <div class="news-content">
-                                <div class="news-date">
-                                    <span class="material-icons">calendar_today</span>
-                                    ${formatDate(item.date)}
-                                </div>
-                                <h2 class="news-title">${item.title}</h2>
-                                
-                                <!-- Links shown first if available -->
-                                ${linksSectionHtml}
-                                
-                                <!-- Full description with clickable links -->
-                                <div class="news-description">${processedDescription}</div>
-                            </div>
-                            ${isVideo ? `
-                                <div class="news-actions">
-                                    <button class="news-btn news-btn-primary" onclick="openVideo('${videoId}')">
-                                        <span class="material-icons">play_arrow</span>
-                                        Watch Video
-                                    </button>
-                                    <button class="news-btn news-btn-secondary" onclick="shareNews('${item.id}')">
-                                        <span class="material-icons">share</span>
-                                        Share
-                                    </button>
-                                </div>
-                            ` : ''}
-                        </article>
-                    `;
-                }).join('');
-                
-                // Observe all new images
-                setTimeout(() => {
-                    document.querySelectorAll('.progressive-image-wrapper').forEach(wrapper => {
-                        imageObserver.observe(wrapper);
-                    });
-                }, 100);
+                // Render with current search filter
+                filterAndRenderNews();
             });
         }
         
