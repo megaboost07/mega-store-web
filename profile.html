@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Profile - MEGA STORE</title>
+    <title>My Profile - MEGA STORE | Manage Your Account</title>
+    <meta name="description" content="Manage your MEGA STORE account, view downloaded projects, track uploads, and customize your settings.">
+    <meta name="keywords" content="mega store profile, account, downloads, uploads">
+    <meta name="author" content="MEGA STORE">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://mega-store.in/profile">
+    <meta property="og:title" content="My Profile - MEGA STORE | Manage Your Account">
+    <meta property="og:description" content="Manage your MEGA STORE account, view downloaded projects, track uploads, and customize your settings.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mega-store.in/profile">
+    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta property="og:site_name" content="MEGA STORE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="My Profile - MEGA STORE | Manage Your Account">
+    <meta name="twitter:description" content="Manage your MEGA STORE account, view downloaded projects, track uploads, and customize your settings.">
+    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -340,23 +356,23 @@
     
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="home" class="nav-item">
+        <a href="home.html" class="nav-item">
             <span class="material-icons">home</span>
             <span>Home</span>
         </a>
-        <a href="allapp" class="nav-item">
+        <a href="allapp.html" class="nav-item">
             <span class="material-icons">apps</span>
             <span>All Apps</span>
         </a>
-        <a href="search" class="nav-item">
+        <a href="search.html" class="nav-item">
             <span class="material-icons">search</span>
             <span>Search</span>
         </a>
-        <a href="news" class="nav-item">
+        <a href="news.html" class="nav-item">
             <span class="material-icons">newspaper</span>
             <span>News</span>
         </a>
-        <a href="profile" class="nav-item active">
+        <a href="profile.html" class="nav-item active">
             <span class="material-icons">person</span>
             <span>Profile</span>
         </a>
@@ -400,7 +416,7 @@
                         <span class="material-icons">account_circle</span>
                         <h2>Sign In Required</h2>
                         <p>Sign in to access your profile and track your activity</p>
-                        <a href="login" class="login-btn">
+                        <a href="login.html" class="login-btn">
                             <span class="material-icons">login</span>
                             Sign In
                         </a>
@@ -460,12 +476,12 @@
                     
                     <!-- Menu -->
                     <div class="menu-section">
-                        <a href="home" class="menu-item">
+                        <a href="home.html" class="menu-item">
                             <span class="material-icons">home</span>
                             <span>Home</span>
                             <span class="material-icons arrow">chevron_right</span>
                         </a>
-                        <a href="allapp" class="menu-item">
+                        <a href="allapp.html" class="menu-item">
                             <span class="material-icons">apps</span>
                             <span>My Apps</span>
                             <span class="material-icons arrow">chevron_right</span>
@@ -478,17 +494,17 @@
                     </div>
                     
                     <div class="menu-section">
-                        <a href="about" class="menu-item">
+                        <a href="about.html" class="menu-item">
                             <span class="material-icons">info</span>
                             <span>About Us</span>
                             <span class="material-icons arrow">chevron_right</span>
                         </a>
-                        <a href="contact" class="menu-item">
+                        <a href="contact.html" class="menu-item">
                             <span class="material-icons">contact_mail</span>
                             <span>Contact Us</span>
                             <span class="material-icons arrow">chevron_right</span>
                         </a>
-                        <a href="privacy" class="menu-item">
+                        <a href="privacy.html" class="menu-item">
                             <span class="material-icons">privacy_tip</span>
                             <span>Privacy Policy</span>
                             <span class="material-icons arrow">chevron_right</span>
@@ -525,45 +541,5 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
-    </script>
-    <script>
-        // Clean URL Handler - Remove .html from URLs in address bar
-        (function() {
-            // Handle initial page load - remove .html from URL
-            let path = window.location.pathname;
-            if (path.endsWith('.html')) {
-                let cleanPath = path.replace('.html', '');
-                window.history.replaceState({}, '', cleanPath + window.location.search + window.location.hash);
-            }
-
-            // Intercept all link clicks
-            document.addEventListener('click', function(e) {
-                let link = e.target.closest('a');
-                if (!link) return;
-
-                let href = link.getAttribute('href');
-                if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('/')) {
-                    return; // External links, anchors, javascript, or absolute paths - let them work normally
-                }
-
-                // If href doesn't have .html and is not empty, add .html for navigation
-                if (href && !href.endsWith('.html') && !href.includes('.') && href !== '/') {
-                    e.preventDefault();
-                    let actualFile = href + '.html';
-                    window.history.pushState({}, '', href + window.location.search);
-                    window.location.href = actualFile;
-                }
-            });
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', function(e) {
-                let path = window.location.pathname;
-                if (!path.endsWith('.html') && path !== '/' && path !== '') {
-                    let actualFile = path + '.html';
-                    window.location.href = actualFile;
-                }
-            });
-        })();
-    </script>
-</body>
+    </script></body>
 </html>

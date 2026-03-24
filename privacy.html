@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Privacy Policy - MEGA STORE</title>
+    <meta name="description" content="Read the privacy policy of MEGA STORE. Learn how we protect your data and privacy.">
+    <meta name="keywords" content="privacy policy, data protection, mega store privacy">
+    <meta name="author" content="MEGA STORE">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://mega-store.in/privacy">
+    <meta property="og:title" content="Privacy Policy - MEGA STORE">
+    <meta property="og:description" content="Read the privacy policy of MEGA STORE. Learn how we protect your data and privacy.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mega-store.in/privacy">
+    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta property="og:site_name" content="MEGA STORE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy Policy - MEGA STORE">
+    <meta name="twitter:description" content="Read the privacy policy of MEGA STORE. Learn how we protect your data and privacy.">
+    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
@@ -398,45 +414,5 @@
     <script>
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
-    </script>
-    <script>
-        // Clean URL Handler - Remove .html from URLs in address bar
-        (function() {
-            // Handle initial page load - remove .html from URL
-            let path = window.location.pathname;
-            if (path.endsWith('.html')) {
-                let cleanPath = path.replace('.html', '');
-                window.history.replaceState({}, '', cleanPath + window.location.search + window.location.hash);
-            }
-
-            // Intercept all link clicks
-            document.addEventListener('click', function(e) {
-                let link = e.target.closest('a');
-                if (!link) return;
-
-                let href = link.getAttribute('href');
-                if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('/')) {
-                    return; // External links, anchors, javascript, or absolute paths - let them work normally
-                }
-
-                // If href doesn't have .html and is not empty, add .html for navigation
-                if (href && !href.endsWith('.html') && !href.includes('.') && href !== '/') {
-                    e.preventDefault();
-                    let actualFile = href + '.html';
-                    window.history.pushState({}, '', href + window.location.search);
-                    window.location.href = actualFile;
-                }
-            });
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', function(e) {
-                let path = window.location.pathname;
-                if (!path.endsWith('.html') && path !== '/' && path !== '') {
-                    let actualFile = path + '.html';
-                    window.location.href = actualFile;
-                }
-            });
-        })();
-    </script>
-</body>
+    </script></body>
 </html>

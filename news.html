@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>News - MEGA STORE</title>
+    <title>News & Updates - MEGA STORE | Latest Sketchware News</title>
+    <meta name="description" content="Get the latest news and updates about Sketchware, new project releases, version updates, and community announcements.">
+    <meta name="keywords" content="sketchware news, updates, new projects, sketchware pro">
+    <meta name="author" content="MEGA STORE">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://mega-store.in/news">
+    <meta property="og:title" content="News & Updates - MEGA STORE | Latest Sketchware News">
+    <meta property="og:description" content="Get the latest news and updates about Sketchware, new project releases, version updates, and community announcements.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mega-store.in/news">
+    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta property="og:site_name" content="MEGA STORE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="News & Updates - MEGA STORE | Latest Sketchware News">
+    <meta name="twitter:description" content="Get the latest news and updates about Sketchware, new project releases, version updates, and community announcements.">
+    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -608,23 +624,23 @@
     
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="home" class="nav-item">
+        <a href="home.html" class="nav-item">
             <span class="material-icons">home</span>
             <span>Home</span>
         </a>
-        <a href="allapp" class="nav-item">
+        <a href="allapp.html" class="nav-item">
             <span class="material-icons">apps</span>
             <span>All Apps</span>
         </a>
-        <a href="search" class="nav-item">
+        <a href="search.html" class="nav-item">
             <span class="material-icons">search</span>
             <span>Search</span>
         </a>
-        <a href="news" class="nav-item active">
+        <a href="news.html" class="nav-item active">
             <span class="material-icons">newspaper</span>
             <span>News</span>
         </a>
-        <a href="profile" class="nav-item">
+        <a href="profile.html" class="nav-item">
             <span class="material-icons">person</span>
             <span>Profile</span>
         </a>
@@ -742,7 +758,7 @@
                 if (!url.startsWith('http')) {
                     fullUrl = 'https://' + url;
                 }
-                return `<a href="${fullUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+                return `<a href="${fullUrl}.html" target="_blank" rel="noopener noreferrer">${url}</a>`;
             });
         }
         
@@ -1055,45 +1071,5 @@
                 }
             });
         });
-    </script>
-    <script>
-        // Clean URL Handler - Remove .html from URLs in address bar
-        (function() {
-            // Handle initial page load - remove .html from URL
-            let path = window.location.pathname;
-            if (path.endsWith('.html')) {
-                let cleanPath = path.replace('.html', '');
-                window.history.replaceState({}, '', cleanPath + window.location.search + window.location.hash);
-            }
-
-            // Intercept all link clicks
-            document.addEventListener('click', function(e) {
-                let link = e.target.closest('a');
-                if (!link) return;
-
-                let href = link.getAttribute('href');
-                if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('/')) {
-                    return; // External links, anchors, javascript, or absolute paths - let them work normally
-                }
-
-                // If href doesn't have .html and is not empty, add .html for navigation
-                if (href && !href.endsWith('.html') && !href.includes('.') && href !== '/') {
-                    e.preventDefault();
-                    let actualFile = href + '.html';
-                    window.history.pushState({}, '', href + window.location.search);
-                    window.location.href = actualFile;
-                }
-            });
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', function(e) {
-                let path = window.location.pathname;
-                if (!path.endsWith('.html') && path !== '/' && path !== '') {
-                    let actualFile = path + '.html';
-                    window.location.href = actualFile;
-                }
-            });
-        })();
-    </script>
-</body>
+    </script></body>
 </html>
