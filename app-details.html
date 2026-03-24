@@ -311,7 +311,7 @@
         }
         
         .screenshot-item {
-            height: 180px;
+            height: 225px;
             width: auto;
             border-radius: 12px;
             overflow: hidden;
@@ -1499,8 +1499,8 @@
         <button class="back-btn" onclick="history.back()">
             <span class="material-icons">arrow_back</span>
         </button>
-        <h1 class="app-title">App Details</h1>
-        <button class="search-btn" onclick="window.location.href='search.html'">
+        <h1 class="app-title" id="pageTitle">App Details</h1>
+        <button class="search-btn" onclick="window.location.href='search'">
         <span class="material-icons">search</span>
         </button>
     </header>
@@ -1701,6 +1701,17 @@
                 appData = snapshot.val();
                 console.log('App data loaded:', appData);
                 if (appData) {
+                    // Update page title with app name
+                    document.title = appData.name + ' - MEGA STORE';
+
+                    // Update header title with app name
+                    document.getElementById('pageTitle').textContent = appData.name;
+
+                    // Update URL with app name (clean URL format)
+                    let appNameSlug = appData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                    let newUrl = '/app-details/' + appNameSlug + '?id=' + appId;
+                    window.history.replaceState({}, '', newUrl);
+
                     // YE CHECK KAREGA KI CURRENT USER HI OWNER HAI
                     checkIfOwner();
                     screenshots = appData.screenshots || [];
@@ -3017,6 +3028,36 @@
                 closeLightbox();
             }
         });
+    </script>
+
+    <script>
+        // Clean URL Handler - Remove .html from URLs in address bar
+        (function() {
+            // Handle initial page load - remove .html from URL
+            let path = window.location.pathname;
+            if (path.endsWith('.html')) {
+                let cleanPath = path.replace('.html', '');
+                window.history.replaceState({}, '', cleanPath + window.location.search + window.location.hash);
+            }
+
+            // Intercept all link clicks
+            document.addEventListener('click', function(e) {
+                let link = e.target.closest('a');
+                if (!link) return;
+
+                let href = link.getAttribute('href');
+                if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript')) {
+                    return; // External links, anchors, or javascript - let them work normally
+                }
+
+                if (href.endsWith('.html')) {
+                    e.preventDefault();
+                    let cleanUrl = href.replace('.html', '');
+                    window.history.pushState({}, '', cleanUrl);
+                    window.location.href = href; // Navigate to actual file
+                }
+            });
+        })();
     </script>
 </body>
 </html>

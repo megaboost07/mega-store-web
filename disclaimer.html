@@ -208,5 +208,44 @@
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
+    <script>
+        // Clean URL Handler - Remove .html from URLs in address bar
+        (function() {
+            // Handle initial page load - remove .html from URL
+            let path = window.location.pathname;
+            if (path.endsWith('.html')) {
+                let cleanPath = path.replace('.html', '');
+                window.history.replaceState({}, '', cleanPath + window.location.search + window.location.hash);
+            }
+
+            // Intercept all link clicks
+            document.addEventListener('click', function(e) {
+                let link = e.target.closest('a');
+                if (!link) return;
+
+                let href = link.getAttribute('href');
+                if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('/')) {
+                    return; // External links, anchors, javascript, or absolute paths - let them work normally
+                }
+
+                // If href doesn't have .html and is not empty, add .html for navigation
+                if (href && !href.endsWith('.html') && !href.includes('.') && href !== '/') {
+                    e.preventDefault();
+                    let actualFile = href + '.html';
+                    window.history.pushState({}, '', href + window.location.search);
+                    window.location.href = actualFile;
+                }
+            });
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', function(e) {
+                let path = window.location.pathname;
+                if (!path.endsWith('.html') && path !== '/' && path !== '') {
+                    let actualFile = path + '.html';
+                    window.location.href = actualFile;
+                }
+            });
+        })();
+    </script>
 </body>
 </html>

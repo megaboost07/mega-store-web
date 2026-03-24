@@ -1299,7 +1299,7 @@
             <span class="material-icons">menu</span>
         </button>
         <h1 class="app-title">MEGA STORE</h1>
-        <a href="search.html" class="search-btn">
+        <a href="search" class="search-btn">
             <span class="material-icons">search</span>
         </a>
     </header>
@@ -1321,28 +1321,28 @@
             </div>
         </div>
         <div class="drawer-nav">
-            <a href="profile.html" class="drawer-item">
+            <a href="profile" class="drawer-item">
                 <span class="material-icons">account_circle</span>
                 <span>Profile</span>
             </a>
-            <a href="about.html" class="drawer-item">
+            <a href="about" class="drawer-item">
                 <span class="material-icons">info</span>
                 <span>About Us</span>
             </a>
-            <a href="contact.html" class="drawer-item">
+            <a href="contact" class="drawer-item">
                 <span class="material-icons">contact_mail</span>
                 <span>Contact Us</span>
             </a>
             <div class="drawer-divider"></div>
-            <a href="privacy.html" class="drawer-item">
+            <a href="privacy" class="drawer-item">
                 <span class="material-icons">privacy_tip</span>
                 <span>Privacy Policy</span>
             </a>
-            <a href="disclaimer.html" class="drawer-item">
+            <a href="disclaimer" class="drawer-item">
                 <span class="material-icons">gavel</span>
                 <span>Disclaimer</span>
             </a>
-            <a href="terms.html" class="drawer-item">
+            <a href="terms" class="drawer-item">
                 <span class="material-icons">description</span>
                 <span>Terms & Conditions</span>
             </a>
@@ -1351,7 +1351,7 @@
                 <span class="material-icons" id="darkModeIcon">dark_mode</span>
                 <span id="darkModeText">Dark Mode</span>
             </div>
-            <a href="login.html" class="drawer-item" id="loginDrawerItem">
+            <a href="login" class="drawer-item" id="loginDrawerItem">
                 <span class="material-icons">login</span>
                 <span>Login</span>
             </a>
@@ -1473,7 +1473,7 @@
         <section class="category-section">
             <div class="section-header">
                 <h2 class="section-title">Featured Apps</h2>
-                <a href="allapp.html" class="see-all-btn">
+                <a href="allapp" class="see-all-btn">
                     See All <span class="material-icons">chevron_right</span>
                 </a>
             </div>
@@ -1488,11 +1488,11 @@
     
     <!-- Bottom Navigation - Updated with Upload FAB -->
     <nav class="bottom-nav">
-        <a href="home.html" class="nav-item active">
+        <a href="home" class="nav-item active">
             <span class="material-icons">home</span>
             <span>Home</span>
         </a>
-        <a href="allapp.html" class="nav-item">
+        <a href="allapp" class="nav-item">
             <span class="material-icons">apps</span>
             <span>All Apps</span>
         </a>
@@ -1502,11 +1502,11 @@
             <span class="material-icons">add</span>
         </button>
         
-        <a href="news.html" class="nav-item">
+        <a href="news" class="nav-item">
             <span class="material-icons">newspaper</span>
             <span>News</span>
         </a>
-        <a href="profile.html" class="nav-item">
+        <a href="profile" class="nav-item">
             <span class="material-icons">person</span>
             <span>Profile</span>
         </a>
@@ -2166,7 +2166,7 @@
         }
         
         function openApp(appId) {
-            window.location.href = `app-details.html?id=${appId}`;
+            window.location.href = `app-details?id=${appId}`;
         }
 
         function escapeHtml(text) {
@@ -2426,6 +2426,45 @@
                 closeUploadModal();
             }
         });
+    </script>
+    <script>
+        // Clean URL Handler - Remove .html from URLs in address bar
+        (function() {
+            // Handle initial page load - remove .html from URL
+            let path = window.location.pathname;
+            if (path.endsWith('.html')) {
+                let cleanPath = path.replace('.html', '');
+                window.history.replaceState({}, '', cleanPath + window.location.search + window.location.hash);
+            }
+
+            // Intercept all link clicks
+            document.addEventListener('click', function(e) {
+                let link = e.target.closest('a');
+                if (!link) return;
+
+                let href = link.getAttribute('href');
+                if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript') || href.startsWith('/')) {
+                    return; // External links, anchors, javascript, or absolute paths - let them work normally
+                }
+
+                // If href doesn't have .html and is not empty, add .html for navigation
+                if (href && !href.endsWith('.html') && !href.includes('.') && href !== '/') {
+                    e.preventDefault();
+                    let actualFile = href + '.html';
+                    window.history.pushState({}, '', href + window.location.search);
+                    window.location.href = actualFile;
+                }
+            });
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', function(e) {
+                let path = window.location.pathname;
+                if (!path.endsWith('.html') && path !== '/' && path !== '') {
+                    let actualFile = path + '.html';
+                    window.location.href = actualFile;
+                }
+            });
+        })();
     </script>
 </body>
 </html>
