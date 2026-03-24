@@ -1,4 +1,4 @@
-[]DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -229,13 +229,13 @@
         .login-prompt {
             background: var(--surface);
             border-radius: 16px;
-            padding: 48px 24px;
+            padding: 35px 24px;
             text-align: center;
             box-shadow: var(--shadow-1);
         }
         
         .login-prompt .material-icons {
-            font-size: 0px;
+            font-size:0px;
             color: var(--text-secondary);
             margin-bottom: 16px;
         }
@@ -331,6 +331,129 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+        
+        /* Loading Styles */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            padding: 24px;
+        }
+        
+        .loading-pulse {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
+        }
+        
+        .loading-pulse .material-icons {
+            font-size: 40px;
+            color: white;
+            animation: icon-pulse 1.5s ease-in-out infinite;
+        }
+        
+        .loading-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            animation: text-fade 1.5s ease-in-out infinite;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        
+        @keyframes icon-pulse {
+            0%, 100% { transform: scale(0.9); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes text-fade {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+        
+        /* Content Animations */
+        .fade-in {
+            animation: fade-in 0.5s ease-out;
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Error State */
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            padding: 24px;
+            text-align: center;
+            animation: fade-in 0.4s ease-out;
+        }
+        
+        .error-container .material-icons {
+            font-size: 64px;
+            color: #e53935;
+            margin-bottom: 16px;
+        }
+        
+        .error-container h3 {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .error-container p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        
+        .retry-btn {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .retry-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
     </style>
 
   <!-- Google AdSense Code -->
@@ -350,7 +473,13 @@
     <!-- Main Content -->
     <main class="main-content">
         <div id="profileContent">
-            <!-- Content loaded by JS -->
+            <!-- Initial Loading State -->
+            <div class="loading-container" id="initialLoader">
+                <div class="loading-pulse">
+                    <span class="material-icons">person</span>
+                </div>
+                <div class="loading-text">Loading profile<span class="loading-dots"></span></div>
+            </div>
         </div>
     </main>
     
@@ -410,115 +539,161 @@
         function renderProfile() {
             const container = document.getElementById('profileContent');
             
+            // Show loading state first
+            showLoading();
+            
             if (!currentUser) {
-                container.innerHTML = `
-                    <div class="login-prompt">
-                        <span class="material-icons">account_circle</span>
-                        <h2>Sign In Required</h2>
-                        <p>Sign in to access your profile and track your activity</p>
-                        <a href="login.html" class="login-btn">
-                            <span class="material-icons">login</span>
-                            Sign In
-                        </a>
-                    </div>
-                `;
+                // Small delay to show loading animation even for login prompt
+                setTimeout(() => {
+                    container.innerHTML = `
+                        <div class="login-prompt">
+                            <span class="material-icons">account_circle</span>
+                            <h2>Sign In Required</h2>
+                            <p>Sign in to access your profile and track your activity</p>
+                            <a href="login.html" class="login-btn">
+                                <span class="material-icons">login</span>
+                                Sign In
+                            </a>
+                        </div>
+                    `;
+                }, 600);
                 return;
             }
             
-            // Load user stats
-            database.ref(`users/${currentUser.id}`).once('value').then(snapshot => {
-                const userData = snapshot.val() || {};
+            // Load user data with timeout handling
+            const loadData = async () => {
+                try {
+                    // Create a timeout promise (10 seconds)
+                    const timeoutPromise = new Promise((_, reject) => {
+                        setTimeout(() => reject(new Error('Loading timeout')), 10000);
+                    });
+                    
+                    // Create the data fetch promise
+                    const dataPromise = database.ref(`users/${currentUser.id}`).once('value');
+                    
+                    // Race between timeout and data fetch
+                    const snapshot = await Promise.race([dataPromise, timeoutPromise]);
+                    const userData = snapshot.val() || {};
+                    
+                    // Small delay for smooth transition
+                    setTimeout(() => {
+                        renderUserContent(userData);
+                    }, 400);
+                    
+                } catch (error) {
+                    console.error('Error loading profile:', error);
+                    setTimeout(() => {
+                        showError();
+                    }, 400);
+                }
+            };
+            
+            loadData();
+        }
+        
+        function showLoading() {
+            const container = document.getElementById('profileContent');
+            container.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-pulse">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <div class="loading-text">Loading your profile<span class="loading-dots"></span></div>
+                </div>
+            `;
+        }
+        
+        function showError() {
+            const container = document.getElementById('profileContent');
+            container.innerHTML = `
+                <div class="error-container">
+                    <span class="material-icons">error_outline</span>
+                    <h3>Failed to Load Profile</h3>
+                    <p>Unable to connect to server. Please check your internet connection and try again.</p>
+                    <button class="retry-btn" onclick="renderProfile()">
+                        <span class="material-icons">refresh</span>
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
+        
+        function renderUserContent(userData) {
+            const container = document.getElementById('profileContent');
+            
+            container.innerHTML = `
+                <!-- Profile Header -->
+                <div class="profile-header fade-in">
+                    <div class="profile-avatar">
+                        ${currentUser.photo ? 
+                            `<img src="${currentUser.photo}" alt="${currentUser.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'material-icons\\'>person</span>';">` : 
+                            `<span class="material-icons">person</span>`
+                        }
+                    </div>
+                    <h2 class="profile-name">${currentUser.name}</h2>
+                    <p class="profile-email">${currentUser.email}</p>
+                </div>
+               
                 
-                container.innerHTML = `
-                    <!-- Profile Header -->
-                    <div class="profile-header">
-                        <div class="profile-avatar">
-                            ${currentUser.photo ? 
-                                `<img src="${currentUser.photo}" alt="${currentUser.name}">` : 
-                                `<span class="material-icons">person</span>`
-                            }
-                        </div>
-                        <h2 class="profile-name">${currentUser.name}</h2>
-                        <p class="profile-email">${currentUser.email}</p>
-                    </div>
-                    
-                    <!-- Social Links -->
-                    <div class="menu-section">
-                        <a href="https://www.youtube.com/@kapil_h4x_live" target="_blank" class="menu-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0000">
-                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                            </svg>
-                            <span>YouTube Channel</span>
-                            <span class="material-icons arrow">open_in_new</span>
-                        </a>
-                        <a href="https://t.me/mega_store_in" target="_blank" class="menu-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#0088cc">
-                                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                            </svg>
-                            <span>Telegram Channel</span>
-                            <span class="material-icons arrow">open_in_new</span>
-                        </a>
-                        <a href="https://www.instagram.com/mega_boost_ofl?igsh=MWh6bHdtMmJxeWhqeA==" target="_blank" class="menu-item">
-                            <svg width="24" height="24" viewBox="0 0 24 24">
-                                <defs>
-                                    <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                                        <stop offset="0%" style="stop-color:#f58529"/>
-                                        <stop offset="50%" style="stop-color:#dd2a7b"/>
-                                        <stop offset="100%" style="stop-color:#8134af"/>
-                                    </linearGradient>
-                                </defs>
-                                <path fill="url(#ig-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                            <span>Instagram Account</span>
-                            <span class="material-icons arrow">open_in_new</span>
-                        </a>
-                    </div>
-                    
-                    <!-- Menu -->
-                    <div class="menu-section">
-                        <a href="home.html" class="menu-item">
-                            <span class="material-icons">home</span>
-                            <span>Home</span>
-                            <span class="material-icons arrow">chevron_right</span>
-                        </a>
-                        <a href="allapp.html" class="menu-item">
-                            <span class="material-icons">apps</span>
-                            <span>My Apps</span>
-                            <span class="material-icons arrow">chevron_right</span>
-                        </a>
-                        <button class="menu-item" onclick="toggleDarkMode()">
-                            <span class="material-icons">${savedTheme === 'dark' ? 'light_mode' : 'dark_mode'}</span>
-                            <span>${savedTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-                            <span class="material-icons arrow">chevron_right</span>
-                        </button>
-                    </div>
-                    
-                    <div class="menu-section">
-                        <a href="about.html" class="menu-item">
-                            <span class="material-icons">info</span>
-                            <span>About Us</span>
-                            <span class="material-icons arrow">chevron_right</span>
-                        </a>
-                        <a href="contact.html" class="menu-item">
-                            <span class="material-icons">contact_mail</span>
-                            <span>Contact Us</span>
-                            <span class="material-icons arrow">chevron_right</span>
-                        </a>
-                        <a href="privacy.html" class="menu-item">
-                            <span class="material-icons">privacy_tip</span>
-                            <span>Privacy Policy</span>
-                            <span class="material-icons arrow">chevron_right</span>
-                        </a>
-                    </div>
-                    
-                    <div class="menu-section">
-                        <button class="menu-item" onclick="logout()">
-                            <span class="material-icons" style="color: #e53935;">logout</span>
-                            <span style="color: #e53935;">Logout</span>
-                        </button>
-                    </div>
-                `;
-            });
+                <!-- Social Links -->
+                <div class="menu-section" style="animation: fade-in 0.4s ease-out 0.4s both">
+                    <a href="https://www.youtube.com/@kapil_h4x_live" target="_blank" class="menu-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0000">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        <span>YouTube Channel</span>
+                        <span class="material-icons arrow">open_in_new</span>
+                    </a>
+                    <a href="https://t.me/mega_store_in" target="_blank" class="menu-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#0088cc">
+                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                        </svg>
+                        <span>Telegram Channel</span>
+                        <span class="material-icons arrow">open_in_new</span>
+                    </a>
+                    <a href="https://www.instagram.com/mega_store_in?igsh=MXhtcjJ6dHg0emlpZQ==" target="_blank" class="menu-item">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <defs>
+                                <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#f58529"/>
+                                    <stop offset="50%" style="stop-color:#dd2a7b"/>
+                                    <stop offset="100%" style="stop-color:#8134af"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#ig-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                        <span>Instagram Account</span>
+                        <span class="material-icons arrow">open_in_new</span>
+                    </a>
+                </div>
+                
+               
+                
+                <div class="menu-section" style="animation: fade-in 0.4s ease-out 0.6s both">
+                    <a href="about.html" class="menu-item">
+                        <span class="material-icons">info</span>
+                        <span>About Us</span>
+                        <span class="material-icons arrow">chevron_right</span>
+                    </a>
+                    <a href="contact.html" class="menu-item">
+                        <span class="material-icons">contact_mail</span>
+                        <span>Contact Us</span>
+                        <span class="material-icons arrow">chevron_right</span>
+                    </a>
+                    <a href="privacy.html" class="menu-item">
+                        <span class="material-icons">privacy_tip</span>
+                        <span>Privacy Policy</span>
+                        <span class="material-icons arrow">chevron_right</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section" style="animation: fade-in 0.4s ease-out 0.7s both">
+                    <button class="menu-item" onclick="logout()">
+                        <span class="material-icons" style="color: #e53935;">logout</span>
+                        <span style="color: #e53935;">Logout</span>
+                    </button>
+                </div>
+            `;
         }
         
         function toggleDarkMode() {
@@ -526,13 +701,21 @@
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            renderProfile();
+            showLoading();
+            setTimeout(() => {
+                location.reload();
+            }, 300);
         }
         
         function logout() {
-            localStorage.removeItem('currentUser');
-            showToast('Logged out successfully');
-            setTimeout(() => location.reload(), 1000);
+            if(confirm('Are you sure you want to logout?')) {
+                showLoading();
+                setTimeout(() => {
+                    localStorage.removeItem('currentUser');
+                    showToast('Logged out successfully');
+                    setTimeout(() => location.reload(), 800);
+                }, 400);
+            }
         }
         
         function showToast(message) {
@@ -541,5 +724,6 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
-    </script></body>
+    </script>
+</body>
 </html>
