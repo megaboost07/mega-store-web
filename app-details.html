@@ -1658,24 +1658,43 @@
         <button class="back-btn" onclick="history.back()">
             <span class="material-icons">arrow_back</span>
         </button>
-        <h1 class="app-title" id="pageTitle">App Details</h1>
-        <button class="search-btn" onclick="window.location.href='search.html'">
-        <span class="material-icons">search</span>
-        </button>
+<h1 class="app-title" id="pageTitle">App Details</h1>    
+
+<button onclick="window.location.href='profile.html'" style="background:none; border:none; cursor:pointer;">
+    <img src="https://i.supaimg.com/48e15075-dfd2-4c38-85f0-ab77baa89073.jpg" 
+         alt="Profile" 
+         style="width:30px; height:30px; border-radius:50%;">
+</button>
     </header>
     
-<!-- Ad Above App Header -->
-<div style="width:100%; display:flex; justify-content:center; margin:8px 0;">
-  <script>
-    atOptions = {
-      'key' : 'fdcef8b34707e784e6478e2c70e8ec84',
-      'format' : 'iframe',
-      'height' : 250,
-      'width' : 300,
-      'params' : {}
-    };
-  </script>
-  <script src="https://www.highperformanceformat.com/fdcef8b34707e784e6478e2c70e8ec84/invoke.js"></script>
+<!-- Rounded Ad Container -->
+<div style="
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin:80px 0 20px 0; /* top = 80px */
+">
+
+  <div style="
+    border-radius:15px;
+    overflow:hidden;
+    background:#ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  ">
+
+    <script>
+      atOptions = {
+        'key' : 'fdcef8b34707e784e6478e2c70e8ec84',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+
+    <script src="https://www.highperformanceformat.com/fdcef8b34707e784e6478e2c70e8ec84/invoke.js"></script>
+
+  </div>
 </div>
 
 
@@ -1704,7 +1723,68 @@
         </div>
     </main>
 
+<!-- Rounded Ad Container -->
+<div style="
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin:20px 0;
+">
 
+  <div style="
+    border-radius:15px;
+    overflow:hidden;
+    background:#ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  ">
+
+    <script>
+      atOptions = {
+        'key' : 'fdcef8b34707e784e6478e2c70e8ec84',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+
+    <script src="https://www.highperformanceformat.com/fdcef8b34707e784e6478e2c70e8ec84/invoke.js"></script>
+
+  </div>
+</div>
+
+<!-- Banner Ad 8px Rounded -->
+<div style="
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin:10px 0;
+">
+
+  <div style="
+    border-radius:8px; /* yahi change kiya */
+    overflow:hidden;
+    background:#ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    padding:0px;
+  ">
+
+    <div style="line-height:0;">
+      <script>
+        atOptions = {
+          'key' : '76a5d408b08cc0ec1fc19ab5e70b18d7',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+
+      <script src="https://www.highperformanceformat.com/76a5d408b08cc0ec1fc19ab5e70b18d7/invoke.js"></script>
+    </div>
+
+  </div>
+</div>
     
     <!-- Lightbox Modal -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
@@ -2283,6 +2363,14 @@
                     </div>
                 </div>
                 
+                <!-- Download Button Above Screenshots -->
+                <div class="download-section-above" style="background: var(--surface); padding: 16px 24px; margin-top: 8px;">
+                    <button class="btn btn-primary" id="screenshotDownloadBtn" onclick="handleScreenshotDownload()" style="width: 100%;">
+                        <span class="material-icons">download</span>
+                        Download Now
+                    </button>
+                </div>
+
                 <!-- Screenshots -->
                 ${screenshotsHtml}
                 
@@ -2668,6 +2756,42 @@
                     showToast('Download link not available');
                 }
             });
+        }
+        
+        // Variable to track if ad link has been opened
+        let adLinkOpened = false;
+        
+        // Handle download button click above screenshots
+        function handleScreenshotDownload() {
+            const AD_LINK = 'https://www.profitablecpmratenetwork.com/xm9iqngtn?key=5fe296a797efc1009b3669d80bedd251';
+            
+            if (!adLinkOpened) {
+                // First click - open ad link (no login required)
+                window.open(AD_LINK, '_blank');
+                adLinkOpened = true;
+                showToast('Please wait... Click download again to get the file');
+            } else {
+                // Second click - download the file (login required)
+                if (!currentUser) {
+                    showToast('Please login to download');
+                    return;
+                }
+                
+                database.ref(`userDownloads/${currentUser.id}/${appId}`).once('value').then(snapshot => {
+                    if (!snapshot.val()) {
+                        database.ref(`userDownloads/${currentUser.id}/${appId}`).set(true);
+                        database.ref(`apps/${appId}/downloads`).transaction(current => (current || 0) + 1);
+                        database.ref(`stats/totalDownloads`).transaction(current => (current || 0) + 1);
+                        database.ref(`users/${currentUser.id}/downloads`).transaction(current => (current || 0) + 1);
+                    }
+                    
+                    if (appData.downloadUrl) {
+                        window.open(appData.downloadUrl, '_blank');
+                    } else {
+                        showToast('Download link not available');
+                    }
+                });
+            }
         }
         
         function postComment() {
