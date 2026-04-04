@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw Earnings - Get Paid via UPI | Axon AI Shortener</title>
+    <meta name="description" content="Withdraw your earnings from Axon AI Shortener. Minimum payout ₹100. Get paid directly to your UPI ID within 24-48 hours.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🔗</div>
+                Axon AI
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shortener.html">Shortener</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="withdraw.html" class="active">Withdraw</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="withdraw.html" class="btn btn-success btn-sm">
+                    <i class="fas fa-wallet"></i> ₹<span id="navBalance">0.00</span>
+                </a>
+                <button class="btn btn-danger btn-sm" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Withdraw Section -->
+    <section class="section" style="padding-top: 40px;">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-money-bill-wave" style="color: var(--success);"></i> Withdraw Your Earnings</h2>
+                <p>Get paid directly to your UPI ID. Fast, secure, and hassle-free withdrawals.</p>
+            </div>
+
+            <!-- Balance Cards -->
+            <div class="stats-grid" style="margin-bottom: 2rem;">
+                <div class="stat-card" style="background: var(--gradient-1); color: white;">
+                    <div class="stat-icon" style="background: rgba(255,255,255,0.2); color: white;">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4 style="color: white;">₹<span id="availableBalance">0.00</span></h4>
+                        <p style="color: rgba(255,255,255,0.8);">Available Balance</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>₹<span id="totalEarned">0.00</span></h4>
+                        <p>Total Earned</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>₹<span id="totalWithdrawn">0.00</span></h4>
+                        <p>Total Withdrawn</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>₹<span id="pendingAmount">0.00</span></h4>
+                        <p>Pending</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minimum Payout Notice -->
+            <div class="card" style="margin-bottom: 2rem; border-left: 4px solid var(--success);">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-info-circle" style="font-size: 2rem; color: var(--success);"></i>
+                    <div>
+                        <h4 style="margin-bottom: 0.25rem;">Minimum Payout: ₹100</h4>
+                        <p style="margin: 0; color: var(--text-muted);">You can request withdrawal once your available balance reaches ₹100. Payments are processed within 24-48 hours.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <!-- Withdrawal Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-paper-plane"></i> Request Withdrawal</h3>
+                        <p class="card-subtitle">Fill in your details to get paid</p>
+                    </div>
+                    
+                    <form id="withdrawForm">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i> Full Name
+                            </label>
+                            <input type="text" class="form-input" id="withdrawName" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-phone"></i> Phone Number
+                            </label>
+                            <input type="tel" class="form-input" id="withdrawPhone" placeholder="Enter your phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-university"></i> UPI ID
+                            </label>
+                            <input type="text" class="form-input" id="withdrawUpi" placeholder="yourname@upi" required>
+                            <small style="color: var(--text-muted);">
+                                <i class="fas fa-shield-alt"></i> Your payment will be sent to this UPI ID
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-rupee-sign"></i> Withdrawal Amount
+                            </label>
+                            <input type="number" class="form-input" id="withdrawAmount" placeholder="Enter amount" min="100" required>
+                            <small style="color: var(--text-muted);">
+                                <i class="fas fa-info-circle"></i> Available: ₹<span id="formBalance">0.00</span>
+                            </small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success btn-block" id="withdrawSubmitBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            Request Withdrawal
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Withdrawal Info -->
+                <div>
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-info-circle"></i> Payment Information</h3>
+                        </div>
+                        <div style="color: var(--text-secondary);">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                                <i class="fas fa-clock" style="color: var(--primary); font-size: 1.5rem;"></i>
+                                <div>
+                                    <h5 style="margin-bottom: 0.25rem;">Processing Time</h5>
+                                    <p style="margin: 0; font-size: 0.9rem;">24-48 hours</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                                <i class="fas fa-university" style="color: var(--success); font-size: 1.5rem;"></i>
+                                <div>
+                                    <h5 style="margin-bottom: 0.25rem;">Payment Method</h5>
+                                    <p style="margin: 0; font-size: 0.9rem;">UPI (Unified Payments Interface)</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                                <i class="fas fa-shield-alt" style="color: var(--warning); font-size: 1.5rem;"></i>
+                                <div>
+                                    <h5 style="margin-bottom: 0.25rem;">Security</h5>
+                                    <p style="margin: 0; font-size: 0.9rem;">All transactions are encrypted and secure</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supported UPI Apps -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-mobile-alt"></i> Supported UPI Apps</h3>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <div style="padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: var(--radius); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                <span>Google Pay</span>
+                            </div>
+                            <div style="padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: var(--radius); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                <span>PhonePe</span>
+                            </div>
+                            <div style="padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: var(--radius); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                <span>Paytm</span>
+                            </div>
+                            <div style="padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: var(--radius); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                <span>Amazon Pay</span>
+                            </div>
+                            <div style="padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: var(--radius); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                <span>BHIM</span>
+                            </div>
+                            <div style="padding: 0.75rem 1rem; background: var(--bg-primary); border-radius: var(--radius); display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                <span>All UPI Apps</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdrawal History -->
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-history"></i> Withdrawal History</h3>
+                    <p class="card-subtitle">Track all your withdrawal requests</p>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="withdrawHistoryTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>UPI ID</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Processed Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="withdrawHistoryBody">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="emptyWithdrawals" class="empty-state">
+                    <i class="fas fa-wallet"></i>
+                    <h4>No withdrawals yet</h4>
+                    <p>Your withdrawal history will appear here</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">🔗</div>
+                        Axon AI
+                    </a>
+                    <p>India's highest paying URL shortener.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="withdraw.html">Withdraw</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Processing withdrawal...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>

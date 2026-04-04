@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting... - Axon AI Shortener</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+            color: #e2e8f0; 
+            line-height: 1.8; 
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; }
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 10px; 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-icon { 
+            width: 50px; 
+            height: 50px; 
+            background: linear-gradient(135deg, #6366f1, #8b5cf6); 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white;
+            font-size: 1.5rem;
+            -webkit-text-fill-color: white;
+        }
+        .redirect-box { 
+            background: rgba(255,255,255,0.05); 
+            border: 2px solid rgba(99, 102, 241, 0.3); 
+            border-radius: 20px; 
+            padding: 40px; 
+            margin: 20px 0; 
+        }
+        .redirect-box h2 { 
+            color: #818cf8; 
+            margin-bottom: 20px; 
+            font-size: 1.5rem;
+        }
+        .spinner-container { margin: 30px 0; }
+        .spinner { 
+            display: inline-block; 
+            width: 60px; 
+            height: 60px; 
+            border: 4px solid rgba(99, 102, 241, 0.3); 
+            border-radius: 50%; 
+            border-top-color: #6366f1; 
+            animation: spin 1s linear infinite; 
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .countdown { 
+            font-size: 3rem; 
+            font-weight: 700; 
+            color: #6366f1; 
+            margin: 20px 0; 
+        }
+        .progress-bar { 
+            width: 100%; 
+            height: 8px; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 4px; 
+            overflow: hidden; 
+            margin: 20px 0; 
+        }
+        .progress-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, #6366f1, #8b5cf6); 
+            width: 0%; 
+            transition: width 0.1s linear; 
+        }
+        .destination-info { 
+            background: rgba(99, 102, 241, 0.1); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin: 20px 0; 
+            word-break: break-all; 
+        }
+        .destination-info h4 { 
+            color: #94a3b8; 
+            margin-bottom: 10px; 
+            font-size: 0.9rem; 
+        }
+        .destination-info a { 
+            color: #6366f1; 
+            text-decoration: none; 
+            font-size: 1rem; 
+        }
+        .ad-box { 
+            background: rgba(255,255,255,0.03); 
+            border: 2px dashed #475569; 
+            border-radius: 12px; 
+            padding: 30px; 
+            text-align: center; 
+            margin: 20px 0; 
+            min-height: 100px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .ad-box span { color: #64748b; font-size: 0.9rem; }
+        .skip-btn { 
+            display: inline-block; 
+            padding: 15px 40px; 
+            background: linear-gradient(135deg, #6366f1, #8b5cf6); 
+            color: white; 
+            text-align: center; 
+            border-radius: 12px; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            text-decoration: none; 
+            transition: transform 0.3s; 
+            border: none; 
+            cursor: pointer; 
+            margin-top: 20px; 
+        }
+        .skip-btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4); 
+        }
+        .skip-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .footer-text { 
+            margin-top: 30px; 
+            color: #64748b; 
+            font-size: 0.9rem;
+        }
+        .footer-text a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+        .features { 
+            display: flex; 
+            justify-content: center; 
+            gap: 2rem; 
+            margin-top: 20px; 
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        .features span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <div class="logo-icon">🔗</div>
+            Axon AI Shortener
+        </div>
+
+        <!-- Ad Box -->
+        <div class="ad-box">
+            <span><i class="fas fa-ad"></i> Google AdSense - Top Banner</span>
+        </div>
+
+        <!-- Redirect Box -->
+        <div class="redirect-box">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+            </div>
+            <h2><i class="fas fa-external-link-alt"></i> Preparing Your Link</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">Please wait while we verify and prepare your destination</p>
+            
+            <div class="countdown" id="countdown">5</div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Ad Box -->
+        <div class="ad-box">
+            <span><i class="fas fa-ad"></i> Google AdSense - Middle Banner</span>
+        </div>
+
+        <!-- Destination Info -->
+        <div class="destination-info">
+            <h4><i class="fas fa-link"></i> You are being redirected to:</h4>
+            <a href="#" id="destinationLink">Loading...</a>
+        </div>
+
+        <!-- Skip Button -->
+        <button class="skip-btn" id="skipBtn" onclick="redirectNow()" disabled>
+            <i class="fas fa-arrow-right"></i> Continue to Link
+        </button>
+
+        <!-- Features -->
+        <div class="features">
+            <span><i class="fas fa-shield-alt" style="color: #10b981;"></i> Secure</span>
+            <span><i class="fas fa-bolt" style="color: #f59e0b;"></i> Fast</span>
+            <span><i class="fas fa-rupee-sign" style="color: #6366f1;"></i> Earn Money</span>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-text">
+            <p>Want to earn money by shortening links? <a href="index.html">Join Axon AI Shortener</a></p>
+            <p style="margin-top: 10px;">&copy; 2024 Axon AI Shortener. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // LOCAL STORAGE DATABASE (Fallback)
+        // ============================================
+        const LocalDB = {
+            getLinks: () => JSON.parse(localStorage.getItem('axon_links') || '[]'),
+            saveLinks: (links) => localStorage.setItem('axon_links', JSON.stringify(links)),
+            getStats: () => JSON.parse(localStorage.getItem('axon_stats') || '{"totalLinks": 0, "totalClicks": 0, "totalUsers": 0}'),
+            saveStats: (stats) => localStorage.setItem('axon_stats', JSON.stringify(stats)),
+        };
+
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const shortCode = urlParams.get('code');
+
+        // Get destination URL
+        function getDestinationUrl() {
+            let destinationUrl = 'https://www.google.com';
+            
+            if (shortCode) {
+                const links = LocalDB.getLinks();
+                const link = links.find(l => l.shortCode === shortCode);
+                if (link && link.originalUrl) {
+                    destinationUrl = link.originalUrl;
+                    // Record click
+                    recordClick(shortCode);
+                }
+            }
+            
+            // Also check for direct url parameter
+            const directUrl = urlParams.get('url');
+            if (directUrl) {
+                destinationUrl = directUrl;
+            }
+            
+            return destinationUrl;
+        }
+
+        // Record click
+        function recordClick(shortCode) {
+            const links = LocalDB.getLinks();
+            const link = links.find(l => l.shortCode === shortCode);
+            
+            if (link && link.status === 'active') {
+                link.clicks = (link.clicks || 0) + 1;
+                const earningsPerClick = 82 / 1000; // ₹82 per 1000 views
+                link.earnings = (link.earnings || 0) + earningsPerClick;
+                LocalDB.saveLinks(links);
+                
+                // Update stats
+                const stats = LocalDB.getStats();
+                stats.totalClicks = (stats.totalClicks || 0) + 1;
+                LocalDB.saveStats(stats);
+            }
+        }
+
+        // Display destination
+        const destinationUrl = getDestinationUrl();
+        document.getElementById('destinationLink').textContent = destinationUrl;
+        document.getElementById('destinationLink').href = destinationUrl;
+
+        // Store for final redirect
+        localStorage.setItem('axon_final_url', destinationUrl);
+
+        // Countdown and redirect
+        let seconds = 5;
+        const countdownEl = document.getElementById('countdown');
+        const progressFill = document.getElementById('progressFill');
+        const skipBtn = document.getElementById('skipBtn');
+
+        // Animate progress bar
+        setTimeout(() => {
+            progressFill.style.width = '100%';
+        }, 100);
+
+        // Enable skip button after 2 seconds
+        setTimeout(() => {
+            skipBtn.disabled = false;
+            skipBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Skip & Continue Now';
+        }, 2000);
+
+        const timer = setInterval(() => {
+            seconds--;
+            countdownEl.textContent = seconds;
+            
+            if (seconds <= 0) {
+                clearInterval(timer);
+                startRedirectChain();
+            }
+        }, 1000);
+
+        function redirectNow() {
+            clearInterval(timer);
+            startRedirectChain();
+        }
+
+        function startRedirectChain() {
+            // Reset redirect step
+            localStorage.setItem('axon_redirect_step', '0');
+            // Redirect to first intermediate page
+            window.location.href = 'Short1.html';
+        }
+    </script>
+</body>
+</html>

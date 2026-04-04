@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener - Create Short Links & Earn Money | Axon AI Shortener</title>
+    <meta name="description" content="Shorten your long URLs and earn money online. Create short links instantly with Axon AI Shortener - India's highest paying link shortener.">
+    <meta name="keywords" content="URL shortener, shorten links, create short URL, link shortener, earn money shortening links">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🔗</div>
+                Axon AI
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shortener.html" class="active">Shortener</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html" class="btn btn-outline btn-sm" id="loginBtn">Login</a>
+                <a href="signup.html" class="btn btn-primary btn-sm" id="signupBtn">Sign Up</a>
+                <button class="btn btn-danger btn-sm hidden" id="logoutBtn">Logout</button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Shortener Section -->
+    <section class="section" style="padding-top: 60px;">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-link" style="color: var(--primary);"></i> URL Shortener</h2>
+                <p>Paste your long URL below and get a short link instantly. Share it anywhere and start earning ₹82 per 1000 views!</p>
+            </div>
+
+            <div class="shortener-box" style="max-width: 900px;">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-globe"></i> Enter Your Long URL
+                    </label>
+                    <div class="shortener-input-group">
+                        <input type="url" class="form-input shortener-input" id="urlInput" placeholder="https://example.com/your-very-long-url-that-needs-shortening" required>
+                        <button class="btn btn-primary shortener-btn" id="shortenBtn">
+                            <i class="fas fa-magic"></i>
+                            Shorten URL
+                        </button>
+                    </div>
+                    <small style="color: var(--text-muted);">
+                        <i class="fas fa-info-circle"></i> Make sure to include http:// or https:// in your URL
+                    </small>
+                </div>
+
+                <!-- Result Section -->
+                <div class="shortener-result" id="resultSection">
+                    <h4 style="margin-bottom: 1rem; color: var(--success);">
+                        <i class="fas fa-check-circle"></i> Your Short Link is Ready!
+                    </h4>
+                    <div class="result-link">
+                        <input type="text" id="shortLinkInput" readonly>
+                        <button class="btn btn-primary" id="copyBtn">
+                            <i class="fas fa-copy"></i>
+                            Copy Link
+                        </button>
+                    </div>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                        <button class="btn btn-secondary btn-sm" id="shareWhatsapp">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="shareFacebook">
+                            <i class="fab fa-facebook"></i> Facebook
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="shareTwitter">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="shareTelegram">
+                            <i class="fab fa-telegram"></i> Telegram
+                        </button>
+                    </div>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: var(--radius);">
+                        <p style="margin: 0; color: var(--text-muted);">
+                            <i class="fas fa-chart-bar"></i> <strong>Link Stats:</strong> 
+                            Track clicks and earnings in your <a href="dashboard.html" style="color: var(--primary);">Dashboard</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Links (for logged in users) -->
+            <div class="card" id="recentLinksCard" style="margin-top: 2rem; display: none;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-history"></i> Your Recent Links</h3>
+                    <p class="card-subtitle">Links you've created in the last 30 days</p>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="recentLinksTable">
+                        <thead>
+                            <tr>
+                                <th>Original URL</th>
+                                <th>Short Link</th>
+                                <th>Clicks</th>
+                                <th>Earnings</th>
+                                <th>Created</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentLinksBody">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Guest Message -->
+            <div class="card" id="guestMessage" style="margin-top: 2rem;">
+                <div style="text-align: center; padding: 2rem;">
+                    <i class="fas fa-user-plus" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <h3>Create an Account to Track Your Links</h3>
+                    <p style="color: var(--text-muted);">Sign up free to access your link history, track earnings, and withdraw your money.</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                        <a href="signup.html" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Sign Up Free
+                        </a>
+                        <a href="login.html" class="btn btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <h2>How to Use Our URL Shortener</h2>
+                <p>Follow these simple steps to create short links and start earning money.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-2);">
+                        <i class="fas fa-paste"></i>
+                    </div>
+                    <h3>Step 1: Paste URL</h3>
+                    <p>Copy the long URL you want to shorten and paste it in the input field above. Make sure it starts with http:// or https://</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-1);">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </div>
+                    <h3>Step 2: Click Shorten</h3>
+                    <p>Click the "Shorten URL" button and our system will instantly generate a short link for you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-3);">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Step 3: Share & Earn</h3>
+                    <p>Copy your short link and share it on social media, blogs, or anywhere online. Earn ₹82 per 1000 views!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section class="section">
+        <div class="container">
+            <div class="card">
+                <h3><i class="fas fa-lightbulb" style="color: var(--warning);"></i> Tips to Maximize Your Earnings</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div>
+                        <h4 style="color: var(--primary);"><i class="fas fa-check"></i> Share on Social Media</h4>
+                        <p style="color: var(--text-muted);">Facebook, Twitter, Instagram, and WhatsApp are great platforms to share your links.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary);"><i class="fas fa-check"></i> Create Valuable Content</h4>
+                        <p style="color: var(--text-muted);">Share links to interesting articles, videos, or resources that people want to click.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary);"><i class="fas fa-check"></i> Use Relevant Groups</h4>
+                        <p style="color: var(--text-muted);">Join Facebook groups and forums related to your content for targeted sharing.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary);"><i class="fas fa-check"></i> Be Consistent</h4>
+                        <p style="color: var(--text-muted);">Regular sharing leads to more clicks. Make it a habit to share daily.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary);"><i class="fas fa-check"></i> Track Your Performance</h4>
+                        <p style="color: var(--text-muted);">Use your dashboard to see which links perform best and focus on those.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--primary);"><i class="fas fa-check"></i> Build an Audience</h4>
+                        <p style="color: var(--text-muted);">Create a blog, YouTube channel, or social media following for consistent traffic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">🔗</div>
+                        Axon AI
+                    </a>
+                    <p>India's highest paying URL shortener. Earn ₹82 per 1000 views.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shortener.html">Shortener</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-telegram"></i> Telegram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Creating short link...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -2,728 +2,324 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Profile - MEGA STORE | Manage Your Account</title>
-    <meta name="description" content="Manage your MEGA STORE account, view downloaded projects, track uploads, and customize your settings.">
-    <meta name="keywords" content="mega store profile, account, downloads, uploads">
-    <meta name="author" content="MEGA STORE">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <link rel="canonical" href="https://mega-store.in/profile">
-    <meta property="og:title" content="My Profile - MEGA STORE | Manage Your Account">
-    <meta property="og:description" content="Manage your MEGA STORE account, view downloaded projects, track uploads, and customize your settings.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mega-store.in/profile">
-    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
-    <meta property="og:site_name" content="MEGA STORE">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="My Profile - MEGA STORE | Manage Your Account">
-    <meta name="twitter:description" content="Manage your MEGA STORE account, view downloaded projects, track uploads, and customize your settings.">
-    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Axon AI Shortener</title>
+    <meta name="description" content="Manage your Axon AI Shortener profile, update personal information, and change your password.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #1a73e8;
-            --primary-dark: #1557b0;
-            --secondary: #00c853;
-            --background: #f8f9fa;
-            --surface: #ffffff;
-            --text-primary: #202124;
-            --text-secondary: #5f6368;
-            --divider: #dadce0;
-            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
-        }
-        
-        [data-theme="dark"] {
-            --background: #0B121E;
-            --surface: #121A2A;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --divider: #333333;
-        }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: var(--background);
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
-        
-        /* App Bar */
-        .app-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background: var(--surface);
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-            box-shadow: var(--shadow-1);
-            z-index: 100;
-        }
-        
-        .back-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: transparent;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .back-btn .material-icons {
-            font-size: 24px;
-            color: var(--text-primary);
-        }
-        
-        .app-title {
-            flex: 1;
-            font-size: 20px;
-            font-weight: 600;
-            margin-left: 16px;
-        }
-        
-        /* Main Content */
-        .main-content {
-            margin-top: 64px;
-            padding: 16px;
-        }
-        
-        /* Profile Header */
         .profile-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 16px;
-            padding: 32px 24px;
-            text-align: center;
+            background: var(--gradient-1);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            margin-bottom: 2rem;
             color: white;
-            margin-bottom: 24px;
+            text-align: center;
         }
-        
         .profile-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+            width: 120px;
+            height: 120px;
             background: white;
-            margin: 0 auto 16px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            box-shadow: var(--shadow-2);
-        }
-        
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .profile-avatar .material-icons {
-            font-size: 60px;
+            margin: 0 auto 1.5rem;
+            font-size: 3rem;
             color: var(--primary);
         }
-        
-        .profile-name {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 4px;
+        .profile-header h2 {
+            color: white;
+            margin-bottom: 0.5rem;
         }
-        
-        .profile-email {
-            font-size: 14px;
-            opacity: 0.9;
+        .profile-header p {
+            color: rgba(255,255,255,0.8);
+            margin: 0;
         }
-        
-        /* Stats Cards */
-        .stats-grid {
+        .profile-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
-        
-        .stat-card {
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            box-shadow: var(--shadow-1);
+        .profile-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 1rem;
+            border-radius: var(--radius);
         }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 4px;
+        .profile-stat h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
         }
-        
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
+        .profile-stat p {
+            font-size: 0.85rem;
+            margin: 0;
         }
-        
-        /* Menu Section */
-        .menu-section {
-            background: var(--surface);
-            border-radius: 12px;
-            box-shadow: var(--shadow-1);
-            overflow: hidden;
-            margin-bottom: 16px;
+        .profile-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
         }
-        
-        .menu-item {
+        @media (max-width: 768px) {
+            .profile-sections { grid-template-columns: 1fr; }
+            .profile-stats { grid-template-columns: 1fr; }
+        }
+        .info-row {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .info-value {
             color: var(--text-primary);
-            text-decoration: none;
-            transition: background 0.2s;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            width: 100%;
-            text-align: left;
-            font-size: 16px;
-        }
-        
-        .menu-item:hover {
-            background: rgba(0,0,0,0.05);
-        }
-        
-        .menu-item:not(:last-child) {
-            border-bottom: 1px solid var(--divider);
-        }
-        
-        .menu-item .material-icons {
-            font-size: 24px;
-            color: var(--text-secondary);
-        }
-        
-        .menu-item span:last-child {
-            flex: 1;
-        }
-        
-        .menu-item .arrow {
-            color: var(--text-secondary);
-        }
-        
-        /* Login Prompt */
-        .login-prompt {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 35px 24px;
-            text-align: center;
-            box-shadow: var(--shadow-1);
-        }
-        
-        .login-prompt .material-icons {
-            font-size:0px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-        
-        .login-prompt h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .login-prompt p {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-        
-        .login-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 32px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 24px;
-            font-size: 16px;
             font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        
-        .login-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background: var(--surface);
-            box-shadow: 0 -1px 2px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 100;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 16px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        
-        .nav-item.active {
-            color: var(--primary);
-        }
-        
-        .nav-item .material-icons {
-            font-size: 24px;
-        }
-        
-        .nav-item span:last-child {
-            font-size: 11px;
-            font-weight: 500;
-        }
-        
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #323232;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            opacity: 0;
-            transition: all 0.3s;
-            z-index: 300;
-        }
-        
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-        
-        /* Loading Styles */
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
-            padding: 24px;
-        }
-        
-        .loading-pulse {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 50%;
-            animation: pulse 1.5s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.3);
-        }
-        
-        .loading-pulse .material-icons {
-            font-size: 40px;
-            color: white;
-            animation: icon-pulse 1.5s ease-in-out infinite;
-        }
-        
-        .loading-text {
-            font-size: 16px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            animation: text-fade 1.5s ease-in-out infinite;
-        }
-        
-        .loading-dots::after {
-            content: '';
-            animation: dots 1.5s steps(4, end) infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-        }
-        
-        @keyframes icon-pulse {
-            0%, 100% { transform: scale(0.9); }
-            50% { transform: scale(1.1); }
-        }
-        
-        @keyframes text-fade {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-        
-        @keyframes dots {
-            0% { content: ''; }
-            25% { content: '.'; }
-            50% { content: '..'; }
-            75% { content: '...'; }
-            100% { content: ''; }
-        }
-        
-        /* Content Animations */
-        .fade-in {
-            animation: fade-in 0.5s ease-out;
-        }
-        
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Error State */
-        .error-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 50vh;
-            padding: 24px;
-            text-align: center;
-            animation: fade-in 0.4s ease-out;
-        }
-        
-        .error-container .material-icons {
-            font-size: 64px;
-            color: #e53935;
-            margin-bottom: 16px;
-        }
-        
-        .error-container h3 {
-            font-size: 20px;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        
-        .error-container p {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-        
-        .retry-btn {
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 24px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        
-        .retry-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
         }
     </style>
-
-  <!-- Google AdSense Code -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2753772773698567"
-        crossorigin="anonymous"></script>
-
 </head>
 <body>
-    <!-- App Bar -->
-    <header class="app-bar">
-        <button class="back-btn" onclick="history.back()">
-            <span class="material-icons">arrow_back</span>
-        </button>
-        <h1 class="app-title">Profile</h1>
-    </header>
-    
-    <!-- Main Content -->
-    <main class="main-content">
-        <div id="profileContent">
-            <!-- Initial Loading State -->
-            <div class="loading-container" id="initialLoader">
-                <div class="loading-pulse">
-                    <span class="material-icons">person</span>
-                </div>
-                <div class="loading-text">Loading profile<span class="loading-dots"></span></div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🔗</div>
+                Axon AI
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shortener.html">Shortener</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html" class="active">Profile</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="dashboard.html" class="btn btn-success btn-sm">
+                    <i class="fas fa-wallet"></i> <span id="navBalance">₹0.00</span>
+                </a>
+                <button class="btn btn-danger btn-sm" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
-    </main>
-    
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="home.html" class="nav-item">
-            <span class="material-icons">home</span>
-            <span>Home</span>
-        </a>
-        <a href="allapp.html" class="nav-item">
-            <span class="material-icons">apps</span>
-            <span>All Apps</span>
-        </a>
-        <a href="search.html" class="nav-item">
-            <span class="material-icons">search</span>
-            <span>Search</span>
-        </a>
-        <a href="news.html" class="nav-item">
-            <span class="material-icons">newspaper</span>
-            <span>News</span>
-        </a>
-        <a href="profile.html" class="nav-item active">
-            <span class="material-icons">person</span>
-            <span>Profile</span>
-        </a>
     </nav>
-    
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
-    
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDGXCCIcc27B63_wJRXkv9r_e-1CaxPMvE",
-            authDomain: "swb-project-92ac0.firebaseapp.com",
-            databaseURL: "https://swb-project-92ac0-default-rtdb.firebaseio.com",
-            projectId: "swb-project-92ac0",
-            storageBucket: "swb-project-92ac0.firebasestorage.app",
-            messagingSenderId: "990131286731",
-            appId: "1:990131286731:web:8bdaf5fd2661269ee9e14e",
-            measurementId: "G-J8QE2NJY5W"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        
-        // Check theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        
-        // Check user
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
-        // Render profile
-        renderProfile();
-        
-        function renderProfile() {
-            const container = document.getElementById('profileContent');
-            
-            // Show loading state first
-            showLoading();
-            
-            if (!currentUser) {
-                // Small delay to show loading animation even for login prompt
-                setTimeout(() => {
-                    container.innerHTML = `
-                        <div class="login-prompt">
-                            <span class="material-icons">account_circle</span>
-                            <h2>Sign In Required</h2>
-                            <p>Sign in to access your profile and track your activity</p>
-                            <a href="login.html" class="login-btn">
-                                <span class="material-icons">login</span>
-                                Sign In
-                            </a>
+
+    <!-- Profile Content -->
+    <section class="section" style="padding-top: 40px;">
+        <div class="container">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2 id="profileName">User Name</h2>
+                <p id="profileEmail">user@email.com</p>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <h4 id="profileLinks">0</h4>
+                        <p>Total Links</p>
+                    </div>
+                    <div class="profile-stat">
+                        <h4 id="profileClicks">0</h4>
+                        <p>Total Clicks</p>
+                    </div>
+                    <div class="profile-stat">
+                        <h4 id="profileEarnings">₹0</h4>
+                        <p>Total Earnings</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Sections -->
+            <div class="profile-sections">
+                <!-- Personal Information -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-user-edit" style="color: var(--primary);"></i> Personal Information</h3>
+                        <p class="card-subtitle">Update your profile details</p>
+                    </div>
+                    
+                    <form id="profileForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-user"></i> First Name</label>
+                                <input type="text" class="form-input" id="editFirstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-user"></i> Last Name</label>
+                                <input type="text" class="form-input" id="editLastName" required>
+                            </div>
                         </div>
-                    `;
-                }, 600);
-                return;
-            }
-            
-            // Load user data with timeout handling
-            const loadData = async () => {
-                try {
-                    // Create a timeout promise (10 seconds)
-                    const timeoutPromise = new Promise((_, reject) => {
-                        setTimeout(() => reject(new Error('Loading timeout')), 10000);
-                    });
-                    
-                    // Create the data fetch promise
-                    const dataPromise = database.ref(`users/${currentUser.id}`).once('value');
-                    
-                    // Race between timeout and data fetch
-                    const snapshot = await Promise.race([dataPromise, timeoutPromise]);
-                    const userData = snapshot.val() || {};
-                    
-                    // Small delay for smooth transition
-                    setTimeout(() => {
-                        renderUserContent(userData);
-                    }, 400);
-                    
-                } catch (error) {
-                    console.error('Error loading profile:', error);
-                    setTimeout(() => {
-                        showError();
-                    }, 400);
-                }
-            };
-            
-            loadData();
-        }
-        
-        function showLoading() {
-            const container = document.getElementById('profileContent');
-            container.innerHTML = `
-                <div class="loading-container">
-                    <div class="loading-pulse">
-                        <span class="material-icons">person</span>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" class="form-input" id="editEmail" readonly style="background: var(--bg-secondary); cursor: not-allowed;">
+                            <small style="color: var(--text-muted);"><i class="fas fa-lock"></i> Email cannot be changed</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" class="form-input" id="editPhone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-university"></i> UPI ID</label>
+                            <input type="text" class="form-input" id="editUpiId" required>
+                            <small style="color: var(--text-muted);"><i class="fas fa-info-circle"></i> Used for withdrawals</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Account Information & Password -->
+                <div>
+                    <!-- Account Info -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-info-circle" style="color: var(--info);"></i> Account Information</h3>
+                            <p class="card-subtitle">Your account details</p>
+                        </div>
+                        
+                        <div class="info-row">
+                            <span class="info-label"><i class="fas fa-user-tag"></i> Username</span>
+                            <span class="info-value" id="profileUsername">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="fas fa-calendar"></i> Member Since</span>
+                            <span class="info-value" id="memberSince">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="fas fa-shield-alt"></i> Account Status</span>
+                            <span class="info-value" style="color: var(--success);"><i class="fas fa-check-circle"></i> Active</span>
+                        </div>
                     </div>
-                    <div class="loading-text">Loading your profile<span class="loading-dots"></span></div>
-                </div>
-            `;
-        }
-        
-        function showError() {
-            const container = document.getElementById('profileContent');
-            container.innerHTML = `
-                <div class="error-container">
-                    <span class="material-icons">error_outline</span>
-                    <h3>Failed to Load Profile</h3>
-                    <p>Unable to connect to server. Please check your internet connection and try again.</p>
-                    <button class="retry-btn" onclick="renderProfile()">
-                        <span class="material-icons">refresh</span>
-                        Try Again
-                    </button>
-                </div>
-            `;
-        }
-        
-        function renderUserContent(userData) {
-            const container = document.getElementById('profileContent');
-            
-            container.innerHTML = `
-                <!-- Profile Header -->
-                <div class="profile-header fade-in">
-                    <div class="profile-avatar">
-                        ${currentUser.photo ? 
-                            `<img src="${currentUser.photo}" alt="${currentUser.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'material-icons\\'>person</span>';">` : 
-                            `<span class="material-icons">person</span>`
-                        }
+
+                    <!-- Change Password -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-lock" style="color: var(--warning);"></i> Change Password</h3>
+                            <p class="card-subtitle">Update your password for security</p>
+                        </div>
+                        
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-key"></i> Current Password</label>
+                                <input type="password" class="form-input" id="currentPassword" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-lock"></i> New Password</label>
+                                <input type="password" class="form-input" id="newPassword" required minlength="6">
+                                <small style="color: var(--text-muted);"><i class="fas fa-shield-alt"></i> Minimum 6 characters</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label"><i class="fas fa-lock"></i> Confirm New Password</label>
+                                <input type="password" class="form-input" id="confirmNewPassword" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-warning btn-block">
+                                <i class="fas fa-key"></i> Change Password
+                            </button>
+                        </form>
                     </div>
-                    <h2 class="profile-name">${currentUser.name}</h2>
-                    <p class="profile-email">${currentUser.email}</p>
                 </div>
-               
-                
-                <!-- Social Links -->
-                <div class="menu-section" style="animation: fade-in 0.4s ease-out 0.4s both">
-                    <a href="https://www.youtube.com/@kapil_h4x_live" target="_blank" class="menu-item">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0000">
-                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
-                        <span>YouTube Channel</span>
-                        <span class="material-icons arrow">open_in_new</span>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-bolt" style="color: var(--success);"></i> Quick Actions</h3>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="shortener.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create New Link
                     </a>
-                    <a href="https://t.me/mega_store_in" target="_blank" class="menu-item">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#0088cc">
-                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                        </svg>
-                        <span>Telegram Channel</span>
-                        <span class="material-icons arrow">open_in_new</span>
+                    <a href="dashboard.html" class="btn btn-secondary">
+                        <i class="fas fa-chart-line"></i> View Dashboard
                     </a>
-                    <a href="https://www.instagram.com/mega_store_in?igsh=MXhtcjJ6dHg0emlpZQ==" target="_blank" class="menu-item">
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <defs>
-                                <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#f58529"/>
-                                    <stop offset="50%" style="stop-color:#dd2a7b"/>
-                                    <stop offset="100%" style="stop-color:#8134af"/>
-                                </linearGradient>
-                            </defs>
-                            <path fill="url(#ig-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                        <span>Instagram Account</span>
-                        <span class="material-icons arrow">open_in_new</span>
+                    <a href="withdraw.html" class="btn btn-success">
+                        <i class="fas fa-money-bill-wave"></i> Withdraw
                     </a>
                 </div>
-                
-               
-                
-                <div class="menu-section" style="animation: fade-in 0.4s ease-out 0.6s both">
-                    <a href="about.html" class="menu-item">
-                        <span class="material-icons">info</span>
-                        <span>About Us</span>
-                        <span class="material-icons arrow">chevron_right</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">🔗</div>
+                        Axon AI
                     </a>
-                    <a href="contact.html" class="menu-item">
-                        <span class="material-icons">contact_mail</span>
-                        <span>Contact Us</span>
-                        <span class="material-icons arrow">chevron_right</span>
-                    </a>
-                    <a href="privacy.html" class="menu-item">
-                        <span class="material-icons">privacy_tip</span>
-                        <span>Privacy Policy</span>
-                        <span class="material-icons arrow">chevron_right</span>
-                    </a>
+                    <p>India's highest paying URL shortener. Earn ₹82 per 1000 views.</p>
                 </div>
-                
-                <div class="menu-section" style="animation: fade-in 0.4s ease-out 0.7s both">
-                    <button class="menu-item" onclick="logout()">
-                        <span class="material-icons" style="color: #e53935;">logout</span>
-                        <span style="color: #e53935;">Logout</span>
-                    </button>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shortener.html">Shortener</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
                 </div>
-            `;
-        }
-        
-        function toggleDarkMode() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            showLoading();
-            setTimeout(() => {
-                location.reload();
-            }, 300);
-        }
-        
-        function logout() {
-            if(confirm('Are you sure you want to logout?')) {
-                showLoading();
-                setTimeout(() => {
-                    localStorage.removeItem('currentUser');
-                    showToast('Logged out successfully');
-                    setTimeout(() => location.reload(), 800);
-                }, 400);
-            }
-        }
-        
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-    </script>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading profile...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
 </body>
 </html>

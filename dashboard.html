@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Track Earnings & Link Stats | Axon AI Shortener</title>
+    <meta name="description" content="View your link statistics, track earnings, and manage your shortened URLs. Monitor your performance in real-time.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🔗</div>
+                Axon AI
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shortener.html">Shortener</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="profile.html" class="btn btn-outline btn-sm" title="My Profile">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="withdraw.html" class="btn btn-success btn-sm" id="balanceBtn">
+                    <i class="fas fa-wallet"></i> ₹<span id="navBalance">0.00</span>
+                </a>
+                <button class="btn btn-danger btn-sm" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <section class="section" style="padding-top: 40px;">
+        <div class="container">
+            <!-- Welcome Message -->
+            <div style="margin-bottom: 2rem;">
+                <h2>Welcome back, <span id="userName">User</span>! 👋</h2>
+                <p style="color: var(--text-muted);">Here's your performance overview. Keep sharing to earn more!</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="totalLinks">0</h4>
+                        <p>Total Links</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="totalClicks">0</h4>
+                        <p>Total Clicks</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>₹<span id="totalEarnings">0.00</span></h4>
+                        <p>Total Earnings</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon danger">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>₹<span id="withdrawableBalance">0.00</span></h4>
+                        <p>Available Balance</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CPM Info & Withdraw Button -->
+            <div class="card" style="margin: 2rem 0; background: var(--gradient-1); color: white;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem; color: white;">Current CPM Rate: ₹82</h3>
+                        <p style="color: rgba(255,255,255,0.8); margin: 0;">You earn ₹82 for every 1000 valid views on your links</p>
+                    </div>
+                    <a href="withdraw.html" class="btn btn-lg" style="background: white; color: var(--primary);">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Withdraw Earnings
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <a href="shortener.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create New Link
+                </a>
+                <a href="withdraw.html" class="btn btn-success">
+                    <i class="fas fa-wallet"></i> Withdraw
+                </a>
+                <a href="profile.html" class="btn btn-secondary">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+                <button class="btn btn-secondary" id="refreshStats">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Links Table -->
+            <div class="card">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 class="card-title"><i class="fas fa-list"></i> Your Shortened Links</h3>
+                        <p class="card-subtitle">All your links with click statistics</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" class="form-input" id="searchLinks" placeholder="Search links..." style="width: 200px;">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="linksTable">
+                        <thead>
+                            <tr>
+                                <th>Short Link</th>
+                                <th>Original URL</th>
+                                <th>Clicks</th>
+                                <th>Earnings</th>
+                                <th>Created Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="linksTableBody">
+                            <!-- Dynamic content will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="emptyLinksState" class="empty-state" style="display: none;">
+                    <i class="fas fa-link"></i>
+                    <h4>No links yet</h4>
+                    <p>Create your first shortened link to start earning!</p>
+                    <a href="shortener.html" class="btn btn-primary mt-2">
+                        <i class="fas fa-plus"></i> Create Link
+                    </a>
+                </div>
+            </div>
+
+            <!-- Earnings Chart Section -->
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-bar"></i> Earnings Overview</h3>
+                    <p class="card-subtitle">Your earnings over the last 7 days</p>
+                </div>
+                <div id="earningsChart" style="height: 300px; display: flex; align-items: flex-end; justify-content: space-around; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                    <!-- Chart bars will be generated dynamically -->
+                    <div class="empty-state" style="padding: 2rem;">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Start sharing links to see your earnings chart!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-history"></i> Recent Activity</h3>
+                    <p class="card-subtitle">Latest clicks on your links</p>
+                </div>
+                <div id="recentActivity">
+                    <div class="empty-state">
+                        <i class="fas fa-mouse-pointer"></i>
+                        <p>No recent activity. Share your links to get clicks!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="card">
+                <h3><i class="fas fa-rocket" style="color: var(--primary);"></i> Boost Your Earnings</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 1.5rem;">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <h4>Share More</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">The more you share, the more you earn. Share daily!</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--gradient-2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 1.5rem;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Target Groups</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Share in relevant Facebook groups and forums</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--gradient-3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 1.5rem;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Best Times</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Share during peak hours (6-10 PM) for more clicks</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 1.5rem;">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h4>Trending Content</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Share trending topics for viral potential</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">🔗</div>
+                        Axon AI
+                    </a>
+                    <p>India's highest paying URL shortener. Earn ₹82 per 1000 views.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="shortener.html">Shortener</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="withdraw.html">Withdraw</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="mailto:support@axonshortener.com">support@axonshortener.com</a></li>
+                        <li><a href="contact.html">Contact Form</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading dashboard...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>

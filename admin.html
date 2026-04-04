@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Axon AI Shortener</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .admin-login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .admin-login-card {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .admin-stat {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .admin-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .admin-stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-xs {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Login Overlay -->
+    <div class="admin-login-overlay" id="adminLoginOverlay">
+        <div class="admin-login-card">
+            <div class="logo" style="justify-content: center; margin-bottom: 1.5rem;">
+                <div class="logo-icon">🔒</div>
+            </div>
+            <h2 style="margin-bottom: 0.5rem;">Admin Access</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Enter password to access admin panel</p>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <input type="password" class="form-input" id="adminPassword" placeholder="Enter admin password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-lock"></i> Access Panel
+                </button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+                <i class="fas fa-shield-alt"></i> Secure Area - Authorized Personnel Only
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin Navigation -->
+    <nav class="navbar" id="adminNavbar" style="display: none;">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon">🔒</div>
+                Admin Panel
+            </a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" id="adminLogout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Content -->
+    <div class="admin-layout" id="adminContent" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="logo" style="margin-bottom: 2rem;">
+                <div class="logo-icon">🔗</div>
+                Axon AI
+            </div>
+            <nav class="admin-nav">
+                <div class="admin-nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </div>
+                <div class="admin-nav-item" data-section="users">
+                    <i class="fas fa-users"></i>
+                    Users
+                </div>
+                <div class="admin-nav-item" data-section="links">
+                    <i class="fas fa-link"></i>
+                    All Links
+                </div>
+                <div class="admin-nav-item" data-section="withdrawals">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Withdrawals
+                    <span class="badge badge-warning" id="pendingWithdrawalsBadge" style="margin-left: auto; display: none;">0</span>
+                </div>
+                <div class="admin-nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <div class="admin-section active" id="dashboardSection">
+                <div class="admin-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+                    <button class="btn btn-secondary btn-sm" id="refreshDashboard">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="admin-stats-grid">
+                    <div class="admin-stat">
+                        <div class="admin-stat-value" id="adminTotalUsers">0</div>
+                        <div class="admin-stat-label">Total Users</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat-value" id="adminTotalLinks">0</div>
+                        <div class="admin-stat-label">Total Links</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat-value" id="adminTotalClicks">0</div>
+                        <div class="admin-stat-label">Total Clicks</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat-value" id="adminTotalEarnings">₹0</div>
+                        <div class="admin-stat-label">Total Earnings</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat-value" id="adminPendingWithdrawals">0</div>
+                        <div class="admin-stat-label">Pending Withdrawals</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="admin-stat-value" id="adminCurrentCPM">₹82</div>
+                        <div class="admin-stat-label">Current CPM</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-chart-line"></i> Platform Overview</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                            <h5 style="color: var(--text-muted); margin-bottom: 0.5rem;">Today's New Users</h5>
+                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;" id="todayUsers">0</p>
+                        </div>
+                        <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                            <h5 style="color: var(--text-muted); margin-bottom: 0.5rem;">Today's New Links</h5>
+                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;" id="todayLinks">0</p>
+                        </div>
+                        <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                            <h5 style="color: var(--text-muted); margin-bottom: 0.5rem;">Today's Clicks</h5>
+                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;" id="todayClicks">0</p>
+                        </div>
+                        <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
+                            <h5 style="color: var(--text-muted); margin-bottom: 0.5rem;">Total Withdrawn</h5>
+                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;" id="totalWithdrawn">₹0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div class="admin-section" id="usersSection">
+                <div class="admin-header">
+                    <h2><i class="fas fa-users"></i> All Users</h2>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" class="form-input" id="searchUsers" placeholder="Search users..." style="width: 200px;">
+                        <button class="btn btn-secondary btn-sm" id="refreshUsers">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Links</th>
+                                    <th>Clicks</th>
+                                    <th>Earnings</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="emptyUsers" class="empty-state" style="display: none;">
+                        <i class="fas fa-users"></i>
+                        <p>No users found</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Links Section -->
+            <div class="admin-section" id="linksSection">
+                <div class="admin-header">
+                    <h2><i class="fas fa-link"></i> All Links</h2>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" class="form-input" id="searchLinks" placeholder="Search links..." style="width: 200px;">
+                        <button class="btn btn-secondary btn-sm" id="refreshLinks">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Short Code</th>
+                                    <th>Original URL</th>
+                                    <th>User</th>
+                                    <th>Clicks</th>
+                                    <th>Earnings</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="linksTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="emptyLinks" class="empty-state" style="display: none;">
+                        <i class="fas fa-link"></i>
+                        <p>No links found</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdrawals Section -->
+            <div class="admin-section" id="withdrawalsSection">
+                <div class="admin-header">
+                    <h2><i class="fas fa-money-bill-wave"></i> Withdrawal Requests</h2>
+                    <button class="btn btn-secondary btn-sm" id="refreshWithdrawals">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                
+                <!-- Pending Withdrawals -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-clock"></i> Pending Requests</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>UPI ID</th>
+                                    <th>Amount</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingWithdrawalsBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="emptyPending" class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>No pending withdrawal requests</p>
+                    </div>
+                </div>
+
+                <!-- All Withdrawals -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-history"></i> All Withdrawals</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>UPI ID</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Processed Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allWithdrawalsBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="emptyAllWithdrawals" class="empty-state" style="display: none;">
+                        <i class="fas fa-wallet"></i>
+                        <p>No withdrawal history</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="admin-section" id="settingsSection">
+                <div class="admin-header">
+                    <h2><i class="fas fa-cog"></i> Platform Settings</h2>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-rupee-sign"></i> CPM Settings</h3>
+                            <p class="card-subtitle">Update payout rates</p>
+                        </div>
+                        <form id="cpmSettingsForm">
+                            <div class="form-group">
+                                <label class="form-label">Current CPM Rate (₹ per 1000 views)</label>
+                                <input type="number" class="form-input" id="cpmRate" value="82" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Minimum Withdrawal Amount (₹)</label>
+                                <input type="number" class="form-input" id="minWithdrawal" value="100" min="1" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Settings
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-shield-alt"></i> Admin Settings</h3>
+                            <p class="card-subtitle">Security settings</p>
+                        </div>
+                        <form id="adminSettingsForm">
+                            <div class="form-group">
+                                <label class="form-label">Change Admin Password</label>
+                                <input type="password" class="form-input" id="newAdminPassword" placeholder="Enter new password">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-input" id="confirmAdminPassword" placeholder="Confirm new password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-key"></i> Update Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div style="padding: 1rem; border: 1px solid var(--danger); border-radius: var(--radius);">
+                            <h5 style="color: var(--danger); margin-bottom: 0.5rem;"><i class="fas fa-trash"></i> Clear All Data</h5>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">This will delete all links and reset stats. Cannot be undone.</p>
+                            <button class="btn btn-danger btn-sm" onclick="clearAllData()">
+                                <i class="fas fa-trash"></i> Clear Data
+                            </button>
+                        </div>
+                        <div style="padding: 1rem; border: 1px solid var(--warning); border-radius: var(--radius);">
+                            <h5 style="color: var(--warning); margin-bottom: 0.5rem;"><i class="fas fa-ban"></i> Maintenance Mode</h5>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Temporarily disable the platform for maintenance.</p>
+                            <button class="btn btn-warning btn-sm" onclick="toggleMaintenance()">
+                                <i class="fas fa-power-off"></i> Toggle Maintenance
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Admin Script -->
+    <script src="admin.js"></script>
+</body>
+</html>

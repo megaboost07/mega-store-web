@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Create Free Account | Axon AI Shortener</title>
+    <meta name="description" content="Create your free Axon AI Shortener account. Start shortening links and earning money online today. No credit card required.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🔗</div>
+                Axon AI
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shortener.html">Shortener</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Signup Form -->
+    <div class="auth-container">
+        <div class="auth-card" style="max-width: 500px;">
+            <div class="auth-header">
+                <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
+                    <div class="logo-icon">🔗</div>
+                </div>
+                <h2>Create Free Account</h2>
+                <p>Join thousands earning money with link shortening</p>
+            </div>
+            
+            <form id="signupForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user"></i> First Name
+                        </label>
+                        <input type="text" class="form-input" id="firstName" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user"></i> Last Name
+                        </label>
+                        <input type="text" class="form-input" id="lastName" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <input type="email" class="form-input" id="signupEmail" placeholder="your@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-phone"></i> Phone Number
+                    </label>
+                    <input type="tel" class="form-input" id="phoneNumber" placeholder="+91 98765 43210" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-university"></i> UPI ID (for withdrawals)
+                    </label>
+                    <input type="text" class="form-input" id="upiId" placeholder="yourname@upi" required>
+                    <small style="color: var(--text-muted);">
+                        <i class="fas fa-info-circle"></i> You'll receive payments on this UPI ID
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" class="form-input" id="signupPassword" placeholder="Create a strong password" required minlength="6">
+                    <small style="color: var(--text-muted);">
+                        <i class="fas fa-shield-alt"></i> Minimum 6 characters
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-lock"></i> Confirm Password
+                    </label>
+                    <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="agreeTerms" required style="width: 18px; height: 18px; margin-top: 3px;">
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;">
+                            I agree to the <a href="terms.html" style="color: var(--primary);">Terms & Conditions</a> and 
+                            <a href="privacy.html" style="color: var(--primary);">Privacy Policy</a>
+                        </span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block" id="signupSubmitBtn">
+                    <i class="fas fa-user-plus"></i>
+                    Create Free Account
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+            
+            <!-- Divider -->
+            <div style="margin-top: 2rem; text-align: center;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">100% Free Registration</span>
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 2rem; color: var(--text-muted);">
+                    <span><i class="fas fa-check-circle" style="color: var(--success);"></i> No Credit Card</span>
+                    <span><i class="fas fa-check-circle" style="color: var(--success);"></i> Instant Access</span>
+                    <span><i class="fas fa-check-circle" style="color: var(--success);"></i> Cancel Anytime</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <section class="section" style="background: var(--bg-secondary); padding: 60px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h3>What You Get</h3>
+                <p>Benefits of creating an Axon AI Shortener account</p>
+            </div>
+            <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h4>Unlimited Links</h4>
+                    <p style="color: var(--text-muted);">Create as many short links as you want, completely free.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-2);">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h4>Detailed Analytics</h4>
+                    <p style="color: var(--text-muted);">Track clicks, earnings, and audience insights in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--gradient-3);">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h4>Easy Withdrawals</h4>
+                    <p style="color: var(--text-muted);">Withdraw to UPI with just ₹100 minimum balance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: var(--success);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h4>Link History</h4>
+                    <p style="color: var(--text-muted);">Access all your shortened links anytime, anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">🔗</div>
+                        Axon AI
+                    </a>
+                    <p>India's highest paying URL shortener.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Creating your account...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
