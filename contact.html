@@ -2,259 +2,816 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Axon AI Shortener Support</title>
-    <meta name="description" content="Contact Axon AI Shortener support team. Get help with your account, withdrawals, or any questions about our URL shortening service.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Contact Us - MEGA STORE | Get in Touch</title>
+    <meta name="description" content="Contact MEGA STORE for any queries, suggestions, or support. We are here to help you with Sketchware SWB projects.">
+    <meta name="keywords" content="contact mega store, support, help, sketchware queries">
+    <meta name="author" content="MEGA STORE">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://mega-store.in/contact">
+    <meta property="og:title" content="Contact Us - MEGA STORE | Get in Touch">
+    <meta property="og:description" content="Contact MEGA STORE for any queries, suggestions, or support. We are here to help you with Sketchware SWB projects.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mega-store.in/contact">
+    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta property="og:site_name" content="MEGA STORE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact Us - MEGA STORE | Get in Touch">
+    <meta name="twitter:description" content="Contact MEGA STORE for any queries, suggestions, or support. We are here to help you with Sketchware SWB projects.">
+    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <!-- Firebase SDK v9+ (Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+            authDomain: "mega-store-2025.firebaseapp.com",
+            databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+            projectId: "mega-store-2025",
+            storageBucket: "mega-store-2025.firebasestorage.app",
+            messagingSenderId: "190838364165",
+            appId: "1:190838364165:web:43a969b7b852777061e46c",
+            measurementId: "G-CZR2N1HF9K"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Make Firebase functions globally available
+        window.firebaseDB = {
+            database,
+            ref,
+            push,
+            set,
+            serverTimestamp
+        };
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #0B121E;
+            --surface: #121A2A;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        .main-content {
+            margin-top: 64px;
+            padding: 24px;
+        }
+        
+        .contact-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .contact-card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .contact-card h2 .material-icons {
+            color: var(--primary);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--background);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-icon .material-icons {
+            color: var(--primary);
+        }
+        
+        .contact-info h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .contact-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--background);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #323232;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 300;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+        .guideline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .guideline-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .guideline-section {
+            margin-bottom: 24px;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .guideline-header {
+            background: var(--background);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .guideline-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .guideline-header .material-icons {
+            color: var(--primary);
+        }
+
+        .guideline-content {
+            padding: 16px;
+        }
+
+        .guideline-content ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .guideline-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag.urgent {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .tag.normal {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .tag.email {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .priority-section .guideline-content {
+            display: grid;
+            gap: 12px;
+        }
+
+        .priority-box {
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .priority-box.critical {
+            background: #ffebee;
+            border-color: #c62828;
+        }
+
+        .priority-box.high {
+            background: #fff3e0;
+            border-color: #ef6c00;
+        }
+
+        .priority-box.medium {
+            background: #fffde7;
+            border-color: #f9a825;
+        }
+
+        .priority-box.low {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+
+        .priority-box h4 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+        }
+
+        .priority-box p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .tips-section .guideline-content {
+            display: grid;
+            gap: 12px;
+        }
+
+        .tip-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .tip-number {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .tip-box p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .quick-reference {
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--background);
+            border-radius: 12px;
+        }
+
+        .quick-reference h4 {
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .ref-table th {
+            background: var(--surface);
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid var(--divider);
+            font-weight: 600;
+        }
+
+        .ref-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .ref-table tr:hover {
+            background: rgba(26, 115, 232, 0.04);
+        }
+
+        [data-theme="dark"] .tip-box {
+            background: #1e293b;
+        }
+
+        [data-theme="dark"] .quick-reference {
+            background: #1e293b;
+        }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">🔗</div>
-                Axon AI
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shortener.html">Shortener</a></li>
-                <li><a href="contact.html" class="active">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
-                <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Contact Section -->
-    <section class="section" style="padding-top: 60px;">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-headset" style="color: var(--primary);"></i> Contact Us</h2>
-                <p>Have questions or need help? We're here for you. Reach out to our support team.</p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
-                <!-- Contact Form -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-paper-plane"></i> Send us a Message</h3>
-                        <p class="card-subtitle">Fill out the form below and we'll get back to you</p>
-                    </div>
-                    
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-user"></i> Your Name
-                            </label>
-                            <input type="text" class="form-input" id="contactName" placeholder="Enter your name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-envelope"></i> Email Address
-                            </label>
-                            <input type="email" class="form-input" id="contactEmail" placeholder="your@email.com" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-tag"></i> Subject
-                            </label>
-                            <select class="form-select" id="contactSubject" required>
-                                <option value="">Select a subject</option>
-                                <option value="general">General Inquiry</option>
-                                <option value="account">Account Issues</option>
-                                <option value="withdrawal">Withdrawal Questions</option>
-                                <option value="payment">Payment Issues</option>
-                                <option value="technical">Technical Support</option>
-                                <option value="report">Report Abuse</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-comment"></i> Message
-                            </label>
-                            <textarea class="form-textarea" id="contactMessage" placeholder="Describe your issue or question in detail..." required></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-block" id="contactSubmitBtn">
-                            <i class="fas fa-paper-plane"></i>
-                            Send Message
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Contact Info -->
-                <div>
-                    <div class="card" style="margin-bottom: 1.5rem;">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-address-card"></i> Contact Information</h3>
-                        </div>
-                        <div style="color: var(--text-secondary);">
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
-                                <div style="width: 50px; height: 50px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div>
-                                    <h5 style="margin-bottom: 0.25rem;">Email Us</h5>
-                                    <p style="margin: 0; font-size: 0.9rem;">support@axonshortener.com</p>
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
-                                <div style="width: 50px; height: 50px; background: var(--gradient-2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <div>
-                                    <h5 style="margin-bottom: 0.25rem;">Response Time</h5>
-                                    <p style="margin: 0; font-size: 0.9rem;">Within 24-48 hours</p>
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius);">
-                                <div style="width: 50px; height: 50px; background: var(--gradient-3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div>
-                                    <h5 style="margin-bottom: 0.25rem;">Location</h5>
-                                    <p style="margin: 0; font-size: 0.9rem;">India</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Social Links -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-share-alt"></i> Connect With Us</h3>
-                        </div>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <a href="#" class="btn btn-secondary" style="flex: 1; min-width: 120px;" onclick="showNotification('Facebook page coming soon!', 'info')">
-                                <i class="fab fa-facebook"></i> Facebook
-                            </a>
-                            <a href="#" class="btn btn-secondary" style="flex: 1; min-width: 120px;" onclick="showNotification('Twitter page coming soon!', 'info')">
-                                <i class="fab fa-twitter"></i> Twitter
-                            </a>
-                            <a href="#" class="btn btn-secondary" style="flex: 1; min-width: 120px;" onclick="showNotification('Instagram page coming soon!', 'info')">
-                                <i class="fab fa-instagram"></i> Instagram
-                            </a>
-                            <a href="#" class="btn btn-secondary" style="flex: 1; min-width: 120px;" onclick="showNotification('Telegram channel coming soon!', 'info')">
-                                <i class="fab fa-telegram"></i> Telegram
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAQ Quick Links -->
-            <div class="card" style="margin-top: 3rem;">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
-                    <p class="card-subtitle">Quick answers to common questions</p>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                    <div>
-                        <h5 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fas fa-wallet"></i> How do I withdraw my earnings?</h5>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">Go to the Withdraw page, enter your UPI ID and amount (minimum ₹100), and submit your request.</p>
-                    </div>
-                    <div>
-                        <h5 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fas fa-clock"></i> When will I receive my payment?</h5>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">Payments are processed within 24-48 hours after your withdrawal request is approved.</p>
-                    </div>
-                    <div>
-                        <h5 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fas fa-link"></i> Why are my clicks not counting?</h5>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">We only count unique views from real users. Multiple clicks from the same IP are not counted.</p>
-                    </div>
-                    <div>
-                        <h5 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fas fa-ban"></i> My account is banned. What should I do?</h5>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">Contact our support team with your account details. We'll review your case and respond accordingly.</p>
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <a href="index.html#faq" class="btn btn-outline">
-                        <i class="fas fa-list"></i> View All FAQs
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo">
-                        <div class="logo-icon">🔗</div>
-                        Axon AI
-                    </a>
-                    <p>India's highest paying URL shortener. Earn ₹82 per 1000 views.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shortener.html">Shortener</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="mailto:support@axonshortener.com">support@axonshortener.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
-            <div class="spinner"></div>
-            <p>Sending message...</p>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">Contact Us</h1>
+    </header>
     
-    <!-- Main Script -->
-    <script src="script.js"></script>
-</body>
+    <main class="main-content">
+        <div class="contact-card">
+            <h2><span class="material-icons">contact_mail</span> Get in Touch</h2>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <span class="material-icons">email</span>
+                </div>
+                <div class="contact-info">
+                    <h3>Email</h3>
+                    <p>usamega125@gmail.com</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <span class="material-icons">phone</span>
+                </div>
+                <div class="contact-info">
+                    <h3>Phone</h3>
+                    <p>+91 8134958144</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <span class="material-icons">location_on</span>
+                </div>
+                <div class="contact-info">
+                    <h3>Address</h3>
+                    <p>house number 185 , Assam , Silchar , india </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-card">
+            <h2><span class="material-icons">edit</span> Send Message</h2>
+            <form onsubmit="sendMessage(event)">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your Email</label>
+                    <input type="email" class="form-input" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" id="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="material-icons">send</span>
+                    Send Message
+                </button>
+            </form>
+        </div>
+        
+        <div class="contact-card">
+            <h2><span class="material-icons">access_time</span> Contact Guidelines - Complete Details</h2>
+
+            <div class="guideline-section">
+                <div class="guideline-header">
+                    <span class="material-icons">phone_in_talk</span>
+                    <h3>When & How to Call?</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Best Time to Call:</strong></p>
+                    <ul>
+                        <li><strong>Monday - Saturday:</strong> 10:00 AM to 6:00 PM (Business Hours)</li>
+                        <li><strong>Sunday:</strong> Emergency cases only - 12:00 PM to 4:00 PM</li>
+                        <li><strong>Lunch Break:</strong> 1:30 PM to 2:30 PM (avoid calling)</li>
+                    </ul>
+
+                    <p><strong>Before You Call:</strong></p>
+                    <ul>
+                        <li>Keep your <strong>Order Number</strong> ready (if order related)</li>
+                        <li>Remember your <strong>registered mobile number</strong></li>
+                        <li>Prepare notes to clearly explain your problem</li>
+                        <li>Keep pen and paper handy to note down details</li>
+                    </ul>
+
+                    <p><strong>Call is Best For:</strong></p>
+                    <div class="tag-container">
+                        <span class="tag urgent">Urgent Issues</span>
+                        <span class="tag urgent">Order Problems</span>
+                        <span class="tag urgent">Payment Failures</span>
+                        <span class="tag urgent">Delivery Issues</span>
+                        <span class="tag urgent">Account Locked</span>
+                    </div>
+
+                    <p style="margin-top: 12px; color: #d32f2f;"><strong>Average Response Time:</strong> Instant (connect in 2-5 minutes)</p>
+                </div>
+            </div>
+
+            <div class="guideline-section">
+                <div class="guideline-header">
+                    <span class="material-icons">chat</span>
+                    <h3>When & How to Message/Chat?</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Availability:</strong></p>
+                    <ul>
+                        <li><strong>24/7:</strong> You can send messages anytime</li>
+                        <li><strong>Reply Time:</strong> Usually within 2-4 hours (during business hours)</li>
+                        <li><strong>Night Messages:</strong> Messages sent after 9:00 PM will be replied next morning</li>
+                    </ul>
+
+                    <p><strong>How to Write Effective Messages:</strong></p>
+                    <ul>
+                        <li><strong>Keep subject clear:</strong> Be specific like "Order #12345 - Delivery Issue"</li>
+                        <li><strong>Provide details:</strong> When it happened, what is the problem, what you expect</li>
+                        <li><strong>Attach screenshots:</strong> Photos of error messages or issues</li>
+                        <li><strong>Keep it short and clear:</strong> But include all important information</li>
+                    </ul>
+
+                    <p><strong>Message is Best For:</strong></p>
+                    <div class="tag-container">
+                        <span class="tag normal">General Queries</span>
+                        <span class="tag normal">Product Questions</span>
+                        <span class="tag normal">Feedback/Suggestions</span>
+                        <span class="tag normal">Price Inquiries</span>
+                        <span class="tag normal">Non-Urgent Issues</span>
+                    </div>
+
+                    <p style="margin-top: 12px; color: #1976d2;"><strong>Average Response Time:</strong> 2-4 hours</p>
+                </div>
+            </div>
+
+            <div class="guideline-section">
+                <div class="guideline-header">
+                    <span class="material-icons">email</span>
+                    <h3>When & How to Email?</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Best Time:</strong></p>
+                    <ul>
+                        <li><strong>Business Hours:</strong> 9:00 AM to 7:00 PM</li>
+                        <li><strong>Response Time:</strong> Guaranteed reply within 24 hours</li>
+                        <li><strong>Weekend Emails:</strong> Will be replied on Monday</li>
+                    </ul>
+
+                    <p><strong>Email Format:</strong></p>
+                    <ul>
+                        <li><strong>Subject Line:</strong> Clear and specific - "[Order #12345] Return Request"</li>
+                        <li><strong>Body:</strong> Professional but friendly tone</li>
+                        <li><strong>Attachments:</strong> Include invoices, screenshots, photos</li>
+                        <li><strong>Contact Info:</strong> Provide your phone number and alternate email</li>
+                    </ul>
+
+                    <p><strong>Email is Best For:</strong></p>
+                    <div class="tag-container">
+                        <span class="tag email">Detailed Issues</span>
+                        <span class="tag email">Documentation Required</span>
+                        <span class="tag email">Official Communication</span>
+                        <span class="tag email">Bulk Orders</span>
+                        <span class="tag email">Business Partnerships</span>
+                    </div>
+
+                    <p style="margin-top: 12px; color: #388e3c;"><strong>Average Response Time:</strong> 24 hours</p>
+                </div>
+            </div>
+
+            <div class="guideline-section priority-section">
+                <div class="guideline-header">
+                    <span class="material-icons">priority_high</span>
+                    <h3>Priority Levels - How Urgent is Your Issue?</h3>
+                </div>
+                <div class="guideline-content">
+                    <div class="priority-box critical">
+                        <h4>Critical (Immediate Response)</h4>
+                        <p>Payment deducted but order not confirmed | Account hacked | Fraud activity</p>
+                        <p><strong>Action:</strong> Call immediately!</p>
+                    </div>
+
+                    <div class="priority-box high">
+                        <h4>High (2-4 Hours Response)</h4>
+                        <p>Wrong item received | Damaged product | Delivery delay (urgent)</p>
+                        <p><strong>Action:</strong> Call or message us</p>
+                    </div>
+
+                    <div class="priority-box medium">
+                        <h4>Medium (24 Hours Response)</h4>
+                        <p>Return request | Refund status | Product inquiry | General complaints</p>
+                        <p><strong>Action:</strong> Message or email us</p>
+                    </div>
+
+                    <div class="priority-box low">
+                        <h4>Low (48-72 Hours Response)</h4>
+                        <p>Feedback | Suggestions | General questions | Future order inquiries</p>
+                        <p><strong>Action:</strong> Email us</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guideline-section tips-section">
+                <div class="guideline-header">
+                    <span class="material-icons">lightbulb</span>
+                    <h3>Pro Tips - Get Faster Response</h3>
+                </div>
+                <div class="guideline-content">
+                    <div class="tip-box">
+                        <span class="tip-number">1</span>
+                        <p><strong>Always Keep Order Number Ready:</strong> Mention order number in every communication - your issue will be resolved faster!</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">2</span>
+                        <p><strong>Choose the Right Channel:</strong> Urgent? → Call | General query? → Message | Detailed issue? → Email</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">3</span>
+                        <p><strong>Contact During Business Hours:</strong> Call between 10 AM - 6 PM for instant solution!</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">4</span>
+                        <p><strong>Provide Clear Information:</strong> Explain problem step-by-step, attach screenshots</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">5</span>
+                        <p><strong>Follow Up:</strong> If no reply in 24 hours, contact again with reference number</p>
+                    </div>
+
+                    <div class="tip-box">
+                        <span class="tip-number">6</span>
+                        <p><strong>Be Polite:</strong> Respectful communication gets you priority response</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guideline-section weekend-section">
+                <div class="guideline-header">
+                    <span class="material-icons">event_busy</span>
+                    <h3>Weekend & Holiday Schedule</h3>
+                </div>
+                <div class="guideline-content">
+                    <p><strong>Closed Days:</strong></p>
+                    <ul>
+                        <li>Sunday: Limited support (Emergency only via Call)</li>
+                        <li>National Holidays: Email support only (48 hours response)</li>
+                    </ul>
+                    <p style="margin-top: 10px; color: #f57c00;"><strong>Tip:</strong> Non-urgent messages sent on weekend will be replied on Monday</p>
+                </div>
+            </div>
+
+            <div class="quick-reference">
+                <h4>Quick Reference Chart</h4>
+                <table class="ref-table">
+                    <tr>
+                        <th>Issue Type</th>
+                        <th>Best Method</th>
+                        <th>Response Time</th>
+                    </tr>
+                    <tr>
+                        <td>Payment Problem</td>
+                        <td>Call</td>
+                        <td>Instant</td>
+                    </tr>
+                    <tr>
+                        <td>Order Tracking</td>
+                        <td>Message</td>
+                        <td>2-4 hours</td>
+                    </tr>
+                    <tr>
+                        <td>Return/Refund</td>
+                        <td>Email</td>
+                        <td>24 hours</td>
+                    </tr>
+                    <tr>
+                        <td>Product Inquiry</td>
+                        <td>Message</td>
+                        <td>2-4 hours</td>
+                    </tr>
+                    <tr>
+                        <td>Business Partnership</td>
+                        <td>Email</td>
+                        <td>24-48 hours</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        async function sendMessage(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Disable button while sending
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="material-icons">hourglass_empty</span> Sending...';
+            
+            try {
+                // Firebase Realtime Database mein message save karo
+                const { database, ref, push, set, serverTimestamp } = window.firebaseDB;
+                
+                // 'messages' node mein naya message push karo
+                const messagesRef = ref(database, 'messages');
+                const newMessageRef = push(messagesRef);
+                
+                await set(newMessageRef, {
+                    name: name,
+                    email: email,
+                    message: message,
+                    timestamp: serverTimestamp(),
+                    status: 'unread'
+                });
+                
+                // Form clear karo
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('message').value = '';
+                
+                showToast('Message sent successfully!');
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                showToast('Error sending message. Please try again.');
+            } finally {
+                // Button wapas enable karo
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="material-icons">send</span> Send Message';
+            }
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script></body>
 </html>

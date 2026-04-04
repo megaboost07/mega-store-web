@@ -2,229 +2,213 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms & Conditions - Axon AI Shortener</title>
-    <meta name="description" content="Terms and Conditions of Axon AI Shortener. Read our terms of service before using our URL shortening platform.">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Terms of Service - MEGA STORE</title>
+    <meta name="description" content="Read the terms of service of MEGA STORE. Understand our rules and guidelines for using the platform.">
+    <meta name="keywords" content="terms of service, terms and conditions, mega store terms">
+    <meta name="author" content="MEGA STORE">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://mega-store.in/terms">
+    <meta property="og:title" content="Terms of Service - MEGA STORE">
+    <meta property="og:description" content="Read the terms of service of MEGA STORE. Understand our rules and guidelines for using the platform.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mega-store.in/terms">
+    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta property="og:site_name" content="MEGA STORE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Terms of Service - MEGA STORE">
+    <meta name="twitter:description" content="Read the terms of service of MEGA STORE. Understand our rules and guidelines for using the platform.">
+    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #0B121E;
+            --surface: #121A2A;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        .main-content {
+            margin-top: 64px;
+            padding: 24px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .policy-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .policy-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+        
+        .policy-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 16px 0 8px;
+        }
+        
+        .policy-section p {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        
+        .policy-section ul {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .policy-section li {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">🔗</div>
-                Axon AI
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shortener.html">Shortener</a></li>
-                <li><a href="contact.html">Contact</a></li>
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">Terms & Conditions</h1>
+    </header>
+    
+    <main class="main-content">
+        <div class="policy-section">
+            <h2>Acceptance of Terms</h2>
+            <p>By accessing and using MEGA STORE, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use our platform.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Use of Platform</h2>
+            <h3>Eligible Users</h3>
+            <ul>
+                <li>You must be at least 13 years old to use MEGA STORE</li>
+                <li>You must provide accurate and complete registration information</li>
+                <li>You are responsible for maintaining the confidentiality of your account</li>
             </ul>
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
-                <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+            
+            <h3>Prohibited Activities</h3>
+            <ul>
+                <li>Uploading malicious software or viruses</li>
+                <li>Attempting to gain unauthorized access to our systems</li>
+                <li>Using the platform for illegal activities</li>
+                <li>Interfering with other users' access to the platform</li>
+                <li>Reverse engineering any part of our platform</li>
+            </ul>
         </div>
-    </nav>
-
-    <!-- Terms Content -->
-    <section class="section" style="padding-top: 60px;">
-        <div class="container-narrow">
-            <div class="card">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <h1><i class="fas fa-file-contract" style="color: var(--primary);"></i> Terms & Conditions</h1>
-                    <p style="color: var(--text-muted);">Last updated: January 2024</p>
-                </div>
-
-                <div style="color: var(--text-secondary); line-height: 1.8;">
-                    <p>Welcome to Axon AI Shortener. These Terms and Conditions govern your use of our website and services. By accessing or using Axon AI Shortener, you agree to be bound by these Terms. If you disagree with any part of these terms, you may not access our services.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">1. Definitions</h3>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li><strong>"Service"</strong> refers to the URL shortening services provided by Axon AI Shortener</li>
-                        <li><strong>"User," "You," and "Your"</strong> refers to the individual accessing or using our Service</li>
-                        <li><strong>"Company," "We," "Us," and "Our"</strong> refers to Axon AI Shortener</li>
-                        <li><strong>"Account"</strong> means a unique account created for you to access our Service</li>
-                        <li><strong>"Content"</strong> refers to text, images, or other information that can be posted, uploaded, or shared</li>
-                        <li><strong>"Short Link"</strong> refers to the shortened URL generated through our Service</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">2. Account Registration</h3>
-                    <p>To use certain features of our Service, you must register for an account. When you create an account with us, you guarantee that:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>You are at least 18 years of age</li>
-                        <li>The information you provide is accurate, complete, and current at all times</li>
-                        <li>You are responsible for maintaining the confidentiality of your account password</li>
-                        <li>You are responsible for all activities that occur under your account</li>
-                        <li>You will notify us immediately of any unauthorized use of your account</li>
-                    </ul>
-                    <p>We reserve the right to terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach these Terms.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">3. Acceptable Use</h3>
-                    <p>You agree to use our Service only for lawful purposes and in accordance with these Terms. You agree not to use our Service:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>To shorten URLs that contain illegal, harmful, threatening, abusive, or defamatory content</li>
-                        <li>To distribute malware, viruses, or any other malicious code</li>
-                        <li>To engage in phishing, fraud, or deceptive practices</li>
-                        <li>To infringe upon intellectual property rights of others</li>
-                        <li>To collect or track personal information of others without consent</li>
-                        <li>To generate artificial traffic or use bots to inflate click counts</li>
-                        <li>To promote hate speech, discrimination, or violence</li>
-                        <li>To share adult content, pornography, or sexually explicit material</li>
-                        <li>To promote gambling, drugs, or other illegal activities</li>
-                        <li>To circumvent security measures or attempt to gain unauthorized access</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">4. Prohibited Content</h3>
-                    <p>You may not use our Service to shorten URLs that link to:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Websites containing viruses, malware, or harmful software</li>
-                        <li>Phishing websites or fraudulent schemes</li>
-                        <li>Websites promoting illegal activities</li>
-                        <li>Websites containing hate speech or discriminatory content</li>
-                        <li>Websites promoting violence or terrorism</li>
-                        <li>Adult content or pornography</li>
-                        <li>Websites infringing on copyrights or trademarks</li>
-                        <li>Spam or unsolicited commercial content</li>
-                        <li>Websites that automatically download files</li>
-                        <li>URL shorteners or redirect services (chain shortening)</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">5. Earnings and Payments</h3>
-                    <p>Our Service allows users to earn money based on the number of valid views their shortened links receive. The following terms apply:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li><strong>CPM Rate:</strong> Current rate is ₹82 per 1000 valid views, subject to change</li>
-                        <li><strong>Valid Views:</strong> Only unique, genuine clicks from real users are counted</li>
-                        <li><strong>Minimum Payout:</strong> Minimum withdrawal amount is ₹100</li>
-                        <li><strong>Payment Method:</strong> Payments are made via UPI to the registered UPI ID</li>
-                        <li><strong>Processing Time:</strong> Withdrawals are processed within 24-48 hours</li>
-                        <li><strong>Taxes:</strong> Users are responsible for reporting and paying applicable taxes</li>
-                        <li><strong>Fraud Detection:</strong> We reserve the right to withhold payment for fraudulent activity</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">6. Termination and Suspension</h3>
-                    <p>We may terminate or suspend your account and access to our Service immediately, without prior notice or liability, for any reason, including:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Violation of these Terms</li>
-                        <li>Engaging in fraudulent activity</li>
-                        <li>Generating artificial or invalid traffic</li>
-                        <li>Creating multiple accounts to abuse the system</li>
-                        <li>Using automated tools or bots</li>
-                        <li>Any activity that harms our Service or other users</li>
-                    </ul>
-                    <p>Upon termination, your right to use the Service will immediately cease. All provisions of these Terms which by their nature should survive termination shall survive.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">7. Intellectual Property</h3>
-                    <p>The Service and its original content, features, and functionality are and will remain the exclusive property of Axon AI Shortener and its licensors. The Service is protected by copyright, trademark, and other laws. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Axon AI Shortener.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">8. Disclaimer of Warranties</h3>
-                    <p>Our Service is provided on an "AS IS" and "AS AVAILABLE" basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
-                    <p>We do not warrant that:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>The Service will function uninterrupted, secure, or available at any particular time or location</li>
-                        <li>Any errors or defects will be corrected</li>
-                        <li>The Service is free of viruses or other harmful components</li>
-                        <li>The results of using the Service will meet your requirements</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">9. Limitation of Liability</h3>
-                    <p>In no event shall Axon AI Shortener, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Your access to or use of or inability to access or use the Service</li>
-                        <li>Any conduct or content of any third party on the Service</li>
-                        <li>Any content obtained from the Service</li>
-                        <li>Unauthorized access, use, or alteration of your transmissions or content</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">10. Indemnification</h3>
-                    <p>You agree to defend, indemnify, and hold harmless Axon AI Shortener and its licensees and licensors, and their employees, contractors, agents, officers, and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Your use and access of the Service</li>
-                        <li>Your violation of any term of these Terms</li>
-                        <li>Your violation of any third-party right, including without limitation any copyright, property, or privacy right</li>
-                        <li>Any claim that your content caused damage to a third party</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">11. Governing Law</h3>
-                    <p>These Terms shall be governed and construed in accordance with the laws of India, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">12. Changes to Terms</h3>
-                    <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised terms.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">13. Third-Party Services</h3>
-                    <p>Our Service may contain links to third-party websites or services that are not owned or controlled by Axon AI Shortener. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You further acknowledge and agree that we shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such websites or services.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">14. Service Availability</h3>
-                    <p>We strive to maintain the availability of our Service but do not guarantee that the Service will be available at all times. We may experience hardware, software, or other problems, resulting in service interruptions, delays, or errors. We reserve the right to change, revise, update, suspend, discontinue, or otherwise modify the Service at any time without prior notice.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">15. Contact Information</h3>
-                    <p>If you have any questions about these Terms, please contact us:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li><strong>Email:</strong> support@axonshortener.com</li>
-                        <li><strong>Contact Form:</strong> <a href="contact.html" style="color: var(--primary);">Contact Us</a></li>
-                        <li><strong>Address:</strong> Axon AI Shortener, India</li>
-                    </ul>
-
-                    <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-primary); border-radius: var(--radius); text-align: center;">
-                        <p style="margin: 0;">By using Axon AI Shortener, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.</p>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="policy-section">
+            <h2>Intellectual Property</h2>
+            <p>All content on MEGA STORE, including but not limited to text, graphics, logos, and software, is the property of MEGA STORE or its licensors and is protected by copyright and other intellectual property laws.</p>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo">
-                        <div class="logo-icon">🔗</div>
-                        Axon AI
-                    </a>
-                    <p>India's highest paying URL shortener.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="mailto:support@axonshortener.com">support@axonshortener.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
-            </div>
+        
+        <div class="policy-section">
+            <h2>User Content</h2>
+            <p>By submitting content to MEGA STORE (reviews, comments, etc.), you:</p>
+            <ul>
+                <li>Grant us a non-exclusive, worldwide license to use your content</li>
+                <li>Confirm that you have the right to share this content</li>
+                <li>Agree not to post offensive, harmful, or illegal content</li>
+            </ul>
         </div>
-    </footer>
-
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-
-    <!-- Main Script -->
-    <script src="script.js"></script>
-</body>
+        
+        <div class="policy-section">
+            <h2>Termination</h2>
+            <p>We reserve the right to terminate or suspend your account at any time for violations of these terms or for any other reason at our discretion.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Changes to Terms</h2>
+            <p>We may update these Terms and Conditions from time to time. Continued use of the platform after changes constitutes acceptance of the new terms.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Governing Law</h2>
+            <p>These Terms and Conditions shall be governed by and construed in accordance with the laws of the jurisdiction in which MEGA STORE operates.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Contact Information</h2>
+            <p>For questions about these Terms and Conditions, please contact us at usamega125@gmail.com</p>
+        </div>
+    </main>
+    
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script></body>
 </html>

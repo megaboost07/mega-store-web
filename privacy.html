@@ -2,204 +2,417 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Axon AI Shortener</title>
-    <meta name="description" content="Privacy Policy of Axon AI Shortener. Learn how we collect, use, and protect your personal information.">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Privacy Policy - MEGA STORE</title>
+    <meta name="description" content="Read the privacy policy of MEGA STORE. Learn how we protect your data and privacy.">
+    <meta name="keywords" content="privacy policy, data protection, mega store privacy">
+    <meta name="author" content="MEGA STORE">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://mega-store.in/privacy">
+    <meta property="og:title" content="Privacy Policy - MEGA STORE">
+    <meta property="og:description" content="Read the privacy policy of MEGA STORE. Learn how we protect your data and privacy.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mega-store.in/privacy">
+    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta property="og:site_name" content="MEGA STORE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy Policy - MEGA STORE">
+    <meta name="twitter:description" content="Read the privacy policy of MEGA STORE. Learn how we protect your data and privacy.">
+    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #0B121E;
+            --surface: #121A2A;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+            z-index: 100;
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        .main-content {
+            margin-top: 64px;
+            padding: 24px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .policy-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .policy-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+        
+        .policy-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 16px 0 8px;
+        }
+        
+        .policy-section p {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        
+        .policy-section ul {
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .policy-section li {
+            margin-bottom: 8px;
+        }
+        
+        .last-updated {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">🔗</div>
-                Axon AI
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shortener.html">Shortener</a></li>
-                <li><a href="contact.html">Contact</a></li>
+    <header class="app-bar">
+        <button class="back-btn" onclick="history.back()">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">Privacy Policy</h1>
+    </header>
+    
+    <main class="main-content">
+        <p class="last-updated">Last Updated: 22 March 2026</p>
+        
+        <div class="policy-section">
+            <h2>Introduction</h2>
+            <p>Welcome to MEGA STORE. We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our platform.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Information We Collect</h2>
+            <h3>Personal Information</h3>
+            <ul>
+                <li>Name and email address</li>
+                <li>Profile information</li>
+                <li>Device information</li>
+                <li>Usage data and preferences</li>
             </ul>
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
-                <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+            
+            <h3>Automatically Collected Data</h3>
+            <ul>
+                <li>IP address and browser type</li>
+                <li>Download history</li>
+                <li>App usage statistics</li>
+            </ul>
         </div>
-    </nav>
-
-    <!-- Privacy Policy Content -->
-    <section class="section" style="padding-top: 60px;">
-        <div class="container-narrow">
-            <div class="card">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <h1><i class="fas fa-shield-alt" style="color: var(--primary);"></i> Privacy Policy</h1>
-                    <p style="color: var(--text-muted);">Last updated: January 2024</p>
-                </div>
-
-                <div style="color: var(--text-secondary); line-height: 1.8;">
-                    <p>At Axon AI Shortener, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our URL shortening service. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">1. Information We Collect</h3>
-                    
-                    <h4 style="color: var(--text-primary); margin-top: 1.5rem;">Personal Information</h4>
-                    <p>We may collect personal information that you voluntarily provide to us when you:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Register for an account</li>
-                        <li>Use our URL shortening service</li>
-                        <li>Request customer support</li>
-                        <li>Submit a withdrawal request</li>
-                        <li>Contact us via email or contact form</li>
-                    </ul>
-                    <p>The personal information we collect may include:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Name and contact information (email address, phone number)</li>
-                        <li>Account credentials (username, password)</li>
-                        <li>UPI ID for payment processing</li>
-                        <li>IP address and device information</li>
-                        <li>Usage data and analytics</li>
-                    </ul>
-
-                    <h4 style="color: var(--text-primary); margin-top: 1.5rem;">Automatically Collected Information</h4>
-                    <p>When you visit our website or use our services, we automatically collect certain information about your device and usage, including:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>IP address and geographic location</li>
-                        <li>Browser type and version</li>
-                        <li>Operating system</li>
-                        <li>Referring website</li>
-                        <li>Pages visited and time spent</li>
-                        <li>Click data and link usage statistics</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">2. How We Use Your Information</h3>
-                    <p>We use the information we collect for various purposes, including:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li><strong>Providing Services:</strong> To operate and maintain our URL shortening service</li>
-                        <li><strong>Account Management:</strong> To create and manage your user account</li>
-                        <li><strong>Payment Processing:</strong> To process your withdrawal requests and send payments</li>
-                        <li><strong>Analytics:</strong> To analyze usage patterns and improve our services</li>
-                        <li><strong>Communication:</strong> To send you updates, security alerts, and support messages</li>
-                        <li><strong>Fraud Prevention:</strong> To detect and prevent fraudulent activity</li>
-                        <li><strong>Legal Compliance:</strong> To comply with applicable laws and regulations</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">3. How We Share Your Information</h3>
-                    <p>We do not sell, trade, or rent your personal information to third parties. We may share your information in the following circumstances:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li><strong>Service Providers:</strong> With trusted third-party vendors who assist us in operating our website and services</li>
-                        <li><strong>Legal Requirements:</strong> When required by law, court order, or government regulation</li>
-                        <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
-                        <li><strong>Protection of Rights:</strong> To protect our rights, privacy, safety, or property</li>
-                    </ul>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">4. Cookies and Tracking Technologies</h3>
-                    <p>We use cookies and similar tracking technologies to enhance your experience on our website. These technologies help us:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Remember your preferences and settings</li>
-                        <li>Understand how you use our services</li>
-                        <li>Improve website performance and functionality</li>
-                        <li>Deliver relevant advertisements</li>
-                    </ul>
-                    <p>You can control cookies through your browser settings. However, disabling cookies may affect the functionality of our website.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">5. Data Security</h3>
-                    <p>We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These measures include:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Encryption of data in transit and at rest</li>
-                        <li>Regular security assessments and updates</li>
-                        <li>Access controls and authentication procedures</li>
-                        <li>Secure data storage with Firebase</li>
-                    </ul>
-                    <p>However, no method of transmission over the internet or electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your information, we cannot guarantee absolute security.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">6. Your Privacy Rights</h3>
-                    <p>Depending on your location, you may have certain rights regarding your personal information:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li><strong>Access:</strong> Request a copy of your personal data</li>
-                        <li><strong>Correction:</strong> Request correction of inaccurate data</li>
-                        <li><strong>Deletion:</strong> Request deletion of your personal data</li>
-                        <li><strong>Restriction:</strong> Request restriction of processing</li>
-                        <li><strong>Portability:</strong> Request transfer of your data</li>
-                        <li><strong>Objection:</strong> Object to certain types of processing</li>
-                    </ul>
-                    <p>To exercise these rights, please contact us using the information provided at the end of this policy.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">7. Children's Privacy</h3>
-                    <p>Our services are not intended for individuals under the age of 18. We do not knowingly collect personal information from children under 18. If we become aware that we have collected personal information from a child under 18, we will take steps to delete that information.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">8. Third-Party Links</h3>
-                    <p>Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of these external sites. We encourage you to review the privacy policies of any third-party sites you visit.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">9. Changes to This Privacy Policy</h3>
-                    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date. You are advised to review this Privacy Policy periodically for any changes.</p>
-
-                    <h3 style="color: var(--text-primary); margin-top: 2rem;">10. Contact Us</h3>
-                    <p>If you have any questions about this Privacy Policy or our data practices, please contact us:</p>
-                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li><strong>Email:</strong> support@axonshortener.com</li>
-                        <li><strong>Contact Form:</strong> <a href="contact.html" style="color: var(--primary);">Contact Us</a></li>
-                        <li><strong>Address:</strong> Axon AI Shortener, India</li>
-                    </ul>
-
-                    <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-primary); border-radius: var(--radius); text-align: center;">
-                        <p style="margin: 0;">By using Axon AI Shortener, you consent to our Privacy Policy and agree to its terms.</p>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="policy-section">
+            <h2>How We Use Your Information</h2>
+            <ul>
+                <li>To provide and maintain our services</li>
+                <li>To personalize your experience</li>
+                <li>To improve our platform</li>
+                <li>To communicate with you</li>
+                <li>To ensure security and prevent fraud</li>
+            </ul>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo">
-                        <div class="logo-icon">🔗</div>
-                        Axon AI
-                    </a>
-                    <p>India's highest paying URL shortener.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="mailto:support@axonshortener.com">support@axonshortener.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
-            </div>
+        
+        <div class="policy-section">
+            <h2>Data Security</h2>
+            <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
         </div>
-    </footer>
+        
+        <div class="policy-section">
+            <h2>Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access your personal data</li>
+                <li>Correct inaccurate information</li>
+                <li>Request deletion of your data</li>
+                <li>Opt-out of marketing communications</li>
+            </ul>
+        </div>
+        
+        
+        <div class="policy-section">
+            <h2>Cookies and Web Beacons</h2>
+            <p>We use cookies and similar tracking technologies to enhance your browsing experience. Cookies are small text files stored on your device that help us recognize you and remember your preferences.</p>
+            <h3>Types of Cookies We Use</h3>
+            <ul>
+                <li><strong>Essential Cookies:</strong> Required for basic functionality and navigation</li>
+                <li><strong>Performance Cookies:</strong> Help us understand how visitors interact with our website</li>
+                <li><strong>Functional Cookies:</strong> Remember your preferences and settings</li>
+                <li><strong>Targeting Cookies:</strong> Used to deliver relevant advertisements</li>
+            </ul>
+            <p>Web beacons are tiny graphic files embedded in web pages or emails that allow us to monitor user activity and collect statistics about website usage.</p>
+        </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
+        <div class="policy-section">
+            <h2>Google DoubleClick DART Cookie</h2>
+            <p>Google, as a third-party vendor, uses cookies to serve ads on our platform. Google's use of the DART cookie enables it to serve ads to our users based on their visit to our site and other sites on the Internet.</p>
+            <p>Users may opt out of the use of the DART cookie by visiting the Google ad and content network privacy policy at <a href="https://policies.google.com/technologies/ads" style="color: var(--primary);">https://policies.google.com/technologies/ads</a>.</p>
+        </div>
 
-    <!-- Main Script -->
-    <script src="script.js"></script>
-</body>
+        <div class="policy-section">
+            <h2>Third-Party Ad Networks</h2>
+            <p>We partner with third-party advertising companies to serve ads when you visit our website. These companies may use information (not including your name, address, email address, or telephone number) about your visits to this and other websites in order to provide advertisements about goods and services of interest to you.</p>
+            <h3>Our Advertising Partners</h3>
+            <ul>
+                <li>Google AdSense</li>
+                <li>Other advertising networks (as applicable)</li>
+            </ul>
+            <p>These third-party ad servers or ad networks use technology to deliver advertisements and links that appear on our platform directly to your browser. They automatically receive your IP address when this occurs.</p>
+        </div>
+
+        <div class="policy-section">
+            <h2>Children's Privacy</h2>
+            <p>Our platform is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13 years of age.</p>
+            <p>If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us immediately at usamega125@gmail.com. If we become aware that we have collected personal information from children under 13 without verification of parental consent, we will take steps to remove that information from our servers.</p>
+        </div>
+
+        <div class="policy-section">
+            <h2>Data Retention Policy</h2>
+            <p>We will retain your personal information only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use your information to the extent necessary to comply with our legal obligations, resolve disputes, and enforce our policies.</p>
+            <h3>Retention Periods</h3>
+            <ul>
+                <li><strong>Account Information:</strong> Retained until you delete your account or request deletion</li>
+                <li><strong>Usage Data:</strong> Retained for 12 months for analytics purposes</li>
+                <li><strong>Transaction Records:</strong> Retained for 7 years for legal compliance</li>
+                <li><strong>Marketing Data:</strong> Retained until you opt out or unsubscribe</li>
+            </ul>
+            <p>After the retention period expires, your personal data will be securely deleted or anonymized.</p>
+        </div>
+
+        <div class="policy-section">
+            <h2>Comment Policy</h2>
+            <p>When you leave comments on our platform, we collect the data shown in the comments form, your IP address, and browser user agent string to help spam detection.</p>
+            <p>An anonymized string created from your email address (hash) may be provided to the Gravatar service to see if you are using it. The Gravatar service privacy policy is available at <a href="https://automattic.com/privacy/" style="color: var(--primary);">https://automattic.com/privacy/</a>.</p>
+            <h3>Comment Guidelines</h3>
+            <ul>
+                <li>Comments must be respectful and relevant to the discussion</li>
+                <li>Spam, promotional content, and offensive language are not permitted</li>
+                <li>We reserve the right to edit or delete comments that violate our guidelines</li>
+                <li>Your comments may be publicly visible to other users</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>Legal Basis for Processing</h2>
+            <p>We process your personal data based on the following legal grounds:</p>
+            <h3>Consent</h3>
+            <p>You have given us clear consent to process your personal data for specific purposes, such as marketing communications or optional features.</p>
+            <h3>Contract</h3>
+            <p>Processing is necessary for the performance of a contract with you or to take steps at your request before entering into a contract.</p>
+            <h3>Legal Obligation</h3>
+            <p>Processing is necessary for compliance with a legal obligation to which we are subject.</p>
+            <h3>Legitimate Interests</h3>
+            <p>Processing is necessary for our legitimate interests, provided those interests are not overridden by your rights and interests. These interests include improving our services, preventing fraud, and ensuring network security.</p>
+        </div>
+
+        <div class="policy-section">
+            <h2>Changes to This Privacy Policy</h2>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top of this document.</p>
+            <p>We encourage you to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
+            <p>If we make material changes to this Privacy Policy, we will notify you either through the email address you have provided us or by placing a prominent notice on our website.</p>
+        </div>
+
+<div class="policy-section">
+    <h2>Upload File Policy</h2>
+
+    <h3>1. Allowed Content ✅</h3>
+    <p>You may upload:</p>
+    <ul>
+        <li>Apps or files that you own or have full rights to distribute</li>
+        <li>Open-source or freely distributable content</li>
+        <li>Files that comply with all applicable laws and regulations</li>
+    </ul>
+
+    <h3>2. Prohibited Content ❌</h3>
+    <p>You must NOT upload:</p>
+    <ul>
+        <li>Pirated, cracked, or modified (mod) apps</li>
+        <li>Copyrighted content without proper authorization</li>
+        <li>Malware, viruses, or any harmful software</li>
+        <li>Adult, illegal, or offensive material</li>
+        <li>Misleading, fake, or deceptive apps/files</li>
+    </ul>
+
+    <h3>3. Copyright Policy ⚖️</h3>
+    <ul>
+        <li>You must have the legal rights to upload and share the content</li>
+        <li>We respect intellectual property rights</li>
+        <li>Any valid DMCA takedown request will be processed promptly</li>
+    </ul>
+
+    <h3>4. File Safety 🔒</h3>
+    <ul>
+        <li>All uploaded files must be safe and secure</li>
+        <li>We may scan files for viruses or harmful code</li>
+        <li>Unsafe files will be removed without notice</li>
+    </ul>
+
+    <h3>5. User Responsibility 👤</h3>
+    <ul>
+        <li>You are fully responsible for the content you upload</li>
+        <li>Violations may result in account suspension or permanent ban</li>
+    </ul>
+
+    <h3>6. Content Review 🛠️</h3>
+    <ul>
+        <li>We reserve the right to review, approve, or remove any content</li>
+        <li>Files that violate this policy may be deleted at any time</li>
+    </ul>
+
+    <h3>7. External Links 🌐</h3>
+    <ul>
+        <li>Download URLs must be safe and trustworthy</li>
+        <li>Links that redirect to spam, harmful, or misleading sites are not allowed</li>
+    </ul>
+
+    <h3>8. AdSense Compliance 💰</h3>
+    <ul>
+        <li>We follow Google AdSense policies strictly</li>
+        <li>Content that may harm users or advertisers is strictly prohibited</li>
+    </ul>
+
+    <h3>9. Policy Updates 🔄</h3>
+    <ul>
+        <li>We may update this policy at any time without prior notice</li>
+    </ul>
+
+</div>
+
+<div class="policy-section">
+    <h2>Copyright Policy</h2>
+
+    <p>
+        We respect the intellectual property rights of others and expect our users to do the same. This Copyright Policy outlines how we handle copyright-related issues on our platform.
+    </p>
+
+    <h3>1. Ownership of Content</h3>
+    <ul>
+        <li>Users must only upload content that they own or have legal permission to distribute</li>
+        <li>Uploading copyrighted material without authorization is strictly prohibited</li>
+    </ul>
+
+    <h3>2. Copyright Infringement</h3>
+    <ul>
+        <li>We do not allow any content that infringes on copyrights</li>
+        <li>If we find infringing content, it will be removed immediately without notice</li>
+    </ul>
+
+    <h3>3. DMCA Takedown Requests</h3>
+    <p>
+        If you are a copyright owner or authorized representative and believe that your content has been uploaded without permission, you may submit a DMCA takedown request with the following details:
+    </p>
+    <ul>
+        <li>Your name and contact information</li>
+        <li>Description of the copyrighted work</li>
+        <li>URL or location of the infringing content</li>
+        <li>A statement that you have a good faith belief that the use is unauthorized</li>
+        <li>A statement that the information provided is accurate</li>
+    </ul>
+
+    <h3>4. Action on Complaints</h3>
+    <ul>
+        <li>We will review all valid complaints promptly</li>
+        <li>Infringing content will be removed or disabled</li>
+        <li>Repeat offenders may be permanently banned from the platform</li>
+    </ul>
+
+    <h3>5. User Responsibility</h3>
+    <ul>
+        <li>Users are fully responsible for the content they upload</li>
+        <li>Any legal consequences arising from copyright violations will be the responsibility of the user</li>
+    </ul>
+
+    <h3>6. Policy Updates</h3>
+    <ul>
+        <li>We may update this Copyright Policy at any time without prior notice</li>
+    </ul>
+</div>
+
+        <div class="policy-section">
+            <h2>Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us at usamega125@gmail.com</p>
+        </div>
+    </main>
+    
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script></body>
 </html>

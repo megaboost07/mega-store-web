@@ -2,189 +2,501 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Access Your Account | Axon AI Shortener</title>
-    <meta name="description" content="Login to your Axon AI Shortener account. Track your earnings, manage links, and withdraw your money.">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">🔗</div>
-                Axon AI
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shortener.html">Shortener</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <a href="signup.html" class="btn btn-primary btn-sm">Sign Up</a>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Login Form -->
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
-                    <div class="logo-icon">🔗</div>
-                </div>
-                <h2>Welcome Back!</h2>
-                <p>Login to access your dashboard and earnings</p>
-            </div>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-envelope"></i> Email Address
-                    </label>
-                    <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-lock"></i> Password
-                    </label>
-                    <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="checkbox" id="rememberMe" style="width: 18px; height: 18px;">
-                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Remember me</span>
-                    </label>
-                    <a href="forgot-password.html" style="color: var(--primary); font-size: 0.9rem;">
-                        <i class="fas fa-key"></i> Forgot password?
-                    </a>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Login to Account
-                </button>
-            </form>
-            
-            <div class="auth-footer">
-                <p>Don't have an account? <a href="signup.html">Sign up free</a></p>
-            </div>
-            
-            <!-- Divider -->
-            <div style="margin-top: 2rem; text-align: center;">
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
-                    <span style="color: var(--text-muted); font-size: 0.9rem;">Secure Login</span>
-                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
-                </div>
-                <div style="display: flex; justify-content: center; gap: 2rem; color: var(--text-muted);">
-                    <span><i class="fas fa-shield-alt" style="color: var(--success);"></i> Encrypted</span>
-                    <span><i class="fas fa-lock" style="color: var(--success);"></i> Secure</span>
-                    <span><i class="fas fa-user-shield" style="color: var(--success);"></i> Protected</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Features for New Users -->
-    <section class="section" style="background: var(--bg-secondary); padding: 60px 0;">
-        <div class="container">
-            <div class="section-header">
-                <h3>Why Join Axon AI Shortener?</h3>
-                <p>Start your journey to earning money online today</p>
-            </div>
-            <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                <div class="feature-card" style="text-align: center;">
-                    <div class="feature-icon">
-                        <i class="fas fa-rupee-sign"></i>
-                    </div>
-                    <h4>₹82 Per 1000 Views</h4>
-                    <p style="color: var(--text-muted);">Highest payout rate in India</p>
-                </div>
-                <div class="feature-card" style="text-align: center;">
-                    <div class="feature-icon" style="background: var(--gradient-2);">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <h4>₹100 Min. Payout</h4>
-                    <p style="color: var(--text-muted);">Withdraw to UPI instantly</p>
-                </div>
-                <div class="feature-card" style="text-align: center;">
-                    <div class="feature-icon" style="background: var(--gradient-3);">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h4>Real-Time Stats</h4>
-                    <p style="color: var(--text-muted);">Track clicks and earnings live</p>
-                </div>
-                <div class="feature-card" style="text-align: center;">
-                    <div class="feature-icon" style="background: var(--success);">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h4>24/7 Support</h4>
-                    <p style="color: var(--text-muted);">We're here to help anytime</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo">
-                        <div class="logo-icon">🔗</div>
-                        Axon AI
-                    </a>
-                    <p>India's highest paying URL shortener.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Axon AI Shortener. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
-            <div class="spinner"></div>
-            <p>Logging in...</p>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
-
-    <!-- Firebase SDK -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login - MEGA STORE | Sign In to Your Account</title>
+    <meta name="description" content="Login to your MEGA STORE account to access your downloads, uploads, and personalized features.">
+    <meta name="keywords" content="login mega store, sign in, account access">
+    <meta name="author" content="MEGA STORE">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://mega-store.in/login">
+    <meta property="og:title" content="Login - MEGA STORE | Sign In to Your Account">
+    <meta property="og:description" content="Login to your MEGA STORE account to access your downloads, uploads, and personalized features.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mega-store.in/login">
+    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <meta property="og:site_name" content="MEGA STORE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Login - MEGA STORE | Sign In to Your Account">
+    <meta name="twitter:description" content="Login to your MEGA STORE account to access your downloads, uploads, and personalized features.">
+    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #00c853;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --divider: #dadce0;
+            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        
+        [data-theme="dark"] {
+            --background: #0B121E;
+            --surface: #121A2A;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --divider: #333333;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* App Bar */
+        .app-bar {
+            height: 64px;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn .material-icons {
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+        
+        .app-title {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+        
+        /* Login Card */
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px 24px;
+            box-shadow: var(--shadow-2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .login-logo .material-icons {
+            font-size: 55px;
+            color: white;
+        }
+        
+        .login-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--divider);
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--background);
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper .material-icons {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+        
+        .input-wrapper .form-input {
+            padding-left: 48px;
+        }
+        
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: var(--background);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Form Container */
+        .form-container {
+            display: none;
+        }
+        
+        .form-container.active {
+            display: block;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #323232;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 300;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.error {
+            background: #e53935;
+        }
+        
+        .toast.success {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- App Bar -->
+    <header class="app-bar">
+        <button class="back-btn" onclick="location.href='home.html'">
+            <span class="material-icons">arrow_back</span>
+        </button>
+        <h1 class="app-title">Sign In</h1>
+    </header>
+
+   <!-- Main Content -->
+<main class="main-content">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-logo">
+                <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE Logo" style="width: 80px; height: 80px; object-fit: contain;">
+            </div>
+            <h1>Welcome to
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('login')">Login</button>
+                <button class="tab" onclick="switchTab('register')">Register</button>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="form-container active" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">email</span>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">lock</span>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="login()">
+                    <span class="material-icons">login</span>
+                    Sign In
+                </button>
+            </div>
+            
+            <!-- Register Form -->
+            <div class="form-container" id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">person</span>
+                        <input type="text" class="form-input" id="regName" placeholder="Enter your name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">email</span>
+                        <input type="email" class="form-input" id="regEmail" placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons">lock</span>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Create password">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="register()">
+                    <span class="material-icons">person_add</span>
+                    Create Account
+                </button>
+            </div>
+            
+
+        </div>
+    </main>
     
-    <!-- Main Script -->
-    <script src="script.js"></script>
-</body>
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+           apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+           authDomain: "mega-store-2025.firebaseapp.com",
+           databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+           projectId: "mega-store-2025",
+           storageBucket: "mega-store-2025.firebasestorage.app",
+           messagingSenderId: "190838364165",
+           appId: "1:190838364165:web:43a969b7b852777061e46c",
+           measurementId: "G-CZR2N1HF9K"
+           };
+        
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        // Check theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Check if already logged in
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            location.href = 'profile.html';
+        }
+        
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+        
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            // Check in Firebase
+            database.ref('users').orderByChild('email').equalTo(email).once('value')
+                .then(snapshot => {
+                    const users = snapshot.val();
+                    if (users) {
+                        const userId = Object.keys(users)[0];
+                        const user = users[userId];
+                        
+                        if (user.password === password) {
+                            const userData = {
+                                id: userId,
+                                name: user.name,
+                                email: user.email,
+                                photo: user.photo || null
+                            };
+                            localStorage.setItem('currentUser', JSON.stringify(userData));
+                            showToast('Login successful!', 'success');
+                            setTimeout(() => location.href = 'profile.html', 1000);
+                        } else {
+                            showToast('Invalid password', 'error');
+                        }
+                    } else {
+                        showToast('User not found', 'error');
+                    }
+                });
+        }
+        
+        function register() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            
+            if (!name || !email || !password) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            // Check if email exists
+            database.ref('users').orderByChild('email').equalTo(email).once('value')
+                .then(snapshot => {
+                    if (snapshot.val()) {
+                        showToast('Email already registered', 'error');
+                        return;
+                    }
+                    
+                    // Create new user
+                    const newUserRef = database.ref('users').push();
+                    const userData = {
+                        name: name,
+                        email: email,
+                        password: password,
+                        createdAt: new Date().toISOString(),
+                        downloads: 0,
+                        likes: 0,
+                        ratings: 0
+                    };
+                    
+                    newUserRef.set(userData).then(() => {
+                        const currentUserData = {
+                            id: newUserRef.key,
+                            name: name,
+                            email: email,
+                            photo: null
+                        };
+                        localStorage.setItem('currentUser', JSON.stringify(currentUserData));
+                        showToast('Account created!', 'success');
+                        setTimeout(() => location.href = 'profile.html', 1000);
+                    });
+                });
+        }
+        
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast' + (type ? ' ' + type : '');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script></body>
 </html>
