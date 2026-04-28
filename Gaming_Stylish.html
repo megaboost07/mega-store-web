@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaming Stylish Name Generator - BGMI, PUBG & Esports Names | Mega Styling Name</title>
+<meta name="description" content="Generate pro gaming names for BGMI, PUBG, Free Fire & esports. Aggressive, cool Unicode gaming nicknames with symbols and decorative patterns.">
+<meta name="keywords" content="gaming name generator, BGMI stylish name, PUBG nickname, esports name, pro gaming tag, clan name generator">
+<meta name="author" content="Mega Styling Name">
+<meta name="theme-color" content="#0f0f0f">
+<meta property="og:title" content="Gaming Stylish Name Generator - BGMI, PUBG & Esports Names">
+<meta property="og:description" content="Generate pro gaming names for BGMI, PUBG, Free Fire & esports with fancy Unicode fonts and symbols.">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#0a0a0f;--card:#13131f;--card2:#1a1a28;--accent:#7c3aed;--accent2:#a855f7;
+  --text:#f1f1f4;--text2:#a0a0b0;--border:#252538;--shadow:0 8px 32px rgba(0,0,0,.4);
+  --glow:0 0 20px rgba(124,58,237,.25);--grad:linear-gradient(135deg,#7c3aed,#a855f7);
+  --radius:16px;--radius2:12px;--maxw:1200px;
+}
+[data-theme="light"]{--bg:#f0f0f5;--card:#fff;--card2:#f5f5fa;--accent:#6d28d9;--accent2:#9333ea;--text:#1a1a2e;--text2:#555570;--border:#dddde8;--shadow:0 8px 32px rgba(0,0,0,.1);--glow:0 0 20px rgba(109,40,217,.15);}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;outline:none;background:none;font-family:inherit}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:0px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+[data-theme="light"] .header{background:rgba(240,240,245,.85)}
+.header-inner{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-wrap img{height:40px;width:auto;border-radius:8px}
+.site-title{font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-btns{display:flex;align-items:center;gap:10px}
+.icon-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);color:var(--text);transition:all .2s}
+.icon-btn:hover{background:var(--accent);color:#fff;transform:scale(1.05)}
+.icon-btn svg{width:20px;height:20px}
+.sidebar{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--card);border-right:1px solid var(--border);z-index:2000;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:70px}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999;opacity:0;pointer-events:none;transition:opacity .3s}
+.sidebar-overlay.active{opacity:1;pointer-events:auto}
+.sidebar-nav{padding:10px 16px 30px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius2);color:var(--text2);font-weight:500;transition:all .2s;margin-bottom:4px;font-size:.95rem}
+.nav-item:hover,.nav-item.active{background:var(--grad);color:#fff}
+.nav-item svg{width:22px;height:22px;flex-shrink:0}
+.nav-divider{height:1px;background:var(--border);margin:12px 16px}
+.nav-label{padding:8px 16px 4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:600}
+.main-content{padding-top:80px;max-width:var(--maxw);margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px}
+.hero{text-align:center;padding:50px 20px 40px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-bg::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.15),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);border-radius:50%}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:16px;position:relative}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero>p{color:var(--text2);font-size:clamp(.95rem,2vw,1.1rem);max-width:600px;margin:0 auto 36px;line-height:1.6;position:relative}
+.input-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:30px;box-shadow:var(--shadow);position:relative}
+.input-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.name-input{flex:1;min-width:260px;max-width:500px;padding:14px 20px;border-radius:var(--radius2);border:2px solid var(--border);background:var(--bg);color:var(--text);font-size:1.05rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.name-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+.name-input::placeholder{color:var(--text2)}
+.generate-btn{padding:14px 32px;border-radius:var(--radius2);background:var(--grad);color:#fff;font-weight:700;font-size:1rem;transition:all .2s;box-shadow:var(--glow);display:flex;align-items:center;gap:8px}
+.generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.4)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:30px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:18px;text-align:center;transition:all .2s}
+.stat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.stat-num{font-size:1.6rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.8rem;color:var(--text2);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+.filter-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+.filter-tab{padding:10px 20px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-weight:600;transition:all .2s;font-size:.85rem}
+.filter-tab:hover{border-color:var(--accent);color:var(--text)}
+.filter-tab.active{background:var(--grad);color:#fff;border-color:transparent}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:40px}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s;position:relative;overflow:hidden}
+.result-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--grad);opacity:0;transition:opacity .2s}
+.result-card:hover{border-color:var(--accent2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.result-card:hover::before{opacity:1}
+.name-text{font-size:1.1rem;font-weight:600;word-break:break-all;flex:1;min-width:0}
+.copy-btn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--card2);border:1px solid var(--border);color:var(--text2);transition:all .2s;flex-shrink:0}
+.copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.copy-btn svg{width:16px;height:16px}
+.copy-btn.copied{background:#22c55e!important;color:#fff!important;border-color:#22c55e!important}
+.load-more{text-align:center;padding:30px}
+.load-spinner{display:inline-block;width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.how-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:30px}
+.how-title{font-size:1.5rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.how-title svg{width:26px;height:26px;color:var(--accent)}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.how-step{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;text-align:center;transition:all .2s}
+.how-step:hover{border-color:var(--accent)}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 12px;font-size:.9rem}
+.how-step h3{font-size:1rem;margin-bottom:8px}
+.how-step p{font-size:.85rem;color:var(--text2);line-height:1.5}
+.footer{background:var(--card);border-top:1px solid var(--border);padding:40px 20px 30px}
+.footer-inner{max-width:var(--maxw);margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-bottom:30px}
+.footer-col h4{font-size:1rem;margin-bottom:14px;color:var(--text)}
+.footer-col a{display:block;color:var(--text2);font-size:.9rem;padding:6px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent2)}
+.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid var(--border);color:var(--text2);font-size:.85rem}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card);color:var(--text);padding:14px 24px;border-radius:var(--radius2);border:1px solid var(--border);box-shadow:var(--shadow);z-index:3000;opacity:0;transition:all .3s;font-weight:500;display:flex;align-items:center;gap:10px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast svg{width:18px;height:18px;color:#22c55e}
+@media(max-width:640px){
+  .header-inner{padding:10px 14px}
+  .logo-wrap img{height:34px}
+  .site-title{font-size:1.05rem}
+  .main-content{padding-left:14px;padding-right:14px}
+  .hero{padding:36px 10px 28px}
+  .input-section{padding:18px}
+  .results-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .how-steps{grid-template-columns:1fr}
+}
+@media(max-width:400px){
+  .name-input{min-width:100%}
+  .input-row{flex-direction:column}
+  .generate-btn{width:100%;justify-content:center}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.result-card{animation:fadeIn .35s ease forwards}
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="icon-btn" id="menuBtn" aria-label="Open Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="logo-wrap">
+        <img src="https://i.supaimg.com/96891cac-4c4b-403d-963e-82bbbc8241eb.png" alt="Mega Styling Name Logo" loading="eager">
+        <span class="site-title">Mega Styling Name</span>
+      </a>
+    </div>
+    <div class="header-btns">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle Theme">
+        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="Free_fire_nickname.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Free Fire Nickname
+    </a>
+    <a href="styling_Name.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      Styling Name (Instagram Bio)
+    </a>
+    <a href="Gaming_Stylish.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 11h4M8 9v4M12 9h4v2h-2v-2h-2zm6 0h2v2h-2z"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
+      BGMI / Gaming Stylish Name
+    </a>
+    <a href="emoji_styling.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      Emoji & Symbol Styling
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-label">Information</div>
+    <a href="About Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      About Us
+    </a>
+    <a href="Contact Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact Us
+    </a>
+    <a href="Privacy Policy.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Privacy Policy
+    </a>
+    <a href="Disclaimer.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Disclaimer
+    </a>
+    <a href="Terms and Conditions.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Terms and Conditions
+    </a>
+    <div class="nav-divider"></div>
+    <button class="nav-item" id="sidebarThemeToggle" style="width:100%">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeText">Switch to Light Mode</span>
+    </button>
+  </nav>
+</aside>
+
+<main class="main-content">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <h1><span>Gaming Stylish</span> Name Generator</h1>
+    <p>Generate pro gaming names for BGMI, PUBG, Free Fire & esports. Aggressive, cool Unicode gaming nicknames with symbols and clan tags.</p>
+  </section>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">1200+</div><div class="stat-label">Gaming Names</div></div>
+    <div class="stat-card"><div class="stat-num">50+</div><div class="stat-label">Clan Tags</div></div>
+    <div class="stat-card"><div class="stat-num">200+</div><div class="stat-label">Gaming Symbols</div></div>
+    <div class="stat-card"><div class="stat-num">Pro</div><div class="stat-label">Esports Ready</div></div>
+  </div>
+
+  <section class="input-section">
+    <div class="input-row">
+      <input type="text" class="name-input" id="nameInput" placeholder="Enter your gaming name..." maxlength="30" autocomplete="off">
+      <button class="generate-btn" id="generateBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="18" height="18"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Generate Gaming Names
+      </button>
+    </div>
+  </section>
+
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-tab active" data-filter="all">All Gaming</button>
+    <button class="filter-tab" data-filter="aggressive">Aggressive</button>
+    <button class="filter-tab" data-filter="clan">Clan Tags</button>
+    <button class="filter-tab" data-filter="pro">Pro Style</button>
+    <button class="filter-tab" data-filter="cool">Cool Vibes</button>
+  </div>
+
+  <div class="results-grid" id="resultsGrid"></div>
+  <div class="load-more" id="loadMore"><div class="load-spinner"></div></div>
+
+  <section class="how-section">
+    <h2 class="how-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      How to Use Gaming Name Generator
+    </h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>Enter Your Name</h3>
+        <p>Type your gamer tag or desired name. Short names (under 10 chars) work best for most games.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Generate Gaming Names</h3>
+        <p>Click Generate to create hundreds of pro gaming nicknames with clan tags and aggressive styling.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Pick Your Category</h3>
+        <p>Browse Aggressive, Clan Tags, Pro Style, or Cool Vibes to match your gaming personality.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">4</div>
+        <h3>Use In-Game</h3>
+        <p>Copy your chosen name and paste it into BGMI, PUBG, Free Fire, Call of Duty, or any game.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="Free_fire_nickname.html">Free Fire Nickname</a>
+        <a href="styling_Name.html">Styling Name</a>
+        <a href="Gaming_Stylish.html">Gaming Stylish</a>
+      </div>
+      <div class="footer-col">
+        <h4>More Tools</h4>
+        <a href="emoji_styling.html">Emoji Styling</a>
+        <a href="About Us.html">About Us</a>
+        <a href="Contact Us.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="Terms and Conditions.html">Terms & Conditions</a>
+        <a href="Disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Mega Styling Name. All rights reserved. | Gaming Stylish Name Generator</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">Copied to clipboard!</span>
+</div>
+
+<script>
+const gameFonts={
+  bold:{a:'\uD835\uDD38',b:'\uD835\uDD39',c:'\u2102',d:'\uD835\uDD3B',e:'\uD835\uDD3C',f:'\uD835\uDD3D',g:'\uD835\uDD3E',h:'\u210D',i:'\uD835\uDD40',j:'\uD835\uDD41',k:'\uD835\uDD42',l:'\uD835\uDD43',m:'\uD835\uDD44',n:'\uD835\uDD45',o:'\uD835\uDD46',p:'\u2119',q:'\u211A',r:'\u211D',s:'\uD835\uDD4A',t:'\uD835\uDD4B',u:'\uD835\uDD4C',v:'\uD835\uDD4D',w:'\uD835\uDD4E',x:'\uD835\uDD4F',y:'\uD835\uDD50',z:'\u2124',A:'\uD835\uDD6C',B:'\uD835\uDD6D',C:'\uD835\uDD6E',D:'\uD835\uDD6F',E:'\uD835\uDD70',F:'\uD835\uDD71',G:'\uD835\uDD72',H:'\uD835\uDD73',I:'\uD835\uDD74',J:'\uD835\uDD75',K:'\uD835\uDD76',L:'\uD835\uDD77',M:'\uD835\uDD78',N:'\uD835\uDD79',O:'\uD835\uDD7A',P:'\uD835\uDD7B',Q:'\uD835\uDD7C',R:'\uD835\uDD7D',S:'\uD835\uDD7E',T:'\uD835\uDD7F',U:'\uD835\uDD80',V:'\uD835\uDD81',W:'\uD835\uDD82',X:'\uD835\uDD83',Y:'\uD835\uDD84',Z:'\uD835\uDD85'},
+  wide:{a:'\uFF41',b:'\uFF42',c:'\uFF43',d:'\uFF44',e:'\uFF45',f:'\uFF46',g:'\uFF47',h:'\uFF48',i:'\uFF49',j:'\uFF4A',k:'\uFF4B',l:'\uFF4C',m:'\uFF4D',n:'\uFF4E',o:'\uFF4F',p:'\uFF50',q:'\uFF51',r:'\uFF52',s:'\uFF53',t:'\uFF54',u:'\uFF55',v:'\uFF56',w:'\uFF57',x:'\uFF58',y:'\uFF59',z:'\uFF5A',A:'\uFF21',B:'\uFF22',C:'\uFF23',D:'\uFF24',E:'\uFF25',F:'\uFF26',G:'\uFF27',H:'\uFF28',I:'\uFF29',J:'\uFF2A',K:'\uFF2B',L:'\uFF2C',M:'\uFF2D',N:'\uFF2E',O:'\uFF2F',P:'\uFF30',Q:'\uFF31',R:'\uFF32',S:'\uFF33',T:'\uFF34',U:'\uFF35',V:'\uFF36',W:'\uFF37',X:'\uFF38',Y:'\uFF39',Z:'\uFF3A'},
+  fraktur:{a:'\uD835\uDD1E',b:'\uD835\uDD1F',c:'\uD835\uDD20',d:'\uD835\uDD21',e:'\uD835\uDD22',f:'\uD835\uDD23',g:'\uD835\uDD24',h:'\uD835\uDD25',i:'\uD835\uDD26',j:'\uD835\uDD27',k:'\uD835\uDD28',l:'\uD835\uDD29',m:'\uD835\uDD2A',n:'\uD835\uDD2B',o:'\uD835\uDD2C',p:'\uD835\uDD2D',q:'\uD835\uDD2E',r:'\uD835\uDD2F',s:'\uD835\uDD30',t:'\uD835\uDD31',u:'\uD835\uDD32',v:'\uD835\uDD33',w:'\uD835\uDD34',x:'\uD835\uDD35',y:'\uD835\uDD36',z:'\uD835\uDD37',A:'\uD835\uDD04',B:'\uD835\uDD05',C:'\u212D',D:'\uD835\uDD07',E:'\uD835\uDD08',F:'\uD835\uDD09',G:'\uD835\uDD0A',H:'\u210C',I:'\u2111',J:'\uD835\uDD0D',K:'\uD835\uDD0E',L:'\uD835\uDD0F',M:'\uD835\uDD10',N:'\uD835\uDD11',O:'\uD835\uDD12',P:'\uD835\uDD13',Q:'\uD835\uDD14',R:'\u211C',S:'\uD835\uDD16',T:'\uD835\uDD17',U:'\uD835\uDD18',V:'\uD835\uDD19',W:'\uD835\uDD1A',X:'\uD835\uDD1B',Y:'\uD835\uDD1C',Z:'\u2128'},
+  monospace:{a:'\uD835\uDE8A',b:'\uD835\uDE8B',c:'\uD835\uDE8C',d:'\uD835\uDE8D',e:'\uD835\uDE8E',f:'\uD835\uDE8F',g:'\uD835\uDE90',h:'\uD835\uDE91',i:'\uD835\uDE92',j:'\uD835\uDE93',k:'\uD835\uDE94',l:'\uD835\uDE95',m:'\uD835\uDE96',n:'\uD835\uDE97',o:'\uD835\uDE98',p:'\uD835\uDE99',q:'\uD835\uDE9A',r:'\uD835\uDE9B',s:'\uD835\uDE9C',t:'\uD835\uDE9D',u:'\uD835\uDE9E',v:'\uD835\uDE9F',w:'\uD835\uDEA0',x:'\uD835\uDEA1',y:'\uD835\uDEA2',z:'\uD835\uDEA3',A:'\uD835\uDE70',B:'\uD835\uDE71',C:'\uD835\uDE72',D:'\uD835\uDE73',E:'\uD835\uDE74',F:'\uD835\uDE75',G:'\uD835\uDE76',H:'\uD835\uDE77',I:'\uD835\uDE78',J:'\uD835\uDE79',K:'\uD835\uDE7A',L:'\uD835\uDE7B',M:'\uD835\uDE7C',N:'\uD835\uDE7D',O:'\uD835\uDE7E',P:'\uD835\uDE7F',Q:'\uD835\uDE80',R:'\uD835\uDE81',S:'\uD835\uDE82',T:'\uD835\uDE83',U:'\uD835\uDE84',V:'\uD835\uDE85',W:'\uD835\uDE86',X:'\uD835\uDE87',Y:'\uD835\uDE88',Z:'\uD835\uDE89'}
+};
+
+const aggressiveTags=['Fatal','Deadly','Killer','Savage','Brutal','Ruthless','Vicious','Merciless','Destructive','Annihilator','Exterminator','Obliterator','Slayer','Reaper','Executioner'];
+const clanPrefixes=['TM','OP','iN','OG','EL','SK','CR','EX','F2','K2','V2','FA','TL','TS','SS','HR','GT','AS','LS','RS','CS','DS','VS','XS','PS'];
+const proSuffixes=['YT','TTV','Live','Pro','OP','TV','GG','EZ','FTW','IGL','MVP','ACE','CLUTCH','RAID','SQUAD'];
+const coolVibes=['Shadow','Phantom','Ghost','Spectre','Wraith','Nova','Eclipse','Nebula','Zenith','Apex','Vortex','Quantum','Cosmic','Stellar','Celestial'];
+const gameSyms=['\u2605','\u2726','\u2730','\u2736','\u2739','\u2741','\u273F','\u2745','\u2749','\u2756','\u2764','\u2665','\u2660','\u2666','\u2663','\u266B','\u266A','\u2606','\u2727','\u2728','\u2734','\u2740','\u2757','\u2755','\u2B50','\u2B51','\u2B52','\u2B53','\u2B54','\u2B55','\u2694','\u26A1','\u26BD','\u26BE','\u26C4','\u26C5','\u26CE','\u26D4','\u26EA','\u26F2','\u26F3','\u26F5','\u26FA','\u26FD'];
+const gamingWrappers=['xX_{name}_Xx','xX{name}Xx','[{name}]','|{name}|','<{name}>','_{name}_','-{name}-','={name}=','+{name}+','~{name}~'];
+
+function convertText(text,fontMap){return text.split('').map(c=>fontMap[c]||c).join('');}
+
+function generateGamingNames(name){
+  if(!name||!name.trim())return[];
+  const n=name.trim();
+  const results=[];
+  const cats={aggressive:[],clan:[],pro:[],cool:[]};
+
+  Object.keys(gameFonts).forEach(key=>{
+    const converted=convertText(n,gameFonts[key]);
+    aggressiveTags.forEach(tag=>{
+      cats.aggressive.push(tag+'_'+converted);
+      cats.aggressive.push(tag+''+converted);
+      gameSyms.slice(0,10).forEach(s=>{
+        cats.aggressive.push(s+tag+'_'+converted+s);
+        cats.aggressive.push(tag+s+converted);
+      });
+    });
+    clanPrefixes.forEach(pre=>{
+      cats.clan.push(pre+'|'+converted);
+      cats.clan.push(pre+'_'+converted);
+      cats.clan.push(pre+'|'+converted+'|'+pre);
+      cats.clan.push(pre+'\u00B7'+converted);
+      cats.clan.push('['+pre+']'+converted);
+      cats.clan.push(pre+'_'+converted+'_'+pre);
+    });
+    proSuffixes.forEach(suf=>{
+      cats.pro.push(converted+'_'+suf);
+      cats.pro.push(converted+'|'+suf);
+      cats.pro.push(converted+'\u00B7'+suf);
+      gameSyms.slice(0,8).forEach(s=>{
+        cats.pro.push(converted+s+suf);
+      });
+    });
+    coolVibes.forEach(vibe=>{
+      cats.cool.push(vibe+'_'+converted);
+      cats.cool.push(vibe+''+converted);
+      gameSyms.slice(0,10).forEach(s=>{
+        cats.cool.push(s+vibe+'_'+converted+s);
+      });
+    });
+  });
+
+  aggressiveTags.forEach(tag=>{
+    cats.aggressive.push(tag+'_'+n);
+    cats.aggressive.push(tag+''+n);
+    gameSyms.slice(0,15).forEach(s=>{
+      const s2=gameSyms[(gameSyms.indexOf(s)+1)%gameSyms.length];
+      cats.aggressive.push(s+tag+'_'+n+s2);
+    });
+  });
+
+  clanPrefixes.forEach(pre=>{
+    cats.clan.push(pre+'|'+n);
+    cats.clan.push(pre+'_'+n);
+    cats.clan.push(pre+'|'+n+'|'+pre);
+    cats.clan.push(pre+'\u00B7'+n);
+    cats.clan.push('['+pre+']'+n);
+    cats.clan.push(pre+'_'+n+'_'+pre);
+    cats.clan.push('('+pre+')'+n);
+    cats.clan.push(pre+n);
+  });
+
+  proSuffixes.forEach(suf=>{
+    cats.pro.push(n+'_'+suf);
+    cats.pro.push(n+'|'+suf);
+    cats.pro.push(n+'\u00B7'+suf);
+    cats.pro.push(n+suf);
+    gamingWrappers.forEach(w=>{
+      cats.pro.push(w.replace(/\{name\}/g,n)+'_'+suf);
+    });
+  });
+
+  coolVibes.forEach(vibe=>{
+    cats.cool.push(vibe+'_'+n);
+    cats.cool.push(vibe+''+n);
+    gameSyms.slice(0,15).forEach(s=>{
+      const s2=gameSyms[(gameSyms.indexOf(s)+1)%gameSyms.length];
+      cats.cool.push(s+vibe+'_'+n+s2);
+    });
+  });
+
+  gamingWrappers.forEach(w=>{
+    cats.pro.push(w.replace(/\{name\}/g,n));
+  });
+
+  Object.keys(cats).forEach(k=>{
+    cats[k]=[...new Set(cats[k])].filter(v=>v&&v.trim());
+  });
+  Object.keys(cats).forEach(cat=>{
+    cats[cat].forEach(val=>results.push({text:val,category:cat}));
+  });
+  for(let i=results.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [results[i],results[j]]=[results[j],results[i]];
+  }
+  return results;
+}
+
+const resultsGrid=document.getElementById('resultsGrid');
+const loadMore=document.getElementById('loadMore');
+let allNames=[];
+let renderedCount=0;
+const BATCH_SIZE=50;
+let currentFilter='all';
+
+function createCard(item,index){
+  const card=document.createElement('div');
+  card.className='result-card';
+  card.style.animationDelay=(index%10)*0.03+'s';
+  card.innerHTML=`<span class="name-text">${escapeHtml(item.text)}</span><button class="copy-btn" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`;
+  card.querySelector('.copy-btn').addEventListener('click',function(){copyText(item.text,this);});
+  return card;
+}
+
+function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+
+function renderBatch(){
+  const filtered=currentFilter==='all'?allNames:allNames.filter(n=>n.category===currentFilter);
+  const toRender=filtered.slice(renderedCount,renderedCount+BATCH_SIZE);
+  toRender.forEach((item,i)=>{resultsGrid.appendChild(createCard(item,renderedCount+i));});
+  renderedCount+=toRender.length;
+  loadMore.style.display=renderedCount<filtered.length?'block':'none';
+}
+
+function loadAll(){resultsGrid.innerHTML='';renderedCount=0;renderBatch();}
+
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)renderBatch();});},{rootMargin:'200px'});
+observer.observe(loadMore);
+
+function copyText(text,btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    if(btn){btn.classList.add('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';},2000);}
+    showToast('Copied to clipboard!');
+  }).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('Copied to clipboard!');});
+}
+
+function showToast(msg){
+  const toast=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2500);
+}
+
+document.getElementById('filterTabs').addEventListener('click',e=>{
+  if(e.target.classList.contains('filter-tab')){
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFilter=e.target.dataset.filter;
+    loadAll();
+  }
+});
+
+function doGenerate(){
+  const val=document.getElementById('nameInput').value;
+  if(!val.trim()){showToast('Please enter a name first!');return;}
+  allNames=generateGamingNames(val);
+  loadAll();
+  showToast(`Generated ${allNames.length} gaming names!`);
+}
+
+document.getElementById('generateBtn').addEventListener('click',doGenerate);
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')doGenerate();});
+
+const defaultNames=['Shadow','Phoenix','Viper','Reaper','Titan','Ghost','Storm','Blaze','Nova','Thunder','Frost','Crimson','Rogue','Wolf','Panther'];
+const preloaded=[];
+defaultNames.forEach(name=>{
+  const gens=generateGamingNames(name);
+  preloaded.push(...gens.slice(0,Math.floor(gens.length/defaultNames.length)+8));
+});
+allNames=preloaded;
+loadAll();
+
+// Theme + Sidebar
+const body=document.body;
+const themeBtn=document.getElementById('themeBtn');
+const sidebarThemeToggle=document.getElementById('sidebarThemeToggle');
+const themeText=document.getElementById('themeText');
+const moonIcon=document.getElementById('moonIcon');
+const sunIcon=document.getElementById('sunIcon');
+function setTheme(t){body.setAttribute('data-theme',t);localStorage.setItem('theme',t);const isLight=t==='light';themeText.textContent=isLight?'Switch to Dark Mode':'Switch to Light Mode';moonIcon.style.display=isLight?'none':'block';sunIcon.style.display=isLight?'block':'none';}
+function toggleTheme(){setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark');}
+themeBtn.addEventListener('click',toggleTheme);
+sidebarThemeToggle.addEventListener('click',toggleTheme);
+const savedTheme=localStorage.getItem('theme')||'dark';setTheme(savedTheme);
+
+const menuBtn=document.getElementById('menuBtn');
+const sidebar=document.getElementById('sidebar');
+const sidebarOverlay=document.getElementById('sidebarOverlay');
+function openSidebar(){sidebar.classList.add('open');sidebarOverlay.classList.add('active');document.body.style.overflow='hidden';}
+function closeSidebar(){sidebar.classList.remove('open');sidebarOverlay.classList.remove('active');document.body.style.overflow='';}
+menuBtn.addEventListener('click',openSidebar);
+sidebarOverlay.addEventListener('click',closeSidebar);
+</script>
+<script src="https://pl28985226.profitablecpmratenetwork.com/cf/e2/68/cfe2683c1f2a5ab65b73fca85482b474.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms and Conditions - Mega Styling Name | User Agreement</title>
+<meta name="description" content="Terms and Conditions for using Mega Styling Name. Read our user agreement, acceptable use policy, and service terms.">
+<meta name="keywords" content="terms and conditions, user agreement, mega styling name terms">
+<meta name="author" content="Mega Styling Name">
+<meta name="theme-color" content="#0f0f0f">
+<style>
+:root{
+  --bg:#0a0a0f;--card:#13131f;--card2:#1a1a28;--accent:#7c3aed;--accent2:#a855f7;
+  --text:#f1f1f4;--text2:#a0a0b0;--border:#252538;--shadow:0 8px 32px rgba(0,0,0,.4);
+  --glow:0 0 20px rgba(124,58,237,.25);--grad:linear-gradient(135deg,#7c3aed,#a855f7);
+  --radius:16px;--radius2:12px;--maxw:1200px;
+}
+[data-theme="light"]{--bg:#f0f0f5;--card:#fff;--card2:#f5f5fa;--accent:#6d28d9;--accent2:#9333ea;--text:#1a1a2e;--text2:#555570;--border:#dddde8;--shadow:0 8px 32px rgba(0,0,0,.1);--glow:0 0 20px rgba(109,40,217,.15);}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;outline:none;background:none;font-family:inherit}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+[data-theme="light"] .header{background:rgba(240,240,245,.85)}
+.header-inner{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-wrap img{height:40px;width:auto;border-radius:8px}
+.site-title{font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-btns{display:flex;align-items:center;gap:10px}
+.icon-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);color:var(--text);transition:all .2s}
+.icon-btn:hover{background:var(--accent);color:#fff;transform:scale(1.05)}
+.icon-btn svg{width:20px;height:20px}
+.sidebar{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--card);border-right:1px solid var(--border);z-index:2000;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:70px}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999;opacity:0;pointer-events:none;transition:opacity .3s}
+.sidebar-overlay.active{opacity:1;pointer-events:auto}
+.sidebar-nav{padding:10px 16px 30px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius2);color:var(--text2);font-weight:500;transition:all .2s;margin-bottom:4px;font-size:.95rem}
+.nav-item:hover,.nav-item.active{background:var(--grad);color:#fff}
+.nav-item svg{width:22px;height:22px;flex-shrink:0}
+.nav-divider{height:1px;background:var(--border);margin:12px 16px}
+.nav-label{padding:8px 16px 4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:600}
+.main-content{padding-top:80px;max-width:var(--maxw);margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px}
+.page-hero{text-align:center;padding:50px 20px 40px}
+.page-hero h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:16px}
+.page-hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.page-hero>p{color:var(--text2);font-size:clamp(.95rem,2vw,1.1rem);max-width:600px;margin:0 auto;line-height:1.6}
+.content-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:30px;box-shadow:var(--shadow)}
+.content-section h2{font-size:1.4rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;color:var(--text)}
+.content-section h2 svg{width:22px;height:22px;color:var(--accent);flex-shrink:0}
+.content-section p{color:var(--text2);line-height:1.75;margin-bottom:14px;font-size:.95rem}
+.content-section ul{padding-left:20px;margin-bottom:16px}
+.content-section ul li{color:var(--text2);line-height:1.8;font-size:.95rem}
+.content-section ul li strong{color:var(--text)}
+.footer{background:var(--card);border-top:1px solid var(--border);padding:40px 20px 30px}
+.footer-inner{max-width:var(--maxw);margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-bottom:30px}
+.footer-col h4{font-size:1rem;margin-bottom:14px;color:var(--text)}
+.footer-col a{display:block;color:var(--text2);font-size:.9rem;padding:6px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent2)}
+.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid var(--border);color:var(--text2);font-size:.85rem}
+@media(max-width:640px){
+  .header-inner{padding:10px 14px}
+  .logo-wrap img{height:34px}
+  .site-title{font-size:1.05rem}
+  .main-content{padding-left:14px;padding-right:14px}
+  .page-hero{padding:36px 10px 28px}
+  .content-section{padding:20px}
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="icon-btn" id="menuBtn" aria-label="Open Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="logo-wrap">
+        <img src="https://i.supaimg.com/96891cac-4c4b-403d-963e-82bbbc8241eb.png" alt="Mega Styling Name Logo" loading="eager">
+        <span class="site-title">Mega Styling Name</span>
+      </a>
+    </div>
+    <div class="header-btns">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle Theme">
+        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="Free_fire_nickname.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Free Fire Nickname
+    </a>
+    <a href="styling_Name.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      Styling Name (Instagram Bio)
+    </a>
+    <a href="Gaming_Stylish.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 11h4M8 9v4M12 9h4v2h-2v-2h-2zm6 0h2v2h-2z"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
+      BGMI / Gaming Stylish Name
+    </a>
+    <a href="emoji_styling.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      Emoji & Symbol Styling
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-label">Information</div>
+    <a href="About Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      About Us
+    </a>
+    <a href="Contact Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact Us
+    </a>
+    <a href="Privacy Policy.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Privacy Policy
+    </a>
+    <a href="Disclaimer.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Disclaimer
+    </a>
+    <a href="Terms and Conditions.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Terms and Conditions
+    </a>
+    <div class="nav-divider"></div>
+    <button class="nav-item" id="sidebarThemeToggle" style="width:100%">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeText">Switch to Light Mode</span>
+    </button>
+  </nav>
+</aside>
+
+<main class="main-content">
+  <section class="page-hero">
+    <h1>Terms & <span>Conditions</span></h1>
+    <p>By using Mega Styling Name, you agree to these terms. Please read them carefully.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Acceptance of Terms
+    </h2>
+    <p>By accessing and using Mega Styling Name, you accept and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.</p>
+    <p>We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting. Your continued use of the service constitutes acceptance of the updated terms.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Use of Service
+    </h2>
+    <p>Mega Styling Name provides nickname generation tools for personal, non-commercial use. You agree to use our service only for lawful purposes and in a way that does not infringe the rights of others.</p>
+    <ul>
+      <li>You may use generated names for personal gaming and social media profiles.</li>
+      <li>You may not use our service to generate names for harassment, impersonation, or illegal activities.</li>
+      <li>You may not attempt to disrupt, damage, or interfere with the service.</li>
+      <li>You may not scrape, copy, or redistribute our tool's code or content.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      Intellectual Property
+    </h2>
+    <p>All content on Mega Styling Name, including but not limited to code, design, logos, and text, is the property of Mega Styling Name and is protected by copyright and other intellectual property laws.</p>
+    <p>Generated names using Unicode characters are not subject to copyright and are free for you to use. However, we do not guarantee that any generated name is unique or not already in use by others.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Termination
+    </h2>
+    <p>We reserve the right to terminate or suspend access to our service at any time, without prior notice, for any reason, including breach of these terms.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Governing Law
+    </h2>
+    <p>These Terms and Conditions shall be governed by and construed in accordance with applicable laws. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in the applicable jurisdiction.</p>
+    <p><strong>Effective Date:</strong> January 1, 2025</p>
+    <p>If you have any questions about these Terms, please <a href="Contact Us.html" style="color:var(--accent2)">contact us</a>.</p>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="Free_fire_nickname.html">Free Fire Nickname</a>
+        <a href="styling_Name.html">Styling Name</a>
+        <a href="Gaming_Stylish.html">Gaming Stylish</a>
+      </div>
+      <div class="footer-col">
+        <h4>More Tools</h4>
+        <a href="emoji_styling.html">Emoji Styling</a>
+        <a href="About Us.html">About Us</a>
+        <a href="Contact Us.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="Terms and Conditions.html">Terms & Conditions</a>
+        <a href="Disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Mega Styling Name. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const body=document.body;
+const themeBtn=document.getElementById('themeBtn');
+const sidebarThemeToggle=document.getElementById('sidebarThemeToggle');
+const themeText=document.getElementById('themeText');
+const moonIcon=document.getElementById('moonIcon');
+const sunIcon=document.getElementById('sunIcon');
+function setTheme(t){body.setAttribute('data-theme',t);localStorage.setItem('theme',t);const isLight=t==='light';themeText.textContent=isLight?'Switch to Dark Mode':'Switch to Light Mode';moonIcon.style.display=isLight?'none':'block';sunIcon.style.display=isLight?'block':'none';}
+function toggleTheme(){setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark');}
+themeBtn.addEventListener('click',toggleTheme);
+sidebarThemeToggle.addEventListener('click',toggleTheme);
+const savedTheme=localStorage.getItem('theme')||'dark';setTheme(savedTheme);
+
+const menuBtn=document.getElementById('menuBtn');
+const sidebar=document.getElementById('sidebar');
+const sidebarOverlay=document.getElementById('sidebarOverlay');
+function openSidebar(){sidebar.classList.add('open');sidebarOverlay.classList.add('active');document.body.style.overflow='hidden';}
+function closeSidebar(){sidebar.classList.remove('open');sidebarOverlay.classList.remove('active');document.body.style.overflow='';}
+menuBtn.addEventListener('click',openSidebar);
+sidebarOverlay.addEventListener('click',closeSidebar);
+</script>
+</body>
+</html>

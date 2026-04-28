@@ -1,713 +1,686 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- SEO Meta Tags -->
-    <title>MEGA STORE - Download Free Sketchware SWB Projects | Android App Source Code</title>
-    <meta name="description" content="Download 100+ free Sketchware SWB projects. Import ready-made Android app source code into Sketchware Pro, Sketchware Revolution. Learn how to use SWB files. Best sketchware project store 2026.">
-    <meta name="keywords" content="sketchware swb project, sketchware project download, swb file download, sketchware pro projects, sketchware revolution, android app source code, free sketchware projects, how to import swb file, sketchware tutorial, sketchware block programming">
-    <meta name="author" content="MEGA STORE">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <meta name="revisit-after" content="1 days">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="MEGA STORE - Free Sketchware SWB Projects Download">
-    <meta property="og:description" content="100+ Free Sketchware SWB Projects. Import ready-made Android apps. Download SWB files for Sketchware Pro.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mega-store.in">
-    <meta property="og:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
-    <meta property="og:site_name" content="MEGA STORE">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MEGA STORE - Sketchware SWB Project Store">
-    <meta name="twitter:description" content="Download 100+ free Sketchware SWB projects. Ready to import Android app source code.">
-    <meta name="twitter:image" content="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://mega-store.in/">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
-    <link rel="apple-touch-icon" href="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #1a73e8;
-            --primary-dark: #1557b0;
-            --secondary: #00c853;
-            --background: #f8f9fa;
-            --surface: #ffffff;
-            --text-primary: #202124;
-            --text-secondary: #5f6368;
-            --divider: #dadce0;
-            --shadow-1: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            --shadow-2: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
-        }
-        
-        [data-theme="dark"] {
-            --background: #0B121E;
-            --surface: #121A2A;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --divider: #333333;
-        }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: var(--background);
-            color: var(--text-primary);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        
-        /* Splash Screen */
-        .splash-screen {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        .splash-screen.hidden { opacity: 0; visibility: hidden; }
-        .splash-logo {
-            width: 120px; height: 120px;
-            background: white;
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            animation: pulse 2s ease-in-out infinite;
-            margin-bottom: 24px;
-        }
-        .splash-logo img { width: 80%; height: 80%; object-fit: contain; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .splash-title { color: white; font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-        .splash-subtitle { color: rgba(255,255,255,0.9); font-size: 16px; }
-        .splash-loader {
-            width: 40px; height: 40px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-top: 32px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* Simple Header */
-        .simple-header {
-            background: var(--surface);
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--shadow-1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo-section { display: flex; align-items: center; gap: 12px; }
-        .logo-img { width: 40px; height: 40px; border-radius: 10px; }
-        .logo-text { font-size: 20px; font-weight: 700; color: var(--primary); }
-        .nav-links { display: flex; gap: 24px; }
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
-        
-        /* Main Content */
-        .main-content { padding: 24px; max-width: 1200px; margin: 0 auto; }
-        
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 20px;
-            padding: 60px 40px;
-            color: white;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-        }
-        .hero-title { font-size: 42px; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
-        .hero-subtitle { font-size: 18px; opacity: 0.95; max-width: 700px; margin: 0 auto 32px; }
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 18px 48px;
-            background: white;
-            color: var(--primary);
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 18px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-        .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-top: 40px;
-        }
-        .hero-stat { text-align: center; }
-        .hero-stat-value { font-size: 36px; font-weight: 800; }
-        .hero-stat-label { font-size: 14px; opacity: 0.9; }
-        
-        /* Page Grid */
-        .page-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        .page-card {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow-1);
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .page-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-2);
-        }
-        .page-icon {
-            width: 56px; height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .page-icon.blue { background: rgba(26,115,232,0.1); color: var(--primary); }
-        .page-icon.green { background: rgba(52,168,83,0.1); color: var(--secondary); }
-        .page-icon.orange { background: rgba(251,188,4,0.1); color: #f9ab00; }
-        .page-icon.red { background: rgba(234,67,53,0.1); color: #ea4335; }
-        .page-icon.purple { background: rgba(138,43,226,0.1); color: #8a2be2; }
-        .page-icon.teal { background: rgba(0,128,128,0.1); color: #008080; }
-        .page-icon .material-icons { font-size: 28px; }
-        .page-title { font-size: 20px; font-weight: 700; }
-        .page-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-        .page-link { color: var(--primary); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 4px; margin-top: auto; }
-        
-        /* Info Sections */
-        .info-section {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-1);
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .section-icon {
-            width: 56px; height: 56px;
-            background: var(--primary);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .section-icon .material-icons { color: white; font-size: 28px; }
-        .section-title { font-size: 24px; font-weight: 700; }
-        
-        .info-content h3 { font-size: 20px; font-weight: 700; margin: 28px 0 16px; color: var(--text-primary); }
-        .info-content h3:first-child { margin-top: 0; }
-        .info-content p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; }
-        .info-content strong { color: var(--text-primary); }
-        
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(26,115,232,0.08) 0%, rgba(21,87,176,0.08) 100%);
-            border-left: 4px solid var(--primary);
-            padding: 20px 24px;
-            border-radius: 12px;
-            margin: 24px 0;
-        }
-        .highlight-box p { margin: 0; color: var(--text-primary); font-weight: 500; font-size: 15px; }
-        
-        /* Feature Grid */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 24px;
-        }
-        .feature-box {
-            background: var(--background);
-            border-radius: 12px;
-            padding: 24px;
-            display: flex;
-            gap: 16px;
-        }
-        .feature-icon {
-            width: 48px; height: 48px;
-            background: var(--primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .feature-icon .material-icons { color: white; font-size: 24px; }
-        .feature-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-        .feature-content p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin: 0; }
-        
-        /* Steps */
-        .steps { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
-        .step {
-            display: flex;
-            gap: 20px;
-            background: var(--background);
-            padding: 24px;
-            border-radius: 12px;
-        }
-        .step-number {
-            width: 40px; height: 40px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        .step-content h4 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-        .step-content p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin: 0; }
-        
-        /* Keywords */
-        .keyword-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 24px;
-        }
-        .keyword-tag {
-            padding: 10px 20px;
-            background: var(--background);
-            border-radius: 25px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--surface);
-            padding: 40px 24px;
-            text-align: center;
-            margin-top: 60px;
-        }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 32px;
-            margin-bottom: 24px;
-        }
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-        }
-        .footer-links a:hover { color: var(--primary); }
-        .footer-text { color: var(--text-secondary); font-size: 14px; margin-bottom: 8px; }
-        .footer-keywords { color: var(--text-secondary); font-size: 12px; margin-top: 16px; opacity: 0.8; }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .simple-header { padding: 12px 16px; }
-            .nav-links { display: none; }
-            .hero-section { padding: 40px 24px; }
-            .hero-title { font-size: 28px; }
-            .hero-stats { gap: 32px; flex-wrap: wrap; }
-            .main-content { padding: 16px; }
-            .info-section { padding: 24px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mega Styling Name - 1000+ Stylish Nickname Generator | Free Fire, Gaming, Instagram</title>
+<meta name="description" content="Generate 1000+ stylish nicknames for Free Fire, Instagram, BGMI, PUBG & gaming. Copy fancy text with symbols, Unicode fonts & decorative patterns instantly.">
+<meta name="keywords" content="stylish name generator, Free Fire nickname, gaming names, Instagram bio text, fancy text generator, nickname symbols">
+<meta name="author" content="Mega Styling Name">
+<meta name="theme-color" content="#0f0f0f">
+<meta property="og:title" content="Mega Styling Name - 1000+ Stylish Nickname Generator">
+<meta property="og:description" content="Generate stylish nicknames for Free Fire, Instagram, BGMI, PUBG & gaming with fancy Unicode fonts and symbols.">
+<meta property="og:type" content="website">
+<link rel="icon" href="https://i.supaimg.com/17344ffd-9a34-4df9-bec9-d9bffe683efe.png">
+  
+<style>
+:root{
+  --bg:#0a0a0f;--card:#13131f;--card2:#1a1a28;--accent:#7c3aed;--accent2:#a855f7;
+  --text:#f1f1f4;--text2:#a0a0b0;--border:#252538;--shadow:0 8px 32px rgba(0,0,0,.4);
+  --glow:0 0 20px rgba(124,58,237,.25);--grad:linear-gradient(135deg,#7c3aed,#a855f7);
+  --radius:16px;--radius2:12px;--maxw:1200px;
+}
+[data-theme="light"]{--bg:#f0f0f5;--card:#fff;--card2:#f5f5fa;--accent:#6d28d9;--accent2:#9333ea;--text:#1a1a2e;--text2:#555570;--border:#dddde8;--shadow:0 8px 32px rgba(0,0,0,.1);--glow:0 0 20px rgba(109,40,217,.15);}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;outline:none;background:none;font-family:inherit}
+img{max-width:100%;display:block}
 
-    <!-- Structured Data for Google Search -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "MEGA STORE",
-        "url": "https://mega-store.in/",
-        "description": "Download 100+ free Sketchware SWB projects. Import ready-made Android app source code into Sketchware Pro, Sketchware Revolution.",
-        "logo": "https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png",
-        "sameAs": [
-            "https://mega-store.in"
-        ],
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://mega-store.in/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "MEGA STORE",
-        "url": "https://mega-store.in/",
-        "logo": "https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png",
-        "description": "Free Sketchware SWB Project Store for Android Developers"
-    }
-    </script>
+/* Scrollbar */
+::-webkit-scrollbar{width:0px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+
+/* Header */
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+[data-theme="light"] .header{background:rgba(240,240,245,.85)}
+.header-inner{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-wrap img{height:40px;width:auto;border-radius:8px}
+.site-title{font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-btns{display:flex;align-items:center;gap:10px}
+.icon-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);color:var(--text);transition:all .2s;position:relative}
+.icon-btn:hover{background:var(--accent);color:#fff;transform:scale(1.05)}
+.icon-btn svg{width:20px;height:20px}
+
+/* Sidebar */
+.sidebar{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--card);border-right:1px solid var(--border);z-index:2000;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:70px}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999;opacity:0;pointer-events:none;transition:opacity .3s}
+.sidebar-overlay.active{opacity:1;pointer-events:auto}
+.sidebar-nav{padding:10px 16px 30px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius2);color:var(--text2);font-weight:500;transition:all .2s;margin-bottom:4px;font-size:.95rem}
+.nav-item:hover,.nav-item.active{background:var(--grad);color:#fff}
+.nav-item svg{width:22px;height:22px;flex-shrink:0}
+.nav-divider{height:1px;background:var(--border);margin:12px 16px}
+.nav-label{padding:8px 16px 4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:600}
+
+/* Main Content */
+.main-content{padding-top:80px;max-width:var(--maxw);margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px}
+
+/* Hero Section */
+.hero{text-align:center;padding:50px 20px 40px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-bg::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.15),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);border-radius:50%}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:16px;position:relative}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero>p{color:var(--text2);font-size:clamp(.95rem,2vw,1.1rem);max-width:600px;margin:0 auto 36px;line-height:1.6;position:relative}
+
+/* Input Section */
+.input-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:30px;box-shadow:var(--shadow);position:relative}
+.input-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.name-input{flex:1;min-width:260px;max-width:500px;padding:14px 20px;border-radius:var(--radius2);border:2px solid var(--border);background:var(--bg);color:var(--text);font-size:1.05rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.name-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+.name-input::placeholder{color:var(--text2)}
+.generate-btn{padding:14px 32px;border-radius:var(--radius2);background:var(--grad);color:#fff;font-weight:700;font-size:1rem;transition:all .2s;box-shadow:var(--glow);display:flex;align-items:center;gap:8px}
+.generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.4)}
+
+/* Stats Bar */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:30px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:18px;text-align:center;transition:all .2s}
+.stat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.stat-num{font-size:1.6rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.8rem;color:var(--text2);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+
+/* Filter Tabs */
+.filter-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+.filter-tab{padding:10px 20px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-weight:600;transition:all .2s;font-size:.85rem}
+.filter-tab:hover{border-color:var(--accent);color:var(--text)}
+.filter-tab.active{background:var(--grad);color:#fff;border-color:transparent}
+
+/* Results Grid */
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:40px}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s;position:relative;overflow:hidden}
+.result-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--grad);opacity:0;transition:opacity .2s}
+.result-card:hover{border-color:var(--accent2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.result-card:hover::before{opacity:1}
+.name-text{font-size:1.1rem;font-weight:600;word-break:break-all;flex:1;min-width:0}
+.copy-btn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--card2);border:1px solid var(--border);color:var(--text2);transition:all .2s;flex-shrink:0}
+.copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.copy-btn svg{width:16px;height:16px}
+.copy-btn.copied{background:#22c55e!important;color:#fff!important;border-color:#22c55e!important}
+
+/* Lazy Load Trigger */
+.load-more{text-align:center;padding:30px}
+.load-spinner{display:inline-block;width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* How to Use Section */
+.how-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:30px}
+.how-title{font-size:1.5rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.how-title svg{width:26px;height:26px;color:var(--accent)}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.how-step{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;text-align:center;transition:all .2s}
+.how-step:hover{border-color:var(--accent)}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 12px;font-size:.9rem}
+.how-step h3{font-size:1rem;margin-bottom:8px}
+.how-step p{font-size:.85rem;color:var(--text2);line-height:1.5}
+
+/* Footer */
+.footer{background:var(--card);border-top:1px solid var(--border);padding:40px 20px 30px}
+.footer-inner{max-width:var(--maxw);margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-bottom:30px}
+.footer-col h4{font-size:1rem;margin-bottom:14px;color:var(--text)}
+.footer-col a{display:block;color:var(--text2);font-size:.9rem;padding:6px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent2)}
+.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid var(--border);color:var(--text2);font-size:.85rem}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card);color:var(--text);padding:14px 24px;border-radius:var(--radius2);border:1px solid var(--border);box-shadow:var(--shadow);z-index:3000;opacity:0;transition:all .3s;font-weight:500;display:flex;align-items:center;gap:10px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast svg{width:18px;height:18px;color:#22c55e}
+
+/* Responsive */
+@media(max-width:640px){
+  .header-inner{padding:10px 14px}
+  .logo-wrap img{height:34px}
+  .site-title{font-size:1.05rem}
+  .main-content{padding-left:14px;padding-right:14px}
+  .hero{padding:36px 10px 28px}
+  .input-section{padding:18px}
+  .results-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .how-steps{grid-template-columns:1fr}
+}
+@media(max-width:400px){
+  .name-input{min-width:100%}
+  .input-row{flex-direction:column}
+  .generate-btn{width:100%;justify-content:center}
+}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.result-card{animation:fadeIn .35s ease forwards}
+</style>
 </head>
-<body>
-    <!-- Splash Screen -->
-    <div class="splash-screen" id="splashScreen">
-        <div class="splash-logo">
-            <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE Logo">
-        </div>
-        <h1 class="splash-title">MEGA STORE</h1>
-        <p class="splash-subtitle">Sketchware SWB Project Store</p>
-        <div class="splash-loader"></div>
+<body data-theme="dark">
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="icon-btn" id="menuBtn" aria-label="Open Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="logo-wrap">
+        <img src="https://i.supaimg.com/96891cac-4c4b-403d-963e-82bbbc8241eb.png" alt="Mega Styling Name Logo" loading="eager">
+        <span class="site-title">Mega Styling Name</span>
+      </a>
     </div>
+    <div class="header-btns">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle Theme">
+        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
-    <!-- Simple Header -->
-    <header class="simple-header">
-        <div class="logo-section">
-            <img src="https://i.supaimg.com/b2b073ad-af1b-43d5-893f-f82f74e90511.png" alt="MEGA STORE" class="logo-img">
-            <span class="logo-text">Mega Store </span>
-        </div>
-        <nav class="nav-links">
-            <a href="home.html" class="active">Home</a>
-         
-            <a href="search.html">Search</a>
-          
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-badge">
-                <span class="material-icons">verified</span>
-                #1 Sketchware Project Store
-            </div>
-            <h1 class="hero-title">Download Free Sketchware SWB Projects</h1>
-            <p class="hero-subtitle">Get 100+ ready-made Android app source code files. Import directly into Sketchware Pro, Sketchware Revolution. Learn how to build apps without coding!</p>
-            <a href="home.html" class="hero-cta">
-                <span class="material-icons">rocket_launch</span>
-                Get Started
-            </a>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-value">20+</div>
-                    <div class="hero-stat-label">Free SWB Projects</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">100+</div>
-                    <div class="hero-stat-label">Daily Downloads</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">Free</div>
-                    <div class="hero-stat-label">100% Free project </div>
-                </div>
-            </div>
-        </section>
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="Free_fire_nickname.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Free Fire Nickname
+    </a>
+    <a href="styling_Name.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      Styling Name (Instagram Bio)
+    </a>
+    <a href="Gaming_Stylish.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 11h4M8 9v4M12 9h4v2h-2v-2h-2zm6 0h2v2h-2z"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
+      BGMI / Gaming Stylish Name
+    </a>
+    <a href="emoji_styling.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      Emoji & Symbol Styling
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-label">Information</div>
+    <a href="About Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      About Us
+    </a>
+    <a href="Contact Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact Us
+    </a>
+    <a href="Privacy Policy.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Privacy Policy
+    </a>
+    <a href="Disclaimer.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Disclaimer
+    </a>
+    <a href="Terms and Conditions.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Terms and Conditions
+    </a>
+    <div class="nav-divider"></div>
+    <button class="nav-item" id="sidebarThemeToggle" style="width:100%">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeText">Switch to Light Mode</span>
+    </button>
+  </nav>
+</aside>
 
-        <!-- All Pages Grid -->
-        <div class="page-grid">
-            <a href="allapp.html" class="page-card">
-                <div class="page-icon blue">
-                    <span class="material-icons">apps</span>
-                </div>
-                <h3 class="page-title">All Projects</h3>
-                <p class="page-desc">Browse 50+ free Sketchware SWB projects. Games, utilities, editors, social apps, and more.</p>
-                <span class="page-link">Browse Now <span class="material-icons">arrow_forward</span></span>
-            </a>
-            <a href="search.html" class="page-card">
-                <div class="page-icon green">
-                    <span class="material-icons">search</span>
-                </div>
-                <h3 class="page-title">Search Projects</h3>
-                <p class="page-desc">Find specific Sketchware projects by category, name, or features. Advanced search with filters.</p>
-                <span class="page-link">Search <span class="material-icons">arrow_forward</span></span>
-            </a>
-            <a href="news.html" class="page-card">
-                <div class="page-icon orange">
-                    <span class="material-icons">school</span>
-                </div>
-                <h3 class="page-title"> website builder from</h3>
-                <p class="page-desc">In this, I provide prompts to create websites, and many more things like AI prompts for the best coding AI.</p>
-                <span class="page-link">Start Learning <span class="material-icons">arrow_forward</span></span>
-            </a>
-            <a href="home.html" class="page-card">
-                <div class="page-icon purple">
-                    <span class="material-icons">cloud_upload</span>
-                </div>
-                <h3 class="page-title">Upload Project</h3>
-                <p class="page-desc">Share your own Sketchware SWB projects with the community. Help others learn and grow.</p>
-                <span class="page-link">Upload Now <span class="material-icons">arrow_forward</span></span>
-            </a>
-            <a href="news.html" class="page-card">
-                <div class="page-icon teal">
-                    <span class="material-icons">newspaper</span>
-                </div>
-                <h3 class="page-title">News & Updates</h3>
-                <p class="page-desc">Latest Sketchware news, new project releases, version updates, and community announcements.</p>
-                <span class="page-link">Read News <span class="material-icons">arrow_forward</span></span>
-            </a>
-            <a href="profile.html" class="page-card">
-                <div class="page-icon red">
-                    <span class="material-icons">person</span>
-                </div>
-                <h3 class="page-title">My Profile & login account </h3>
-                <p class="page-desc">Manage your account, view downloaded projects, track uploads, and customize settings.</p>
-                <span class="page-link">View Profile <span class="material-icons">arrow_forward</span></span>
-            </a>
-        </div>
+<!-- Main Content -->
+<main class="main-content">
 
-        <!-- What is Sketchware -->
-        <div class="info-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <span class="material-icons">help_outline</span>
-                </div>
-                <h2 class="section-title">What is Sketchware? Complete Guide 2026</h2>
-            </div>
-            <div class="info-content">
-                <p><strong>Sketchware</strong> is a revolutionary Android app development platform that allows anyone to create native Android applications using visual block-based programming. Unlike traditional Android development that requires learning Java or Kotlin, Sketchware uses a drag-and-drop interface similar to MIT App Inventor, making app development accessible to beginners, students, and hobbyists.</p>
-                
-                <p>With Sketchware, you can build complete Android apps directly on your smartphone or tablet without writing a single line of code. The platform automatically generates Java source code behind the scenes while you focus on designing user interfaces and programming logic using visual blocks.</p>
-                
-                <div class="highlight-box">
-                    <p><strong>Key Fact:</strong> Sketchware saves projects in <strong>SWB (Sketchware Block)</strong> format - a special file type that contains your complete app including layouts, logic, resources, and generated source code.</p>
-                </div>
-                
-                <h3>Why Millions Choose Sketchware for Android Development</h3>
-                <div class="feature-grid">
-                    <div class="feature-box">
-                        <div class="feature-icon">
-                            <span class="material-icons">touch_app</span>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Visual Block Programming</h4>
-                            <p>No coding required! Drag and drop blocks to create app logic. Perfect for beginners learning programming concepts.</p>
-                        </div>
-                    </div>
-                    <div class="feature-box">
-                        <div class="feature-icon">
-                            <span class="material-icons">phone_android</span>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Develop on Mobile</h4>
-                            <p>Create complete Android apps directly on your phone. No computer, no Android Studio, no complex setup needed.</p>
-                        </div>
-                    </div>
-                    <div class="feature-box">
-                        <div class="feature-icon">
-                            <span class="material-icons">play_circle</span>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Export & Publish Apps</h4>
-                            <p>Build APK files and publish to Google Play Store. Monetize your apps with ads or sell them.</p>
-                        </div>
-                    </div>
-                    <div class="feature-box">
-                        <div class="feature-icon">
-                            <span class="material-icons">school</span>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Learn Real Programming</h4>
-                            <p>Understand Android app architecture, event handling, and logic building - skills transfer to professional coding.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <h1>Generate <span>1000+ Stylish Names</span> Instantly</h1>
+    <p>Create fancy nicknames for Free Fire, Instagram, BGMI, PUBG & all gaming platforms using Unicode fonts, symbols & decorative patterns.</p>
+  </section>
 
-        <!-- What is SWB File -->
-        <div class="info-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <span class="material-icons">description</span>
-                </div>
-                <h2 class="section-title">What is SWB File? Sketchware Project Format Explained</h2>
-            </div>
-            <div class="info-content">
-                <p><strong>SWB (Sketchware Block)</strong> is the native file format used by Sketchware to save and share complete Android projects. When you create an app in Sketchware, all your work - including user interface designs, programming logic, images, sounds, and generated Java code - is packaged into a single .swb file.</p>
-                
-                <h3>What's Inside an SWB File?</h3>
-                <p>An SWB file is essentially a compressed archive containing:</p>
-                <div class="highlight-box">
-                    <p><strong>📐 XML Layout Files</strong> - Screen designs and UI component arrangements<br>
-                    <strong>☕ Java Source Code</strong> - Automatically generated Java programming code<br>
-                    <strong>🧩 Block Logic Data</strong> - Your visual programming blocks and connections<br>
-                    <strong>🎨 Resources</strong> - Images, icons, audio files, fonts, and custom assets<br>
-                    <strong>📋 AndroidManifest.xml</strong> - App configuration, permissions, and settings<br>
-                    <strong>📚 Libraries</strong> - Required dependencies and external components</p>
-                </div>
-                
-                <h3>SWB Compatibility: Pro, Revolution & More</h3>
-                <p>SWB files work across all major Sketchware versions:</p>
-                <ul style="margin-left: 24px; color: var(--text-secondary); margin-bottom: 16px; line-height: 2;">
-                    <li><strong>Sketchware Pro</strong> - Community-enhanced version with advanced features and bug fixes</li>
-                    <li><strong>Sketchware Revolution</strong> - Modern fork with updated Android API support and new components</li>
-                    <li><strong>Original Sketchware</strong> - The classic version (discontinued but still functional)</li>
-                    <li><strong>Sketchware Gold</strong> - Premium modded version with extra capabilities</li>
-                </ul>
-                <p>All SWB projects on MEGA STORE are tested for compatibility with Sketchware Pro and Sketchware Revolution to ensure smooth importing and building.</p>
-            </div>
-        </div>
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">1200+</div><div class="stat-label">Name Styles</div></div>
+    <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Unicode Fonts</div></div>
+    <div class="stat-card"><div class="stat-num">200+</div><div class="stat-label">Symbol Patterns</div></div>
+    <div class="stat-card"><div class="stat-num">1 Click</div><div class="stat-label">Copy & Use</div></div>
+  </div>
 
-        <!-- How to Import -->
-        <div class="info-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <span class="material-icons">download</span>
-                </div>
-                <h2 class="section-title">How to Import SWB File in Sketchware - Step by Step Guide</h2>
-            </div>
-            <div class="info-content">
-                <p>Importing SWB projects from MEGA STORE into Sketchware is quick and easy. Follow these 5 simple steps to start using any downloaded project:</p>
-                
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h4>Download SWB File from MEGA STORE</h4>
-                            <p>Browse our collection and click download on any project. The .swb file will save to your device's Downloads folder. Example filenames: calculator.swb, music_player.swb, game_project.swb</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h4>Open Sketchware App</h4>
-                            <p>Launch Sketchware Pro or Sketchware Revolution on your Android device. Ensure you have the latest version for best compatibility with downloaded projects.</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h4>Navigate to Project Manager</h4>
-                            <p>Tap the menu icon (three horizontal lines) or go to "My Projects" section. Look for "Import Project", "Restore Project", or "Open SWB" option depending on your Sketchware version.</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h4>Select Your Downloaded SWB File</h4>
-                            <p>File browser will open. Navigate to Downloads folder or wherever you saved the .swb file. Tap on the file name to select it for import.</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <h4>Import Complete - Start Building!</h4>
-                            <p>Sketchware will automatically extract and load the project. You'll see all screens, blocks, and resources. Now you can run the app, modify it, or build APK for distribution!</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="highlight-box">
-                    <p><strong>💡 Pro Tip:</strong> After importing, explore the "Logic" section to understand how the app works. Study the block arrangements to learn new programming techniques. Modify colors, text, and functionality to make the app your own before publishing!</p>
-                </div>
-            </div>
-        </div>
+  <!-- Input Section -->
+  <section class="input-section">
+    <div class="input-row">
+      <input type="text" class="name-input" id="nameInput" placeholder="Enter your name (e.g., Shadow, ProGamer)..." maxlength="30" autocomplete="off">
+      <button class="generate-btn" id="generateBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="18" height="18"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Generate Names
+      </button>
+    </div>
+  </section>
 
-        <!-- SEO Keywords Section -->
-        <div class="info-section">
-            <div class="section-header">
-                <div class="section-icon">
-                    <span class="material-icons">trending_up</span>
-                </div>
-                <h2 class="section-title">Popular Sketchware</h2>
-            </div>
-            <div class="info-content">
-                <p>MEGA STORE is optimized for all Sketchware-related searches. Find exactly what you need:</p>
-                <div class="keyword-cloud">
-                    <span class="keyword-tag">sketchware swb project download</span>
-                    <span class="keyword-tag">sketchware pro 2026</span>
-                    <span class="keyword-tag">sketchware revolution</span>
-                    <span class="keyword-tag">free android projects</span>
-                    <span class="keyword-tag">swb file opener</span>
-                    <span class="keyword-tag">how to use sketchware</span>
-                    <span class="keyword-tag">sketchware tutorial beginners</span>
-                    <span class="keyword-tag">sketchware game projects</span>
-                    <span class="keyword-tag">sketchware app source code</span>
-                    <span class="keyword-tag">import swb to sketchware</span>
-                    <span class="keyword-tag">sketchware calculator project</span>
-                    <span class="keyword-tag">sketchware music player</span>
-                    <span class="keyword-tag">sketchware chat app</span>
-                    <span class="keyword-tag">sketchware photo editor</span>
-                    <span class="keyword-tag">block programming android</span>
-                    <span class="keyword-tag">no code app development</span>
-                    <span class="keyword-tag">sketchware projects free download</span>
-                    <span class="keyword-tag">sketchware github alternative</span>
-                </div>
-            </div>
-        </div>
-    </main>
+  <!-- Filter Tabs -->
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-tab active" data-filter="all">All Styles</button>
+    <button class="filter-tab" data-filter="fancy">Fancy Fonts</button>
+    <button class="filter-tab" data-filter="decorated">Decorated</button>
+    <button class="filter-tab" data-filter="gaming">Gaming</button>
+    <button class="filter-tab" data-filter="symbol">Symbols</button>
+    <button class="filter-tab" data-filter="minimal">Minimal</button>
+    <button class="filter-tab" data-filter="bold">Bold</button>
+  </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="about.html">About Us</a>
-            <a href="contact.html">Contact</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="terms.html">Terms</a>
-            <a href="disclaimer.html">Disclaimer</a>
-        </div>
-        <p class="footer-text">&copy; 2026 MEGA STORE. All rights reserved.</p>
-        <p class="footer-text">Free Sketchware SWB Project Store for Android Developers</p>
-        <p class="footer-keywords">sketchware swb project, sketchware download, swb file, android app source code, sketchware pro, sketchware revolution, block programming, mobile app development</p>
-    </footer>
+  <!-- Results Grid -->
+  <div class="results-grid" id="resultsGrid"></div>
+  <div class="load-more" id="loadMore">
+    <button id="loadMoreBtn" class="generate-btn" style="padding:10px 18px">Load More</button>
+  </div>
 
-    <script>
-        // Splash screen
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('splashScreen').classList.add('hidden');
-            }, 2000);
-        });
-    </script></body>
+  <!-- How to Use -->
+  <section class="how-section">
+    <h2 class="how-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      How to Use Mega Styling Name
+    </h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>Enter Your Name</h3>
+        <p>Type your desired nickname in the input box above. You can use any name up to 30 characters.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Click Generate</h3>
+        <p>Hit the Generate button and our engine will create 1000+ stylish variations instantly.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Filter Styles</h3>
+        <p>Use the filter tabs to browse specific categories like Gaming, Fancy, Minimal, or Bold styles.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">4</div>
+        <h3>Copy & Paste</h3>
+        <p>Click the copy button on any name card to copy it. Paste directly in Free Fire, Instagram, BGMI, or any game.</p>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="Free_fire_nickname.html">Free Fire Nickname</a>
+        <a href="styling_Name.html">Styling Name</a>
+        <a href="Gaming_Stylish.html">Gaming Stylish</a>
+      </div>
+      <div class="footer-col">
+        <h4>More Tools</h4>
+        <a href="emoji_styling.html">Emoji Styling</a>
+        <a href="About Us.html">About Us</a>
+        <a href="Contact Us.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="Terms and Conditions.html">Terms & Conditions</a>
+        <a href="Disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Mega Styling Name. All rights reserved. | The Ultimate Nickname Generator</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">Copied to clipboard!</span>
+</div>
+
+<script>
+// ===== THEME SYSTEM =====
+const body=document.body;
+const themeBtn=document.getElementById('themeBtn');
+const sidebarThemeToggle=document.getElementById('sidebarThemeToggle');
+const themeText=document.getElementById('themeText');
+const moonIcon=document.getElementById('moonIcon');
+const sunIcon=document.getElementById('sunIcon');
+function setTheme(t){
+  body.setAttribute('data-theme',t);
+  localStorage.setItem('theme',t);
+  const isLight=t==='light';
+  themeText.textContent=isLight?'Switch to Dark Mode':'Switch to Light Mode';
+  moonIcon.style.display=isLight?'none':'block';
+  sunIcon.style.display=isLight?'block':'none';
+}
+function toggleTheme(){ setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark'); }
+themeBtn.addEventListener('click',toggleTheme);
+sidebarThemeToggle.addEventListener('click',toggleTheme);
+const savedTheme=localStorage.getItem('theme')||'dark';
+setTheme(savedTheme);
+
+// ===== SIDEBAR =====
+const menuBtn=document.getElementById('menuBtn');
+const sidebar=document.getElementById('sidebar');
+const sidebarOverlay=document.getElementById('sidebarOverlay');
+function openSidebar(){ sidebar.classList.add('open'); sidebarOverlay.classList.add('active'); document.body.style.overflow='hidden'; }
+function closeSidebar(){ sidebar.classList.remove('open'); sidebarOverlay.classList.remove('active'); document.body.style.overflow=''; }
+menuBtn.addEventListener('click',openSidebar);
+sidebarOverlay.addEventListener('click',closeSidebar);
+
+// ===== DATA TABLES (already provided) =====
+// (fancyFonts, prefixes, suffixes, patterns, gamingPatterns)
+// Included here for completeness (same as original)
+const fancyFonts={
+  bold:{a:'\uD835\uDD38',b:'\uD835\uDD39',c:'\u2102',d:'\uD835\uDD3B',e:'\uD835\uDD3C',f:'\uD835\uDD3D',g:'\uD835\uDD3E',h:'\u210D',i:'\uD835\uDD40',j:'\uD835\uDD41',k:'\uD835\uDD42',l:'\uD835\uDD43',m:'\uD835\uDD44',n:'\uD835\uDD45',o:'\uD835\uDD46',p:'\u2119',q:'\u211A',r:'\u211D',s:'\uD835\uDD4A',t:'\uD835\uDD4B',u:'\uD835\uDD4C',v:'\uD835\uDD4D',w:'\uD835\uDD4E',x:'\uD835\uDD4F',y:'\uD835\uDD50',z:'\u2124',A:'\uD835\uDD6C',B:'\uD835\uDD6D',C:'\uD835\uDD6E',D:'\uD835\uDD6F',E:'\uD835\uDD70',F:'\uD835\uDD71',G:'\uD835\uDD72',H:'\uD835\uDD73',I:'\uD835\uDD74',J:'\uD835\uDD75',K:'\uD835\uDD76',L:'\uD835\uDD77',M:'\uD835\uDD78',N:'\uD835\uDD79',O:'\uD835\uDD7A',P:'\uD835\uDD7B',Q:'\uD835\uDD7C',R:'\uD835\uDD7D',S:'\uD835\uDD7E',T:'\uD835\uDD7F',U:'\uD835\uDD80',V:'\uD835\uDD81',W:'\uD835\uDD82',X:'\uD835\uDD83',Y:'\uD835\uDD84',Z:'\uD835\uDD85'},
+  script:{a:'\uD835\uDCB6',b:'\uD835\uDCB7',c:'\uD835\uDCB8',d:'\uD835\uDCB9',e:'\u212F',f:'\uD835\uDCBB',g:'\u210A',h:'\uD835\uDCBD',i:'\uD835\uDCBE',j:'\uD835\uDCBF',k:'\uD835\uDCC0',l:'\uD835\uDCC1',m:'\uD835\uDCC2',n:'\uD835\uDCC3',o:'\u2134',p:'\uD835\uDCC5',q:'\uD835\uDCC6',r:'\uD835\uDCC7',s:'\uD835\uDCC8',t:'\uD835\uDCC9',u:'\uD835\uDCCA',v:'\uD835\uDCCB',w:'\uD835\uDCCC',x:'\uD835\uDCCD',y:'\uD835\uDCCE',z:'\uD835\uDCCF',A:'\uD835\uDC9C',B:'\u212C',C:'\uD835\uDC9E',D:'\uD835\uDC9F',E:'\u2130',F:'\u2131',G:'\uD835\uDCA2',H:'\u210B',I:'\u2110',J:'\uD835\uDCA5',K:'\uD835\uDCA6',L:'\u2112',M:'\u2133',N:'\uD835\uDCA9',O:'\uD835\uDCAA',P:'\uD835\uDCAB',Q:'\uD835\uDCAC',R:'\u211B',S:'\uD835\uDCAE',T:'\uD835\uDCAF',U:'\uD835\uDCB0',V:'\uD835\uDCB1',W:'\uD835\uDCB2',X:'\uD835\uDCB3',Y:'\uD835\uDCB4',Z:'\uD835\uDCB5'},
+  fraktur:{a:'\uD835\uDD1E',b:'\uD835\uDD1F',c:'\uD835\uDD20',d:'\uD835\uDD21',e:'\uD835\uDD22',f:'\uD835\uDD23',g:'\uD835\uDD24',h:'\uD835\uDD25',i:'\uD835\uDD26',j:'\uD835\uDD27',k:'\uD835\uDD28',l:'\uD835\uDD29',m:'\uD835\uDD2A',n:'\uD835\uDD2B',o:'\uD835\uDD2C',p:'\uD835\uDD2D',q:'\uD835\uDD2E',r:'\uD835\uDD2F',s:'\uD835\uDD30',t:'\uD835\uDD31',u:'\uD835\uDD32',v:'\uD835\uDD33',w:'\uD835\uDD34',x:'\uD835\uDD35',y:'\uD835\uDD36',z:'\uD835\uDD37',A:'\uD835\uDD04',B:'\uD835\uDD05',C:'\u212D',D:'\uD835\uDD07',E:'\uD835\uDD08',F:'\uD835\uDD09',G:'\uD835\uDD0A',H:'\u210C',I:'\u2111',J:'\uD835\uDD0D',K:'\uD835\uDD0E',L:'\uD835\uDD0F',M:'\uD835\uDD10',N:'\uD835\uDD11',O:'\uD835\uDD12',P:'\uD835\uDD13',Q:'\uD835\uDD14',R:'\u211C',S:'\uD835\uDD16',T:'\uD835\uDD17',U:'\uD835\uDD18',V:'\uD835\uDD19',W:'\uD835\uDD1A',X:'\uD835\uDD1B',Y:'\uD835\uDD1C',Z:'\u2128'},
+  monospace:{a:'\uD835\uDE8A',b:'\uD835\uDE8B',c:'\uD835\uDE8C',d:'\uD835\uDE8D',e:'\uD835\uDE8E',f:'\uD835\uDE8F',g:'\uD835\uDE90',h:'\uD835\uDE91',i:'\uD835\uDE92',j:'\uD835\uDE93',k:'\uD835\uDE94',l:'\uD835\uDE95',m:'\uD835\uDE96',n:'\uD835\uDE97',o:'\uD835\uDE98',p:'\uD835\uDE99',q:'\uD835\uDE9A',r:'\uD835\uDE9B',s:'\uD835\uDE9C',t:'\uD835\uDE9D',u:'\uD835\uDE9E',v:'\uD835\uDE9F',w:'\uD835\uDEA0',x:'\uD835\uDEA1',y:'\uD835\uDEA2',z:'\uD835\uDEA3',A:'\uD835\uDE70',B:'\uD835\uDE71',C:'\uD835\uDE72',D:'\uD835\uDE73',E:'\uD835\uDE74',F:'\uD835\uDE75',G:'\uD835\uDE76',H:'\uD835\uDE77',I:'\uD835\uDE78',J:'\uD835\uDE79',K:'\uD835\uDE7A',L:'\uD835\uDE7B',M:'\uD835\uDE7C',N:'\uD835\uDE7D',O:'\uD835\uDE7E',P:'\uD835\uDE7F',Q:'\uD835\uDE80',R:'\uD835\uDE81',S:'\uD835\uDE82',T:'\uD835\uDE83',U:'\uD835\uDE84',V:'\uD835\uDE85',W:'\uD835\uDE86',X:'\uD835\uDE87',Y:'\uD835\uDE88',Z:'\uD835\uDE89'},
+  sans:{a:'\uD835\uDEBA',b:'\uD835\uDEBB',c:'\uD835\uDEBC',d:'\uD835\uDEBD',e:'\uD835\uDEBE',f:'\uD835\uDEBF',g:'\uD835\uDEC0',h:'\uD835\uDEC1',i:'\uD835\uDEC2',j:'\uD835\uDEC3',k:'\uD835\uDEC4',l:'\uD835\uDEC5',m:'\uD835\uDEC6',n:'\uD835\uDEC7',o:'\uD835\uDEC8',p:'\uD835\uDEC9',q:'\uD835\uDECA',r:'\uD835\uDECB',s:'\uD835\uDECC',t:'\uD835\uDECD',u:'\uD835\uDECE',v:'\uD835\uDECF',w:'\uD835\uDED0',x:'\uD835\uDED1',y:'\uD835\uDED2',z:'\uD835\uDED3',A:'\uD835\uDEA8',B:'\uD835\uDEA9',C:'\uD835\uDEAA',D:'\uD835\uDEAB',E:'\uD835\uDEAC',F:'\uD835\uDEAD',G:'\uD835\uDEAE',H:'\uD835\uDEAF',I:'\uD835\uDEB0',J:'\uD835\uDEB1',K:'\uD835\uDEB2',L:'\uD835\uDEB3',M:'\uD835\uDEB4',N:'\uD835\uDEB5',O:'\uD835\uDEB6',P:'\uD835\uDEB7',Q:'\uD835\uDEB8',R:'\uD835\uDEB9',S:'\uD835\uDEBA',T:'\uD835\uDEBB',U:'\uD835\uDEBC',V:'\uD835\uDEBD',W:'\uD835\uDEBE',X:'\uD835\uDEBF',Y:'\uD835\uDEC0',Z:'\uD835\uDEC1'},
+  circled:{a:'\u24D0',b:'\u24D1',c:'\u24D2',d:'\u24D3',e:'\u24D4',f:'\u24D5',g:'\u24D6',h:'\u24D7',i:'\u24D8',j:'\u24D9',k:'\u24DA',l:'\u24DB',m:'\u24DC',n:'\u24DD',o:'\u24DE',p:'\u24DF',q:'\u24E0',r:'\u24E1',s:'\u24E2',t:'\u24E3',u:'\u24E4',v:'\u24E5',w:'\u24E6',x:'\u24E7',y:'\u24E8',z:'\u24E9',A:'\u24B6',B:'\u24B7',C:'\u24B8',D:'\u24B9',E:'\u24BA',F:'\u24BB',G:'\u24BC',H:'\u24BD',I:'\u24BE',J:'\u24BF',K:'\u24C0',L:'\u24C1',M:'\u24C2',N:'\u24C3',O:'\u24C4',P:'\u24C5',Q:'\u24C6',R:'\u24C7',S:'\u24C8',T:'\u24C9',U:'\u24CA',V:'\u24CB',W:'\u24CC',X:'\u24CD',Y:'\u24CE',Z:'\u24CF','0':'\u24EA','1':'\u2460','2':'\u2461','3':'\u2462','4':'\u2463','5':'\u2464','6':'\u2465','7':'\u2466','8':'\u2467','9':'\u2468'},
+  squared:{a:'\u1D43',b:'\u1D47',c:'\u1D9C',d:'\u1D48',e:'\u1D49',f:'\u1DA0',g:'\u1D4D',h:'\u02B0',i:'\u2071',j:'\u02B2',k:'\u1D4F',l:'\u02E1',m:'\u1D50',n:'\u207F',o:'\u1D52',p:'\u1D56',q:'q',r:'\u02B3',s:'\u02E2',t:'\u1D57',u:'\u1D58',v:'\u1D5B',w:'\u02B7',x:'\u02E3',y:'\u02B8',z:'\u1DBB'},
+  wide:{a:'\uFF41',b:'\uFF42',c:'\uFF43',d:'\uFF44',e:'\uFF45',f:'\uFF46',g:'\uFF47',h:'\uFF48',i:'\uFF49',j:'\uFF4A',k:'\uFF4B',l:'\uFF4C',m:'\uFF4D',n:'\uFF4E',o:'\uFF4F',p:'\uFF50',q:'\uFF51',r:'\uFF52',s:'\uFF53',t:'\uFF54',u:'\uFF55',v:'\uFF56',w:'\uFF57',x:'\uFF58',y:'\uFF59',z:'\uFF5A',A:'\uFF21',B:'\uFF22',C:'\uFF23',D:'\uFF24',E:'\uFF25',F:'\uFF26',G:'\uFF27',H:'\uFF28',I:'\uFF29',J:'\uFF2A',K:'\uFF2B',L:'\uFF2C',M:'\uFF2D',N:'\uFF2E',O:'\uFF2F',P:'\uFF30',Q:'\uFF31',R:'\uFF32',S:'\uFF33',T:'\uFF34',U:'\uFF35',V:'\uFF36',W:'\uFF37',X:'\uFF38',Y:'\uFF39',Z:'\uFF3A','0':'\uFF10','1':'\uFF11','2':'\uFF12','3':'\uFF13','4':'\uFF14','5':'\uFF15','6':'\uFF16','7':'\uFF17','8':'\uFF18','9':'\uFF19'},
+  strike:{a:'\u01CE',b:'b̶',c:'c̶',d:'d̶',e:'\u011B',f:'f̶',g:'g̶',h:'h̶',i:'\u01D0',j:'j̶',k:'k̶',l:'l̶',m:'m̶',n:'n̶',o:'\u01D2',p:'p̶',q:'q̶',r:'r̶',s:'s̶',t:'t̶',u:'\u01D4',v:'v̶',w:'w̶',x:'x̶',y:'y̶',z:'z̶',A:'A̶',B:'B̶',C:'C̶',D:'D̶',E:'E̶',F:'F̶',G:'G̶',H:'H̶',I:'I̶',J:'J̶',K:'K̶',L:'L̶',M:'M̶',N:'N̶',O:'O̶',P:'P̶',Q:'Q̶',R:'R̶',S:'S̶',T:'T̶',U:'U̶',V:'V̶',W:'W̶',X:'X̶',Y:'Y̶',Z:'Z̶'},
+  underline:{a:'a̲',b:'b̲',c:'c̲',d:'d̲',e:'e̲',f:'f̲',g:'g̲',h:'h̲',i:'i̲',j:'j̲',k:'k̲',l:'l̲',m:'m̲',n:'n̲',o:'o̲',p:'p̲',q:'q̲',r:'r̲',s:'s̲',t:'t̲',u:'u̲',v:'v̲',w:'w̲',x:'x̲',y:'y̲',z:'z̲',A:'A̲',B:'B̲',C:'C̲',D:'D̲',E:'E̲',F:'F̲',G:'G̲',H:'H̲',I:'I̲',J:'J̲',K:'K̲',L:'L̲',M:'M̲',N:'N̲',O:'O̲',P:'P̲',Q:'Q̲',R:'R̲',S:'S̲',T:'T̲',U:'U̲',V:'V̲',W:'W̲',X:'X̲',Y:'Y̲',Z:'Z̲'},
+  italic:{a:'\uD835\uDC4E',b:'\uD835\uDC4F',c:'\uD835\uDC50',d:'\uD835\uDC51',e:'\uD835\uDC52',f:'\uD835\uDC53',g:'\uD835\uDC54',h:'\u210E',i:'\uD835\uDC56',j:'\uD835\uDC57',k:'\uD835\uDC58',l:'\uD835\uDC59',m:'\uD835\uDC5A',n:'\uD835\uDC5B',o:'\uD835\uDC5C',p:'\uD835\uDC5D',q:'\uD835\uDC5E',r:'\uD835\uDC5F',s:'\uD835\uDC60',t:'\uD835\uDC61',u:'\uD835\uDC62',v:'\uD835\uDC63',w:'\uD835\uDC64',x:'\uD835\uDC65',y:'\uD835\uDC66',z:'\uD835\uDC67',A:'\uD835\uDC34',B:'\uD835\uDC35',C:'\uD835\uDC36',D:'\uD835\uDC37',E:'\uD835\uDC38',F:'\uD835\uDC39',G:'\uD835\uDC3A',H:'\uD835\uDC3B',I:'\uD835\uDC3C',J:'\uD835\uDC3D',K:'\uD835\uDC3E',L:'\uD835\uDC3F',M:'\uD835\uDC40',N:'\uD835\uDC41',O:'\uD835\uDC42',P:'\uD835\uDC43',Q:'\uD835\uDC44',R:'\uD835\uDC45',S:'\uD835\uDC46',T:'\uD835\uDC47',U:'\uD835\uDC48',V:'\uD835\uDC49',W:'\uD835\uDC4A',X:'\uD835\uDC4B',Y:'\uD835\uDC4C',Z:'\uD835\uDC4D'},
+  double:{a:'\uD835\uDC82',b:'\uD835\uDC83',c:'\uD835\uDC84',d:'\uD835\uDC85',e:'\uD835\uDC86',f:'\uD835\uDC87',g:'\uD835\uDC88',h:'\uD835\uDC89',i:'\uD835\uDC8A',j:'\uD835\uDC8B',k:'\uD835\uDC8C',l:'\uD835\uDC8D',m:'\uD835\uDC8E',n:'\uD835\uDC8F',o:'\uD835\uDC90',p:'\uD835\uDC91',q:'\uD835\uDC92',r:'\uD835\uDC93',s:'\uD835\uDC94',t:'\uD835\uDC95',u:'\uD835\uDC96',v:'\uD835\uDC97',w:'\uD835\uDC98',x:'\uD835\uDC99',y:'\uD835\uDC9A',z:'\uD835\uDC9B',A:'\uD835\uDC68',B:'\uD835\uDC69',C:'\uD835\uDC6A',D:'\uD835\uDC6B',E:'\uD835\uDC6C',F:'\uD835\uDC6D',G:'\uD835\uDC6E',H:'\uD835\uDC6F',I:'\uD835\uDC70',J:'\uD835\uDC71',K:'\uD835\uDC72',L:'\uD835\uDC73',M:'\uD835\uDC74',N:'\uD835\uDC75',O:'\uD835\uDC76',P:'\uD835\uDC77',Q:'\uD835\uDC78',R:'\uD835\uDC79',S:'\uD835\uDC7A',T:'\uD835\uDC7B',U:'\uD835\uDC7C',V:'\uD835\uDC7D',W:'\uD835\uDC7E',X:'\uD835\uDC7F',Y:'\uD835\uDC80',Z:'\uD835\uDC81'},
+  smallcaps:{a:'\u1D00',b:'\u0299',c:'\u1D04',d:'\u1D05',e:'\u1D07',f:'\uA730',g:'\u0262',h:'\u029C',i:'\u026A',j:'\u1D0A',k:'\u1D0B',l:'\u029F',m:'\u1D0D',n:'\u0274',o:'\u1D0F',p:'\u1D18',q:'Q',r:'\u0280',s:'\uA731',t:'\u1D1B',u:'\u1D1C',v:'\u1D20',w:'\u1D21',x:'\u02E3',y:'\u028F',z:'\u1D22',A:'\u1D00',B:'\u0299',C:'\u1D04',D:'\u1D05',E:'\u1D07',F:'\uA730',G:'\u0262',H:'\u029C',I:'\u026A',J:'\u1D0A',K:'\u1D0B',L:'\u029F',M:'\u1D0D',N:'\u0274',O:'\u1D0F',P:'\u1D18',Q:'Q',R:'\u0280',S:'\uA731',T:'\u1D1B',U:'\u1D1C',V:'\u1D20',W:'\u1D21',X:'\u02E3',Y:'\u028F',Z:'\u1D22'},
+  bubble:{a:'\u24D0',b:'\u24D1',c:'\u24D2',d:'\u24D3',e:'\u24D4',f:'\u24D5',g:'\u24D6',h:'\u24D7',i:'\u24D8',j:'\u24D9',k:'\u24DA',l:'\u24DB',m:'\u24DC',n:'\u24DD',o:'\u24DE',p:'\u24DF',q:'\u24E0',r:'\u24E1',s:'\u24E2',t:'\u24E3',u:'\u24E4',v:'\u24E5',w:'\u24E6',x:'\u24E7',y:'\u24E8',z:'\u24E9',A:'\u24B6',B:'\u24B7',C:'\u24B8',D:'\u24B9',E:'\u24BA',F:'\u24BB',G:'\u24BC',H:'\u24BD',I:'\u24BE',J:'\u24BF',K:'\u24C0',L:'\u24C1',M:'\u24C2',N:'\u24C3',O:'\u24C4',P:'\u24C5',Q:'\u24C6',R:'\u24C7',S:'\u24C8',T:'\u24C9',U:'\u24CA',V:'\u24CB',W:'\u24CC',X:'\u24CD',Y:'\u24CE',Z:'\u24CF'}
+};
+
+const prefixes=[
+  '\u2605\u5F61','\uFF62','\u3010','\u3014','\u300C','\u300E','\uFF5B','\u27E6','\u27E8','\u27EA','\u2985','\u2983','\u3016','\u3018','\u2772','\u276E','\u27E0','\u2726','\u2736','\u2739','\u2741','\u273F','\u2745','\u2749','\u2756','\u2764','\u2665','\u2660','\u2666','\u2663','\u266B','\u266A','\u2606','\u2605','\u2727','\u2728','\u2730','\u2734','\u2740','\u2757','\u2755','\u2B50','\u2B51','\u2B52','\u2B53','\u2B54','\u2B55','\u2B1B','\u2B1C','\u2B50','\u26A0','\u26A1','\u26BD','\u26BE','\u26C4','\u26C5','\u26CE','\u26D4','\u26EA','\u26F2','\u26F3','\u26F5','\u26FA','\u26FD','\u2702','\u2705','\u2708','\u2709','\u270A','\u270B','\u270C','\u270F','\u2712','\u2714','\u2716','\u2728','\u2733','\u2744','\u2747','\u274C','\u274E','\u2753','\u2754','\u2755','\u2757','\u2763','\u2764','\u2795','\u2796','\u2797','\u27A1','\u27B0','\u27BF','\u2934','\u2935','\u2B05','\u2B06','\u2B07','\u2B1C','\u2B1D','\u2B50','\u3030','\u303D','\u3297','\u3299','\u00A9','\u00AE','\u2122','\u2600','\u2601','\u2602','\u2603','\u2604'
+];
+const suffixes=[
+  '\u5F61\u2605','\uFF63','\u3011','\u3015','\u300D','\u300F','\uFF5D','\u27E7','\u27E9','\u27EB','\u2986','\u2984','\u3017','\u3019','\u2773','\u276F','\u27E0','\u2726','\u2736','\u2739','\u2741','\u273F','\u2745','\u2749','\u2756','\u2764','\u2665','\u2660','\u2666','\u2663','\u266B','\u266A','\u2606','\u2605','\u2727','\u2728','\u2730','\u2734','\u2740','\u2757','\u2755','\u2B50','\u2B51','\u2B52','\u2B53','\u2B54','\u2B55','\u2B1B','\u2B1C','\u2B50','\u26A0','\u26A1','\u26BD','\u26BE','\u26C4','\u26C5','\u26CE','\u26D4','\u26EA','\u26F2','\u26F3','\u26F5','\u26FA','\u26FD','\u2702','\u2705','\u2708','\u2709','\u270A','\u270B','\u270C','\u270F','\u2712','\u2714','\u2716','\u2728','\u2733','\u2744','\u2747','\u274C','\u274E','\u2753','\u2754','\u2755','\u2757','\u2763','\u2764','\u2795','\u2796','\u2797','\u27A1','\u27B0','\u27BF','\u2934','\u2935','\u2B05','\u2B06','\u2B07','\u2B1C','\u2B1D','\u2B50','\u3030','\u303D','\u3297','\u3299','\u00A9','\u00AE','\u2122','\u2600','\u2601','\u2602','\u2603','\u2604'
+];
+const patterns=[
+  '{p} {name} {s}','{p}{name}{s}','{p} {name}','{name} {s}','{p}  {name}  {s}',
+  '\u250C{sp}\u2500\u2510\n\u2502 {name} \u2502\n\u2514\u2500{sp}\u2518',
+  '\u2554{db}\u2557\n\u2551 {name} \u2551\n\u255A{db}\u255D',
+  '\u250F{sp}\u2513\n\u2503 {name} \u2503\n\u2517{sp}\u251B',
+  '\u259B{name}\u259C\n\u2599{name}\u259F',
+  '\u2594{name}\u2594\n\u2597{name}\u2597',
+  '\u25B6 {name} \u25C0',
+  '\u27A4 {name} \u27A5',
+  '\u2605 {name} \u2605',
+  '\u2726 {name} \u2726',
+  '\u2730 {name} \u2730',
+  '\u2736 {name} \u2736',
+  '\u2739 {name} \u2739',
+  '\u2741 {name} \u2741',
+  '\u273F {name} \u273F',
+  '\u2745 {name} \u2745',
+  '\u2749 {name} \u2749',
+  '\u2756 {name} \u2756',
+  '\u2764 {name} \u2764',
+  '\u2665 {name} \u2665',
+  '\u2660 {name} \u2660',
+  '\u2666 {name} \u2666',
+  '\u2663 {name} \u2663',
+  '\u266B {name} \u266B',
+  '\u266A {name} \u266A',
+  '\u2606 {name} \u2606',
+  '\u2727 {name} \u2727',
+  '\u2728 {name} \u2728',
+  '\u2734 {name} \u2734',
+  '\u2740 {name} \u2740',
+  '\u2757 {name} \u2757',
+  '\u2755 {name} \u2755',
+  '\u2B50 {name} \u2B50'
+  // truncated list trimmed for brevity — enough patterns for demonstration
+];
+
+const gamingPatterns=[
+  'xX_{name}_Xx','xX{name}Xx','Xx_{name}_xX','[{name}]','|{name}|','<{name}>','/{name}\\','\\{name}/','_{name}_','-{name}-','={name}=','+{name}+','~{name}~','`{name}`','^{name}^',
+  'Pro_{name}','{name}_Pro','OG_{name}','{name}_OG','x_{name}','{name}_x','OP_{name}','{name}_OP',
+  '{name}\u2694\uFE0F','\u2694\uFE0F{name}\u2694\uFE0F','{name}\uD83C\uDFF9','{name}\uD83C\uDFC6','{name}\uD83C\uDFAE'
+];
+
+// ===== Helper functions =====
+function convertText(text,fontMap){
+  return text.split('').map(c => fontMap[c] || fontMap[c.toLowerCase()] || fontMap[c.toUpperCase()] || c).join('');
+}
+function isSymbolChar(ch){
+  // return true if non-alphanumeric (excluding space)
+  return /[^\w\s]/u.test(ch);
+}
+function beautyScore(str){
+  // Score based on non-ASCII / symbol chars, combining marks, length (but prefer symbols)
+  let score = 0;
+  for (let ch of Array.from(str)) {
+    const cp = ch.codePointAt(0);
+    if (cp > 127) score += 2;        // unicode beyond ASCII is more "fancy"
+    if (isSymbolChar(ch)) score += 3; // punctuation/symbols get higher weight
+    if (/\p{Mark}/u.test(ch)) score += 1; // combining marks
+  }
+  // small boost for using bracket/box characters
+  if (/[()\[\]{}<>|\/\\_-\u2500-\u257F]/u.test(str)) score += 1;
+  // longer names moderately boost score but cap
+  score += Math.min(5, Math.floor(str.length / 6));
+  return score;
+}
+
+// Generate unique names and categorize
+function generateNames(name){
+  const n = (name||'').trim();
+  if(!n) return [];
+  const items = [];
+  const seen = new Set();
+
+  function pushIfUnique(text, category){
+    if(!text) return;
+    const key = text;
+    if(seen.has(key)) return;
+    seen.add(key);
+    items.push({text, category, score: beautyScore(text)});
+  }
+
+  // fonts
+  Object.keys(fancyFonts).forEach(key => {
+    try {
+      const converted = convertText(n, fancyFonts[key]);
+      pushIfUnique(converted, 'fancy');
+      // also small decorated variations
+      prefixes.slice(0,8).forEach((p,i)=>{
+        pushIfUnique(p + converted + (suffixes[i]||''), 'decorated');
+      });
+    } catch(e){/* ignore mapping errors */}
+  });
+
+  // patterns
+  patterns.forEach(ptn=>{
+    let line = ptn.replace(/\{name\}/g, n)
+                  .replace(/\{p\}/g, ()=>prefixes[Math.floor(Math.random()*prefixes.length)] || '')
+                  .replace(/\{s\}/g, ()=>suffixes[Math.floor(Math.random()*suffixes.length)] || '')
+                  .replace(/\{sp\}/g, ()=>n.split('').map(()=>'\u2500').join(''))
+                  .replace(/\{db\}/g, ()=>n.split('').map(()=>'\u2550').join(''));
+    pushIfUnique(line, 'decorated');
+  });
+
+  // gaming
+  gamingPatterns.forEach(ptn=>{
+    pushIfUnique(ptn.replace(/\{name\}/g,n), 'gaming');
+  });
+
+  // symbol heavy (prefix/suffix)
+  [...prefixes, ...suffixes].slice(0,80).forEach((sym,i)=>{
+    pushIfUnique(sym + n + sym, 'symbol');
+    if (i % 7 === 0) pushIfUnique(sym + n, 'symbol');
+  });
+
+  // minimal
+  const minimalCandidates = [
+    '('+n+')','['+n+']','{'+n+'}','<'+n+'>','|'+n+'|','/'+n+'\\','\\'+n+'/',
+    '_'+n+'_','-'+n+'-','.'+n+'.',':'+n+':','.'+n,' '+n+' '
+  ];
+  minimalCandidates.forEach(t=>pushIfUnique(t,'minimal'));
+
+  // bold and other derived variations
+  const derived = [
+    '★ '+n+' ★','✦ '+n+' ✦','✧'+n+'✧','✶'+n+'✶','✪'+n+'✪',
+    '『'+n+'』','【'+n+'】','《'+n+'》','♪'+n+'♪','✿'+n+'✿'
+  ];
+  derived.forEach(t=>pushIfUnique(t,'decorated'));
+
+  // ensure at least the raw name is present
+  pushIfUnique(n,'minimal');
+
+  // sort by score desc so most "beautiful" appear first
+  items.sort((a,b)=>b.score - a.score);
+
+  return items;
+}
+
+// ===== UI and rendering =====
+const nameInput = document.getElementById('nameInput');
+const generateBtn = document.getElementById('generateBtn');
+const resultsGrid = document.getElementById('resultsGrid');
+const filterTabs = document.getElementById('filterTabs');
+const loadMore = document.getElementById('loadMore');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+
+let allItems = [];
+let activeFilter = 'all';
+let pageSize = 36;
+let currentIndex = 0;
+
+function clearResults(){
+  resultsGrid.innerHTML = '';
+  currentIndex = 0;
+}
+
+// Render chunk of results starting at currentIndex
+function renderNextChunk(){
+  const filtered = activeFilter === 'all' ? allItems : allItems.filter(i=>i.category === activeFilter);
+  if(currentIndex >= filtered.length){
+    loadMore.style.display = 'none';
+    if(filtered.length === 0) {
+      resultsGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text2);padding:20px">No results. Try another name or filter.</div>';
+    }
+    return;
+  }
+  const chunk = filtered.slice(currentIndex, currentIndex + pageSize);
+  chunk.forEach(item=>{
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'name-text';
+    nameDiv.textContent = item.text;
+    const right = document.createElement('div');
+    right.style.display='flex';
+    right.style.gap='8px';
+    right.style.alignItems='center';
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.setAttribute('aria-label','Copy name');
+    copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    copyBtn.addEventListener('click', async ()=>{
+      try {
+        await navigator.clipboard.writeText(item.text);
+        copyBtn.classList.add('copied');
+        setTimeout(()=>copyBtn.classList.remove('copied'),1200);
+        showToast('Copied to clipboard!');
+      } catch(e){
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = item.text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast('Copied to clipboard!'); } catch(_) { showToast('Copy failed'); }
+        document.body.removeChild(ta);
+      }
+    });
+    // optional: button to use name directly (could be extended)
+    right.appendChild(copyBtn);
+    card.appendChild(nameDiv);
+    card.appendChild(right);
+    resultsGrid.appendChild(card);
+  });
+  currentIndex += chunk.length;
+  // show/hide load more
+  const remaining = filtered.length - currentIndex;
+  loadMore.style.display = remaining > 0 ? 'block' : 'none';
+}
+
+function showToast(msg, timeout=1800){
+  toastMsg.textContent = msg || 'Copied to clipboard!';
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), timeout);
+}
+
+// Generate button handler
+generateBtn.addEventListener('click', ()=>{
+  const val = nameInput.value.trim();
+  if(!val){
+    nameInput.focus();
+    showToast('Please enter a name first.',1200);
+    return;
+  }
+  // generate and render
+  allItems = generateNames(val);
+  // if user wants top "most beautiful" first, we already sorted by score
+  activeFilter = 'all';
+  // set filter tab active
+  Array.from(filterTabs.querySelectorAll('.filter-tab')).forEach(t=> t.classList.toggle('active', t.dataset.filter==='all'));
+  clearResults();
+  renderNextChunk();
+});
+
+// Press Enter to generate
+nameInput.addEventListener('keydown', e=>{
+  if(e.key === 'Enter') { e.preventDefault(); generateBtn.click(); }
+});
+
+// Filter tabs
+filterTabs.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.filter-tab');
+  if(!btn) return;
+  const f = btn.dataset.filter;
+  activeFilter = f || 'all';
+  Array.from(filterTabs.querySelectorAll('.filter-tab')).forEach(t=> t.classList.toggle('active', t === btn));
+  clearResults();
+  renderNextChunk();
+});
+
+// Load more
+loadMoreBtn.addEventListener('click', ()=>{
+  renderNextChunk();
+});
+
+// initial state
+loadMore.style.display = 'none';
+
+// Small improvement: auto-generate example on first load for better UX (optional)
+if(!localStorage.getItem('hasGeneratedExample')){
+  nameInput.value = 'Shadow';
+  // do not automatically click; wait a moment then generate
+  setTimeout(()=>{ generateBtn.click(); localStorage.setItem('hasGeneratedExample','1'); }, 350);
+}
+
+// ===== Accessibility: allow clicking result to copy too (optional) =====
+resultsGrid.addEventListener('click', (e)=>{
+  const card = e.target.closest('.result-card');
+  if(!card) return;
+  // do nothing here; copy uses the button intentionally
+});
+
+// End of script
+</script>
+<script src="https://pl28985226.profitablecpmratenetwork.com/cf/e2/68/cfe2683c1f2a5ab65b73fca85482b474.js"></script>
+
+</body>
 </html>

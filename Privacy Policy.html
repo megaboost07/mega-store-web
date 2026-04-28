@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - Mega Styling Name</title>
+<meta name="description" content="Privacy Policy for Mega Styling Name website. Learn how we collect, use, and protect your personal information.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Mega Styling Name">
+<meta name="theme-color" content="#0f0f0f">
+<style>
+:root{
+  --bg:#0a0a0f;--card:#13131f;--card2:#1a1a28;--accent:#7c3aed;--accent2:#a855f7;
+  --text:#f1f1f4;--text2:#a0a0b0;--border:#252538;--shadow:0 8px 32px rgba(0,0,0,.4);
+  --glow:0 0 20px rgba(124,58,237,.25);--grad:linear-gradient(135deg,#7c3aed,#a855f7);
+  --radius:16px;--radius2:12px;--maxw:1200px;
+}
+[data-theme="light"]{--bg:#f0f0f5;--card:#fff;--card2:#f5f5fa;--accent:#6d28d9;--accent2:#9333ea;--text:#1a1a2e;--text2:#555570;--border:#dddde8;--shadow:0 8px 32px rgba(0,0,0,.1);--glow:0 0 20px rgba(109,40,217,.15);}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden;line-height:1.7}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;outline:none;background:none;font-family:inherit}
+img{max-width:100%;display:block}
+
+::-webkit-scrollbar{width:0px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+[data-theme="light"] .header{background:rgba(240,240,245,.85)}
+.header-inner{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-wrap img{height:40px;width:auto;border-radius:8px}
+.site-title{font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-btns{display:flex;align-items:center;gap:10px}
+.icon-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);color:var(--text);transition:all .2s}
+.icon-btn:hover{background:var(--accent);color:#fff;transform:scale(1.05)}
+.icon-btn svg{width:20px;height:20px}
+
+.sidebar{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--card);border-right:1px solid var(--border);z-index:2000;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:70px}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999;opacity:0;pointer-events:none;transition:opacity .3s}
+.sidebar-overlay.active{opacity:1;pointer-events:auto}
+.sidebar-nav{padding:10px 16px 30px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius2);color:var(--text2);font-weight:500;transition:all .2s;margin-bottom:4px;font-size:.95rem}
+.nav-item:hover,.nav-item.active{background:var(--grad);color:#fff}
+.nav-item svg{width:22px;height:22px;flex-shrink:0}
+.nav-divider{height:1px;background:var(--border);margin:12px 16px}
+.nav-label{padding:8px 16px 4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:600}
+
+.main-content{padding-top:80px;max-width:var(--maxw);margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px}
+
+.page-header{text-align:center;padding:50px 20px 40px;position:relative;overflow:hidden}
+.page-header h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:16px}
+.page-header h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.page-header>p{color:var(--text2);font-size:clamp(.95rem,2vw,1.1rem);max-width:700px;margin:0 auto;line-height:1.6}
+
+.policy-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:30px;box-shadow:var(--shadow)}
+.policy-section h2{font-size:1.4rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px;color:var(--text)}
+.policy-section h2 svg{width:24px;height:24px;color:var(--accent);flex-shrink:0}
+.policy-section h3{font-size:1.1rem;font-weight:600;margin:24px 0 12px;color:var(--text)}
+.policy-section p{color:var(--text2);margin-bottom:14px;font-size:.95rem}
+.policy-section ul{margin-left:24px;margin-bottom:16px}
+.policy-section ul li{color:var(--text2);margin-bottom:8px;font-size:.95rem}
+.policy-section strong{color:var(--text)}
+.policy-section a{color:var(--accent2);text-decoration:underline}
+.policy-section a:hover{color:var(--accent)}
+
+.info-box{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;margin:20px 0}
+.info-box h4{font-size:1rem;font-weight:600;margin-bottom:10px;color:var(--text)}
+.info-box p{color:var(--text2);font-size:.9rem;margin-bottom:0}
+
+.footer{background:var(--card);border-top:1px solid var(--border);padding:40px 20px 30px}
+.footer-inner{max-width:var(--maxw);margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-bottom:30px}
+.footer-col h4{font-size:1rem;margin-bottom:14px;color:var(--text)}
+.footer-col a{display:block;color:var(--text2);font-size:.9rem;padding:6px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent2)}
+.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid var(--border);color:var(--text2);font-size:.85rem}
+
+@media(max-width:640px){
+  .header-inner{padding:10px 14px}
+  .logo-wrap img{height:34px}
+  .site-title{font-size:1.05rem}
+  .main-content{padding-left:14px;padding-right:14px}
+  .page-header{padding:36px 10px 28px}
+  .policy-section{padding:20px}
+}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.policy-section{animation:fadeIn .4s ease forwards}
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="icon-btn" id="menuBtn" aria-label="Open Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="logo-wrap">
+        <img src="https://i.supaimg.com/96891cac-4c4b-403d-963e-82bbbc8241eb.png" alt="Mega Styling Name Logo" loading="eager">
+        <span class="site-title">Mega Styling Name</span>
+      </a>
+    </div>
+    <div class="header-btns">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle Theme">
+        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="Free_fire_nickname.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Free Fire Nickname
+    </a>
+    <a href="styling_Name.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      Styling Name (Instagram Bio)
+    </a>
+    <a href="Gaming_Stylish.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 11h4M8 9v4M12 9h4v2h-2v-2h-2zm6 0h2v2h-2z"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
+      BGMI / Gaming Stylish Name
+    </a>
+    <a href="emoji_styling.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      Emoji & Symbol Styling
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-label">Information</div>
+    <a href="About Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      About Us
+    </a>
+    <a href="Contact Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact Us
+    </a>
+    <a href="Privacy Policy.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Privacy Policy
+    </a>
+    <a href="Disclaimer.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Disclaimer
+    </a>
+    <a href="Terms and Conditions.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Terms and Conditions
+    </a>
+    <div class="nav-divider"></div>
+    <button class="nav-item" id="sidebarThemeToggle" style="width:100%">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeText">Switch to Light Mode</span>
+    </button>
+  </nav>
+</aside>
+
+<main class="main-content">
+
+  <section class="page-header">
+    <h1><span>Privacy Policy</span></h1>
+    <p>Your privacy matters to us. This Privacy Policy explains how Mega Styling Name collects, uses, stores, and protects your personal information when you visit our website.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      Introduction and Overview
+    </h2>
+    <p>Welcome to <strong>mega-store.in</strong>. We respect your privacy and are committed to protecting your personal data. This Privacy Policy is designed to help you understand what information we collect, why we collect it, how we use it, and what choices you have regarding your information.</p>
+    <p>This website provides free online tools for generating stylish nicknames, fancy text, gaming names, and decorative symbols for social media platforms and online games. By accessing and using our website, you agree to the collection and use of information in accordance with this Privacy Policy.</p>
+    <p>We comply with applicable privacy laws and regulations, including the <strong>General Data Protection Regulation (GDPR)</strong> for users in the European Economic Area, the <strong>California Consumer Privacy Act (CCPA)</strong> for users in California, and other relevant data protection frameworks.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Information We Collect
+    </h2>
+    <p>We collect different types of information depending on how you interact with our website. Here is a detailed breakdown of the information we may collect:</p>
+
+    <h3>1. Information You Provide Voluntarily</h3>
+    <p>When you use our nickname generator tools, you may enter text or names into our input fields. This information is processed <strong>entirely within your browser</strong> and is not transmitted to or stored on our servers. The text styling and name generation happens locally on your device using JavaScript.</p>
+
+    <h3>2. Automatically Collected Information</h3>
+    <p>When you visit our website, certain information is automatically collected by our servers and third-party services:</p>
+    <ul>
+      <li><strong>Log Data:</strong> Your browser type and version, operating system, IP address, the pages you visit, the time and date of your visit, and the time spent on each page.</li>
+      <li><strong>Device Information:</strong> The type of device you are using, screen resolution, and device identifiers.</li>
+      <li><strong>Usage Data:</strong> How you interact with our website, including clicks, scrolls, and feature usage patterns.</li>
+      <li><strong>Cookies and Similar Technologies:</strong> We use cookies to store your theme preference (dark/light mode) and to improve your browsing experience. These cookies are stored locally on your device and do not contain personal information.</li>
+    </ul>
+
+    <h3>3. Information from Third-Party Services</h3>
+    <p>We use third-party services that may collect information about your visit. These include:</p>
+    <ul>
+      <li><strong>Google AdSense:</strong> For displaying advertisements. Google may use cookies and web beacons to collect data about your visits to this and other websites to provide relevant ads.</li>
+      <li><strong>Google Analytics:</strong> For understanding website traffic and user behavior. This helps us improve our services.</li>
+      <li><strong>Content Delivery Networks (CDNs):</strong> For loading images and assets efficiently.</li>
+    </ul>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      How We Use Your Information
+    </h2>
+    <p>We use the information we collect for the following purposes:</p>
+    <ul>
+      <li><strong>To Provide Our Services:</strong> To operate and maintain our nickname generator tools and ensure they function correctly on your device.</li>
+      <li><strong>To Improve User Experience:</strong> To understand how visitors use our website so we can enhance features, fix bugs, and optimize performance.</li>
+      <li><strong>To Display Advertisements:</strong> We use Google AdSense to display ads that may be relevant to your interests. This helps us keep our tools free for everyone.</li>
+      <li><strong>To Analyze Traffic:</strong> Using Google Analytics, we analyze website traffic patterns to understand which pages are popular and how users navigate our site.</li>
+      <li><strong>To Ensure Security:</strong> To detect and prevent fraudulent activity, spam, and abuse of our services.</li>
+      <li><strong>To Comply with Legal Obligations:</strong> To comply with applicable laws, regulations, and legal processes.</li>
+    </ul>
+    <div class="info-box">
+      <h4>Important Note About Your Generated Content</h4>
+      <p>Any text or names you enter into our generator tools are processed entirely in your browser. We do not store, transmit, or have access to the names you generate. Your creative content remains completely private.</p>
+    </div>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Cookies and Tracking Technologies
+    </h2>
+    <p>We use cookies and similar tracking technologies to enhance your browsing experience. Here is what you need to know:</p>
+
+    <h3>What Are Cookies?</h3>
+    <p>Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are widely used to make websites work more efficiently and provide information to the website owners.</p>
+
+    <h3>Types of Cookies We Use</h3>
+    <ul>
+      <li><strong>Essential Cookies:</strong> These are necessary for the website to function properly. They enable basic features like page navigation and dark/light mode preferences.</li>
+      <li><strong>Analytics Cookies:</strong> These help us understand how visitors interact with our website by collecting and reporting information anonymously.</li>
+      <li><strong>Advertising Cookies:</strong> These are used by Google AdSense to deliver advertisements that are relevant to you and your interests. They also help limit the number of times you see an ad.</li>
+    </ul>
+
+    <h3>Managing Cookies</h3>
+    <p>You can control and manage cookies in your browser settings. Most browsers allow you to refuse all cookies or to indicate when a cookie is being sent. However, if you disable cookies, some features of our website may not function properly.</p>
+    <p>For more information about how Google uses data from cookies, please visit <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">Google's Privacy & Terms page</a>.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Google AdSense and Advertising
+    </h2>
+    <p>We use <strong>Google AdSense</strong> to display advertisements on our website. Google, as a third-party vendor, uses cookies to serve ads based on your prior visits to our website and other websites on the internet.</p>
+
+    <h3>How Google Uses Your Information</h3>
+    <p>Google uses the DART cookie to enable it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet. Users may opt out of the use of the DART cookie by visiting the <a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener noreferrer">Google Ad Settings</a> page.</p>
+
+    <h3>Third-Party Advertising</h3>
+    <p>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.</p>
+
+    <h3>Opting Out of Personalized Advertising</h3>
+    <p>You can opt out of personalized advertising by visiting the following resources:</p>
+    <ul>
+      <li><a href="https://adssettings.google.com/authenticated" target="_blank" rel="noopener noreferrer">Google Ads Settings</a></li>
+      <li><a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">About Ads Consumer Choice Page</a></li>
+      <li><a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener noreferrer">Network Advertising Initiative Opt-Out Page</a></li>
+    </ul>
+    <p>Please note that opting out of personalized advertising does not mean you will stop seeing ads. You will still see non-personalized advertisements.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Third-Party Services and Data Sharing
+    </h2>
+    <p>We do not sell, trade, or rent your personal information to third parties. However, we may share information with trusted third-party service providers who assist us in operating our website and conducting our business. These include:</p>
+    <ul>
+      <li><strong>Google (AdSense & Analytics):</strong> For advertising and analytics services.</li>
+      <li><strong>Hosting Providers:</strong> For storing and serving our website content.</li>
+      <li><strong>CDN Providers:</strong> For fast delivery of images and other assets.</li>
+    </ul>
+    <p>These third parties have access to your information only to perform specific tasks on our behalf and are obligated not to disclose or use it for any other purpose. We ensure that all third-party service providers we work with maintain appropriate data protection standards.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Data Security Measures
+    </h2>
+    <p>We take the security of your information seriously and implement appropriate technical and organizational measures to protect it:</p>
+    <ul>
+      <li><strong>HTTPS Encryption:</strong> Our website uses SSL/TLS encryption to secure data transmission between your browser and our servers.</li>
+      <li><strong>Secure Hosting:</strong> Our website is hosted on secure servers with regular security updates and monitoring.</li>
+      <li><strong>Limited Data Collection:</strong> We collect only the minimum amount of data necessary to provide our services and improve your experience.</li>
+      <li><strong>Regular Security Reviews:</strong> We periodically review our security practices to ensure they meet industry standards.</li>
+    </ul>
+    <p>While we strive to use commercially acceptable means to protect your personal information, no method of transmission over the Internet or electronic storage is 100% secure. Therefore, we cannot guarantee absolute security.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Data Retention
+    </h2>
+    <p>We retain information for as long as necessary to fulfill the purposes outlined in this Privacy Policy:</p>
+    <ul>
+      <li><strong>Log Data:</strong> Server logs are typically retained for a limited period (usually 30-90 days) for security and analytical purposes.</li>
+      <li><strong>Analytics Data:</strong> Google Analytics data is retained according to Google's data retention policies.</li>
+      <li><strong>Advertising Data:</strong> Data collected by Google AdSense is managed according to Google's privacy policies.</li>
+      <li><strong>User Preferences:</strong> Theme preferences stored in cookies remain on your device until you clear your browser cookies.</li>
+    </ul>
+    <p>Once the retention period expires, your data is either deleted or anonymized so that it can no longer be associated with you.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Children's Privacy (COPPA Compliance)
+    </h2>
+    <p>Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe that your child has provided us with personal information, please contact us immediately so that we can take appropriate action to remove such information from our records.</p>
+    <p>If we become aware that we have collected personal information from a child under 13 without verification of parental consent, we will take steps to delete that information as quickly as possible.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      Your Rights and Choices
+    </h2>
+    <p>Depending on your location, you may have certain rights regarding your personal information:</p>
+
+    <h3>For All Users</h3>
+    <ul>
+      <li><strong>Access:</strong> You have the right to request copies of your personal data.</li>
+      <li><strong>Correction:</strong> You have the right to request that we correct any information you believe is inaccurate.</li>
+      <li><strong>Deletion:</strong> You have the right to request that we erase your personal data, under certain conditions.</li>
+      <li><strong>Objection:</strong> You have the right to object to our processing of your personal data.</li>
+      <li><strong>Data Portability:</strong> You have the right to request that we transfer the data we have collected to another organization, or directly to you.</li>
+    </ul>
+
+    <h3>For California Residents (CCPA Rights)</h3>
+    <p>Under the California Consumer Privacy Act (CCPA), California residents have the right to:</p>
+    <ul>
+      <li>Know what personal information is being collected about them</li>
+      <li>Know whether their personal information is sold or disclosed and to whom</li>
+      <li>Say no to the sale of personal information</li>
+      <li>Access their personal information</li>
+      <li>Equal service and price, even if they exercise their privacy rights</li>
+    </ul>
+    <p>We do not sell personal information. To exercise your CCPA rights, please contact us using the information provided in the "Contact Us" section below.</p>
+
+    <h3>For EU/EEA Residents (GDPR Rights)</h3>
+    <p>If you are a resident of the European Economic Area, you have the following rights under the General Data Protection Regulation:</p>
+    <ul>
+      <li>The right to access, update, or delete your personal information</li>
+      <li>The right to rectification if your information is inaccurate or incomplete</li>
+      <li>The right to object to our processing of your personal data</li>
+      <li>The right to restriction of processing</li>
+      <li>The right to data portability</li>
+      <li>The right to withdraw consent at any time</li>
+    </ul>
+    <p>To exercise any of these rights, please contact us. We will respond to your request within 30 days.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      International Data Transfers
+    </h2>
+    <p>Your information may be transferred to and maintained on computers located outside of your state, province, country, or other governmental jurisdiction where the data protection laws may differ from those in your jurisdiction. If you are located outside the United States and choose to provide information to us, please note that we transfer the data to the United States and process it there.</p>
+    <p>We ensure that any international transfers of personal data are conducted in compliance with applicable data protection laws and that appropriate safeguards are in place to protect your information.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Contact Us
+    </h2>
+    <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please feel free to contact us:</p>
+    <div class="info-box">
+      <h4>Contact Information</h4>
+      <p><strong>Website:</strong> <a href="index.html">Mega Styling Name</a></p>
+      <p><strong>Email:</strong> contact@megastylingname.com</p>
+      <p><strong>Contact Page:</strong> <a href="Contact Us.html">Click here to visit our Contact Us page</a></p>
+    </div>
+    <p>We will make every effort to respond to your inquiry within a reasonable timeframe, typically within 30 days. If you are not satisfied with our response, you have the right to lodge a complaint with your local data protection authority.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Changes to This Privacy Policy
+    </h2>
+    <p>We may update our Privacy Policy from time to time to reflect changes in our practices, technologies, legal requirements, and other factors. When we make changes, we will update the "Last Updated" date at the bottom of this page and notify users of any material changes through a notice on our website.</p>
+    <p>We encourage you to review this Privacy Policy periodically to stay informed about how we are protecting your information. Your continued use of our website after any changes to this Privacy Policy constitutes your acceptance of those changes.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Legal Disclaimer
+    </h2>
+    <p>The information provided in this Privacy Policy is for general informational purposes only. While we strive to keep the information up to date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information contained on this page.</p>
+    <p>For more details about the limitations of liability and other legal terms, please refer to our <a href="Disclaimer.html">Disclaimer</a> and <a href="Terms and Conditions.html">Terms and Conditions</a> pages.</p>
+  </section>
+
+  <section class="policy-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+      Consent and Agreement
+    </h2>
+    <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms. If you do not agree with this policy, please do not use our website.</p>
+    <p>This Privacy Policy was created with the requirements of major advertising networks (including Google AdSense), data protection regulations (GDPR, CCPA, COPPA), and best practices for online privacy in mind.</p>
+    <div class="info-box">
+      <h4>Last Updated</h4>
+      <p>This Privacy Policy was last updated on <strong>April 27, 2026</strong>. If you have any questions about this policy, please contact us.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="Free_fire_nickname.html">Free Fire Nickname</a>
+        <a href="styling_Name.html">Styling Name</a>
+        <a href="Gaming_Stylish.html">Gaming Stylish</a>
+      </div>
+      <div class="footer-col">
+        <h4>More Tools</h4>
+        <a href="emoji_styling.html">Emoji Styling</a>
+        <a href="About Us.html">About Us</a>
+        <a href="Contact Us.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="Terms and Conditions.html">Terms & Conditions</a>
+        <a href="Disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Mega Styling Name. All rights reserved. | Privacy Policy</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Theme System
+const body=document.body;
+const themeBtn=document.getElementById('themeBtn');
+const sidebarThemeToggle=document.getElementById('sidebarThemeToggle');
+const themeText=document.getElementById('themeText');
+const moonIcon=document.getElementById('moonIcon');
+const sunIcon=document.getElementById('sunIcon');
+function setTheme(t){
+  body.setAttribute('data-theme',t);
+  localStorage.setItem('theme',t);
+  const isLight=t==='light';
+  themeText.textContent=isLight?'Switch to Dark Mode':'Switch to Light Mode';
+  moonIcon.style.display=isLight?'none':'block';
+  sunIcon.style.display=isLight?'block':'none';
+}
+function toggleTheme(){ setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark'); }
+themeBtn.addEventListener('click',toggleTheme);
+sidebarThemeToggle.addEventListener('click',toggleTheme);
+const savedTheme=localStorage.getItem('theme')||'dark';
+setTheme(savedTheme);
+
+// Sidebar
+const menuBtn=document.getElementById('menuBtn');
+const sidebar=document.getElementById('sidebar');
+const sidebarOverlay=document.getElementById('sidebarOverlay');
+function openSidebar(){ sidebar.classList.add('open'); sidebarOverlay.classList.add('active'); document.body.style.overflow='hidden'; }
+function closeSidebar(){ sidebar.classList.remove('open'); sidebarOverlay.classList.remove('active'); document.body.style.overflow=''; }
+menuBtn.addEventListener('click',openSidebar);
+sidebarOverlay.addEventListener('click',closeSidebar);
+</script>
+
+</body>
+</html>

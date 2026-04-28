@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emoji & Symbol Styling - Fancy Text with Symbols | Mega Styling Name</title>
+<meta name="description" content="Generate stylish names with symbols, Unicode text art and decorative characters. No emojis - pure text symbols for gaming and social media names.">
+<meta name="keywords" content="symbol text generator, Unicode symbols, fancy symbols name, text decoration, symbol nickname generator">
+<meta name="author" content="Mega Styling Name">
+<meta name="theme-color" content="#0f0f0f">
+<meta property="og:title" content="Emoji & Symbol Styling - Fancy Text with Symbols">
+<meta property="og:description" content="Generate stylish names with symbols, Unicode text art and decorative characters.">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#0a0a0f;--card:#13131f;--card2:#1a1a28;--accent:#7c3aed;--accent2:#a855f7;
+  --text:#f1f1f4;--text2:#a0a0b0;--border:#252538;--shadow:0 8px 32px rgba(0,0,0,.4);
+  --glow:0 0 20px rgba(124,58,237,.25);--grad:linear-gradient(135deg,#7c3aed,#a855f7);
+  --radius:16px;--radius2:12px;--maxw:1200px;
+}
+[data-theme="light"]{--bg:#f0f0f5;--card:#fff;--card2:#f5f5fa;--accent:#6d28d9;--accent2:#9333ea;--text:#1a1a2e;--text2:#555570;--border:#dddde8;--shadow:0 8px 32px rgba(0,0,0,.1);--glow:0 0 20px rgba(109,40,217,.15);}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;outline:none;background:none;font-family:inherit}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:0px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+[data-theme="light"] .header{background:rgba(240,240,245,.85)}
+.header-inner{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-wrap img{height:40px;width:auto;border-radius:8px}
+.site-title{font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-btns{display:flex;align-items:center;gap:10px}
+.icon-btn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);color:var(--text);transition:all .2s}
+.icon-btn:hover{background:var(--accent);color:#fff;transform:scale(1.05)}
+.icon-btn svg{width:20px;height:20px}
+.sidebar{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--card);border-right:1px solid var(--border);z-index:2000;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding-top:70px}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1999;opacity:0;pointer-events:none;transition:opacity .3s}
+.sidebar-overlay.active{opacity:1;pointer-events:auto}
+.sidebar-nav{padding:10px 16px 30px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius2);color:var(--text2);font-weight:500;transition:all .2s;margin-bottom:4px;font-size:.95rem}
+.nav-item:hover,.nav-item.active{background:var(--grad);color:#fff}
+.nav-item svg{width:22px;height:22px;flex-shrink:0}
+.nav-divider{height:1px;background:var(--border);margin:12px 16px}
+.nav-label{padding:8px 16px 4px;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:600}
+.main-content{padding-top:80px;max-width:var(--maxw);margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px}
+.hero{text-align:center;padding:50px 20px 40px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-bg::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.15),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);border-radius:50%}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;line-height:1.15;margin-bottom:16px;position:relative}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero>p{color:var(--text2);font-size:clamp(.95rem,2vw,1.1rem);max-width:600px;margin:0 auto 36px;line-height:1.6;position:relative}
+.input-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:30px;box-shadow:var(--shadow);position:relative}
+.input-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.name-input{flex:1;min-width:260px;max-width:500px;padding:14px 20px;border-radius:var(--radius2);border:2px solid var(--border);background:var(--bg);color:var(--text);font-size:1.05rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.name-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+.name-input::placeholder{color:var(--text2)}
+.generate-btn{padding:14px 32px;border-radius:var(--radius2);background:var(--grad);color:#fff;font-weight:700;font-size:1rem;transition:all .2s;box-shadow:var(--glow);display:flex;align-items:center;gap:8px}
+.generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.4)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:30px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:18px;text-align:center;transition:all .2s}
+.stat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.stat-num{font-size:1.6rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.8rem;color:var(--text2);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+.filter-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+.filter-tab{padding:10px 20px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-weight:600;transition:all .2s;font-size:.85rem}
+.filter-tab:hover{border-color:var(--accent);color:var(--text)}
+.filter-tab.active{background:var(--grad);color:#fff;border-color:transparent}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:40px}
+.result-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s;position:relative;overflow:hidden}
+.result-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--grad);opacity:0;transition:opacity .2s}
+.result-card:hover{border-color:var(--accent2);transform:translateY(-2px);box-shadow:var(--shadow)}
+.result-card:hover::before{opacity:1}
+.name-text{font-size:1.1rem;font-weight:600;word-break:break-all;flex:1;min-width:0}
+.copy-btn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--card2);border:1px solid var(--border);color:var(--text2);transition:all .2s;flex-shrink:0}
+.copy-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.copy-btn svg{width:16px;height:16px}
+.copy-btn.copied{background:#22c55e!important;color:#fff!important;border-color:#22c55e!important}
+.load-more{text-align:center;padding:30px}
+.load-spinner{display:inline-block;width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.how-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:30px}
+.how-title{font-size:1.5rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.how-title svg{width:26px;height:26px;color:var(--accent)}
+.how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.how-step{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;text-align:center;transition:all .2s}
+.how-step:hover{border-color:var(--accent)}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 12px;font-size:.9rem}
+.how-step h3{font-size:1rem;margin-bottom:8px}
+.how-step p{font-size:.85rem;color:var(--text2);line-height:1.5}
+.footer{background:var(--card);border-top:1px solid var(--border);padding:40px 20px 30px}
+.footer-inner{max-width:var(--maxw);margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;margin-bottom:30px}
+.footer-col h4{font-size:1rem;margin-bottom:14px;color:var(--text)}
+.footer-col a{display:block;color:var(--text2);font-size:.9rem;padding:6px 0;transition:color .2s}
+.footer-col a:hover{color:var(--accent2)}
+.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid var(--border);color:var(--text2);font-size:.85rem}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card);color:var(--text);padding:14px 24px;border-radius:var(--radius2);border:1px solid var(--border);box-shadow:var(--shadow);z-index:3000;opacity:0;transition:all .3s;font-weight:500;display:flex;align-items:center;gap:10px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast svg{width:18px;height:18px;color:#22c55e}
+@media(max-width:640px){
+  .header-inner{padding:10px 14px}
+  .logo-wrap img{height:34px}
+  .site-title{font-size:1.05rem}
+  .main-content{padding-left:14px;padding-right:14px}
+  .hero{padding:36px 10px 28px}
+  .input-section{padding:18px}
+  .results-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .how-steps{grid-template-columns:1fr}
+}
+@media(max-width:400px){
+  .name-input{min-width:100%}
+  .input-row{flex-direction:column}
+  .generate-btn{width:100%;justify-content:center}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.result-card{animation:fadeIn .35s ease forwards}
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="icon-btn" id="menuBtn" aria-label="Open Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="logo-wrap">
+        <img src="https://i.supaimg.com/f4f041f6-2f42-4bae-b619-8e460b122a1a.png" alt="Mega Styling Name Logo" loading="eager">
+        <span class="site-title">Mega Styling Name</span>
+      </a>
+    </div>
+    <div class="header-btns">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle Theme">
+        <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="Free_fire_nickname.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Free Fire Nickname
+    </a>
+    <a href="styling_Name.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      Styling Name (Instagram Bio)
+    </a>
+    <a href="Gaming_Stylish.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 11h4M8 9v4M12 9h4v2h-2v-2h-2zm6 0h2v2h-2z"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>
+      BGMI / Gaming Stylish Name
+    </a>
+    <a href="emoji_styling.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      Emoji & Symbol Styling
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-label">Information</div>
+    <a href="About Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      About Us
+    </a>
+    <a href="Contact Us.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact Us
+    </a>
+    <a href="Privacy Policy.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Privacy Policy
+    </a>
+    <a href="Disclaimer.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Disclaimer
+    </a>
+    <a href="Terms and Conditions.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Terms and Conditions
+    </a>
+    <div class="nav-divider"></div>
+    <button class="nav-item" id="sidebarThemeToggle" style="width:100%">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <span id="themeText">Switch to Light Mode</span>
+    </button>
+  </nav>
+</aside>
+
+<main class="main-content">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <h1>Symbol & Text <span>Styling</span> Generator</h1>
+    <p>Create stylish names with Unicode symbols and decorative text characters. Pure text symbols - no emoji icons needed. Perfect for any platform.</p>
+  </section>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">500+</div><div class="stat-label">Symbol Styles</div></div>
+    <div class="stat-card"><div class="stat-num">300+</div><div class="stat-label">Text Symbols</div></div>
+    <div class="stat-card"><div class="stat-num">100+</div><div class="stat-label">Decorators</div></div>
+    <div class="stat-card"><div class="stat-num">Universal</div><div class="stat-label">Works Everywhere</div></div>
+  </div>
+
+  <section class="input-section">
+    <div class="input-row">
+      <input type="text" class="name-input" id="nameInput" placeholder="Enter name for symbol styling..." maxlength="30" autocomplete="off">
+      <button class="generate-btn" id="generateBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="18" height="18"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Generate Symbol Styles
+      </button>
+    </div>
+  </section>
+
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-tab active" data-filter="all">All Symbols</button>
+    <button class="filter-tab" data-filter="stars">Star Styles</button>
+    <button class="filter-tab" data-filter="arrows">Arrow Styles</button>
+    <button class="filter-tab" data-filter="boxes">Box Styles</button>
+    <button class="filter-tab" data-filter="mixed">Mixed Symbols</button>
+  </div>
+
+  <div class="results-grid" id="resultsGrid"></div>
+  <div class="load-more" id="loadMore"><div class="load-spinner"></div></div>
+
+  <section class="how-section">
+    <h2 class="how-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      How to Use Symbol Styling Generator
+    </h2>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>Enter Your Name</h3>
+        <p>Type your desired name in the input box. Short names work best with symbol decorations.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Generate Symbol Styles</h3>
+        <p>Click Generate to create hundreds of symbol-enhanced variations with stars, arrows, boxes and more.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Browse Categories</h3>
+        <p>Filter by Star Styles, Arrow Styles, Box Styles, or Mixed Symbols to find your perfect look.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">4</div>
+        <h3>Copy & Use Anywhere</h3>
+        <p>These are pure Unicode text symbols - they work on every platform, game, and social media app.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="Free_fire_nickname.html">Free Fire Nickname</a>
+        <a href="styling_Name.html">Styling Name</a>
+        <a href="Gaming_Stylish.html">Gaming Stylish</a>
+      </div>
+      <div class="footer-col">
+        <h4>More Tools</h4>
+        <a href="emoji_styling.html">Emoji Styling</a>
+        <a href="About Us.html">About Us</a>
+        <a href="Contact Us.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="Privacy Policy.html">Privacy Policy</a>
+        <a href="Terms and Conditions.html">Terms & Conditions</a>
+        <a href="Disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Mega Styling Name. All rights reserved. | Symbol Styling Generator</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">Copied to clipboard!</span>
+</div>
+
+<script>
+const symbolFonts={
+  bold:{a:'\uD835\uDD38',b:'\uD835\uDD39',c:'\u2102',d:'\uD835\uDD3B',e:'\uD835\uDD3C',f:'\uD835\uDD3D',g:'\uD835\uDD3E',h:'\u210D',i:'\uD835\uDD40',j:'\uD835\uDD41',k:'\uD835\uDD42',l:'\uD835\uDD43',m:'\uD835\uDD44',n:'\uD835\uDD45',o:'\uD835\uDD46',p:'\u2119',q:'\u211A',r:'\u211D',s:'\uD835\uDD4A',t:'\uD835\uDD4B',u:'\uD835\uDD4C',v:'\uD835\uDD4D',w:'\uD835\uDD4E',x:'\uD835\uDD4F',y:'\uD835\uDD50',z:'\u2124',A:'\uD835\uDD6C',B:'\uD835\uDD6D',C:'\uD835\uDD6E',D:'\uD835\uDD6F',E:'\uD835\uDD70',F:'\uD835\uDD71',G:'\uD835\uDD72',H:'\uD835\uDD73',I:'\uD835\uDD74',J:'\uD835\uDD75',K:'\uD835\uDD76',L:'\uD835\uDD77',M:'\uD835\uDD78',N:'\uD835\uDD79',O:'\uD835\uDD7A',P:'\uD835\uDD7B',Q:'\uD835\uDD7C',R:'\uD835\uDD7D',S:'\uD835\uDD7E',T:'\uD835\uDD7F',U:'\uD835\uDD80',V:'\uD835\uDD81',W:'\uD835\uDD82',X:'\uD835\uDD83',Y:'\uD835\uDD84',Z:'\uD835\uDD85'},
+  wide:{a:'\uFF41',b:'\uFF42',c:'\uFF43',d:'\uFF44',e:'\uFF45',f:'\uFF46',g:'\uFF47',h:'\uFF48',i:'\uFF49',j:'\uFF4A',k:'\uFF4B',l:'\uFF4C',m:'\uFF4D',n:'\uFF4E',o:'\uFF4F',p:'\uFF50',q:'\uFF51',r:'\uFF52',s:'\uFF53',t:'\uFF54',u:'\uFF55',v:'\uFF56',w:'\uFF57',x:'\uFF58',y:'\uFF59',z:'\uFF5A',A:'\uFF21',B:'\uFF22',C:'\uFF23',D:'\uFF24',E:'\uFF25',F:'\uFF26',G:'\uFF27',H:'\uFF28',I:'\uFF29',J:'\uFF2A',K:'\uFF2B',L:'\uFF2C',M:'\uFF2D',N:'\uFF2E',O:'\uFF2F',P:'\uFF30',Q:'\uFF31',R:'\uFF32',S:'\uFF33',T:'\uFF34',U:'\uFF35',V:'\uFF36',W:'\uFF37',X:'\uFF38',Y:'\uFF39',Z:'\uFF3A'},
+  smallcaps:{a:'\u1D00',b:'\u0299',c:'\u1D04',d:'\u1D05',e:'\u1D07',f:'\uA730',g:'\u0262',h:'\u029C',i:'\u026A',j:'\u1D0A',k:'\u1D0B',l:'\u029F',m:'\u1D0D',n:'\u0274',o:'\u1D0F',p:'\u1D18',q:'Q',r:'\u0280',s:'\uA731',t:'\u1D1B',u:'\u1D1C',v:'\u1D20',w:'\u1D21',x:'\u02E3',y:'\u028F',z:'\u1D22',A:'\u1D00',B:'\u0299',C:'\u1D04',D:'\u1D05',E:'\u1D07',F:'\uA730',G:'\u0262',H:'\u029C',I:'\u026A',J:'\u1D0A',K:'\u1D0B',L:'\u029F',M:'\u1D0D',N:'\u0274',O:'\u1D0F',P:'\u1D18',Q:'Q',R:'\u0280',S:'\uA731',T:'\u1D1B',U:'\u1D1C',V:'\u1D20',W:'\u1D21',X:'\u02E3',Y:'\u028F',Z:'\u1D22'}
+};
+
+const starSyms=['\u2605','\u2606','\u2726','\u2727','\u2730','\u2736','\u2739','\u2741','\u273F','\u2745','\u2749','\u2756','\u2B50','\u2B51','\u2B52','\u2B53','\u2B54','\u2B55','\u2728','\u2729','\u272A','\u272B','\u272C','\u272D','\u272E','\u272F'];
+const arrowSyms=['\u2190','\u2191','\u2192','\u2193','\u2194','\u2195','\u2196','\u2197','\u2198','\u2199','\u21A9','\u21AA','\u21B0','\u21B1','\u21B2','\u21B3','\u21B6','\u21B7','\u21BA','\u21BB','\u21C4','\u21C5','\u21C6','\u21C7','\u21C8','\u21C9','\u21CA','\u21CB','\u21CC','\u21D0','\u21D1','\u21D2','\u21D3','\u21D4','\u21D5','\u21E0','\u21E1','\u21E2','\u21E3','\u21E6','\u21E7','\u21E8','\u21E9','\u27A1','\u2B05','\u2B06','\u2B07','\u2934','\u2935','\u27B0','\u27BF'];
+const boxSyms=['\u250C','\u2510','\u2514','\u2518','\u2554','\u2557','\u255A','\u255D','\u250F','\u2513','\u2517','\u251B','\u259B','\u259C','\u2599','\u259F','\u25A0','\u25A1','\u25AA','\u25AB','\u25AC','\u25AD','\u25B2','\u25B3','\u25BC','\u25BD','\u25C6','\u25C7','\u25C8','\u25CB','\u25CC','\u25CD','\u25CE','\u25CF','\u25D0','\u25D1','\u25D2','\u25D3','\u25D4','\u25D5','\u25D6','\u25D7','\u25E2','\u25E3','\u25E4','\u25E5','\u25E6','\u25E7','\u25E8','\u25E9','\u25EA','\u25EB','\u25EC','\u25ED','\u25EE','\u25EF'];
+const mixedSyms=['\u2660','\u2663','\u2665','\u2666','\u266A','\u266B','\u2600','\u2601','\u2602','\u2603','\u2604','\u26A0','\u26A1','\u26BD','\u26BE','\u26C4','\u26C5','\u26CE','\u26D4','\u26EA','\u26F2','\u26F3','\u26F5','\u26FA','\u26FD','\u2702','\u2705','\u2708','\u270A','\u270B','\u270C','\u2712','\u2714','\u2716','\u2728','\u2733','\u2744','\u2747','\u274C','\u274E','\u2753','\u2754','\u2763','\u2764','\u2795','\u2796','\u2797','\u27A1','\u27B0','\u27BF','\u3030','\u303D','\u3297','\u3299','\u00A9','\u00AE','\u2122'];
+
+function convertText(text,fontMap){return text.split('').map(c=>fontMap[c]||c).join('');}
+
+function generateSymbolNames(name){
+  if(!name||!name.trim())return[];
+  const n=name.trim();
+  const results=[];
+  const cats={stars:[],arrows:[],boxes:[],mixed:[]};
+
+  Object.keys(symbolFonts).forEach(key=>{
+    const converted=convertText(n,symbolFonts[key]);
+    starSyms.slice(0,15).forEach((s,i)=>{
+      const s2=starSyms[(i+1)%starSyms.length];
+      cats.stars.push(s+' '+converted+' '+s2);
+      cats.stars.push(s+converted+s2);
+      cats.stars.push(s+s+converted+s2+s2);
+    });
+    arrowSyms.slice(0,20).forEach((a,i)=>{
+      const a2=arrowSyms[(i+1)%arrowSyms.length];
+      cats.arrows.push(a+' '+converted+' '+a2);
+      cats.arrows.push(a+converted+a2);
+    });
+    boxSyms.slice(0,20).forEach((b,i)=>{
+      const b2=boxSyms[(i+1)%boxSyms.length];
+      cats.boxes.push(b+' '+converted+' '+b2);
+      cats.boxes.push(b+converted+b2);
+    });
+    mixedSyms.slice(0,20).forEach((m,i)=>{
+      const m2=mixedSyms[(i+1)%mixedSyms.length];
+      cats.mixed.push(m+' '+converted+' '+m2);
+      cats.mixed.push(m+converted+m2);
+    });
+  });
+
+  starSyms.forEach((s,i)=>{
+    const s2=starSyms[(i+1)%starSyms.length];
+    cats.stars.push(s+n+s2);
+    cats.stars.push(s+' '+n+' '+s2);
+    cats.stars.push(s+s+n+s2+s2);
+  });
+
+  arrowSyms.forEach((a,i)=>{
+    const a2=arrowSyms[(i+1)%arrowSyms.length];
+    cats.arrows.push(a+n+a2);
+    cats.arrows.push(a+' '+n+' '+a2);
+  });
+
+  boxSyms.forEach((b,i)=>{
+    const b2=boxSyms[(i+1)%boxSyms.length];
+    cats.boxes.push(b+n+b2);
+    cats.boxes.push(b+' '+n+' '+b2);
+  });
+
+  mixedSyms.forEach((m,i)=>{
+    const m2=mixedSyms[(i+1)%mixedSyms.length];
+    cats.mixed.push(m+n+m2);
+    cats.mixed.push(m+' '+n+' '+m2);
+  });
+
+  Object.keys(cats).forEach(k=>{
+    cats[k]=[...new Set(cats[k])].filter(v=>v&&v.trim());
+  });
+  Object.keys(cats).forEach(cat=>{
+    cats[cat].forEach(val=>results.push({text:val,category:cat}));
+  });
+  for(let i=results.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [results[i],results[j]]=[results[j],results[i]];
+  }
+  return results;
+}
+
+const resultsGrid=document.getElementById('resultsGrid');
+const loadMore=document.getElementById('loadMore');
+let allNames=[];
+let renderedCount=0;
+const BATCH_SIZE=50;
+let currentFilter='all';
+
+function createCard(item,index){
+  const card=document.createElement('div');
+  card.className='result-card';
+  card.style.animationDelay=(index%10)*0.03+'s';
+  card.innerHTML=`<span class="name-text">${escapeHtml(item.text)}</span><button class="copy-btn" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`;
+  card.querySelector('.copy-btn').addEventListener('click',function(){copyText(item.text,this);});
+  return card;
+}
+
+function escapeHtml(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+
+function renderBatch(){
+  const filtered=currentFilter==='all'?allNames:allNames.filter(n=>n.category===currentFilter);
+  const toRender=filtered.slice(renderedCount,renderedCount+BATCH_SIZE);
+  toRender.forEach((item,i)=>{resultsGrid.appendChild(createCard(item,renderedCount+i));});
+  renderedCount+=toRender.length;
+  loadMore.style.display=renderedCount<filtered.length?'block':'none';
+}
+
+function loadAll(){resultsGrid.innerHTML='';renderedCount=0;renderBatch();}
+
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)renderBatch();});},{rootMargin:'200px'});
+observer.observe(loadMore);
+
+function copyText(text,btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    if(btn){btn.classList.add('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';},2000);}
+    showToast('Copied to clipboard!');
+  }).catch(()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showToast('Copied to clipboard!');});
+}
+
+function showToast(msg){
+  const toast=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2500);
+}
+
+document.getElementById('filterTabs').addEventListener('click',e=>{
+  if(e.target.classList.contains('filter-tab')){
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFilter=e.target.dataset.filter;
+    loadAll();
+  }
+});
+
+function doGenerate(){
+  const val=document.getElementById('nameInput').value;
+  if(!val.trim()){showToast('Please enter a name first!');return;}
+  allNames=generateSymbolNames(val);
+  loadAll();
+  showToast(`Generated ${allNames.length} symbol styles!`);
+}
+
+document.getElementById('generateBtn').addEventListener('click',doGenerate);
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')doGenerate();});
+
+const defaultNames=['Star','Arrow','Flash','Bolt','Spark','Nova','Comet','Beam','Ray','Glow','Blaze','Sparkle','Shine','Light','Flare'];
+const preloaded=[];
+defaultNames.forEach(name=>{
+  const gens=generateSymbolNames(name);
+  preloaded.push(...gens.slice(0,Math.floor(gens.length/defaultNames.length)+8));
+});
+allNames=preloaded;
+loadAll();
+
+// Theme + Sidebar
+const body=document.body;
+const themeBtn=document.getElementById('themeBtn');
+const sidebarThemeToggle=document.getElementById('sidebarThemeToggle');
+const themeText=document.getElementById('themeText');
+const moonIcon=document.getElementById('moonIcon');
+const sunIcon=document.getElementById('sunIcon');
+function setTheme(t){body.setAttribute('data-theme',t);localStorage.setItem('theme',t);const isLight=t==='light';themeText.textContent=isLight?'Switch to Dark Mode':'Switch to Light Mode';moonIcon.style.display=isLight?'none':'block';sunIcon.style.display=isLight?'block':'none';}
+function toggleTheme(){setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark');}
+themeBtn.addEventListener('click',toggleTheme);
+sidebarThemeToggle.addEventListener('click',toggleTheme);
+const savedTheme=localStorage.getItem('theme')||'dark';setTheme(savedTheme);
+
+const menuBtn=document.getElementById('menuBtn');
+const sidebar=document.getElementById('sidebar');
+const sidebarOverlay=document.getElementById('sidebarOverlay');
+function openSidebar(){sidebar.classList.add('open');sidebarOverlay.classList.add('active');document.body.style.overflow='hidden';}
+function closeSidebar(){sidebar.classList.remove('open');sidebarOverlay.classList.remove('active');document.body.style.overflow='';}
+menuBtn.addEventListener('click',openSidebar);
+sidebarOverlay.addEventListener('click',closeSidebar);
+</script>
+<script src="https://pl28985226.profitablecpmratenetwork.com/cf/e2/68/cfe2683c1f2a5ab65b73fca85482b474.js"></script>
+
+</body>
+</html>
