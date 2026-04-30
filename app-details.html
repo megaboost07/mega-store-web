@@ -1009,6 +1009,67 @@
         }
         
 
+        /* Share Section */
+        .share-section {
+            background: var(--surface);
+            padding: 16px 24px;
+            margin-top: 8px;
+        }
+
+        .btn-share-full {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-share-full:hover {
+            background: #388e3c;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(76,175,80,0.3);
+        }
+
+        /* Telegram Section */
+        .telegram-section {
+            background: var(--surface);
+            padding: 16px 24px;
+            margin-top: 8px;
+        }
+
+        .btn-telegram-full {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-telegram-full:hover {
+            background: #006699;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,136,204,0.3);
+        }
+
         /* Edit Section - Bottom */
         .edit-section {
             background: var(--surface);
@@ -2448,6 +2509,15 @@
 
                                 <!-- Screenshots -->
                 ${screenshotsHtml}
+
+
+                <!-- Share Section -->
+                <div class="share-section">
+                    <button class="btn-share-full" onclick="shareApp()">
+                        <span class="material-icons">share</span>
+                        Share This App
+                    </button>
+                </div>
                 
                 <!-- Description -->
                 <div class="description-section">
@@ -2455,6 +2525,14 @@
                     <p class="description-text">${processedDescription || 'No description available.'}</p>
                 </div>
                 
+                <!-- Telegram Section -->
+                <div class="telegram-section">
+                    <a href="https://t.me/+y4__XGNTO4w0ZmE1" target="_blank" class="btn-telegram-full">
+                        <span class="material-icons">telegram</span>
+                        Join Telegram
+                    </a>
+                </div>
+
                 <!-- Rating Section -->
                 <div class="rating-section">
                     <h2 class="section-title">Ratings & Reviews</h2>
@@ -2524,13 +2602,6 @@
                     </div>
                 </div>
 
-                <!-- Edit Section - Sabse niche -->
-                <div class="edit-section" id="editSection" style="display: none;">
-                    <button class="btn-edit-full" onclick="openEditModal()">
-                        <span class="material-icons">edit</span>
-                        Edit App
-                    </button>
-                </div>
             `;
             
             // Add input event listeners
@@ -2570,10 +2641,10 @@
                 fabEdit.style.display = 'none'; // Hidden - edit moved to bottom
             }
 
-            // EDIT SECTION - Bottom edit button (sabse niche) - Hamesha visible
+            // EDIT SECTION - Bottom edit button - Sirf owner ke liye
             const editSection = document.getElementById('editSection');
             if (editSection) {
-                editSection.style.display = 'block';
+                editSection.style.display = isAppOwner ? 'block' : 'none';
             }
             
             updateLikeButton(); // Like button ka state update karo
@@ -3100,13 +3171,6 @@
                     </div>
                 </div>
 
-                <!-- Edit Section - Sabse niche -->
-                <div class="edit-section" id="editSection" style="display: none;">
-                    <button class="btn-edit-full" onclick="openEditModal()">
-                        <span class="material-icons">edit</span>
-                        Edit App
-                    </button>
-                </div>
             `;
         }
         
@@ -3421,6 +3485,8 @@
     </script>
 
     <script src="https://pl28986404.profitablecpmratenetwork.com/09/37/98/0937980af416c3f83f0492c504ea80b7.js"></script>
+<script src="https://pl28985226.profitablecpmratenetwork.com/cf/e2/68/cfe2683c1f2a5ab65b73fca85482b474.js"></script>
+
 
 </body>
 </html>
