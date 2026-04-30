@@ -212,32 +212,6 @@
             font-size: 16px;
         }
         
-        /* Stats Bar */
-        .stats-bar {
-            background: var(--surface);
-            display: flex;
-            justify-content: space-around;
-            padding: 16px 24px;
-            border-top: 1px solid var(--divider);
-            border-bottom: 1px solid var(--divider);
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        
         /* Action Buttons */
         .action-buttons {
             background: var(--surface);
@@ -303,8 +277,8 @@
         /* Screenshots */
         .screenshots-section {
             background: var(--surface);
-            padding: 8px 8px;
-            margin-top: 4px;
+            padding: 0px 0px;
+            margin-top: 0;
         }
         
         .section-title {
@@ -1034,6 +1008,37 @@
             color: var(--text-primary);
         }
         
+
+        /* Edit Section - Bottom */
+        .edit-section {
+            background: var(--surface);
+            padding: 16px 24px;
+            margin-top: 8px;
+        }
+
+        .btn-edit-full {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-edit-full:hover {
+            background: #f57c00;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255,152,0,0.3);
+        }
+
         /* Download Bar - Updated for 3 buttons */
         .download-bar {
             position: fixed;
@@ -1630,11 +1635,127 @@
             transform: none;
         }
 
-          .search-btn {
+        .search-btn {
             background: none;
             border: none;
             cursor: pointer;
        }
+        
+        /* ===== FAB EDIT BUTTON ===== */
+        .fab-edit {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            z-index: 99;
+            transition: all 0.2s;
+        }
+        
+        .fab-edit:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        
+        .fab-edit .material-icons {
+            font-size: 24px;
+        }
+        
+        /* ===== MEGA STORE LINK ===== */
+        .store-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .store-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        
+        .store-link::after {
+            content: 'open_in_new';
+            font-family: 'Material Icons';
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* ===== CHAIN DESIGN STATS BAR ===== */
+        .stats-bar {
+            background: var(--surface);
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 24px;
+            gap: 12px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            border: 1.5px solid var(--divider);
+            border-radius: 12px;
+            padding: 12px 4px;
+            transition: all 0.2s;
+            min-width: 0;
+        }
+        
+        .stat-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        @media (max-width: 480px) {
+            .stats-bar {
+                padding: 12px 16px;
+                gap: 8px;
+            }
+            
+            .stat-item {
+                padding: 10px 2px;
+                border-radius: 10px;
+            }
+            
+            .stat-value {
+                font-size: 16px;
+            }
+            
+            .stat-label {
+                font-size: 11px;
+            }
+            
+            .fab-edit {
+                bottom: 80px;
+                right: 16px;
+                width: 50px;
+                height: 50px;
+            }
+        }
         
         .submit-btn .material-icons {
             font-size: 20px;
@@ -1658,44 +1779,14 @@
         <button class="back-btn" onclick="history.back()">
             <span class="material-icons">arrow_back</span>
         </button>
-<h1 class="app-title" id="pageTitle">App Details</h1>    
-
-<button onclick="window.location.href='profile.html'" style="background:none; border:none; cursor:pointer;">
-    <img src="https://i.supaimg.com/48e15075-dfd2-4c38-85f0-ab77baa89073.jpg" 
-         alt="Profile" 
-         style="width:30px; height:30px; border-radius:50%;">
-</button>
+        <h1 class="app-title" id="pageTitle">MEGA BOOST</h1>
+        <button class="search-btn" onclick="window.location.href='search.html'">
+        <span class="material-icons">search</span>
+        </button>
     </header>
     
-<!-- Rounded Ad Container -->
-<div style="
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin:80px 0 20px 0; /* top = 80px */
-">
 
-  <div style="
-    border-radius:15px;
-    overflow:hidden;
-    background:#ffffff;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-  ">
 
-    <script>
-      atOptions = {
-        'key' : 'fdcef8b34707e784e6478e2c70e8ec84',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-
-    <script src="https://www.highperformanceformat.com/fdcef8b34707e784e6478e2c70e8ec84/invoke.js"></script>
-
-  </div>
-</div>
 
 
     <!-- Main Content -->
@@ -1723,68 +1814,6 @@
         </div>
     </main>
 
-<!-- Rounded Ad Container -->
-<div style="
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin:20px 0;
-">
-
-  <div style="
-    border-radius:15px;
-    overflow:hidden;
-    background:#ffffff;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-  ">
-
-    <script>
-      atOptions = {
-        'key' : 'fdcef8b34707e784e6478e2c70e8ec84',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-
-    <script src="https://www.highperformanceformat.com/fdcef8b34707e784e6478e2c70e8ec84/invoke.js"></script>
-
-  </div>
-</div>
-
-<!-- Banner Ad 8px Rounded -->
-<div style="
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin:10px 0;
-">
-
-  <div style="
-    border-radius:8px; /* yahi change kiya */
-    overflow:hidden;
-    background:#ffffff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    padding:0px;
-  ">
-
-    <div style="line-height:0;">
-      <script>
-        atOptions = {
-          'key' : '76a5d408b08cc0ec1fc19ab5e70b18d7',
-          'format' : 'iframe',
-          'height' : 50,
-          'width' : 320,
-          'params' : {}
-        };
-      </script>
-
-      <script src="https://www.highperformanceformat.com/76a5d408b08cc0ec1fc19ab5e70b18d7/invoke.js"></script>
-    </div>
-
-  </div>
-</div>
     
     <!-- Lightbox Modal -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
@@ -1902,6 +1931,11 @@
         <!-- Buttons will be dynamically inserted here by JavaScript -->
     </div>
     
+    <!-- Edit FAB Button -->
+    <button class="fab-edit" id="fabEdit" onclick="openEditModal()" style="display: none;">
+        <span class="material-icons">edit</span>
+    </button>
+    
     <!-- Toast -->
     <div class="toast" id="toast"></div>
     
@@ -1981,11 +2015,45 @@
                     appData = snapshot.val();
                     console.log('App data loaded:', appData);
                     if (appData) {
-                        // Update page title with app name
-                        document.title = appData.name + ' - MEGA STORE';
+                        // Update page title with app name (SEO friendly)
+                        document.title = appData.name + ' - Download APK Free | MEGA STORE';
 
-                        // Update header title with app name
-                        document.getElementById('pageTitle').textContent = appData.name;
+                        // Update meta description for SEO
+                        const metaDesc = document.querySelector('meta[name="description"]');
+                        if (metaDesc && appData.description) {
+                            metaDesc.content = appData.description.substring(0, 160) + (appData.description.length > 160 ? '...' : '');
+                        }
+
+                        // Update meta keywords for SEO (trending search keywords)
+                        const metaKeywords = document.querySelector('meta[name="keywords"]');
+                        if (metaKeywords) {
+                            const keywords = `${appData.name}, ${appData.name} apk, ${appData.name} download, ${appData.name} app, ${appData.developer || 'android app'}, sketchware pro, free fire panel, swb project, mod apk, android apk download, latest version, mega store`;
+                            metaKeywords.content = keywords;
+                        }
+
+                        // Update OG (Open Graph) tags
+                        const ogTitle = document.querySelector('meta[property="og:title"]');
+                        if (ogTitle) ogTitle.content = appData.name + ' - Download Free APK | MEGA STORE';
+
+                        const ogDesc = document.querySelector('meta[property="og:description"]');
+                        if (ogDesc && appData.description) {
+                            ogDesc.content = appData.description.substring(0, 160) + (appData.description.length > 160 ? '...' : '');
+                        }
+
+                        const ogImage = document.querySelector('meta[property="og:image"]');
+                        if (ogImage && appData.icon) ogImage.content = appData.icon;
+
+                        // Update Twitter Card tags
+                        const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+                        if (twitterTitle) twitterTitle.content = appData.name + ' - Download Free APK | MEGA STORE';
+
+                        const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+                        if (twitterDesc && appData.description) {
+                            twitterDesc.content = appData.description.substring(0, 160) + (appData.description.length > 160 ? '...' : '');
+                        }
+
+                        const twitterImage = document.querySelector('meta[name="twitter:image"]');
+                        if (twitterImage && appData.icon) twitterImage.content = appData.icon;
 
                         // YE CHECK KAREGA KI CURRENT USER HI OWNER HAI
                         checkIfOwner();
@@ -2334,7 +2402,10 @@
                     </div>
                     <div class="app-info">
                         <h1 class="app-name-large">${appData.name}</h1>
-                        <p class="app-developer-large">${appData.developer || 'Unknown Developer'}</p>
+                        <p class="app-developer-large">
+                            <a href="https://mega-store.in/home" class="store-link">MEGA STORE</a>
+                            ${appData.developer ? ` • ${appData.developer}` : ''}
+                        </p>
                         <div class="app-rating-large">
                             <span class="material-icons">star</span>
                             <span>${appData.rating || '0.0'}</span>
@@ -2363,15 +2434,19 @@
                     </div>
                 </div>
                 
-                <!-- Download Button Above Screenshots -->
-                <div class="download-section-above" style="background: var(--surface); padding: 16px 24px; margin-top: 8px;">
-                    <button class="btn btn-primary" id="screenshotDownloadBtn" onclick="handleScreenshotDownload()" style="width: 100%;">
+                <!-- Action Buttons (Like + Download) -->
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
+                        <span class="material-icons">favorite</span>
+                        <span id="likeText">Like</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="downloadApp()">
                         <span class="material-icons">download</span>
-                        Download Now
+                        Download
                     </button>
                 </div>
 
-                <!-- Screenshots -->
+                                <!-- Screenshots -->
                 ${screenshotsHtml}
                 
                 <!-- Description -->
@@ -2448,6 +2523,14 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Edit Section - Sabse niche -->
+                <div class="edit-section" id="editSection" style="display: none;">
+                    <button class="btn-edit-full" onclick="openEditModal()">
+                        <span class="material-icons">edit</span>
+                        Edit App
+                    </button>
+                </div>
             `;
             
             // Add input event listeners
@@ -2465,40 +2548,34 @@
                 });
             }
             
-            // DOWNLOAD BAR KO UPDATE KARO - Edit button add karo
+            // DOWNLOAD BAR KO UPDATE KARO - Sirf Like & Download
             const downloadBar = document.getElementById('downloadBar');
             
-            if (isAppOwner) {
-                // Agar owner hai toh 3 buttons dikhao: Like | Edit | Download
-                downloadBar.innerHTML = `
-                    <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
-                        <span class="material-icons">favorite</span>
-                        <span id="likeText">Like</span>
-                    </button>
-                    <button class="btn btn-edit" onclick="openEditModal()">
-                        <span class="material-icons">edit</span>
-                        Edit
-                    </button>
-                    <button class="btn btn-primary" onclick="downloadApp()">
-                        <span class="material-icons">download</span>
-                        Download
-                    </button>
-                `;
-            } else {
-                // Normal user ke liye sirf Like aur Download
-                downloadBar.innerHTML = `
-                    <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
-                        <span class="material-icons">favorite</span>
-                        <span id="likeText">Like</span>
-                    </button>
-                    <button class="btn btn-primary" onclick="downloadApp()">
-                        <span class="material-icons">download</span>
-                        Download
-                    </button>
-                `;
+            downloadBar.innerHTML = `
+                <button class="btn btn-secondary" id="likeBtn" onclick="toggleLike()">
+                    <span class="material-icons">favorite</span>
+                    <span id="likeText">Like</span>
+                </button>
+                <button class="btn btn-primary" onclick="downloadApp()">
+                    <span class="material-icons">download</span>
+                    Download
+                </button>
+            `;
+            
+            downloadBar.style.display = 'none';
+            
+            // FAB EDIT BUTTON - Sirf owner ke liye dikhaye
+            const fabEdit = document.getElementById('fabEdit');
+            if (fabEdit) {
+                fabEdit.style.display = 'none'; // Hidden - edit moved to bottom
+            }
+
+            // EDIT SECTION - Bottom edit button (sabse niche) - Hamesha visible
+            const editSection = document.getElementById('editSection');
+            if (editSection) {
+                editSection.style.display = 'block';
             }
             
-            downloadBar.style.display = 'flex';
             updateLikeButton(); // Like button ka state update karo
             updateRatingBars();
             loadComments();
@@ -2756,42 +2833,6 @@
                     showToast('Download link not available');
                 }
             });
-        }
-        
-        // Variable to track if ad link has been opened
-        let adLinkOpened = false;
-        
-        // Handle download button click above screenshots
-        function handleScreenshotDownload() {
-            const AD_LINK = 'https://www.profitablecpmratenetwork.com/xm9iqngtn?key=5fe296a797efc1009b3669d80bedd251';
-            
-            if (!adLinkOpened) {
-                // First click - open ad link (no login required)
-                window.open(AD_LINK, '_blank');
-                adLinkOpened = true;
-                showToast('Please wait... Click download again to get the file');
-            } else {
-                // Second click - download the file (login required)
-                if (!currentUser) {
-                    showToast('Please login to download');
-                    return;
-                }
-                
-                database.ref(`userDownloads/${currentUser.id}/${appId}`).once('value').then(snapshot => {
-                    if (!snapshot.val()) {
-                        database.ref(`userDownloads/${currentUser.id}/${appId}`).set(true);
-                        database.ref(`apps/${appId}/downloads`).transaction(current => (current || 0) + 1);
-                        database.ref(`stats/totalDownloads`).transaction(current => (current || 0) + 1);
-                        database.ref(`users/${currentUser.id}/downloads`).transaction(current => (current || 0) + 1);
-                    }
-                    
-                    if (appData.downloadUrl) {
-                        window.open(appData.downloadUrl, '_blank');
-                    } else {
-                        showToast('Download link not available');
-                    }
-                });
-            }
         }
         
         function postComment() {
@@ -3058,6 +3099,14 @@
                         ${repliesHtml}
                     </div>
                 </div>
+
+                <!-- Edit Section - Sabse niche -->
+                <div class="edit-section" id="editSection" style="display: none;">
+                    <button class="btn-edit-full" onclick="openEditModal()">
+                        <span class="material-icons">edit</span>
+                        Edit App
+                    </button>
+                </div>
             `;
         }
         
@@ -3106,6 +3155,14 @@
                             ` : ''}
                         </div>
                     </div>
+                </div>
+
+                <!-- Edit Section - Sabse niche -->
+                <div class="edit-section" id="editSection" style="display: none;">
+                    <button class="btn-edit-full" onclick="openEditModal()">
+                        <span class="material-icons">edit</span>
+                        Edit App
+                    </button>
                 </div>
             `;
         }
@@ -3364,7 +3421,6 @@
     </script>
 
     <script src="https://pl28986404.profitablecpmratenetwork.com/09/37/98/0937980af416c3f83f0492c504ea80b7.js"></script>
-<script src="https://pl28985226.profitablecpmratenetwork.com/cf/e2/68/cfe2683c1f2a5ab65b73fca85482b474.js"></script>
 
 </body>
 </html>
