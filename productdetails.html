@@ -1861,6 +1861,49 @@ body.dark .btn-sticky-buy {
   opacity: 1;
 }
 
+
+/* ===== Progressive Image Loading + LQIP ===== */
+.prog-img {
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(1.02);
+  transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease;
+}
+.prog-img.loaded {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+/* LQIP shimmer placeholder wrapper */
+.lqip-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(100deg, var(--accent-light) 40%, rgba(148,163,184,0.25) 50%, var(--accent-light) 60%);
+  background-size: 200% 100%;
+  animation: lqipShimmer 1.4s infinite linear;
+  overflow: hidden;
+}
+@keyframes lqipShimmer {
+  0% { background-position: 180% 0; }
+  100% { background-position: -20% 0; }
+}
+/* Extra-small LQIP preview shown while full image loads (blur-up effect) */
+.prog-lqip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(18px);
+  transform: scale(1.08);
+  opacity: 0.85;
+  transition: opacity 0.4s ease;
+}
+.prog-img.loaded + .prog-lqip,
+.prog-lqip.hidden { opacity: 0; }
+/* ============================================ */
+
 /* Product Not Available State */
 .empty-product-state {
   text-align: center;
@@ -2463,6 +2506,99 @@ let allReviews = [];
 let reviewsLimit = 4;
 let videosLimit = 2;
 
+/* ============================================================
+   FAST IMAGE LOADING ENGINE
+   - Progressive Image Loading (blur-up)
+   - Lazy Loading (IntersectionObserver)
+   - LQIP (Low Quality Image Placeholder)
+   - Newest product sabse upar (createdAt/uploadedAt desc sort)
+   ============================================================ */
+
+/* Tiny grey LQIP preview (8px wide SVG) — instant paint, blur-up effect */
+const LQIP_PLACEHOLDER =
+  "data:image/svg+xml;charset=utf-8," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="10">' +
+    '<rect width="16" height="10" fill="#cbd5e1"/>' +
+    '<rect width="16" height="5" fill="#e2e8f0"/>' +
+    "</svg>"
+  );
+
+/* Build a super-tiny LQIP URL from any image URL (works for CDN images too) */
+function buildLqipUrl(src) {
+  if (!src) return LQIP_PLACEHOLDER;
+  // Unsplash jaise URLs ke liye chhota preview directly maang lo
+  if (src.includes("images.unsplash.com")) {
+    return src.split("?")[0] + "?w=32&q=30&auto=format";
+  }
+  // Baaki images ke liye generic tiny placeholder
+  return LQIP_PLACEHOLDER;
+}
+
+/* IntersectionObserver — sirf screen ke paas wali images load hoti hain */
+const lazyImageObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      loadProgressiveImage(entry.target);
+      lazyImageObserver.unobserve(entry.target);
+    }
+  });
+}, { rootMargin: "250px 0px" }); // thoda pehle se load shuru
+
+/* Ek progressive image element banao: pehle LQIP blur, phir full image fade-in */
+function createProgressiveImg(src, altText, extraClass) {
+  const img = document.createElement("img");
+  img.className = "prog-img " + (extraClass || "");
+  img.alt = altText || "";
+  img.decoding = "async";
+  img.dataset.src = src;
+  img.dataset.lqip = buildLqipUrl(src);
+  img.src = img.dataset.lqip;          // LQIP turant paint
+  lazyImageObserver.observe(img);
+  return img;
+}
+
+/* Existing HTML images ko bhi progressive bana do */
+function upgradeImgToProgressive(img, fullSrc) {
+  if (!img || img.dataset.upgraded === "1") return;
+  img.dataset.upgraded = "1";
+  img.dataset.src = fullSrc || img.src;
+  img.dataset.lqip = buildLqipUrl(img.dataset.src);
+  img.classList.add("prog-img");
+  img.decoding = "async";
+  img.src = img.dataset.lqip;
+  lazyImageObserver.observe(img);
+}
+
+/* Full image ko background mein load karo, ready hote hi blur-up swap */
+function loadProgressiveImage(img) {
+  const fullSrc = img.dataset.src;
+  if (!fullSrc) return;
+  const full = new Image();
+  full.decoding = "async";
+  full.src = fullSrc;
+  const swap = () => {
+    img.src = fullSrc;
+    requestAnimationFrame(() => img.classList.add("loaded"));
+  };
+  if (full.complete && full.naturalWidth > 0) {
+    swap();
+  } else {
+    full.onload = swap;
+    full.onerror = () => { img.src = fullSrc; img.classList.add("loaded"); };
+  }
+}
+
+/* Sabse naya product sabse upar — createdAt/uploadedAt/addedAt desc sort */
+function sortNewestFirst(products) {
+  return products.slice().sort((a, b) => {
+    const ta = Number(a.createdAt || a.uploadedAt || a.addedAt || a.timestamp || 0);
+    const tb = Number(b.createdAt || b.uploadedAt || b.addedAt || b.timestamp || 0);
+    return tb - ta; // naya pehle
+  });
+}
+
+
 /* --- Quantity Stepper --- */
 const qtyMinusBtn = document.getElementById("qtyMinusBtn");
 const qtyPlusBtn = document.getElementById("qtyPlusBtn");
@@ -2508,7 +2644,10 @@ function renderGallery(images) {
       const slide = document.createElement("div");
       slide.className = "gallery-slide";
       slide.setAttribute("data-slide-index", idx);
-      slide.innerHTML = `<img src="${img}" alt="Product view ${idx + 1}" loading="${idx === 0 ? 'eager' : 'lazy'}">`;
+      // Progressive + Lazy + LQIP: pehli image turant, baaki scroll pe load
+      const pImg = createProgressiveImg(img, "Product view " + (idx + 1), "");
+      if (idx === 0) { pImg.fetchPriority = "high"; }
+      slide.appendChild(pImg);
       track.appendChild(slide);
     });
   }
@@ -2519,7 +2658,7 @@ function renderGallery(images) {
     productImages.forEach((img, idx) => {
       const thumb = document.createElement("div");
       thumb.className = "thumbnail-item" + (idx === 0 ? " active" : "");
-      thumb.innerHTML = `<img src="${img}" alt="Thumbnail ${idx + 1}" loading="lazy">`;
+      thumb.appendChild(createProgressiveImg(img, "Thumbnail " + (idx + 1), ""));
       thumb.addEventListener("click", () => {
         goToSlide(idx);
       });
@@ -2970,7 +3109,7 @@ function renderVideos(videos) {
     const ytId = getYouTubeVideoId(vidUrl);
     if (ytId) {
       card.innerHTML = `
-        <img class="video-thumb" src="https://i.ytimg.com/vi/${ytId}/hqdefault.jpg" alt="Product video" loading="lazy" onclick="loadVideoPlayer('${ytId}', this)">
+        <img class="video-thumb" src="${LQIP_PLACEHOLDER}" data-src="https://i.ytimg.com/vi/${ytId}/hqdefault.jpg" alt="Product video" onclick="loadVideoPlayer('${ytId}', this)">
         <div class="video-play-overlay" onclick="loadVideoPlayer('${ytId}', this)">
           <div class="video-play-btn">
             <svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
@@ -2980,6 +3119,13 @@ function renderVideos(videos) {
       card.innerHTML = `<iframe src="${getYouTubeEmbedUrl(vidUrl)}" title="Product Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     }
     grid.appendChild(card);
+  });
+
+  // Video thumbnails progressive load
+  grid.querySelectorAll("img.video-thumb").forEach(im => {
+    im.classList.add("prog-img");
+    im.decoding = "async";
+    lazyImageObserver.observe(im);
   });
 
   const moreBtn = document.getElementById("moreVideosBtn");
@@ -3120,7 +3266,7 @@ function renderReviews() {
         card.title = `${rev.name || 'Verified Buyer'} (${rev.rating || 5} Stars) - Tap to view`;
         card.onclick = () => openReviewPhotoModal(rev);
         card.innerHTML = `
-          <img src="${rev.imageUrl}" alt="Review photo by ${rev.name || 'Customer'}" loading="lazy">
+          <img src="${buildLqipUrl(rev.imageUrl)}" data-src="${rev.imageUrl}" alt="Review photo by ${rev.name || 'Customer'}" class="prog-img">
           <div class="customer-photo-badge">
             <span>&#9733;</span><span>${rev.rating || 5}</span>
           </div>
@@ -3131,6 +3277,13 @@ function renderReviews() {
   } else {
     if (photosSection) photosSection.style.display = "none";
   }
+
+  // Progressive loading for review photos
+  container.querySelectorAll("img.prog-img").forEach(im => {
+    im.dataset.lqip = im.src;
+    im.decoding = "async";
+    lazyImageObserver.observe(im);
+  });
 
   // 2. Reviews List
   if (allReviews.length === 0) {
@@ -3179,7 +3332,7 @@ function renderReviews() {
       ${rev.imageUrl ? `
         <div class="review-photo-grid">
           <div class="review-photo-thumb" onclick="openReviewPhotoModalById('${rev.id}')" title="View customer photo">
-            <img src="${rev.imageUrl}" alt="Customer photo" loading="lazy">
+            <img src="${buildLqipUrl(rev.imageUrl)}" data-src="${rev.imageUrl}" alt="Customer photo" class="prog-img">
           </div>
         </div>
       ` : ''}
@@ -3316,9 +3469,10 @@ function loadRelatedProducts(category) {
     let prods = [];
 
     if (val) {
-      prods = Object.keys(val)
+      prods = sortNewestFirst(
+        Object.keys(val)
         .map(k => ({ id: k, ...val[k] }))
-        .filter(p => {
+      ).filter(p => {
           if (!p || p.id === productId) return false;
           // Filter ONLY matching category products uploaded via admin panel
           if (currentCategory) {
@@ -3338,6 +3492,12 @@ function loadRelatedProducts(category) {
 
     relatedSection.style.display = "block";
     renderRelatedProductsGrid(prods.slice(0, 8));
+    // Progressive loading activate karo
+    document.querySelectorAll("#relatedProductsGrid img.prog-img").forEach(im => {
+      im.dataset.lqip = im.src;
+      im.decoding = "async";
+      lazyImageObserver.observe(im);
+    });
   }, (err) => {
     console.warn("Could not load related products from Firebase:", err);
     relatedSection.style.display = "none";
@@ -3360,7 +3520,7 @@ function renderRelatedProductsGrid(products) {
 
     card.innerHTML = `
       <div class="related-img-box" onclick="window.location.href='productdetails.html?id=${p.id}'">
-        <img src="${img}" alt="${p.title}" class="related-img" loading="lazy">
+        <img src="${buildLqipUrl(img)}" data-src="${img}" alt="${p.title}" class="related-img prog-img">
         ${discountPct > 0 ? `<span class="related-badge">${discountPct}% OFF</span>` : ''}
       </div>
       <div class="related-details">

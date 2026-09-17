@@ -1078,6 +1078,30 @@
       fill: none;
     }
 
+
+    /* ===== Progressive Image Loading + LQIP ===== */
+    .prog-img {
+      opacity: 0;
+      filter: blur(14px);
+      transform: scale(1.02);
+      transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease;
+    }
+    .prog-img.loaded {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+    @keyframes lqipShimmer {
+      0% { background-position: 180% 0; }
+      100% { background-position: -20% 0; }
+    }
+    .lqip-bg {
+      background: linear-gradient(100deg, var(--accent-light) 40%, rgba(148,163,184,0.25) 50%, var(--accent-light) 60%);
+      background-size: 200% 100%;
+      animation: lqipShimmer 1.4s infinite linear;
+    }
+    /* ============================================ */
+
     /* Skeleton loaders */
     .skeleton {
       background: linear-gradient(90deg, var(--border-color) 25%, var(--accent-light) 50%, var(--border-color) 75%);
@@ -1521,7 +1545,7 @@
         slide.className = "carousel-slide";
         slide.href = slider.link || "category.html";
         slide.innerHTML = `
-          <img src="${slider.imageUrl}" alt="${slider.title || 'Slide'}" loading="lazy">
+          ${progressiveImgTag(slider.imageUrl, slider.title || 'Slide')}
           <div class="carousel-slide-overlay">
             <h3 class="carousel-slide-title">${slider.title || ''}</h3>
             <p class="carousel-slide-desc">${slider.subtitle || ''}</p>
@@ -1536,6 +1560,8 @@
         dotsWrap.appendChild(dot);
       });
 
+      // Progressive + lazy loading activate
+      activateProgressiveImages(track);
       goToSlide(0);
       startAutoSlide();
     }
@@ -1624,6 +1650,88 @@
         console.warn("Could not load sliders from Firebase, using fallback", err);
         sliderList = defaultSliders;
         initCarousel();
+      });
+    }
+
+
+    /* ============================================================
+       FAST IMAGE LOADING ENGINE
+       - Progressive Image Loading (blur-up)
+       - Lazy Loading (IntersectionObserver)
+       - LQIP (Low Quality Image Placeholder)
+       - Naya product sabse upar (newest first sort)
+       ============================================================ */
+
+    /* Tiny LQIP placeholder — instant paint */
+    const LQIP_PLACEHOLDER =
+      "data:image/svg+xml;charset=utf-8," +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="10">' +
+        '<rect width="16" height="10" fill="#cbd5e1"/>' +
+        '<rect width="16" height="5" fill="#e2e8f0"/>' +
+        "</svg>"
+      );
+
+    /* Unsplash images ke liye chhota blur preview, baaki ke liye generic */
+    function buildLqipUrl(src) {
+      if (!src) return LQIP_PLACEHOLDER;
+      if (src.includes("images.unsplash.com")) {
+        return src.split("?")[0] + "?w=32&q=30&auto=format";
+      }
+      return LQIP_PLACEHOLDER;
+    }
+
+    /* IntersectionObserver — sirf screen ke paas wali images load hoti hain */
+    const lazyImageObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadProgressiveImage(entry.target);
+          lazyImageObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "250px 0px" });
+
+    /* Full image background mein load, ready hote hi blur-up swap */
+    function loadProgressiveImage(img) {
+      const fullSrc = img.dataset.src;
+      if (!fullSrc) return;
+      const full = new Image();
+      full.decoding = "async";
+      full.src = fullSrc;
+      const swap = () => {
+        img.src = fullSrc;
+        requestAnimationFrame(() => img.classList.add("loaded"));
+      };
+      if (full.complete && full.naturalWidth > 0) {
+        swap();
+      } else {
+        full.onload = swap;
+        full.onerror = () => { img.src = fullSrc; img.classList.add("loaded"); };
+      }
+    }
+
+    /* HTML string ke liye progressive img tag banao */
+    function progressiveImgTag(src, alt, extraClass, attrs) {
+      return `<img src="${buildLqipUrl(src)}" data-src="${src}" alt="${alt || ''}" class="prog-img ${extraClass || ''}" decoding="async" ${attrs || ''}>`;
+    }
+
+    /* Render ke baad container ke saare prog-img ko observer mein daalo */
+    function activateProgressiveImages(container) {
+      if (!container) return;
+      container.querySelectorAll("img.prog-img").forEach((img) => {
+        if (img.dataset.observed === "1") return;
+        img.dataset.observed = "1";
+        img.decoding = "async";
+        lazyImageObserver.observe(img);
+      });
+    }
+
+    /* Naya product sabse upar — createdAt/uploadedAt/addedAt desc sort */
+    function sortNewestFirst(products) {
+      return products.slice().sort((a, b) => {
+        const ta = Number(a.createdAt || a.uploadedAt || a.addedAt || a.timestamp || 0);
+        const tb = Number(b.createdAt || b.uploadedAt || b.addedAt || b.timestamp || 0);
+        return tb - ta; // naya pehle
       });
     }
 
@@ -1857,7 +1965,7 @@
 
         card.innerHTML = `
           <div class="product-img-wrap" onclick="navigateToProduct('${prod.id}')">
-            <img src="${imgUrl}" alt="${prod.title}" class="product-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80'">
+            ${progressiveImgTag(imgUrl, prod.title, "product-img", `onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80';this.classList.add('loaded')"`)}
             ${discount > 0 ? `<span class="discount-badge">${discount}% OFF</span>` : ''}
             <button class="save-badge-btn ${isSaved ? 'saved' : ''}" onclick="toggleSaveProduct(event, '${prod.id}')" aria-label="Save to Wishlist" id="saveBtn_${prod.id}">
               <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -1888,6 +1996,9 @@
 
         grid.appendChild(card);
       });
+
+      // Progressive + lazy loading activate
+      activateProgressiveImages(grid);
     }
 
     function navigateToProduct(productId) {
@@ -2055,7 +2166,8 @@
       db.ref("products").on("value", (snapshot) => {
         const val = snapshot.val();
         if (val) {
-          const prods = Object.keys(val).map(key => ({ id: key, ...val[key] }));
+          // Naya product sabse upar: newest first sort
+          const prods = sortNewestFirst(Object.keys(val).map(key => ({ id: key, ...val[key] })));
           if (prods.length > 0) {
             productCatalog = prods;
             renderProducts(productCatalog);
@@ -2085,6 +2197,14 @@
 
     // Initialize Page
     window.addEventListener("DOMContentLoaded", () => {
+      // Category images ko bhi progressive + lazy banao
+      document.querySelectorAll(".category-img-box img").forEach((img) => {
+        img.dataset.src = img.src;
+        img.src = buildLqipUrl(img.src);
+        img.classList.add("prog-img");
+        lazyImageObserver.observe(img);
+      });
+
       loadSlidersFromFirebase();
       loadReviewsFromFirebase();
       loadProductsFromFirebase();
