@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Shopping Cart</title>
+  <meta name="description" content="Review your selected apparel items, apply discount coupons, and proceed to checkout.">
+
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent-color: #0f172a;
+      --accent-hover: #1e293b;
+      --accent-light: #f1f5f9;
+      --sale-red: #ef4444;
+      --sale-bg: #fee2e2;
+      --success-green: #10b981;
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.dark {
+      --bg-body: #090d16;
+      --bg-surface: #111827;
+      --bg-card: #151e32;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #1f293d;
+      --accent-color: #ffffff;
+      --accent-hover: #e2e8f0;
+      --accent-light: #1e293b;
+      --sale-red: #f87171;
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 40px;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Site Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      padding: 0 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-left, .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 80px;
+    }
+
+    .header-right { justify-content: flex-end; }
+    .header-center { flex: 1; display: flex; justify-content: center; }
+
+    .brand-logo-img {
+      width: 150px;
+      height: 50px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .icon-btn:hover { background: var(--accent-light); }
+    .icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* Side Drawer */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .drawer-overlay.active { opacity: 1; visibility: visible; }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 85vw;
+      height: 100%;
+      background: var(--bg-surface);
+      z-index: 101;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer.active { transform: translateX(0); }
+
+    .drawer-header {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .drawer-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .drawer-section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+    }
+
+    .theme-toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+    }
+    .theme-toggle-input {
+      appearance: none;
+      width: 46px;
+      height: 26px;
+      background: var(--border-color);
+      border-radius: var(--radius-full);
+      position: relative;
+      cursor: pointer;
+    }
+    .theme-toggle-input::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #ffffff;
+      border-radius: var(--radius-full);
+      transition: transform 0.25s ease;
+    }
+    .theme-toggle-input:checked { background: var(--accent-color); }
+    .theme-toggle-input:checked::after { transform: translateX(20px); background: #0f172a; }
+    body.dark .theme-toggle-input:checked::after { background: #ffffff; }
+
+    .lang-select-box {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 14px;
+    }
+
+    /* Cart Layout */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    @media (min-width: 900px) {
+      .cart-layout {
+        grid-template-columns: 7fr 5fr;
+        align-items: start;
+      }
+    }
+
+    /* Cart Items List */
+    .cart-items-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    .cart-item-row {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cart-item-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .cart-item-row:first-child {
+      padding-top: 0;
+    }
+
+    .cart-item-img {
+      width: 80px;
+      height: 96px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      background: var(--accent-light);
+      flex-shrink: 0;
+    }
+
+    .cart-item-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .cart-item-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .cart-item-size-badge {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .cart-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .qty-stepper {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .qty-display {
+      width: 32px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .cart-item-price {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .item-remove-btn {
+      background: transparent;
+      border: none;
+      color: var(--sale-red);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+
+    .item-remove-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    /* Order Summary Card */
+    .summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .summary-title {
+      font-size: 16px;
+      font-weight: 700;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .summary-row.bold {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      border-top: 1px dashed var(--border-color);
+      padding-top: 14px;
+    }
+
+    /* Coupon Box */
+    .coupon-box {
+      background: var(--bg-surface);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
+
+    .coupon-input-wrap {
+      display: flex;
+      gap: 6px;
+    }
+
+    .coupon-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      outline: none;
+    }
+
+    .coupon-apply-btn {
+      padding: 0 14px;
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    body.dark .coupon-apply-btn {
+      background: #ffffff;
+      color: #0f172a;
+    }
+
+    .btn-checkout {
+      width: 100%;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    body.dark .btn-checkout {
+      background: #ffffff;
+      color: #0f172a;
+    }
+
+    /* Empty Cart State */
+    .empty-cart-wrap {
+      text-align: center;
+      padding: 64px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      margin-top: 24px;
+    }
+
+    .empty-cart-wrap svg {
+      width: 64px;
+      height: 64px;
+      stroke: var(--text-muted);
+      stroke-width: 1.5;
+      fill: none;
+      margin-bottom: 16px;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      pointer-events: auto;
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: all 0.25s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-left">
+        <button class="icon-btn" id="drawerToggleBtn" aria-label="Open menu">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="header-center">
+        <a href="index.html">
+          <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" class="brand-logo-img">
+        </a>
+      </div>
+      <div class="header-right">
+        <a href="search.html" class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Side Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
+      <button class="icon-btn" id="drawerCloseBtn" aria-label="Close menu">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <div>
+        <div class="drawer-section-title">Theme</div>
+        <div class="theme-toggle-wrap">
+          <span>Dark Mode</span>
+          <input type="checkbox" id="themeSwitchCheckbox" class="theme-toggle-input">
+        </div>
+      </div>
+      <div>
+        <div class="drawer-section-title">Language</div>
+        <select id="languageSelect" class="lang-select-box">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="bn">Bengali</option>
+          <option value="as">Assamese</option>
+          <option value="brx">Bodo</option>
+          <option value="ta">Tamil</option>
+          <option value="te">Telugu</option>
+          <option value="ur">Urdu</option>
+          <option value="mr">Marathi</option>
+          <option value="ml">Malayalam</option>
+        </select>
+      </div>
+      <div>
+        <div class="drawer-section-title">Contact</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <a href="https://www.instagram.com/mega_store.india?stkn=eDNjNm12azdva3Nt" target="_blank" class="drawer-item">Instagram</a>
+          <a href="https://wa.me/918134958144" target="_blank" class="drawer-item">WhatsApp: 8134958144</a>
+          <a href="tel:8134958144" class="drawer-item">Call: 8134958144</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Cart Content -->
+  <main class="container">
+    
+    <div id="cartContentWrap">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; margin-bottom:12px;">
+        <h1 style="font-size: 20px; font-weight: 700;">Shopping Bag</h1>
+        <span style="font-size: 13px; color: var(--text-muted);" id="cartCountTitle">0 Items</span>
+      </div>
+
+      <div class="cart-layout" id="cartLayout">
+        
+        <!-- Left: Cart Items -->
+        <div class="cart-items-card" id="cartItemsCard">
+          <div id="cartItemsList"></div>
+        </div>
+
+        <!-- Right: Summary & Checkout -->
+        <div class="summary-card">
+          <h2 class="summary-title">Price Summary</h2>
+          
+          <div class="summary-row">
+            <span>Items Subtotal</span>
+            <span id="subtotalText">&#8377;0</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span style="color: var(--success-green); font-weight: 600;">FREE</span>
+          </div>
+
+          <!-- Coupon Module -->
+          <div class="coupon-box">
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">Have a Coupon Code?</div>
+            <div class="coupon-input-wrap">
+              <input type="text" id="cartCouponInput" class="coupon-input" placeholder="SAVE50">
+              <button class="coupon-apply-btn" id="applyCartCouponBtn">Apply</button>
+            </div>
+            <div id="cartCouponFeedback" style="font-size: 11px; margin-top: 6px; display: none;"></div>
+          </div>
+
+          <div class="summary-row" id="couponDiscountRow" style="display: none; color: var(--success-green);">
+            <span>Coupon Discount</span>
+            <span id="couponDiscountText">-&#8377;0</span>
+          </div>
+
+          <div class="summary-row bold">
+            <span>Grand Total</span>
+            <span id="grandTotalText">&#8377;0</span>
+          </div>
+
+          <a href="buy.html" class="btn-checkout" id="checkoutBtn">
+            <span>Proceed to Checkout</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+
+          <div style="display:flex; justify-content:center; gap:16px; font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+            <span>Secure 256-Bit SSL Checkout</span>
+            <span>COD Available</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-cart-wrap" id="emptyCartWrap" style="display: none;">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">Your Shopping Cart is Empty</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Explore our trending styles and build your wardrobe.</p>
+      <a href="index.html" class="btn-checkout" style="max-width: 240px; margin: 0 auto;">Discover Products</a>
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+      authDomain: "mega-store-2025.firebaseapp.com",
+      databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+      projectId: "mega-store-2025",
+      storageBucket: "mega-store-2025.firebasestorage.app",
+      messagingSenderId: "190838364165",
+      appId: "1:190838364165:web:43a969b7b852777061e46c",
+      measurementId: "G-CZR2N1HF9K"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function getUserId() {
+      let uid = localStorage.getItem("userId");
+      if (!uid) {
+        uid = "user_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem("userId", uid);
+      }
+      return uid;
+    }
+    const currentUserId = getUserId();
+
+    /* Theme & Drawer */
+    const themeSwitch = document.getElementById("themeSwitchCheckbox");
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark");
+      if (themeSwitch) themeSwitch.checked = true;
+    }
+    if (themeSwitch) {
+      themeSwitch.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          document.body.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.body.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        }
+      });
+    }
+
+    const drawerToggleBtn = document.getElementById("drawerToggleBtn");
+    const drawerCloseBtn = document.getElementById("drawerCloseBtn");
+    const sideDrawer = document.getElementById("sideDrawer");
+    const drawerOverlay = document.getElementById("drawerOverlay");
+
+    function openDrawer() { sideDrawer.classList.add("active"); drawerOverlay.classList.add("active"); }
+    function closeDrawer() { sideDrawer.classList.remove("active"); drawerOverlay.classList.remove("active"); }
+    if (drawerToggleBtn) drawerToggleBtn.addEventListener("click", openDrawer);
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener("click", closeDrawer);
+    if (drawerOverlay) drawerOverlay.addEventListener("click", closeDrawer);
+
+    function showToast(msg) {
+      const container = document.getElementById("toastContainer");
+      const t = document.createElement("div");
+      t.className = "toast";
+      t.textContent = msg;
+      container.appendChild(t);
+      requestAnimationFrame(() => t.classList.add("show"));
+      setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 300); }, 3000);
+    }
+
+    /* Cart Engine */
+    let cartItems = [];
+    let appliedCoupon = null;
+
+    function loadCart() {
+      try {
+        cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+      } catch (e) {
+        cartItems = [];
+      }
+      renderCart();
+    }
+
+    function saveCart() {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      db.ref(`users/${currentUserId}/cart`).set(cartItems).catch(()=>{});
+      renderCart();
+    }
+
+    function renderCart() {
+      const contentWrap = document.getElementById("cartContentWrap");
+      const emptyWrap = document.getElementById("emptyCartWrap");
+
+      if (cartItems.length === 0) {
+        contentWrap.style.display = "none";
+        emptyWrap.style.display = "block";
+        return;
+      }
+
+      contentWrap.style.display = "block";
+      emptyWrap.style.display = "none";
+
+      const totalItemsCount = cartItems.reduce((s, i) => s + (parseInt(i.quantity) || 1), 0);
+      document.getElementById("cartCountTitle").textContent = `${totalItemsCount} ${totalItemsCount === 1 ? 'Item' : 'Items'}`;
+
+      const listContainer = document.getElementById("cartItemsList");
+      listContainer.innerHTML = "";
+
+      let subtotal = 0;
+
+      cartItems.forEach((item, index) => {
+        const qty = parseInt(item.quantity) || 1;
+        const linePrice = (item.price || 0) * qty;
+        subtotal += linePrice;
+
+        const row = document.createElement("div");
+        row.className = "cart-item-row";
+        row.innerHTML = `
+          <img src="${item.image || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80'}" alt="${item.title}" class="cart-item-img">
+          <div class="cart-item-details">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <h3 class="cart-item-title">${item.title}</h3>
+                <button class="item-remove-btn" onclick="removeItem(${index})" aria-label="Remove item">
+                  <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+              </div>
+              <div class="cart-item-size-badge">Size: <strong>${item.size || 'Standard'}</strong></div>
+            </div>
+            <div class="cart-item-bottom">
+              <div class="qty-stepper">
+                <button class="qty-btn" onclick="changeQty(${index}, -1)">&#8722;</button>
+                <span class="qty-display">${qty}</span>
+                <button class="qty-btn" onclick="changeQty(${index}, 1)">&#43;</button>
+              </div>
+              <span class="cart-item-price">&#8377;${linePrice}</span>
+            </div>
+          </div>
+        `;
+        listContainer.appendChild(row);
+      });
+
+      document.getElementById("subtotalText").innerHTML = `&#8377;${subtotal}`;
+
+      // Calculate discount
+      let discountAmount = 0;
+      if (appliedCoupon) {
+        if (appliedCoupon.discountType === "percentage") {
+          discountAmount = Math.round((subtotal * appliedCoupon.discountAmount) / 100);
+        } else {
+          discountAmount = appliedCoupon.discountAmount || 0;
+        }
+      }
+
+      if (discountAmount > 0) {
+        document.getElementById("couponDiscountRow").style.display = "flex";
+        document.getElementById("couponDiscountText").innerHTML = `-&#8377;${discountAmount}`;
+      } else {
+        document.getElementById("couponDiscountRow").style.display = "none";
+      }
+
+      const grandTotal = Math.max(0, subtotal - discountAmount);
+      document.getElementById("grandTotalText").innerHTML = `&#8377;${grandTotal}`;
+    }
+
+    function changeQty(index, delta) {
+      if (!cartItems[index]) return;
+      const currentQty = parseInt(cartItems[index].quantity) || 1;
+      const maxStock = cartItems[index].stock || 99;
+
+      if (delta === -1 && currentQty > 1) {
+        cartItems[index].quantity = currentQty - 1;
+        saveCart();
+      } else if (delta === 1 && currentQty < Math.min(99, maxStock)) {
+        cartItems[index].quantity = currentQty + 1;
+        saveCart();
+      } else if (delta === 1) {
+        showToast("Maximum available quantity reached");
+      }
+    }
+
+    function removeItem(index) {
+      cartItems.splice(index, 1);
+      saveCart();
+      showToast("Item removed from cart");
+    }
+
+    /* Coupon in Cart */
+    const applyCouponBtn = document.getElementById("applyCartCouponBtn");
+    const couponInput = document.getElementById("cartCouponInput");
+    const couponFeedback = document.getElementById("cartCouponFeedback");
+
+    if (applyCouponBtn) {
+      applyCouponBtn.addEventListener("click", () => {
+        const code = couponInput.value.trim().toUpperCase();
+        if (!code) {
+          showCouponFeedback("Please enter coupon code", "error");
+          return;
+        }
+
+        db.ref("coupons/" + code).once("value", (snap) => {
+          const c = snap.val();
+          if (c && c.active !== false) {
+            appliedCoupon = c;
+            showCouponFeedback(`Coupon ${code} applied successfully!`, "success");
+            renderCart();
+          } else {
+            if (code === "SAVE50") {
+              appliedCoupon = { code: "SAVE50", discountType: "fixed", discountAmount: 50 };
+              showCouponFeedback("Coupon SAVE50 applied! Rs. 50 off", "success");
+              renderCart();
+            } else if (code === "FASHION10") {
+              appliedCoupon = { code: "FASHION10", discountType: "percentage", discountAmount: 10 };
+              showCouponFeedback("Coupon FASHION10 applied! 10% off", "success");
+              renderCart();
+            } else {
+              showCouponFeedback("Invalid or expired coupon code", "error");
+            }
+          }
+        });
+      });
+    }
+
+    function showCouponFeedback(text, type) {
+      couponFeedback.style.display = "block";
+      couponFeedback.textContent = text;
+      couponFeedback.style.color = type === "success" ? "var(--success-green)" : "var(--sale-red)";
+    }
+
+    window.addEventListener("DOMContentLoaded", loadCart);
+  </script>
+</body>
+</html>

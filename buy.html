@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Checkout - Mega Store</title>
+  <meta name="description" content="Securely complete your apparel order with Cash on Delivery or Real UPI.">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent-color: #0f172a;
+      --accent-hover: #1e293b;
+      --accent-light: #f1f5f9;
+      --sale-red: #ef4444;
+      --success-green: #10b981;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.dark {
+      --bg-body: #090d16;
+      --bg-surface: #111827;
+      --bg-card: #151e32;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #1f293d;
+      --accent-color: #ffffff;
+      --accent-hover: #e2e8f0;
+      --accent-light: #1e293b;
+      --sale-red: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 90px;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 12px;
+    }
+
+    @media (min-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+      body {
+        padding-bottom: 40px;
+      }
+    }
+
+    /* Site Header - Responsive & Mobile Clean */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      padding: 0 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+      .header-inner {
+        height: 64px;
+        padding: 0 16px;
+      }
+    }
+
+    .header-left, .header-right {
+      display: flex;
+      align-items: center;
+      width: 50px;
+    }
+
+    .header-right { justify-content: flex-end; }
+    .header-center { flex: 1; display: flex; justify-content: center; }
+
+    .brand-logo-img {
+      max-width: 130px;
+      height: 38px;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media (min-width: 640px) {
+      .brand-logo-img {
+        max-width: 160px;
+        height: 48px;
+      }
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .icon-btn:hover { background: var(--accent-light); }
+    .icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* Checkout Layout */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    @media (min-width: 900px) {
+      .checkout-layout {
+        grid-template-columns: 7fr 5fr;
+        gap: 24px;
+        margin-top: 20px;
+        align-items: start;
+      }
+    }
+
+    /* Checkout Card */
+    .checkout-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .checkout-card {
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .card-heading {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-heading svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-main);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* Form Fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .form-grid.two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .input-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .form-input {
+      height: 42px;
+      padding: 0 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-size: 13.5px;
+      outline: none;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    .form-input:focus {
+      border-color: var(--text-main);
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Address Section Header: ONLY ONE Add Address button right here! */
+    .address-section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    @media (min-width: 520px) {
+      .address-section-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .address-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .address-icon-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-color);
+      flex-shrink: 0;
+      border: 1px solid var(--border-color);
+    }
+
+    body.dark .address-icon-badge {
+      background: #1e293b;
+      color: #38bdf8;
+    }
+
+    .address-icon-badge svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+      fill: none;
+      stroke: currentColor;
+    }
+
+    .address-title-text h2 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    @media (min-width: 640px) {
+      .address-title-text h2 {
+        font-size: 16px;
+      }
+    }
+
+    .address-title-text p {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    /* The Single Primary Add Address Button */
+    .btn-add-addr-header {
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .btn-add-addr-header:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    body.dark .btn-add-addr-header {
+      background: #38bdf8;
+      color: #090d16;
+    }
+
+    .address-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .address-card {
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      background: var(--bg-surface);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+
+    @media (min-width: 640px) {
+      .address-card {
+        padding: 16px;
+      }
+    }
+
+    .address-card.selected {
+      border: 2px solid var(--accent-color);
+      background: rgba(15, 23, 42, 0.02);
+    }
+
+    body.dark .address-card.selected {
+      border: 2px solid #38bdf8;
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .addr-active-destination-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      font-size: 11px;
+      font-weight: 800;
+      align-self: flex-start;
+    }
+
+    .addr-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .addr-name-wrap {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .addr-radio-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition);
+      background: var(--bg-card);
+    }
+
+    .address-card.selected .addr-radio-indicator {
+      border-color: var(--accent-color);
+      background: var(--accent-color);
+    }
+
+    body.dark .address-card.selected .addr-radio-indicator {
+      border-color: #38bdf8;
+      background: #38bdf8;
+    }
+
+    .addr-radio-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: none;
+    }
+
+    .address-card.selected .addr-radio-dot { display: block; }
+
+    .addr-recipient-name {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      word-break: break-word;
+      line-height: 1.3;
+    }
+
+    .addr-badges {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .addr-type-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: inline-block;
+    }
+
+    .addr-type-pill.type-home {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .addr-type-pill.type-work {
+      background: #faf5ff;
+      color: #6b21a8;
+    }
+
+    .addr-type-pill.type-other {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .addr-default-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      display: inline-block;
+    }
+
+    .addr-content-body {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-left: 0;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .addr-content-body {
+        padding-left: 26px;
+      }
+    }
+
+    .addr-full-text {
+      font-size: 13px;
+      color: var(--text-main);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .addr-pincode-chip {
+      font-weight: 800;
+      color: var(--text-main);
+      background: var(--accent-light);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      display: inline-block;
+    }
+
+    .addr-phone-row {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .addr-deliver-here-btn {
+      width: 100%;
+      height: 38px;
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+      margin-top: 4px;
+    }
+
+    .addr-deliver-here-btn:active {
+      transform: scale(0.98);
+    }
+
+    body.dark .addr-deliver-here-btn {
+      background: #38bdf8;
+      color: #090d16;
+    }
+
+    .addr-actions-grid {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      width: 100%;
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .addr-actions-grid .addr-action-btn {
+      flex: 1 1 auto;
+      text-align: center;
+      justify-content: center;
+      padding: 7px 10px;
+      font-size: 11.5px;
+      min-height: 34px;
+    }
+
+    .addr-action-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .addr-action-btn:hover {
+      background: var(--accent-light);
+    }
+
+    .addr-action-btn.delete {
+      color: var(--sale-red);
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+
+    .addr-action-btn.delete:hover {
+      background: #fee2e2;
+    }
+
+    /* Address Form Panel */
+    .address-form-panel {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .address-form-panel {
+        padding: 20px;
+      }
+    }
+
+    .addr-type-selectors {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .addr-type-btn {
+      flex: 1;
+      padding: 8px 6px;
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .addr-type-btn.active {
+      border-color: var(--accent-color);
+      background: var(--accent-color);
+      color: #ffffff;
+    }
+
+    .btn-save-addr {
+      flex: 1;
+      height: 42px;
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-cancel-addr {
+      height: 42px;
+      padding: 0 16px;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Payment Radio Cards */
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .payment-option-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      background: var(--bg-surface);
+      transition: var(--transition);
+    }
+
+    .payment-option-card.selected {
+      border-color: var(--accent-color);
+      background: var(--accent-light);
+    }
+
+    /* Real UPI Terminal & Official Logos */
+    .upi-terminal-box {
+      border: 1.5px solid #10b981;
+      background: #f0fdf4;
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .upi-terminal-box {
+        padding: 16px;
+      }
+    }
+
+    .security-badge-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .upi-subtabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin-bottom: 12px;
+      background: rgba(0,0,0,0.06);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    .upi-subtab-btn {
+      padding: 8px 4px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .upi-subtab-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .upi-apps-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .upi-app-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      text-align: left;
+    }
+
+    .upi-app-btn.selected {
+      border-color: #059669;
+      background: #ecfdf5;
+      color: #065f46;
+    }
+
+    .upi-logo-wrap {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .qr-image {
+      width: 160px;
+      height: 160px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      border: 1px solid #e2e8f0;
+      padding: 4px;
+      background: #fff;
+    }
+
+    .copy-upi-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: var(--accent-light);
+      border: 1px solid var(--border-color);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* Items Accordion / Summary */
+    .order-item-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .order-item-mini:last-child { border-bottom: none; }
+
+    .mini-img {
+      width: 44px;
+      height: 52px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: var(--accent-light);
+      flex-shrink: 0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .summary-row.bold {
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--text-main);
+      border-top: 1px dashed var(--border-color);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-place-order {
+      width: 100%;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--accent-color);
+      color: #ffffff;
+      border: none;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+      transition: var(--transition);
+    }
+
+    /* Mobile Sticky Bottom Bar */
+    .mobile-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 45;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-color);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+    }
+
+    @media (min-width: 640px) {
+      .mobile-bottom-bar {
+        display: none;
+      }
+    }
+
+    /* Modal */
+    .success-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .success-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .success-dialog {
+      background: var(--bg-surface);
+      width: 100%;
+      max-width: 440px;
+      border-radius: var(--radius-lg);
+      padding: 24px 18px;
+      text-align: center;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      pointer-events: none;
+    }
+    .toast {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      pointer-events: auto;
+      transform: translateY(-16px);
+      opacity: 0;
+      transition: all 0.25s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a href="cart.html" class="icon-btn" aria-label="Back to Cart">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </a>
+      </div>
+      <div class="header-center">
+        <a href="index.html">
+          <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" class="brand-logo-img">
+        </a>
+      </div>
+      <div class="header-right">
+        <div class="icon-btn" style="border:none; cursor:default;" aria-label="Secure">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Checkout Main Form -->
+  <main class="container">
+    <h1 style="font-size: 18px; font-weight: 800; margin-top: 14px; margin-bottom: 2px;">Delivery & Payment</h1>
+    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Select your delivery address and preferred payment mode.</p>
+
+    <div class="checkout-layout">
+      
+      <!-- Left Column -->
+      <div>
+        
+        <!-- Delivery Destination Address Section -->
+        <section class="checkout-card" id="addressSectionCard">
+          <div class="address-section-header">
+            <div class="address-title-group">
+              <div class="address-icon-badge">
+                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              </div>
+              <div class="address-title-text">
+                <h2>Delivery Destination Address</h2>
+                <p>Select destination or add new address</p>
+              </div>
+            </div>
+
+            <!-- SINGLE Add New Address Button (Duplicate bottom button removed) -->
+            <button type="button" class="btn-add-addr-header" id="headerAddAddrBtn" onclick="openAddressForm(null)">
+              <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Add Address</span>
+            </button>
+          </div>
+
+          <!-- Saved Addresses List View -->
+          <div id="savedAddressesContainer" class="address-card-list"></div>
+
+          <!-- Address Form Panel (Add / Edit) -->
+          <div id="addressFormPanel" class="address-form-panel" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
+              <div>
+                <h3 id="addrFormTitle" style="font-size: 14px; font-weight: 800; color: var(--text-main); margin: 0;">Add Delivery Address</h3>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">Enter complete shipping destination details</p>
+              </div>
+              <button type="button" class="addr-action-btn" onclick="cancelAddressForm()" style="padding: 4px 8px;">Close</button>
+            </div>
+
+            <div style="margin-bottom: 12px;">
+              <label class="input-label">Address Type</label>
+              <div class="addr-type-selectors">
+                <button type="button" class="addr-type-btn active" id="typeBtnHome" onclick="selectAddressType('Home')">Home</button>
+                <button type="button" class="addr-type-btn" id="typeBtnWork" onclick="selectAddressType('Work')">Work / Office</button>
+                <button type="button" class="addr-type-btn" id="typeBtnOther" onclick="selectAddressType('Other')">Other</button>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="input-group">
+                <label class="input-label">Full Recipient Name *</label>
+                <input type="text" id="custName" class="form-input" placeholder="e.g. Rahul Sharma" required>
+              </div>
+
+              <div class="form-grid two-col">
+                <div class="input-group">
+                  <label class="input-label">10-Digit Mobile Number *</label>
+                  <input type="tel" id="custPhone" class="form-input" placeholder="e.g. 9876543210" maxlength="10" inputmode="tel" required>
+                </div>
+                <div class="input-group">
+                  <label class="input-label">Alternative Phone (Optional)</label>
+                  <input type="tel" id="custAltPhone" class="form-input" placeholder="Optional backup number" maxlength="10" inputmode="tel">
+                </div>
+              </div>
+
+              <div class="form-grid two-col">
+                <div class="input-group">
+                  <label class="input-label">PIN Code (6 digits) *</label>
+                  <input type="text" id="custPincode" class="form-input" placeholder="e.g. 781005" maxlength="6" inputmode="numeric" required>
+                </div>
+                <div class="input-group">
+                  <label class="input-label">Town / City *</label>
+                  <input type="text" id="custCity" class="form-input" placeholder="e.g. Guwahati" required>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">House No., Flat, Building, Street Address *</label>
+                <input type="text" id="custStreet" class="form-input" placeholder="e.g. Flat 4B, Silver Heights, R.G. Baruah Road" required>
+              </div>
+
+              <div class="form-grid two-col">
+                <div class="input-group">
+                  <label class="input-label">Area / Colony / Landmark *</label>
+                  <input type="text" id="custLandmark" class="form-input" placeholder="e.g. Near Ganeshguri Flyover" required>
+                </div>
+                <div class="input-group">
+                  <label class="input-label">State *</label>
+                  <input type="text" id="custState" class="form-input" placeholder="e.g. Assam" required>
+                </div>
+              </div>
+
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; padding: 8px; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                <input type="checkbox" id="custIsDefault" style="width: 16px; height: 16px; accent-color: var(--accent-color);">
+                <span>Set as my default primary delivery address</span>
+              </label>
+
+              <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button type="button" class="btn-save-addr" id="saveAddrBtn" onclick="handleSaveAddress()">Save & Deliver Here</button>
+                <button type="button" class="btn-cancel-addr" id="cancelAddrBtn" onclick="cancelAddressForm()">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Payment Method Section -->
+        <section class="checkout-card">
+          <h2 class="card-heading">
+            <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <span>Payment Method</span>
+          </h2>
+
+          <div class="payment-options">
+            <!-- Cash On Delivery -->
+            <label class="payment-option-card selected" id="optCodCard">
+              <input type="radio" name="paymentMethod" value="COD" checked onchange="togglePaymentSelection('COD')">
+              <div style="flex:1;">
+                <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between;">
+                  <span>Cash on Delivery (COD)</span>
+                  <span style="font-size: 10px; padding: 2px 6px; border-radius: 9999px; background: var(--accent-light); color: var(--text-muted); font-weight: 700;">Standard</span>
+                </div>
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay with cash upon arrival at your doorstep</div>
+              </div>
+            </label>
+
+            <!-- Online Payment / UPI (Locked as requested) -->
+            <div class="payment-option-card" id="optUpiCard" style="opacity: 0.8; background: var(--bg-card); cursor: not-allowed;" onclick="handleLockedUpiClick()">
+              <input type="radio" name="paymentMethod" value="UPI" id="upiRadioInput" disabled style="cursor: not-allowed;">
+              <div style="flex:1;">
+                <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 4px; flex-wrap: wrap;">
+                  <span style="display: flex; align-items: center; gap: 6px;">
+                    <span>Online Payment / Real UPI</span>
+                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="#d97706" stroke-width="2.5" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  </span>
+                  <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #fef3c7; color: #92400e; font-weight: 800; border: 1px solid #fde68a;">LOCKED / DISABLED</span>
+                </div>
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Online payment abhi ke liye lock hai. Kripya Cash on Delivery (COD) ka upyog karein.</div>
+              </div>
+            </div>
+
+            <!-- Real UPI Terminal Box -->
+            <div id="upiTerminalBox" class="upi-terminal-box" style="display: none;">
+              
+              <!-- 100% Security Guarantee Banner -->
+              <div class="security-badge-strip">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <div style="flex:1;">
+                  <div style="font-size: 11.5px; font-weight: 800;">100% Bank Grade Security Guaranteed</div>
+                  <div style="font-size: 10.5px; opacity: 0.85;">256-Bit SSL Encrypted &bull; NPCI Verified UPI Partner</div>
+                </div>
+              </div>
+
+              <!-- UPI Mode Sub-Tabs -->
+              <div class="upi-subtabs">
+                <button type="button" class="upi-subtab-btn active" id="tabBtnQr" onclick="switchUpiSubTab('QR')">Scan QR</button>
+                <button type="button" class="upi-subtab-btn" id="tabBtnApps" onclick="switchUpiSubTab('APPS')">UPI Apps</button>
+                <button type="button" class="upi-subtab-btn" id="tabBtnId" onclick="switchUpiSubTab('ID')">Enter UPI ID</button>
+              </div>
+
+              <!-- View 1: Scan QR Code -->
+              <div id="upiViewQr">
+                <div class="qr-container">
+                  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #059669; margin-bottom: 4px;">Instant Auto-Verification QR</div>
+                  <img id="upiDynamicQrImg" src="" alt="UPI QR Code" class="qr-image">
+                  <div style="font-size: 18px; font-weight: 900; color: #059669; margin-bottom: 2px;" id="qrPayableAmountText">&#8377;0</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">MEGA STORE RETAIL PVT LTD (ICICI Bank)</div>
+                  
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 11.5px; font-weight: 700; font-family: monospace;">megastore.official@icici</span>
+                    <button type="button" class="copy-upi-btn" onclick="copyUpiIdToClipboard()">
+                      <span>Copy</span>
+                    </button>
+                  </div>
+
+                  <a id="deepLinkQrAppBtn" href="#" class="btn-place-order" style="display: flex; text-decoration: none; height: 38px; font-size: 12px; background: #059669; margin-top: 10px;">
+                    <span>Tap to Pay in UPI App</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- View 2: UPI Apps with REAL Logos -->
+              <div id="upiViewApps" style="display: none;">
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px;">Select your installed UPI app:</div>
+                <div class="upi-apps-row">
+                  <!-- Real Google Pay Logo -->
+                  <button type="button" class="upi-app-btn selected" id="appBtnGpay" onclick="selectUpiApp('Google Pay')">
+                    <div class="upi-logo-wrap">
+                      <svg viewBox="0 0 48 48" width="24" height="24"><path d="M34.8 24.3c0-.7-.1-1.4-.2-2H24v4.2h6.1c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7c2.2-2 3.4-5 3.4-8.4z" fill="#4285F4"/><path d="M24 35.3c3.1 0 5.8-1 7.7-2.8l-3.7-2.8c-1 .7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.6-4.9h-3.8v2.9c1.9 3.8 5.8 6.5 10.4 6.5z" fill="#34A853"/><path d="M17.4 25.9c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3v-2.9h-3.8c-.8 1.6-1.2 3.3-1.2 5.2s.4 3.6 1.2 5.2l3.8-2.9z" fill="#FBBC05"/><path d="M24 16.3c1.7 0 3.2.6 4.4 1.7l3.3-3.3C29.7 12.9 27 12 24 12c-4.6 0-8.5 2.7-10.4 6.5l3.8 2.9c.9-2.8 3.5-5.1 6.6-5.1z" fill="#EA4335"/></svg>
+                    </div>
+                    <div>
+                      <div>Google Pay</div>
+                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">GPay UPI</div>
+                    </div>
+                  </button>
+
+                  <!-- Real PhonePe Logo -->
+                  <button type="button" class="upi-app-btn" id="appBtnPhonepe" onclick="selectUpiApp('PhonePe')">
+                    <div class="upi-logo-wrap">
+                      <svg viewBox="0 0 48 48" width="24" height="24"><circle cx="24" cy="24" r="22" fill="#5F259F"/><path d="M29.5 12h-8.8c-.8 0-1.5.7-1.5 1.5v2.2c0 .8.7 1.5 1.5 1.5h1.8v3.1c-1.4.2-2.7.9-3.7 1.9-1.3 1.3-2 3.1-2 5.1 0 1.9.7 3.7 2 5 1.2 1.2 2.8 1.9 4.6 1.9h.8v4.3c0 .8.7 1.5 1.5 1.5h2.5c.8 0 1.5-.7 1.5-1.5v-4.3h1.8c.8 0 1.5-.7 1.5-1.5v-2.2c0-.8-.7-1.5-1.5-1.5H29v-5.2c1.7-.3 3.1-1.3 4-2.8.9-1.4 1.2-3.1.8-4.8-.4-1.7-1.5-3.2-3-4-.5-.3-.9-.4-1.3-.4zm-4.3 12.5c0 .6-.2 1.2-.7 1.6-.4.4-1 .7-1.6.7-.6 0-1.2-.2-1.6-.7-.4-.4-.7-1-.7-1.6 0-.6.2-1.2.7-1.6.4-.4 1-.7 1.6-.7.6 0 1.2.2 1.6.7.4.4.7 1 .7 1.6zm2.3-6.2c-.2.4-.6.7-1.1.9-.4.2-.9.2-1.4.1v-3.8h2.1c.3.5.4 1.1.4 1.6 0 .4-.1.8 0 1.2z" fill="#FFFFFF"/></svg>
+                    </div>
+                    <div>
+                      <div>PhonePe</div>
+                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">Direct UPI</div>
+                    </div>
+                  </button>
+
+                  <!-- Real Paytm Logo -->
+                  <button type="button" class="upi-app-btn" id="appBtnPaytm" onclick="selectUpiApp('Paytm')">
+                    <div class="upi-logo-wrap">
+                      <svg viewBox="0 0 64 32" width="28" height="16"><path d="M9.2 8h4.5c2.6 0 4.3 1.5 4.3 3.8 0 2.4-1.7 3.9-4.3 3.9h-2.1v5.3H9.2V8zm4.3 5.4c1.2 0 2-.6 2-1.6s-.8-1.6-2-1.6h-2v3.2h2z" fill="#002970"/><path d="M23.3 12.8c-1.3 0-2.3.9-2.3 2.1v6.1h-2.3v-8.2h2.3v1.3c.6-1 1.6-1.5 2.8-1.5h.5v2.2h-1z" fill="#002970"/><path d="M40.5 8h2.3v3.2h3.2v2h-3.2v5c0 .9.5 1.3 1.4 1.3h1.8v2h-2.5c-2.1 0-3-1.1-3-3v-5.3h-1.9v-2h1.9V8z" fill="#00BAF2"/><path d="M47.8 12.8c.8-1.3 2-2 3.6-2 1.6 0 2.7.8 3.2 2 .9-1.3 2.1-2 3.8-2 2.3 0 3.7 1.5 3.7 4.1v6.1h-2.3v-5.8c0-1.5-.7-2.3-2-2.3s-2.1.8-2.1 2.3v5.8h-2.3v-5.8c0-1.5-.7-2.3-2-2.3-1.3 0-2.1.8-2.1 2.3v5.8h-2.3v-8.2h2.2v1.2z" fill="#00BAF2"/></svg>
+                    </div>
+                    <div>
+                      <div>Paytm</div>
+                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">Wallet & UPI</div>
+                    </div>
+                  </button>
+
+                  <!-- Real BHIM UPI Logo -->
+                  <button type="button" class="upi-app-btn" id="appBtnBhim" onclick="selectUpiApp('BHIM UPI')">
+                    <div class="upi-logo-wrap">
+                      <svg viewBox="0 0 64 32" width="28" height="16"><path d="M7 6l7.5 10L7 26h6l7.5-10L13 6H7z" fill="#008450"/><path d="M14.5 6L22 16l-7.5 10h6L28 16 20.5 6h-6z" fill="#F37021"/><text x="31" y="21" font-family="sans-serif" font-size="11" font-weight="900" fill="#0A1E42">BHIM</text></svg>
+                    </div>
+                    <div>
+                      <div>BHIM UPI</div>
+                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">NPCI Govt</div>
+                    </div>
+                  </button>
+                </div>
+
+                <a id="deepLinkUpiAppBtn" href="#" class="btn-place-order" style="display: flex; text-decoration: none; height: 40px; font-size: 12.5px; background: #0f172a;">
+                  <span>Launch Selected UPI App</span>
+                </a>
+              </div>
+
+              <!-- View 3: Enter UPI ID -->
+              <div id="upiViewId" style="display: none;">
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 6px;">Enter your UPI ID (VPA):</div>
+                <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+                  <input type="text" id="customUpiIdInput" placeholder="name@okhdfcbank / 9876543210@paytm" class="form-input" style="height: 38px; font-size: 12px;">
+                  <button type="button" class="btn-add-addr-header" style="padding: 0 12px; height: 38px;" onclick="verifyCustomUpiId()">Verify</button>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@okhdfcbank')">@okhdfcbank</span>
+                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@okaxis')">@okaxis</span>
+                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@oksbi')">@oksbi</span>
+                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@paytm')">@paytm</span>
+                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@ybl')">@ybl</span>
+                </div>
+              </div>
+
+              <!-- Verification & Reference Number -->
+              <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px; margin-top: 10px;">
+                <div style="font-size: 11px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center;">
+                  <span>Payment Confirmation / UTR No.</span>
+                  <span id="upiTxnTokenDisplay" style="font-size: 10px; color: var(--text-muted); font-family: monospace;">TXN_INIT</span>
+                </div>
+                <input type="text" id="upiUtrInput" placeholder="Enter 12-Digit UPI Ref / UTR No. (Optional)" maxlength="16" inputmode="numeric" class="form-input" style="height: 36px; font-size: 11.5px;">
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right Column: Order Items Summary -->
+      <div>
+        <section class="checkout-card">
+          <h2 class="card-heading">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <span>Order Items (<span id="checkoutItemCount">0</span>)</span>
+          </h2>
+
+          <div id="checkoutItemsList" style="max-height: 240px; overflow-y: auto; margin-bottom: 12px;"></div>
+
+          <div class="summary-row">
+            <span>Items Subtotal</span>
+            <span id="coSubtotalText">&#8377;0</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span style="color: var(--success-green); font-weight: 700;">FREE</span>
+          </div>
+
+          <div class="summary-row bold">
+            <span>Amount Payable</span>
+            <span id="coGrandTotalText" style="color: #047857;">&#8377;0</span>
+          </div>
+
+          <button class="btn-place-order" id="placeOrderBtn" onclick="handlePlaceOrder()">
+            <span>Confirm & Place Order</span>
+          </button>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Mobile Sticky Checkout Bottom Bar -->
+  <div class="mobile-bottom-bar">
+    <div>
+      <div style="font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Total Payable</div>
+      <div id="mobileTotalText" style="font-size: 17px; font-weight: 900; color: var(--text-main);">&#8377;0</div>
+    </div>
+    <button type="button" class="btn-place-order" style="margin-top: 0; width: auto; flex: 1; height: 42px; font-size: 13px;" onclick="handlePlaceOrder()">
+      <span id="mobileBtnText">Place Order</span>
+    </button>
+  </div>
+
+  <!-- Order Success Modal -->
+  <div class="success-modal" id="orderSuccessModal">
+    <div class="success-dialog">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #dcfce7; color: #15803d; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+        <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 4px;">Order Placed Successfully!</h2>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Your order has been recorded securely.</p>
+      
+      <div style="background: var(--accent-light); padding: 10px; border-radius: var(--radius-md); margin-bottom: 16px; font-size: 12px; text-align: left;">
+        <div>Order ID: <strong id="successOrderIdDisplay">ORD_12345</strong></div>
+        <div style="color: var(--text-muted); font-size: 11px; margin-top: 2px;">Estimated delivery in 4-6 business days.</div>
+      </div>
+
+      <a href="myorder.html" class="btn-place-order" style="text-decoration: none; height: 42px;">View in My Orders</a>
+      <a href="index.html" style="display: block; font-size: 12px; color: var(--text-muted); margin-top: 12px; text-decoration: underline;">Return to Home</a>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
+      authDomain: "mega-store-2025.firebaseapp.com",
+      databaseURL: "https://mega-store-2025-default-rtdb.firebaseio.com",
+      projectId: "mega-store-2025",
+      storageBucket: "mega-store-2025.firebasestorage.app",
+      messagingSenderId: "190838364165",
+      appId: "1:190838364165:web:43a969b7b852777061e46c",
+      measurementId: "G-CZR2N1HF9K"
+    };
+
+    if (window.firebase && !firebase.apps.length) {
+      try { firebase.initializeApp(firebaseConfig); } catch(e){}
+    }
+    const db = window.firebase ? firebase.database() : null;
+
+    function getUserId() {
+      let uid = localStorage.getItem("userId");
+      if (!uid) {
+        uid = "user_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+        localStorage.setItem("userId", uid);
+      }
+      return uid;
+    }
+    const currentUserId = getUserId();
+
+    function showToast(msg) {
+      const container = document.getElementById("toastContainer");
+      if (!container) return;
+      const t = document.createElement("div");
+      t.className = "toast";
+      t.textContent = msg;
+      container.appendChild(t);
+      requestAnimationFrame(() => t.classList.add("show"));
+      setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 300); }, 3000);
+    }
+
+    let checkoutItems = [];
+    let selectedPayment = "COD";
+    let selectedUpiApp = "Google Pay";
+    let activeUpiSubTab = "QR";
+    let generatedTxnToken = "TXN_UPI_" + Date.now().toString().slice(-7) + Math.random().toString(36).substring(2, 5).toUpperCase();
+    const isUpiLocked = true;
+
+    function handleLockedUpiClick() {
+      if (isUpiLocked) {
+        showToast("Online Payment / UPI abhi ke liye band hai. Kripya Cash on Delivery (COD) chunein.");
+      }
+    }
+
+    function initPaymentState() {
+      const tokenDisplay = document.getElementById("upiTxnTokenDisplay");
+      if (tokenDisplay) tokenDisplay.textContent = generatedTxnToken;
+    }
+
+    function togglePaymentSelection(method) {
+      if (isUpiLocked && method === "UPI") {
+        handleLockedUpiClick();
+        return;
+      }
+      selectedPayment = method;
+      document.getElementById("optCodCard").classList.toggle("selected", method === "COD");
+      document.getElementById("optUpiCard").classList.toggle("selected", method === "UPI");
+      const upiBox = document.getElementById("upiTerminalBox");
+      if (upiBox) upiBox.style.display = method === "UPI" ? "block" : "none";
+
+      const placeBtn = document.getElementById("placeOrderBtn");
+      const mobileBtnText = document.getElementById("mobileBtnText");
+      if (method === "UPI") {
+        if (placeBtn) placeBtn.innerHTML = "<span>Confirm & Place Order (100% Secured UPI)</span>";
+        if (mobileBtnText) mobileBtnText.textContent = "Pay via UPI";
+      } else {
+        if (placeBtn) placeBtn.innerHTML = "<span>Confirm & Place Order (Cash on Delivery)</span>";
+        if (mobileBtnText) mobileBtnText.textContent = "Place COD Order";
+      }
+    }
+
+    function switchUpiSubTab(tab) {
+      activeUpiSubTab = tab;
+      document.getElementById("tabBtnQr").classList.toggle("active", tab === "QR");
+      document.getElementById("tabBtnApps").classList.toggle("active", tab === "APPS");
+      document.getElementById("tabBtnId").classList.toggle("active", tab === "ID");
+
+      document.getElementById("upiViewQr").style.display = tab === "QR" ? "block" : "none";
+      document.getElementById("upiViewApps").style.display = tab === "APPS" ? "block" : "none";
+      document.getElementById("upiViewId").style.display = tab === "ID" ? "block" : "none";
+    }
+
+    function selectUpiApp(appName) {
+      selectedUpiApp = appName;
+      document.querySelectorAll(".upi-app-btn").forEach(btn => btn.classList.remove("selected"));
+      if (appName === "Google Pay") document.getElementById("appBtnGpay").classList.add("selected");
+      if (appName === "PhonePe") document.getElementById("appBtnPhonepe").classList.add("selected");
+      if (appName === "Paytm") document.getElementById("appBtnPaytm").classList.add("selected");
+      if (appName === "BHIM UPI") document.getElementById("appBtnBhim").classList.add("selected");
+
+      updateUpiDeepLink();
+      showToast(`Selected ${appName}`);
+    }
+
+    function updateUpiDeepLink() {
+      const totalAmount = checkoutItems.reduce((s, i) => s + ((i.price || 0) * (parseInt(i.quantity) || 1)), 0);
+      const deepLink = `upi://pay?pa=megastore.official@icici&pn=MEGA+STORE+RETAIL&am=${totalAmount}&tr=${generatedTxnToken}&cu=INR&tn=Order_Payment`;
+      const btn = document.getElementById("deepLinkUpiAppBtn");
+      if (btn) btn.href = deepLink;
+      const qrBtn = document.getElementById("deepLinkQrAppBtn");
+      if (qrBtn) qrBtn.href = deepLink;
+    }
+
+    function copyUpiIdToClipboard() {
+      const upiId = "megastore.official@icici";
+      navigator.clipboard.writeText(upiId).then(() => {
+        showToast("Copied UPI ID: " + upiId);
+      }).catch(() => {
+        showToast("UPI ID: " + upiId);
+      });
+    }
+
+    function appendUpiSuffix(suffix) {
+      const inp = document.getElementById("customUpiIdInput");
+      if (!inp) return;
+      let val = inp.value.trim();
+      if (val.includes("@")) val = val.split("@")[0];
+      inp.value = val + suffix;
+      inp.focus();
+    }
+
+    function verifyCustomUpiId() {
+      const inp = document.getElementById("customUpiIdInput");
+      const val = inp ? inp.value.trim() : "";
+      if (!val || !val.includes("@") || val.length < 5) {
+        showToast("Please enter a valid UPI ID (e.g. name@okhdfcbank)");
+        return;
+      }
+      showToast("UPI ID verified: " + val);
+    }
+
+    function loadCheckoutItems() {
+      try {
+        checkoutItems = JSON.parse(localStorage.getItem("cart") || "[]");
+      } catch (e) {
+        checkoutItems = [];
+      }
+
+      if (checkoutItems.length === 0) {
+        checkoutItems = [{
+          id: "prod_1",
+          title: "Relaxed Fit Denim Jeans",
+          price: 1299,
+          size: "32",
+          quantity: 1,
+          image: "https://images.unsplash.com/photo-1542272604-780c96856592?w=800&q=80"
+        }];
+      }
+
+      renderOrderSummary();
+      loadSavedAddresses();
+    }
+
+    function renderOrderSummary() {
+      const container = document.getElementById("checkoutItemsList");
+      container.innerHTML = "";
+      let subtotal = 0;
+      let totalQty = 0;
+
+      checkoutItems.forEach(item => {
+        const qty = parseInt(item.quantity) || 1;
+        const line = (item.price || 0) * qty;
+        subtotal += line;
+        totalQty += qty;
+
+        const row = document.createElement("div");
+        row.className = "order-item-mini";
+        row.innerHTML = `
+          <img src="${item.image || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80'}" alt="${item.title}" class="mini-img">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:12.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.title}</div>
+            <div style="font-size:11px; color:var(--text-muted);">Size: ${item.size || 'Standard'} &bull; Qty: ${qty}</div>
+            <div style="font-size:12px; font-weight:800;">&#8377;${line}</div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      document.getElementById("checkoutItemCount").textContent = totalQty;
+      document.getElementById("coSubtotalText").innerHTML = `&#8377;${subtotal}`;
+      document.getElementById("coGrandTotalText").innerHTML = `&#8377;${subtotal}`;
+      const mobTot = document.getElementById("mobileTotalText");
+      if (mobTot) mobTot.innerHTML = `&#8377;${subtotal}`;
+
+      const qrAmt = document.getElementById("qrPayableAmountText");
+      if (qrAmt) qrAmt.innerHTML = `&#8377;${subtotal}`;
+      const qrImg = document.getElementById("upiDynamicQrImg");
+      if (qrImg) {
+        const qrPayload = `upi://pay?pa=megastore.official@icici&pn=MEGA+STORE+RETAIL&am=${subtotal}&tr=${generatedTxnToken}&cu=INR&tn=Order_Payment`;
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=${encodeURIComponent(qrPayload)}`;
+      }
+      updateUpiDeepLink();
+    }
+
+    /* Addresses Logic */
+    let userAddresses = [];
+    let selectedAddressId = null;
+    let editingAddressId = null;
+    let currentAddressType = "Home";
+
+    function selectAddressType(type) {
+      currentAddressType = type;
+      document.getElementById("typeBtnHome").classList.toggle("active", type === "Home");
+      document.getElementById("typeBtnWork").classList.toggle("active", type === "Work");
+      document.getElementById("typeBtnOther").classList.toggle("active", type === "Other");
+    }
+
+    function loadSavedAddresses() {
+      try {
+        let stored = JSON.parse(localStorage.getItem("user_addresses") || "null");
+        if (!stored || !Array.isArray(stored) || stored.length === 0) {
+          const legacy = JSON.parse(localStorage.getItem("user_address") || "null");
+          if (legacy && legacy.name && legacy.phone) {
+            stored = [{
+              id: "addr_1",
+              name: legacy.name,
+              phone: legacy.phone,
+              altPhone: legacy.altPhone || "",
+              pincode: legacy.pincode || "",
+              city: legacy.city || "",
+              street: legacy.street || "",
+              landmark: legacy.landmark || "",
+              state: legacy.state || "",
+              type: "Home",
+              isDefault: true
+            }];
+            localStorage.setItem("user_addresses", JSON.stringify(stored));
+          }
+        }
+        userAddresses = stored || [];
+
+        if (db) {
+          db.ref(`users/${currentUserId}/addresses`).once("value", (snap) => {
+            const fbAddrs = snap.val();
+            if (fbAddrs && Array.isArray(fbAddrs) && fbAddrs.length > 0) {
+              userAddresses = fbAddrs;
+              localStorage.setItem("user_addresses", JSON.stringify(userAddresses));
+              initAddressSelection();
+            }
+          });
+        }
+      } catch (e) {
+        userAddresses = [];
+      }
+      initAddressSelection();
+    }
+
+    function initAddressSelection() {
+      if (userAddresses.length === 0) {
+        openAddressForm(null);
+        document.getElementById("savedAddressesContainer").innerHTML = "";
+      } else {
+        const def = userAddresses.find(a => a.isDefault);
+        selectedAddressId = def ? def.id : userAddresses[0].id;
+        renderAddressCards();
+      }
+    }
+
+    function renderAddressCards() {
+      const listContainer = document.getElementById("savedAddressesContainer");
+      const formPanel = document.getElementById("addressFormPanel");
+      formPanel.style.display = "none";
+      listContainer.innerHTML = "";
+
+      userAddresses.forEach(addr => {
+        const isSelected = addr.id === selectedAddressId;
+        const card = document.createElement("div");
+        card.className = "address-card" + (isSelected ? " selected" : "");
+        card.onclick = () => selectDeliveryAddress(addr.id);
+
+        const typeStr = (addr.type || "Home").toLowerCase();
+        let typeClass = typeStr === 'work' ? 'type-work' : (typeStr === 'other' ? 'type-other' : 'type-home');
+
+        card.innerHTML = `
+          ${isSelected ? `
+          <div class="addr-active-destination-bar">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Delivering to this Destination</span>
+          </div>` : ''}
+
+          <div class="addr-top-row">
+            <div class="addr-name-wrap">
+              <div class="addr-radio-indicator">
+                <div class="addr-radio-dot"></div>
+              </div>
+              <span class="addr-recipient-name">${addr.name}</span>
+            </div>
+            <div class="addr-badges">
+              <span class="addr-type-pill ${typeClass}">${addr.type || 'HOME'}</span>
+              ${addr.isDefault ? '<span class="addr-default-badge">Primary</span>' : ''}
+            </div>
+          </div>
+
+          <div class="addr-content-body">
+            <div class="addr-full-text">
+              ${addr.street}, ${addr.landmark}, ${addr.city}, ${addr.state}
+            </div>
+            <div style="margin-top: 2px;">
+              <span class="addr-pincode-chip">PIN: ${addr.pincode}</span>
+            </div>
+            <div class="addr-phone-row">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Mobile: <strong>${addr.phone}</strong></span>
+              ${addr.altPhone ? `<span style="color:var(--text-muted);">&bull; Alt: ${addr.altPhone}</span>` : ''}
+            </div>
+          </div>
+
+          ${!isSelected ? `
+          <button type="button" class="addr-deliver-here-btn" onclick="event.stopPropagation(); selectDeliveryAddress('${addr.id}')">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Deliver to this Address</span>
+          </button>` : ''}
+
+          <div class="addr-actions-grid">
+            <button type="button" class="addr-action-btn" onclick="event.stopPropagation(); openAddressForm('${addr.id}')">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              <span>Edit Address</span>
+            </button>
+            ${!addr.isDefault ? `
+            <button type="button" class="addr-action-btn" onclick="event.stopPropagation(); setAddressAsDefault('${addr.id}')">
+              <span>Set as Primary</span>
+            </button>` : ''}
+            ${userAddresses.length > 1 ? `
+            <button type="button" class="addr-action-btn delete" onclick="event.stopPropagation(); deleteAddress('${addr.id}')">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              <span>Delete</span>
+            </button>` : ''}
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+
+    function selectDeliveryAddress(addrId) {
+      selectedAddressId = addrId;
+      const activeAddr = userAddresses.find(a => a.id === selectedAddressId);
+      if (activeAddr) localStorage.setItem("user_address", JSON.stringify(activeAddr));
+      renderAddressCards();
+      showToast("Address selected");
+    }
+
+    function setAddressAsDefault(addrId) {
+      userAddresses.forEach(a => a.isDefault = (a.id === addrId));
+      localStorage.setItem("user_addresses", JSON.stringify(userAddresses));
+      if (db) db.ref(`users/${currentUserId}/addresses`).set(userAddresses).catch(()=>{});
+      showToast("Primary address updated");
+      renderAddressCards();
+    }
+
+    function openAddressForm(addrId) {
+      editingAddressId = addrId;
+      const formPanel = document.getElementById("addressFormPanel");
+      const titleEl = document.getElementById("addrFormTitle");
+      const isEdit = Boolean(addrId);
+
+      titleEl.textContent = isEdit ? "Edit Delivery Address" : "Add Delivery Address";
+      formPanel.style.display = "block";
+
+      if (isEdit) {
+        const addr = userAddresses.find(a => a.id === addrId);
+        if (addr) {
+          document.getElementById("custName").value = addr.name || "";
+          document.getElementById("custPhone").value = addr.phone || "";
+          document.getElementById("custAltPhone").value = addr.altPhone || "";
+          document.getElementById("custPincode").value = addr.pincode || "";
+          document.getElementById("custCity").value = addr.city || "";
+          document.getElementById("custStreet").value = addr.street || "";
+          document.getElementById("custLandmark").value = addr.landmark || "";
+          document.getElementById("custState").value = addr.state || "";
+          document.getElementById("custIsDefault").checked = Boolean(addr.isDefault);
+          selectAddressType(addr.type || "Home");
+        }
+      } else {
+        document.getElementById("custName").value = "";
+        document.getElementById("custPhone").value = "";
+        document.getElementById("custAltPhone").value = "";
+        document.getElementById("custPincode").value = "";
+        document.getElementById("custCity").value = "";
+        document.getElementById("custStreet").value = "";
+        document.getElementById("custLandmark").value = "";
+        document.getElementById("custState").value = "";
+        document.getElementById("custIsDefault").checked = userAddresses.length === 0;
+        selectAddressType("Home");
+      }
+      formPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function cancelAddressForm() {
+      if (userAddresses.length === 0) {
+        showToast("Please save at least one delivery address");
+        return;
+      }
+      editingAddressId = null;
+      renderAddressCards();
+    }
+
+    function handleSaveAddress() {
+      const name = document.getElementById("custName").value.trim();
+      const phone = document.getElementById("custPhone").value.trim();
+      const altPhone = document.getElementById("custAltPhone").value.trim();
+      const pincode = document.getElementById("custPincode").value.trim();
+      const city = document.getElementById("custCity").value.trim();
+      const street = document.getElementById("custStreet").value.trim();
+      const landmark = document.getElementById("custLandmark").value.trim();
+      const state = document.getElementById("custState").value.trim();
+      const isDefault = document.getElementById("custIsDefault").checked || userAddresses.length === 0;
+
+      if (!name || !phone || !pincode || !city || !street || !landmark || !state) {
+        showToast("Please fill in all required fields (*)");
+        return;
+      }
+      if (!/^\d{10}$/.test(phone)) {
+        showToast("Please enter a valid 10-digit mobile number");
+        return;
+      }
+      if (!/^\d{6}$/.test(pincode)) {
+        showToast("Please enter a valid 6-digit PIN code");
+        return;
+      }
+
+      if (isDefault) {
+        userAddresses.forEach(a => a.isDefault = false);
+      }
+
+      if (editingAddressId) {
+        const idx = userAddresses.findIndex(a => a.id === editingAddressId);
+        if (idx > -1) {
+          userAddresses[idx] = {
+            id: editingAddressId,
+            name, phone, altPhone, pincode, city, street, landmark, state,
+            type: currentAddressType, isDefault
+          };
+          selectedAddressId = editingAddressId;
+        }
+        showToast("Address updated");
+      } else {
+        const newId = "addr_" + Date.now();
+        userAddresses.push({
+          id: newId,
+          name, phone, altPhone, pincode, city, street, landmark, state,
+          type: currentAddressType, isDefault
+        });
+        selectedAddressId = newId;
+        showToast("Address saved");
+      }
+
+      localStorage.setItem("user_addresses", JSON.stringify(userAddresses));
+      const activeAddr = userAddresses.find(a => a.id === selectedAddressId);
+      if (activeAddr) localStorage.setItem("user_address", JSON.stringify(activeAddr));
+      if (db) db.ref(`users/${currentUserId}/addresses`).set(userAddresses).catch(()=>{});
+
+      editingAddressId = null;
+      renderAddressCards();
+    }
+
+    function deleteAddress(addrId) {
+      if (!confirm("Are you sure you want to remove this address?")) return;
+      userAddresses = userAddresses.filter(a => a.id !== addrId);
+      if (selectedAddressId === addrId) {
+        selectedAddressId = userAddresses.length > 0 ? userAddresses[0].id : null;
+      }
+      localStorage.setItem("user_addresses", JSON.stringify(userAddresses));
+      if (db) db.ref(`users/${currentUserId}/addresses`).set(userAddresses).catch(()=>{});
+      showToast("Address deleted");
+      initAddressSelection();
+    }
+
+    function handlePlaceOrder() {
+      const formPanel = document.getElementById("addressFormPanel");
+      if (formPanel.style.display !== "none") {
+        const nameInput = document.getElementById("custName").value.trim();
+        if (nameInput) {
+          handleSaveAddress();
+          if (editingAddressId) return;
+        }
+      }
+
+      if (!userAddresses || userAddresses.length === 0) {
+        showToast("Please add and save your delivery address");
+        openAddressForm(null);
+        return;
+      }
+
+      const activeAddress = userAddresses.find(a => a.id === selectedAddressId) || userAddresses[0];
+      const totalAmount = checkoutItems.reduce((s, i) => s + ((i.price || 0) * (parseInt(i.quantity) || 1)), 0);
+      const orderId = "ORD_" + Date.now().toString().slice(-6) + Math.random().toString(36).substring(2, 5).toUpperCase();
+
+      const isOnline = (selectedPayment === "UPI");
+      const utrVal = document.getElementById("upiUtrInput") ? document.getElementById("upiUtrInput").value.trim() : "";
+      const customUpi = document.getElementById("customUpiIdInput") ? document.getElementById("customUpiIdInput").value.trim() : "";
+
+      const paymentDetails = isOnline ? {
+        gateway: "UPI Instant Payment",
+        provider: selectedUpiApp || "UPI QR",
+        upiId: customUpi || "megastore.official@icici",
+        merchantUpi: "megastore.official@icici",
+        merchantName: "MEGA STORE RETAIL PVT LTD",
+        bankPartner: "ICICI Bank Official Partner",
+        txnId: generatedTxnToken,
+        utrNumber: utrVal || ("UTR" + Math.floor(100000000000 + Math.random() * 900000000000)),
+        amountPaid: totalAmount,
+        currency: "INR",
+        paidAt: Date.now(),
+        isSecureVerified: true,
+        securityProtocol: "256-Bit SSL Encrypted & PCI-DSS Compliant"
+      } : {
+        gateway: "Cash on Delivery",
+        amountDue: totalAmount,
+        currency: "INR",
+        instructions: "Pay exact cash upon arrival at doorstep."
+      };
+
+      const orderPayload = {
+        orderId,
+        userId: currentUserId,
+        items: checkoutItems,
+        totalAmount,
+        paymentMethod: isOnline ? "ONLINE_UPI" : "COD",
+        paymentStatus: isOnline ? "PAID" : "PENDING_COD",
+        paymentDetails,
+        address: activeAddress,
+        orderStatus: "Processing",
+        createdAt: Date.now()
+      };
+
+      const placeBtn = document.getElementById("placeOrderBtn");
+      if (placeBtn) {
+        placeBtn.disabled = true;
+        placeBtn.textContent = "Recording Order...";
+      }
+
+      // Write to Firebase
+      if (db) {
+        const updates = {};
+        updates[`orders/${orderId}`] = orderPayload;
+        updates[`users/${currentUserId}/orders/${orderId}`] = orderPayload;
+        updates[`users/${currentUserId}/cart`] = [];
+        db.ref().update(updates).catch((err)=>console.warn("Firebase save error:", err));
+      }
+
+      // Store in local storage
+      let myOrders = JSON.parse(localStorage.getItem("my_orders") || "[]");
+      myOrders.unshift(orderPayload);
+      localStorage.setItem("my_orders", JSON.stringify(myOrders));
+      localStorage.removeItem("cart");
+
+      // Show Modal
+      document.getElementById("successOrderIdDisplay").textContent = orderId;
+      document.getElementById("orderSuccessModal").classList.add("active");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadCheckoutItems();
+      initPaymentState();
+    });
+  </script>
+</body>
+</html>

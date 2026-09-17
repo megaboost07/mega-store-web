@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Search Catalog</title>
-  <meta name="description" content="Search apparel, fashion, fits, and trending styles.">
+  <title>Saved Items</title>
+  <meta name="description" content="Manage your saved apparel favorites and move them to cart anytime.">
 
   <!-- Firebase Compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -249,128 +249,23 @@
       font-size: 14px;
     }
 
-    /* Search Area */
-    .search-bar-wrap {
-      margin: 20px 0 16px 0;
-      position: relative;
-      display: flex;
-      gap: 8px;
-    }
-
-    .search-input-box {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 0 14px;
-      transition: var(--transition);
-    }
-
-    .search-input-box:focus-within {
-      border-color: var(--text-main);
-      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
-    }
-
-    .search-input-box svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--text-muted);
-      stroke-width: 2;
-      fill: none;
-      margin-right: 10px;
-    }
-
-    .search-field {
-      flex: 1;
-      height: 46px;
-      border: none;
-      background: transparent;
-      color: var(--text-main);
-      font-size: 15px;
-      outline: none;
-    }
-
-    .clear-search-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-      display: none;
-    }
-
-    .clear-search-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      margin: 0;
-    }
-
-    .search-action-btn {
-      height: 46px;
-      padding: 0 20px;
-      background: var(--accent-color);
-      color: #ffffff;
-      border: none;
-      border-radius: var(--radius-md);
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    body.dark .search-action-btn {
-      background: #ffffff;
-      color: #0f172a;
-    }
-
-    /* Suggestions */
-    .suggestions-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 24px;
-    }
-
-    .suggestion-chip {
-      padding: 6px 14px;
-      border-radius: var(--radius-full);
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .suggestion-chip:hover {
-      color: var(--text-main);
-      border-color: var(--text-main);
-    }
-
-    /* Product Grid */
-    .product-grid {
+    /* Wishlist Grid */
+    .wishlist-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
+      margin-top: 16px;
     }
 
     @media (min-width: 640px) {
-      .product-grid {
+      .wishlist-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 16px;
       }
     }
 
     @media (min-width: 1024px) {
-      .product-grid {
+      .wishlist-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
       }
@@ -404,25 +299,29 @@
       object-fit: cover;
     }
 
-    .save-badge-btn {
+    .remove-wish-btn {
       position: absolute;
       top: 8px;
       right: 8px;
       width: 32px;
       height: 32px;
       border-radius: var(--radius-full);
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(0,0,0,0.06);
+      color: var(--sale-red);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #64748b;
       cursor: pointer;
     }
 
-    .save-badge-btn.saved { color: var(--sale-red); }
-    .save-badge-btn.saved svg { fill: var(--sale-red); }
-    .save-badge-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .remove-wish-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
 
     .product-info {
       padding: 12px;
@@ -469,7 +368,26 @@
 
     body.dark .btn-add-cart { background: #ffffff; color: #0f172a; }
 
-    /* Floating Bottom Nav */
+    /* Empty State */
+    .empty-wishlist-wrap {
+      text-align: center;
+      padding: 64px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      margin-top: 24px;
+    }
+
+    .empty-wishlist-wrap svg {
+      width: 64px;
+      height: 64px;
+      stroke: var(--text-muted);
+      stroke-width: 1.5;
+      fill: none;
+      margin-bottom: 16px;
+    }
+
+    /* Floating Pill Bottom Navigation */
     .floating-nav {
       position: fixed;
       bottom: 16px;
@@ -499,45 +417,6 @@
     .nav-pill-item span { font-size: 10px; font-weight: 600; }
     .nav-pill-item.active { background: var(--accent-light); color: var(--text-main); }
     body.dark .nav-pill-item.active { background: #1e293b; color: #ffffff; }
-
-    /* Modal / Size Picker */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 150;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      padding: 16px;
-    }
-    .modal-overlay.active { opacity: 1; visibility: visible; }
-    .modal-dialog {
-      background: var(--bg-surface);
-      width: 100%;
-      max-width: 400px;
-      border-radius: var(--radius-lg);
-      padding: 24px;
-    }
-    .size-chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-    .size-chip {
-      padding: 8px 16px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      background: var(--bg-card);
-      color: var(--text-main);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .size-chip.selected { background: var(--accent-color); color: #ffffff; }
-    body.dark .size-chip.selected { color: #0f172a; }
 
     /* Toast */
     .toast-container {
@@ -582,6 +461,9 @@
         </a>
       </div>
       <div class="header-right">
+        <a href="search.html" class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </a>
         <a href="cart.html" class="icon-btn" aria-label="Cart">
           <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
           <span class="cart-badge" id="cartBadgeCount">0</span>
@@ -601,9 +483,9 @@
     </div>
     <div class="drawer-body">
       <div>
-        <div class="drawer-section-title">Night Mode</div>
+        <div class="drawer-section-title">Dark Mode</div>
         <div class="theme-toggle-wrap">
-          <span>Dark Mode</span>
+          <span>Night Mode</span>
           <input type="checkbox" id="themeSwitchCheckbox" class="theme-toggle-input">
         </div>
       </div>
@@ -623,7 +505,7 @@
         </select>
       </div>
       <div>
-        <div class="drawer-section-title">Contact & Social</div>
+        <div class="drawer-section-title">Support</div>
         <div style="display:flex; flex-direction:column; gap:10px;">
           <a href="https://www.instagram.com/mega_store.india?stkn=eDNjNm12azdva3Nt" target="_blank" class="drawer-item">Instagram</a>
           <a href="https://wa.me/918134958144" target="_blank" class="drawer-item">WhatsApp: 8134958144</a>
@@ -633,48 +515,27 @@
     </div>
   </aside>
 
-  <!-- Search Main Container -->
+  <!-- Saved Items Container -->
   <main class="container">
     
-    <div class="search-bar-wrap">
-      <div class="search-input-box">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="searchInputField" class="search-field" placeholder="Search jeans, shirts, oversized tees..." autofocus>
-        <button class="clear-search-btn" id="clearSearchBtn" aria-label="Clear Search">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
+    <div id="savedContentWrap">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+        <h1 style="font-size: 20px; font-weight: 700;">Saved Items</h1>
+        <span style="font-size: 13px; color: var(--text-muted);" id="savedCountBadge">0 Items</span>
       </div>
-      <button class="search-action-btn" id="searchSubmitBtn">Search</button>
+
+      <div class="wishlist-grid" id="wishlistGrid"></div>
     </div>
 
-    <!-- Suggestions -->
-    <div class="suggestions-row" id="suggestionsRow">
-      <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Popular:</span>
-      <span class="suggestion-chip" onclick="executeSearch('Jeans')">Jeans</span>
-      <span class="suggestion-chip" onclick="executeSearch('Oversized')">Oversized</span>
-      <span class="suggestion-chip" onclick="executeSearch('Polo')">Polo</span>
-      <span class="suggestion-chip" onclick="executeSearch('Cargo')">Cargo</span>
-      <span class="suggestion-chip" onclick="executeSearch('Formal Shirt')">Formal Shirt</span>
+    <!-- Empty State -->
+    <div class="empty-wishlist-wrap" id="emptySavedWrap" style="display: none;">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">No Saved Items Yet</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Click the heart icon on any product to save it here for later.</p>
+      <a href="index.html" class="btn-add-cart" style="display: inline-flex; width: auto; padding: 0 24px; height: 42px; text-decoration: none; align-items: center;">Explore Products</a>
     </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-      <h2 style="font-size: 18px; font-weight: 700;" id="searchHeading">Search Results</h2>
-      <span style="font-size: 13px; color: var(--text-muted);" id="resultCountBadge">Showing all</span>
-    </div>
-
-    <div class="product-grid" id="productGrid"></div>
 
   </main>
-
-  <!-- Size Selection Modal -->
-  <div class="modal-overlay" id="sizeModalOverlay">
-    <div class="modal-dialog">
-      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Select Size Required</h3>
-      <p style="font-size: 13px; color: var(--text-muted);">Please select a size to add this product to cart.</p>
-      <div class="size-chips-wrap" id="modalSizeChips"></div>
-      <button class="btn-add-cart" id="modalConfirmSizeBtn" style="height: 42px;">Confirm & Add</button>
-    </div>
-  </div>
 
   <!-- Floating Pill Navigation -->
   <nav class="floating-nav" id="floatingBottomNav">
@@ -686,7 +547,7 @@
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
       <span>Category</span>
     </a>
-    <a href="save.html" class="nav-pill-item" id="navPillSave">
+    <a href="save.html" class="nav-pill-item active" id="navPillSave">
       <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
       <span>Save</span>
     </a>
@@ -776,236 +637,106 @@
     }
     updateCartBadge();
 
-    /* Search State */
-    let catalog = [];
-    let savedProductIds = new Set();
-    let pendingCartProduct = null;
-    let selectedModalSize = "";
+    /* Wishlist Operations */
+    let savedItems = [];
 
-    function initSaved() {
+    function loadSavedItems() {
       try {
-        const saved = JSON.parse(localStorage.getItem("saved_items") || "[]");
-        savedProductIds = new Set(saved.map(i => i.id));
-      } catch (e) {}
-    }
-    initSaved();
-
-    const searchInput = document.getElementById("searchInputField");
-    const clearBtn = document.getElementById("clearSearchBtn");
-    const searchBtn = document.getElementById("searchSubmitBtn");
-
-    searchInput.addEventListener("input", (e) => {
-      const q = e.target.value;
-      clearBtn.style.display = q ? "block" : "none";
-      filterCatalog(q);
-    });
-
-    clearBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      clearBtn.style.display = "none";
-      filterCatalog("");
-      searchInput.focus();
-    });
-
-    searchBtn.addEventListener("click", () => {
-      filterCatalog(searchInput.value);
-    });
-
-    function executeSearch(keyword) {
-      searchInput.value = keyword;
-      clearBtn.style.display = "block";
-      filterCatalog(keyword);
-    }
-
-    function filterCatalog(query) {
-      const q = query.trim().toLowerCase();
-      let results = catalog;
-
-      if (q) {
-        results = catalog.filter(p => {
-          const title = (p.title || "").toLowerCase();
-          const cat = (p.category || "").toLowerCase();
-          const sub = (p.subcategory || "").toLowerCase();
-          const desc = (p.description || "").toLowerCase();
-          return title.includes(q) || cat.includes(q) || sub.includes(q) || desc.includes(q);
-        });
-        document.getElementById("searchHeading").textContent = `Results for "${query}"`;
-      } else {
-        document.getElementById("searchHeading").textContent = "Search Results";
+        savedItems = JSON.parse(localStorage.getItem("saved_items") || "[]");
+      } catch (e) {
+        savedItems = [];
       }
-
-      document.getElementById("resultCountBadge").textContent = `${results.length} Found`;
-      renderProducts(results);
+      renderWishlist();
     }
 
-    function renderProducts(products) {
-      const grid = document.getElementById("productGrid");
-      grid.innerHTML = "";
+    function renderWishlist() {
+      const contentWrap = document.getElementById("savedContentWrap");
+      const emptyWrap = document.getElementById("emptySavedWrap");
+      const grid = document.getElementById("wishlistGrid");
 
-      if (products.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 16px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
-            <svg viewBox="0 0 24 24" width="48" height="48" stroke="var(--text-muted)" stroke-width="1.5" fill="none" style="margin-bottom: 12px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">No products found</h3>
-            <p style="font-size: 13px; color: var(--text-muted);">Try searching for Jeans, T-Shirt, Shirt, or Track Pants.</p>
-          </div>
-        `;
+      if (savedItems.length === 0) {
+        contentWrap.style.display = "none";
+        emptyWrap.style.display = "block";
         return;
       }
 
-      products.forEach(p => {
-        const isSaved = savedProductIds.has(p.id);
-        const img = p.images && p.images[0] ? p.images[0] : 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80';
-        const orig = p.price || p.originalPrice || (p.offerPrice * 1.3);
-        const offer = p.offerPrice || p.price;
+      contentWrap.style.display = "block";
+      emptyWrap.style.display = "none";
+      document.getElementById("savedCountBadge").textContent = `${savedItems.length} Items`;
+
+      grid.innerHTML = "";
+      savedItems.forEach((item, index) => {
+        const img = item.image || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80';
+        const orig = item.price || (item.offerPrice * 1.3);
+        const offer = item.offerPrice || item.price;
 
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
-          <div class="product-img-wrap" onclick="window.location.href='productdetails.html?id=${p.id}'">
-            <img src="${img}" alt="${p.title}" class="product-img" loading="lazy">
-            <button class="save-badge-btn ${isSaved ? 'saved' : ''}" onclick="toggleSave(event, '${p.id}')">
-              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <div class="product-img-wrap" onclick="window.location.href='productdetails.html?id=${item.id}'">
+            <img src="${img}" alt="${item.title}" class="product-img" loading="lazy">
+            <button class="remove-wish-btn" onclick="removeWishItem(event, ${index}, '${item.id}')" aria-label="Remove item">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
           </div>
           <div class="product-info">
             <div>
-              <h3 class="product-title" onclick="window.location.href='productdetails.html?id=${p.id}'">${p.title}</h3>
+              <h3 class="product-title" onclick="window.location.href='productdetails.html?id=${item.id}'">${item.title}</h3>
               <div class="price-row">
                 <span class="offer-price">&#8377;${offer}</span>
                 ${orig > offer ? `<span class="original-price">&#8377;${orig}</span>` : ''}
               </div>
             </div>
-            <button class="btn-add-cart" onclick="handleAddToCart(event, '${p.id}')">Add To Cart</button>
+            <button class="btn-add-cart" onclick="moveToCart(event, ${index})">Move to Cart</button>
           </div>
         `;
         grid.appendChild(card);
       });
     }
 
-    function toggleSave(e, pid) {
+    function removeWishItem(e, index, pid) {
       e.stopPropagation();
-      const prod = catalog.find(p => p.id === pid);
-      if (!prod) return;
-
-      let saved = JSON.parse(localStorage.getItem("saved_items") || "[]");
-      const idx = saved.findIndex(i => i.id === pid);
-
-      if (idx > -1) {
-        saved.splice(idx, 1);
-        savedProductIds.delete(pid);
-        showToast("Removed from wishlist");
-      } else {
-        saved.push({
-          id: prod.id,
-          title: prod.title,
-          price: prod.price,
-          offerPrice: prod.offerPrice,
-          rating: prod.rating || 4.5,
-          image: prod.images && prod.images[0] ? prod.images[0] : "",
-          savedAt: Date.now()
-        });
-        savedProductIds.add(pid);
-        showToast("Saved to wishlist");
-      }
-
-      localStorage.setItem("saved_items", JSON.stringify(saved));
-      filterCatalog(searchInput.value);
-      db.ref(`users/${currentUserId}/saved/${pid}`).set(idx > -1 ? null : true).catch(()=>{});
+      savedItems.splice(index, 1);
+      localStorage.setItem("saved_items", JSON.stringify(savedItems));
+      db.ref(`users/${currentUserId}/saved/${pid}`).set(null).catch(()=>{});
+      renderWishlist();
+      showToast("Item removed from saved");
     }
 
-    function handleAddToCart(e, pid) {
+    function moveToCart(e, index) {
       e.stopPropagation();
-      const prod = catalog.find(p => p.id === pid);
-      if (!prod) return;
+      const item = savedItems[index];
+      if (!item) return;
 
-      if (prod.sizes && prod.sizes.length > 0) {
-        openSizeModal(prod);
-      } else {
-        executeAddToCart(prod, "Standard");
-      }
-    }
-
-    function openSizeModal(prod) {
-      pendingCartProduct = prod;
-      selectedModalSize = prod.sizes[0] || "";
-      const modal = document.getElementById("sizeModalOverlay");
-      const chips = document.getElementById("modalSizeChips");
-      chips.innerHTML = "";
-
-      prod.sizes.forEach((s, i) => {
-        const chip = document.createElement("button");
-        chip.className = "size-chip" + (i === 0 ? " selected" : "");
-        chip.textContent = s;
-        chip.addEventListener("click", () => {
-          document.querySelectorAll(".size-chip").forEach(c => c.classList.remove("selected"));
-          chip.classList.add("selected");
-          selectedModalSize = s;
-        });
-        chips.appendChild(chip);
-      });
-
-      modal.classList.add("active");
-    }
-
-    document.getElementById("modalConfirmSizeBtn").addEventListener("click", () => {
-      if (pendingCartProduct && selectedModalSize) {
-        executeAddToCart(pendingCartProduct, selectedModalSize);
-        document.getElementById("sizeModalOverlay").classList.remove("active");
-      }
-    });
-
-    document.getElementById("sizeModalOverlay").addEventListener("click", (e) => {
-      if (e.target === document.getElementById("sizeModalOverlay")) {
-        document.getElementById("sizeModalOverlay").classList.remove("active");
-      }
-    });
-
-    function executeAddToCart(prod, size) {
       let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existing = cart.find(i => i.id === prod.id && i.size === size);
+      const existing = cart.find(i => i.id === item.id);
 
       if (existing) {
         existing.quantity = Math.min(99, (parseInt(existing.quantity) || 1) + 1);
       } else {
         cart.push({
-          id: prod.id,
-          title: prod.title,
-          price: prod.offerPrice || prod.price,
-          originalPrice: prod.price,
-          image: prod.images && prod.images[0] ? prod.images[0] : '',
-          size: size,
+          id: item.id,
+          title: item.title,
+          price: item.offerPrice || item.price,
+          originalPrice: item.price,
+          image: item.image,
+          size: "Standard",
           quantity: 1,
-          stock: prod.stock || 99,
+          stock: 99,
           addedAt: Date.now()
         });
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
       updateCartBadge();
-      showToast("Added to Cart");
       db.ref(`users/${currentUserId}/cart`).set(cart).catch(()=>{});
+
+      // Remove from saved
+      removeWishItem(e, index, item.id);
+      showToast("Moved to Cart");
     }
 
-    function loadCatalog() {
-      db.ref("products").on("value", (snap) => {
-        const val = snap.val();
-        if (val) {
-          catalog = Object.keys(val).map(k => ({ id: k, ...val[k] }));
-        } else {
-          catalog = [
-            { id: "prod_1", title: "Relaxed Fit Denim Jeans", category: "Jeans", price: 1999, offerPrice: 1299, sizes: ["28", "30", "32", "34"], images: ["https://images.unsplash.com/photo-1542272604-780c96856592?w=800&q=80"] },
-            { id: "prod_2", title: "Heavyweight Boxy Oversized T-Shirt", category: "T-Shirt", price: 1299, offerPrice: 699, sizes: ["S", "M", "L", "XL"], images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&q=80"] },
-            { id: "prod_3", title: "Tapered Cotton Cargo Track Pants", category: "Track Pants", price: 1599, offerPrice: 999, sizes: ["M", "L", "XL"], images: ["https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80"] },
-            { id: "prod_4", title: "Premium Pique Knit Polo T-Shirt", category: "Polo T-Shirt", price: 1499, offerPrice: 849, sizes: ["M", "L", "XL"], images: ["https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&q=80"] },
-            { id: "prod_5", title: "Tailored Oxford Formal Shirt", category: "Shirt", price: 1899, offerPrice: 1149, sizes: ["38", "40", "42"], images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80"] }
-          ];
-        }
-        filterCatalog("");
-      });
-    }
-
-    window.addEventListener("DOMContentLoaded", loadCatalog);
+    window.addEventListener("DOMContentLoaded", loadSavedItems);
   </script>
 </body>
 </html>

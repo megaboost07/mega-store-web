@@ -1,0 +1,6 @@
+{
+  "name": "Fashion Store",
+  "description": "Complete modern premium fashion e-commerce store with real-time Firebase database, dynamic catalog, cart, checkout, order tracking, and comprehensive admin suite.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
