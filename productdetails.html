@@ -325,7 +325,7 @@ body.dark .theme-toggle-input:checked::after {
 .gallery-slider-viewport {
   position: relative;
   width: 100%;
-  padding-top: 115%;
+  padding-top: 100%;
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--accent-light);
@@ -665,24 +665,35 @@ body.dark .size-chip-btn.active {
   color: #0f172a;
 }
 
-/* Quantity Stepper */
+/* Quantity Stepper (Premium Pill UI) */
+.qty-stepper-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
 .qty-stepper {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
+  padding: 5px;
   border: 1.5px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   background: var(--bg-card);
-  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
 .qty-btn {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border: none;
-  background: transparent;
+  border-radius: var(--radius-full);
+  background: var(--accent-light);
   color: var(--text-main);
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -691,19 +702,48 @@ body.dark .size-chip-btn.active {
 }
 
 .qty-btn:hover {
-  background: var(--accent-light);
+  background: var(--accent-color);
+  color: #ffffff;
+  transform: scale(1.08);
 }
 
+body.dark .qty-btn:hover { color: #0f172a; }
+
+.qty-btn:active { transform: scale(0.92); }
+
 .qty-input {
-  width: 48px;
-  height: 40px;
+  width: 52px;
+  height: 38px;
   border: none;
   background: transparent;
   color: var(--text-main);
   text-align: center;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 800;
   outline: none;
+}
+
+.qty-total-chip {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 6px 16px;
+  border-radius: var(--radius-md);
+  background: var(--accent-light);
+  border: 1px solid var(--border-color);
+}
+
+.qty-total-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.qty-total-price {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
 }
 
 /* Coupon Section */
@@ -935,13 +975,9 @@ body.dark .coupon-apply-btn {
   margin-left: 3px;
 }
 
-/* Reviews Section */
+/* Reviews Section — outer card removed, rating box standalone top pe */
 .reviews-section {
   margin-top: 32px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 20px;
 }
 
 /* Big Star Rating Overview Box (Customer Reviews ke upar bada star rating & Kitna Kitna aaya) */
@@ -1862,6 +1898,153 @@ body.dark .btn-sticky-buy {
 }
 
 
+/* ===== Size Chart Photo (Size selector ke niche) ===== */
+.size-chart-box {
+  margin-top: 14px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: none;
+}
+
+.size-chart-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-main);
+}
+
+.size-chart-img-wrap {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: zoom-in;
+  border: 1px solid var(--border-color);
+  background: var(--accent-light);
+}
+
+.size-chart-img-wrap img {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+  max-height: 440px;
+}
+
+/* ===== Product Highlights (Description ke niche) ===== */
+.highlights-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-top: 24px;
+  display: none;
+}
+
+.highlights-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .highlights-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .highlights-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+.highlight-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.highlight-item .hl-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight-item .hl-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--text-main);
+  stroke-width: 2;
+  fill: none;
+}
+
+.highlight-item .hl-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.highlight-item .hl-value {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.35;
+}
+
+/* ===== MP4 Video Player (Hamesha 16:9 ratio) ===== */
+.mp4-video-card {
+  grid-column: 1 / -1;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000000;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.mp4-video-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.mp4-video-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+}
+
 /* ===== Progressive Image Loading + LQIP ===== */
 .prog-img {
   opacity: 0;
@@ -1903,6 +2086,167 @@ body.dark .btn-sticky-buy {
 .prog-img.loaded + .prog-lqip,
 .prog-lqip.hidden { opacity: 0; }
 /* ============================================ */
+
+/* ===== Premium Pricing Card UI ===== */
+.prod-pricing-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.07), transparent 55%), var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.prod-pricing-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--success-green), #34d399);
+}
+
+.prod-price-main-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.prod-offer-price {
+  font-size: 30px !important;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.prod-price-sub-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.prod-mrp-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.prod-price-save {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--success-green);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.prod-price-tax-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ===== Bottom Size Sheet (neeche se slide hota hai) ===== */
+.size-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 160;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.size-sheet-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.size-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 161;
+  background: var(--bg-surface);
+  border-radius: 20px 20px 0 0;
+  padding: 10px 20px calc(20px + env(safe-area-inset-bottom));
+  transform: translateY(105%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 560px;
+  margin: 0 auto;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.28);
+  border-top: 1px solid var(--border-color);
+}
+
+.size-sheet-overlay.active .size-sheet {
+  transform: translateY(0);
+}
+
+.size-sheet-handle {
+  width: 44px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--border-color);
+  margin: 4px auto 14px;
+}
+
+.size-sheet-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.size-sheet-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 4px 0 16px;
+}
+
+.size-sheet .size-chips-grid {
+  margin-bottom: 18px;
+}
+
+.btn-confirm-size {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--accent-color);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-confirm-size:active {
+  transform: scale(0.97);
+}
+
+body.dark .btn-confirm-size {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.sheet-shake {
+  animation: sheetShake 0.4s ease;
+}
+
+@keyframes sheetShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-7px); }
+  75% { transform: translateX(7px); }
+}
 
 /* Product Not Available State */
 .empty-product-state {
@@ -2077,10 +2421,17 @@ body.dark .empty-product-icon {
           <span style="color: var(--success-green); font-weight: 600; font-size: 13px;" id="stockStatusText">In Stock</span>
         </div>
 
-        <div class="prod-pricing-row">
-          <span class="prod-offer-price" id="productOfferPrice">&#8377;0</span>
-          <span class="prod-original-price" id="productOriginalPrice">&#8377;0</span>
-          <span class="prod-discount-pill" id="productDiscountPill">0% OFF</span>
+        <div class="prod-pricing-card" id="prodPricingCard">
+          <div class="prod-price-main-row">
+            <span class="prod-offer-price" id="productOfferPrice">&#8377;0</span>
+            <span class="prod-discount-pill" id="productDiscountPill">0% OFF</span>
+          </div>
+          <div class="prod-price-sub-row">
+            <span class="prod-mrp-label">MRP</span>
+            <span class="prod-original-price" id="productOriginalPrice">&#8377;0</span>
+            <span class="prod-price-save" id="productPriceSave"></span>
+          </div>
+          <div class="prod-price-tax-note">Inclusive of all taxes &bull; Free delivery available</div>
         </div>
 
         <!-- Size Selection -->
@@ -2091,14 +2442,31 @@ body.dark .empty-product-icon {
           </div>
           <div class="size-chips-grid" id="sizeChipsGrid"></div>
         </div>
-
         <!-- Quantity Selector -->
         <div>
           <div class="option-group-title">Quantity (Max 99)</div>
-          <div class="qty-stepper">
-            <button class="qty-btn" id="qtyMinusBtn" aria-label="Decrease quantity">&#8722;</button>
-            <input type="number" id="qtyInputField" class="qty-input" value="1" min="1" max="99" readonly>
-            <button class="qty-btn" id="qtyPlusBtn" aria-label="Increase quantity">&#43;</button>
+          <div class="qty-stepper-wrap">
+            <div class="qty-stepper">
+              <button class="qty-btn" id="qtyMinusBtn" aria-label="Decrease quantity">&#8722;</button>
+              <input type="number" id="qtyInputField" class="qty-input" value="1" min="1" max="99" readonly>
+              <button class="qty-btn" id="qtyPlusBtn" aria-label="Increase quantity">&#43;</button>
+            </div>
+            <div class="qty-total-chip">
+              <span class="qty-total-label">Item Total</span>
+              <span class="qty-total-price" id="qtyTotalPrice">&#8377;0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size Chart Photo (Quantity ke niche, tap-to-zoom) -->
+        <div class="size-chart-box" id="sizeChartBox">
+          <div class="size-chart-title">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0z"></path><line x1="7.5" y1="10.5" x2="10.5" y2="7.5"></line><line x1="10.5" y1="10.5" x2="13.5" y2="7.5"></line><line x1="13.5" y1="10.5" x2="16.5" y2="7.5"></line></svg>
+            <span>Size Chart</span>
+            <span style="font-size: 11px; font-weight: 500; color: var(--text-muted); margin-left: auto;">Tap to zoom</span>
+          </div>
+          <div class="size-chart-img-wrap" id="sizeChartImgWrap">
+            <img src="" alt="Size chart" id="sizeChartImg">
           </div>
         </div>
 
@@ -2142,6 +2510,15 @@ body.dark .empty-product-icon {
       <button class="expand-desc-btn" id="expandDescBtn">More</button>
     </section>
 
+    <!-- Product Highlights (Colour, Brand, Country, PCS, Type, Quantity, Fabric — Description ke niche) -->
+    <section class="highlights-section" id="highlightsSection">
+      <h3 class="highlights-title">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <span>Product Highlights</span>
+      </h3>
+      <div class="highlights-grid" id="highlightsGrid"></div>
+    </section>
+
     <!-- Product Videos Section -->
     <section class="videos-section" id="videosSection">
       <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Product Videos</h3>
@@ -2151,11 +2528,6 @@ body.dark .empty-product-icon {
 
     <!-- Product Reviews -->
     <section class="reviews-section" id="reviewsSection">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h3 style="font-size: 18px; font-weight: 700;">Customer Reviews (<span id="sectionReviewsCount">0</span>)</h3>
-        <button class="icon-btn" style="width: auto; padding: 0 14px; font-size: 13px; font-weight: 600;" onclick="openAddReviewModal()">Write a Review</button>
-      </div>
-
       <!-- BADA STAR RATING & KITNA KITNA AAYA BREAKDOWN -->
       <div class="rating-overview-box" id="ratingOverviewBox">
         <div class="rating-score-col">
@@ -2226,6 +2598,13 @@ body.dark .empty-product-icon {
         </div>
       </div>
 
+
+      <!-- Customer Reviews Heading -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 18px; font-weight: 700;">Customer Reviews (<span id="sectionReviewsCount">0</span>)</h3>
+        <button class="icon-btn" style="width: auto; padding: 0 14px; font-size: 13px; font-weight: 600;" onclick="openAddReviewModal()">Write a Review</button>
+      </div>
+
       <!-- Customer Photos Gallery (Ek alag photo strip) -->
       <div class="customer-photos-section" id="customerPhotosSection" style="display: none;">
         <div class="customer-photos-title-row">
@@ -2278,12 +2657,14 @@ body.dark .empty-product-icon {
     </div>
   </div>
 
-  <!-- Size Required Popup Modal -->
-  <div class="modal-overlay" id="sizeAlertModal">
-    <div class="modal-dialog">
-      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Select Size Required</h3>
-      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Please select a size before continuing with your order.</p>
-      <button class="btn-sticky-buy" style="width: 100%;" onclick="closeSizeAlertModal()">Understood</button>
+  <!-- Bottom Size Selection Sheet (neeche se aata hai, Confirm ke baad action complete) -->
+  <div class="size-sheet-overlay" id="sizeSheetOverlay">
+    <div class="size-sheet" id="sizeSheetPanel">
+      <div class="size-sheet-handle"></div>
+      <div class="size-sheet-title">Select Your Size</div>
+      <div class="size-sheet-sub">Size choose karne ke baad Confirm dabao, order turant add ho jayega.</div>
+      <div class="size-chips-grid" id="sizeSheetChipsGrid"></div>
+      <button type="button" class="btn-confirm-size" id="confirmSizeBtn">Confirm Size</button>
     </div>
   </div>
 
@@ -2543,7 +2924,7 @@ const lazyImageObserver = new IntersectionObserver((entries) => {
       lazyImageObserver.unobserve(entry.target);
     }
   });
-}, { rootMargin: "250px 0px" }); // thoda pehle se load shuru
+}, { rootMargin: "600px 0px" }); // pehle se load shuru
 
 /* Ek progressive image element banao: pehle LQIP blur, phir full image fade-in */
 function createProgressiveImg(src, altText, extraClass) {
@@ -2574,6 +2955,10 @@ function upgradeImgToProgressive(img, fullSrc) {
 function loadProgressiveImage(img) {
   const fullSrc = img.dataset.src;
   if (!fullSrc) return;
+  if (img.src === fullSrc && img.complete && img.naturalWidth > 0) {
+    img.classList.add("loaded");
+    return;
+  }
   const full = new Image();
   full.decoding = "async";
   full.src = fullSrc;
@@ -2695,6 +3080,14 @@ function renderGallery(images) {
 
   goToSlide(0, false);
   setupGalleryGestures();
+
+  // Saari gallery images background mein preload karo (swipe pe turant dikhe, koi blank nahi)
+  productImages.forEach((src, i) => {
+    if (i === 0) return;
+    const pre = new Image();
+    pre.decoding = "async";
+    pre.src = src;
+  });
 }
 
 function goToSlide(index, animate = true) {
@@ -2847,7 +3240,11 @@ function openFullscreenViewer() {
 
 function closeFullscreenViewer() {
   const modal = document.getElementById("fullscreenModal");
-  if (modal) modal.classList.remove("active");
+  if (modal) {
+    modal.classList.remove("active");
+    // Size chart zoom ke liye hide kiye hue nav arrows wapas lao
+    modal.querySelectorAll(".fs-nav-btn").forEach(b => b.style.display = "");
+  }
 }
 
 function navigateFsImage(dir) {
@@ -2964,6 +3361,8 @@ function recalcPrice() {
 
   const priceEl = document.getElementById("stickyPriceText");
   if (priceEl) priceEl.innerHTML = `&#8377;${total}`;
+  const qtyTotalEl = document.getElementById("qtyTotalPrice");
+  if (qtyTotalEl) qtyTotalEl.innerHTML = `&#8377;${total}`;
 }
 
 /* --- Size Validation & Selection --- */
@@ -2996,30 +3395,107 @@ function renderSizes(sizes) {
 }
 
 function validateSizeSelected() {
-  if (currentProduct && currentProduct.sizes && currentProduct.sizes.length > 0) {
-    if (!selectedSize) {
-      const warn = document.getElementById("sizeRequiredWarning");
-      if (warn) warn.style.display = "inline";
-      const modal = document.getElementById("sizeAlertModal");
-      if (modal) modal.classList.add("active");
-      return false;
-    }
+  if (currentProduct && currentProduct.sizes && currentProduct.sizes.length > 0 && !selectedSize) {
+    const warn = document.getElementById("sizeRequiredWarning");
+    if (warn) warn.style.display = "inline";
+    return false;
   }
   return true;
 }
 
-function closeSizeAlertModal() {
-  const modal = document.getElementById("sizeAlertModal");
-  if (modal) modal.classList.remove("active");
+/* --- Bottom Size Sheet: neeche se khulta hai, Confirm par pending action complete --- */
+let pendingSheetAction = null;
+
+function openSizeSheet(action) {
+  pendingSheetAction = action;
+  renderSizeSheetChips();
+  const ov = document.getElementById("sizeSheetOverlay");
+  if (ov) ov.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeSizeSheet() {
+  pendingSheetAction = null;
+  const ov = document.getElementById("sizeSheetOverlay");
+  if (ov) ov.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function renderSizeSheetChips() {
+  const grid = document.getElementById("sizeSheetChipsGrid");
+  if (!grid || !currentProduct) return;
+  grid.innerHTML = "";
+  (currentProduct.sizes || []).forEach(s => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "size-chip-btn" + (selectedSize === s ? " active" : "");
+    btn.textContent = s;
+    btn.addEventListener("click", () => {
+      selectedSize = s;
+      grid.querySelectorAll(".size-chip-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      // Main page ke size chips bhi sync karo
+      document.querySelectorAll("#sizeChipsGrid .size-chip-btn").forEach(b => {
+        b.classList.toggle("active", b.textContent === s);
+      });
+      const warn = document.getElementById("sizeRequiredWarning");
+      if (warn) warn.style.display = "none";
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function confirmSizeSheet() {
+  if (!selectedSize) {
+    showToast("Please select a size first", "error");
+    const panel = document.getElementById("sizeSheetPanel");
+    if (panel) {
+      panel.classList.remove("sheet-shake");
+      void panel.offsetWidth;
+      panel.classList.add("sheet-shake");
+    }
+    return;
+  }
+  const action = pendingSheetAction;
+  closeSizeSheet();
+  if (action === "cart") {
+    executeAddToCart();
+    showToast("Added to Cart");
+  } else if (action === "buy") {
+    executeBuyNow();
+    window.location.href = "buy.html";
+  }
+}
+
+const confirmSizeBtnEl = document.getElementById("confirmSizeBtn");
+if (confirmSizeBtnEl) confirmSizeBtnEl.addEventListener("click", confirmSizeSheet);
+
+const sizeSheetOverlayEl = document.getElementById("sizeSheetOverlay");
+if (sizeSheetOverlayEl) {
+  sizeSheetOverlayEl.addEventListener("click", (e) => {
+    if (e.target === sizeSheetOverlayEl) closeSizeSheet();
+  });
 }
 
 /* --- Add to Cart & Buy Now --- */
 const stickyAddToCartBtn = document.getElementById("stickyAddToCartBtn");
 const stickyBuyNowBtn = document.getElementById("stickyBuyNowBtn");
 
+const needsSizeSelection = () =>
+  currentProduct && currentProduct.sizes && currentProduct.sizes.length > 0 && !selectedSize;
+
+function showSizeRequiredHint() {
+  const warn = document.getElementById("sizeRequiredWarning");
+  if (warn) warn.style.display = "inline";
+}
+
 if (stickyAddToCartBtn) {
   stickyAddToCartBtn.addEventListener("click", () => {
-    if (!validateSizeSelected()) return;
+    if (needsSizeSelection()) {
+      showSizeRequiredHint();
+      openSizeSheet("cart");
+      return;
+    }
     executeAddToCart();
     showToast("Added to Cart");
   });
@@ -3027,10 +3503,49 @@ if (stickyAddToCartBtn) {
 
 if (stickyBuyNowBtn) {
   stickyBuyNowBtn.addEventListener("click", () => {
-    if (!validateSizeSelected()) return;
-    executeAddToCart();
+    if (needsSizeSelection()) {
+      showSizeRequiredHint();
+      openSizeSheet("buy");
+      return;
+    }
+    executeBuyNow();
     window.location.href = "buy.html";
   });
+}
+
+/* --- Buy Now: SIRF ye ek product buy page mein dikhe (cart ko touch nahi karta) --- */
+function executeBuyNow() {
+  if (!currentProduct) return;
+  const fitSize = selectedSize || "Standard";
+  const baseOffer = currentProduct.offerPrice || currentProduct.price;
+
+  // Coupon discount bhi final total mein calculate kar lo
+  let total = baseOffer * quantity;
+  if (appliedCoupon) {
+    if (appliedCoupon.discountType === "percentage") {
+      total = Math.max(0, total - Math.round((total * appliedCoupon.discountAmount) / 100));
+    } else {
+      total = Math.max(0, total - (appliedCoupon.discountAmount || 0));
+    }
+  }
+
+  const buyItem = {
+    id: currentProduct.id,
+    title: currentProduct.title,
+    price: baseOffer,
+    originalPrice: currentProduct.price || currentProduct.originalPrice,
+    image: productImages[0] || "",
+    size: fitSize,
+    quantity: quantity,
+    stock: currentProduct.stock || 99,
+    coupon: appliedCoupon ? { code: (couponInput ? couponInput.value.trim().toUpperCase() : ""), ...appliedCoupon } : null,
+    finalTotal: total,
+    addedAt: Date.now()
+  };
+
+  // Sirf ye ek item save hota hai — buy.html mein isko hi priority se dikhana hai
+  localStorage.setItem("buynow_item", JSON.stringify(buyItem));
+  db.ref(`users/${currentUserId}/buynow`).set(buyItem).catch(()=>{});
 }
 
 function executeAddToCart() {
@@ -3089,14 +3604,27 @@ function loadVideoPlayer(ytId, el) {
   card.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0" title="Product Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 }
 
-function renderVideos(videos) {
+function renderVideos(videos, mp4Url) {
   productVideos = (videos && videos.length) ? videos : [];
   const grid = document.getElementById("videosGrid");
   const section = document.getElementById("videosSection");
   if (!grid) return;
   grid.innerHTML = "";
 
-  if (productVideos.length === 0) {
+  // MP4 direct product video — hamesha 16:9 ratio player me, sabse upar
+  if (mp4Url) {
+    const mp4Card = document.createElement("div");
+    mp4Card.className = "mp4-video-card";
+    mp4Card.innerHTML = `
+      <span class="mp4-video-label">
+        <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+        Product Video
+      </span>
+      <video controls playsinline preload="metadata" src="${mp4Url}"${currentProduct && currentProduct.videoMp4Thumb ? ` poster="${currentProduct.videoMp4Thumb}"` : ""}></video>`;
+    grid.appendChild(mp4Card);
+  }
+
+  if (productVideos.length === 0 && !mp4Url) {
     if (section) section.style.display = "none";
     return;
   }
@@ -3140,6 +3668,81 @@ function renderVideos(videos) {
       moreBtn.style.display = "none";
     }
   }
+}
+
+/* --- Size Chart Photo (Size ke niche, tap-to-zoom fullscreen) --- */
+function renderSizeChart(url) {
+  const box = document.getElementById("sizeChartBox");
+  const img = document.getElementById("sizeChartImg");
+  const wrap = document.getElementById("sizeChartImgWrap");
+  if (!box || !img) return;
+  if (url) {
+    img.src = url;
+    box.style.display = "block";
+    if (wrap) wrap.onclick = () => openSizeChartFullscreen(url);
+  } else {
+    img.removeAttribute("src");
+    box.style.display = "none";
+  }
+}
+
+function openSizeChartFullscreen(url) {
+  const modal = document.getElementById("fullscreenModal");
+  const fsImg = document.getElementById("fullscreenImage");
+  if (!modal || !fsImg || !url) return;
+  fsImg.src = url;
+  modal.classList.add("active");
+  modal.querySelectorAll(".fs-nav-btn").forEach(b => b.style.display = "none");
+}
+
+/* --- Product Highlights (Colour, Brand, Country, PCS, Fabric) --- */
+function renderHighlights(highlights) {
+  const section = document.getElementById("highlightsSection");
+  const grid = document.getElementById("highlightsGrid");
+  if (!section || !grid) return;
+  grid.innerHTML = "";
+
+  if (!highlights || typeof highlights !== "object") {
+    section.style.display = "none";
+    return;
+  }
+
+  const ICONS = {
+    colour: '<svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"></circle><circle cx="17.5" cy="10.5" r="1.5"></circle><circle cx="8.5" cy="7.5" r="1.5"></circle><circle cx="6.5" cy="12.5" r="1.5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.8-.7 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.8-.5-1.2 0-1 .8-1.8 1.8-1.8H17c2.8 0 5-2.2 5-5C22 6 17.5 2 12 2z"></path></svg>',
+    brand: '<svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>',
+    country: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+    pcs: '<svg viewBox="0 0 24 24"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>',
+    fabric: '<svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
+    type: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
+    quantity: '<svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>'
+  };
+
+  const DEFS = [
+    { key: "colour", label: "Colour" },
+    { key: "brand", label: "Brand" },
+    { key: "country", label: "Country of Origin" },
+    { key: "pcs", label: "Number of PCS" },
+    { key: "type", label: "Type" },
+    { key: "quantity", label: "Quantity" },
+    { key: "fabric", label: "Fabric" }
+  ];
+
+  let hasAny = false;
+  DEFS.forEach(d => {
+    const val = String(highlights[d.key] || "").trim();
+    if (!val) return;
+    hasAny = true;
+    const item = document.createElement("div");
+    item.className = "highlight-item";
+    item.innerHTML = `
+      <span class="hl-icon">${ICONS[d.key] || ""}</span>
+      <span class="hl-label">${d.label}</span>
+      <span class="hl-value">${val}</span>
+    `;
+    grid.appendChild(item);
+  });
+
+  section.style.display = hasAny ? "block" : "none";
 }
 
 /* --- Star Rating Breakdown Engine ("Bada Star Rating & Kitna Kitna Aaya") --- */
@@ -3278,8 +3881,19 @@ function renderReviews() {
     if (photosSection) photosSection.style.display = "none";
   }
 
-  // Progressive loading for review photos
+  // Progressive loading for review photos (LIST + CUSTOMER PHOTOS STRIP dono)
+  if (photosStrip) {
+    photosStrip.querySelectorAll("img.prog-img").forEach(im => {
+      if (im.dataset.observed === "1") return;
+      im.dataset.observed = "1";
+      im.dataset.lqip = im.src;
+      im.decoding = "async";
+      lazyImageObserver.observe(im);
+    });
+  }
   container.querySelectorAll("img.prog-img").forEach(im => {
+    if (im.dataset.observed === "1") return;
+    im.dataset.observed = "1";
     im.dataset.lqip = im.src;
     im.decoding = "async";
     lazyImageObserver.observe(im);
@@ -3494,6 +4108,8 @@ function loadRelatedProducts(category) {
     renderRelatedProductsGrid(prods.slice(0, 8));
     // Progressive loading activate karo
     document.querySelectorAll("#relatedProductsGrid img.prog-img").forEach(im => {
+      if (im.dataset.observed === "1") return;
+      im.dataset.observed = "1";
       im.dataset.lqip = im.src;
       im.decoding = "async";
       lazyImageObserver.observe(im);
@@ -3692,11 +4308,15 @@ function populateUI(prod) {
   if (offerEl) offerEl.innerHTML = `&#8377;${offer}`;
   if (origEl) origEl.innerHTML = `&#8377;${orig}`;
   if (discEl) discEl.textContent = `${discount}% OFF`;
+  const saveEl = document.getElementById("productPriceSave");
+  if (saveEl) saveEl.textContent = orig > offer ? `You save \u20B9${orig - offer}` : "";
   if (descEl) renderDescription(prod.description || "Premium apparel designed with luxury comfort and modern styling.");
 
   renderGallery(prod.images);
   renderSizes(prod.sizes);
-  renderVideos(prod.videos);
+  renderSizeChart(prod.sizeChart);
+  renderHighlights(prod.highlights);
+  renderVideos(prod.videos, prod.videoMp4);
   loadRelatedProducts(prod.category);
   checkSavedStatus();
   recalcPrice();
@@ -3719,7 +4339,7 @@ window.addEventListener("DOMContentLoaded", () => {
       closeFullscreenViewer();
       closeAddReviewModal();
       closeShareModal();
-      closeSizeAlertModal();
+      closeSizeSheet();
     }
   });
 });
