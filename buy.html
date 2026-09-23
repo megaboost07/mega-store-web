@@ -1280,6 +1280,11 @@
             <span id="coSubtotalText">&#8377;0</span>
           </div>
 
+          <div class="summary-row" id="coDiscountRow" style="display: none; color: var(--success-green);">
+            <span>Coupon Discount</span>
+            <span id="coDiscountText" style="font-weight: 700;">- &#8377;0</span>
+          </div>
+
           <div class="summary-row">
             <span>Delivery Fee</span>
             <span style="color: var(--success-green); font-weight: 700;">FREE</span>
@@ -1434,7 +1439,7 @@
     }
 
     function updateUpiDeepLink() {
-      const totalAmount = checkoutItems.reduce((s, i) => s + ((i.price || 0) * (parseInt(i.quantity) || 1)), 0);
+      const totalAmount = getCheckoutGrandTotal();
       const deepLink = `upi://pay?pa=megastore.official@icici&pn=MEGA+STORE+RETAIL&am=${totalAmount}&tr=${generatedTxnToken}&cu=INR&tn=Order_Payment`;
       const btn = document.getElementById("deepLinkUpiAppBtn");
       if (btn) btn.href = deepLink;
@@ -1470,11 +1475,46 @@
       showToast("UPI ID verified: " + val);
     }
 
-    function loadCheckoutItems() {
+    /* Buy Now Mode: checkout_mode === "buynow" ho to SIRF Buy Now wala product dikhe, cart ignore ho */
+    function getBuyNowItem() {
       try {
-        checkoutItems = JSON.parse(localStorage.getItem("cart") || "[]");
-      } catch (e) {
-        checkoutItems = [];
+        if (localStorage.getItem("checkout_mode") !== "buynow") return null;
+        const raw = localStorage.getItem("buynow_item") || localStorage.getItem("buynow");
+        const item = raw ? JSON.parse(raw) : null;
+        if (item && item.id) return item;
+      } catch (e) {}
+      return null;
+    }
+
+    function getCheckoutSubtotal() {
+      return checkoutItems.reduce((s, i) => s + ((i.price || 0) * (parseInt(i.quantity) || 1)), 0);
+    }
+
+    function getCheckoutGrandTotal() {
+      const sub = getCheckoutSubtotal();
+      // Buy Now coupon discount (productdetails page se finalTotal aaya hai)
+      if (checkoutItems.length === 1 && checkoutItems[0].finalTotal != null) {
+        return Math.max(0, Number(checkoutItems[0].finalTotal) || sub);
+      }
+      return sub;
+    }
+
+    function loadCheckoutItems() {
+      const buyItem = getBuyNowItem();
+
+      if (buyItem) {
+        // SIRF Buy Now wala product — cart bilkul ignore
+        checkoutItems = [buyItem];
+
+        // Back button ab product page pe le jayega
+        const backBtn = document.querySelector(".header-left .icon-btn");
+        if (backBtn) backBtn.href = "productdetails.html?id=" + encodeURIComponent(buyItem.id);
+      } else {
+        try {
+          checkoutItems = JSON.parse(localStorage.getItem("cart") || "[]");
+        } catch (e) {
+          checkoutItems = [];
+        }
       }
 
       if (checkoutItems.length === 0) {
@@ -1517,17 +1557,26 @@
         container.appendChild(row);
       });
 
+      const grandTotal = getCheckoutGrandTotal();
+      const couponDiscount = Math.max(0, subtotal - grandTotal);
+
       document.getElementById("checkoutItemCount").textContent = totalQty;
       document.getElementById("coSubtotalText").innerHTML = `&#8377;${subtotal}`;
-      document.getElementById("coGrandTotalText").innerHTML = `&#8377;${subtotal}`;
+      const discountRow = document.getElementById("coDiscountRow");
+      if (discountRow) {
+        discountRow.style.display = couponDiscount > 0 ? "flex" : "none";
+        const discountVal = document.getElementById("coDiscountText");
+        if (discountVal) discountVal.innerHTML = `- &#8377;${couponDiscount}`;
+      }
+      document.getElementById("coGrandTotalText").innerHTML = `&#8377;${grandTotal}`;
       const mobTot = document.getElementById("mobileTotalText");
-      if (mobTot) mobTot.innerHTML = `&#8377;${subtotal}`;
+      if (mobTot) mobTot.innerHTML = `&#8377;${grandTotal}`;
 
       const qrAmt = document.getElementById("qrPayableAmountText");
-      if (qrAmt) qrAmt.innerHTML = `&#8377;${subtotal}`;
+      if (qrAmt) qrAmt.innerHTML = `&#8377;${grandTotal}`;
       const qrImg = document.getElementById("upiDynamicQrImg");
       if (qrImg) {
-        const qrPayload = `upi://pay?pa=megastore.official@icici&pn=MEGA+STORE+RETAIL&am=${subtotal}&tr=${generatedTxnToken}&cu=INR&tn=Order_Payment`;
+        const qrPayload = `upi://pay?pa=megastore.official@icici&pn=MEGA+STORE+RETAIL&am=${grandTotal}&tr=${generatedTxnToken}&cu=INR&tn=Order_Payment`;
         qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=${encodeURIComponent(qrPayload)}`;
       }
       updateUpiDeepLink();
@@ -1823,7 +1872,7 @@
       }
 
       const activeAddress = userAddresses.find(a => a.id === selectedAddressId) || userAddresses[0];
-      const totalAmount = checkoutItems.reduce((s, i) => s + ((i.price || 0) * (parseInt(i.quantity) || 1)), 0);
+      const totalAmount = getCheckoutGrandTotal();
       const orderId = "ORD_" + Date.now().toString().slice(-6) + Math.random().toString(36).substring(2, 5).toUpperCase();
 
       const isOnline = (selectedPayment === "UPI");
@@ -1884,6 +1933,9 @@
       myOrders.unshift(orderPayload);
       localStorage.setItem("my_orders", JSON.stringify(myOrders));
       localStorage.removeItem("cart");
+      localStorage.removeItem("buynow_item");
+      localStorage.removeItem("buynow");
+      localStorage.removeItem("checkout_mode");
 
       // Show Modal
       document.getElementById("successOrderIdDisplay").textContent = orderId;

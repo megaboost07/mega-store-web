@@ -640,25 +640,98 @@ body.dark .gallery-action-btn {
 }
 
 .size-chip-btn {
-  padding: 8px 18px;
-  border-radius: var(--radius-md);
+  position: relative;
+  min-width: 54px;
+  padding: 11px 20px;
+  border-radius: 14px;
   border: 1.5px solid var(--border-color);
   background: var(--bg-card);
   color: var(--text-main);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: var(--transition);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .size-chip-btn:hover {
   border-color: var(--text-main);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
 }
 
+.size-chip-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* Selected size: dark fill + green tick badge (top-right corner) */
 .size-chip-btn.active {
   background: var(--accent-color);
   color: #ffffff;
   border-color: var(--accent-color);
+  box-shadow: 0 5px 16px rgba(15, 23, 42, 0.28);
+  transform: translateY(-1px);
+}
+
+body.dark .size-chip-btn.active {
+  color: #0f172a;
+}
+
+.size-chip-btn.active::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background-color: var(--success-green);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-size: 11px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid var(--bg-surface);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+}
+
+/* Selected size label (Size heading ke right mein green pill) */
+.selected-size-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--success-green);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  padding: 3px 11px;
+  border-radius: var(--radius-full);
+}
+
+.selected-size-label::before {
+  content: "";
+  width: 13px;
+  height: 13px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Bottom sheet ke size chips: bade aur easy-tap */
+.size-sheet .size-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 12px;
+}
+
+.size-sheet .size-chip-btn {
+  padding: 14px 10px;
+  font-size: 15px;
+  min-width: 0;
+  width: 100%;
+  text-align: center;
 }
 
 body.dark .size-chip-btn.active {
@@ -2438,7 +2511,10 @@ body.dark .empty-product-icon {
         <div id="sizeSelectionSection">
           <div class="option-group-title">
             <span>Select Fit / Size</span>
-            <span style="color: var(--sale-red); font-size: 12px; display: none;" id="sizeRequiredWarning">Please select a size</span>
+            <span>
+              <span class="selected-size-label" id="selectedSizeLabel" style="display: none;"></span>
+              <span style="color: var(--sale-red); font-size: 12px; display: none;" id="sizeRequiredWarning">Please select a size</span>
+            </span>
           </div>
           <div class="size-chips-grid" id="sizeChipsGrid"></div>
         </div>
@@ -3381,17 +3457,18 @@ function renderSizes(sizes) {
   if (sec) sec.style.display = "block";
   sizes.forEach((s) => {
     const btn = document.createElement("button");
+    btn.type = "button";
     btn.className = "size-chip-btn";
     btn.textContent = s;
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".size-chip-btn").forEach(b => b.classList.remove("active"));
+      grid.querySelectorAll(".size-chip-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       selectedSize = s;
-      const warn = document.getElementById("sizeRequiredWarning");
-      if (warn) warn.style.display = "none";
+      updateSelectedSizeLabel();
     });
     grid.appendChild(btn);
   });
+  updateSelectedSizeLabel();
 }
 
 function validateSizeSelected() {
@@ -3421,6 +3498,24 @@ function closeSizeSheet() {
   document.body.style.overflow = "";
 }
 
+function updateSelectedSizeLabel() {
+  const label = document.getElementById("selectedSizeLabel");
+  if (!label) return;
+  if (selectedSize) {
+    label.textContent = "Selected: " + selectedSize;
+    label.style.display = "inline-flex";
+    const warn = document.getElementById("sizeRequiredWarning");
+    if (warn) warn.style.display = "none";
+  } else {
+    label.style.display = "none";
+  }
+}
+
+function updateConfirmSizeBtn() {
+  const btn = document.getElementById("confirmSizeBtn");
+  if (btn) btn.textContent = selectedSize ? `Confirm Size \u2022 ${selectedSize}` : "Confirm Size";
+}
+
 function renderSizeSheetChips() {
   const grid = document.getElementById("sizeSheetChipsGrid");
   if (!grid || !currentProduct) return;
@@ -3438,11 +3533,12 @@ function renderSizeSheetChips() {
       document.querySelectorAll("#sizeChipsGrid .size-chip-btn").forEach(b => {
         b.classList.toggle("active", b.textContent === s);
       });
-      const warn = document.getElementById("sizeRequiredWarning");
-      if (warn) warn.style.display = "none";
+      updateSelectedSizeLabel();
+      updateConfirmSizeBtn();
     });
     grid.appendChild(btn);
   });
+  updateConfirmSizeBtn();
 }
 
 function confirmSizeSheet() {
@@ -3530,6 +3626,7 @@ function executeBuyNow() {
   }
 
   const buyItem = {
+    buyMode: "single",
     id: currentProduct.id,
     title: currentProduct.title,
     price: baseOffer,
@@ -3545,6 +3642,10 @@ function executeBuyNow() {
 
   // Sirf ye ek item save hota hai — buy.html mein isko hi priority se dikhana hai
   localStorage.setItem("buynow_item", JSON.stringify(buyItem));
+  // Compatibility keys — buy page inme se kisi bhi key se padh le to product dikhega
+  localStorage.setItem("buynow", JSON.stringify(buyItem));
+  localStorage.setItem("checkout_mode", "buynow");
+  localStorage.removeItem("checkout_items");
   db.ref(`users/${currentUserId}/buynow`).set(buyItem).catch(()=>{});
 }
 

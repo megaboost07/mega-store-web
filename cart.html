@@ -259,18 +259,24 @@
 
     .cart-item-row {
       display: flex;
-      gap: 16px;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--border-color);
+      gap: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+    }
+
+    .cart-item-row:hover {
+      border-color: var(--text-main);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
     }
 
     .cart-item-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .cart-item-row:first-child {
-      padding-top: 0;
+      margin-bottom: 0;
     }
 
     .cart-item-img {
@@ -311,28 +317,44 @@
     .qty-stepper {
       display: inline-flex;
       align-items: center;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
+      gap: 2px;
+      padding: 3px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-full);
       background: var(--bg-surface);
-      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     }
 
     .qty-btn {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border: none;
+      border-radius: var(--radius-full);
       background: transparent;
       color: var(--text-main);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
     }
 
+    .qty-btn:hover {
+      background: var(--accent-color);
+      color: #ffffff;
+    }
+
+    body.dark .qty-btn:hover { color: #0f172a; }
+
+    .qty-btn:active { transform: scale(0.9); }
+
     .qty-display {
-      width: 32px;
+      width: 30px;
       text-align: center;
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 800;
     }
 
     .cart-item-price {
@@ -342,19 +364,69 @@
 
     .item-remove-btn {
       background: transparent;
-      border: none;
+      border: 1px solid rgba(239, 68, 68, 0.22);
       color: var(--sale-red);
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      padding: 4px;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 700;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .item-remove-btn:hover {
+      background: var(--sale-red);
+      color: #ffffff;
+      border-color: var(--sale-red);
     }
 
     .item-remove-btn svg {
-      width: 16px;
-      height: 16px;
+      width: 13px;
+      height: 13px;
       stroke: currentColor;
       stroke-width: 2;
+      fill: none;
+    }
+
+    /* Per-item price with MRP strikethrough */
+    .cart-item-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .cart-item-orig {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-weight: 600;
+    }
+
+    /* Summary card: sticky on desktop + savings highlight */
+    @media (min-width: 900px) {
+      .summary-card {
+        position: sticky;
+        top: 84px;
+      }
+    }
+
+    .btn-checkout {
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25);
+    }
+
+    .btn-checkout:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.32);
+    }
+
+    #couponDiscountRow span:last-child {
+      font-weight: 800;
     }
 
     /* Order Summary Card */
@@ -608,7 +680,7 @@
           </div>
 
           <div class="summary-row" id="couponDiscountRow" style="display: none; color: var(--success-green);">
-            <span>Coupon Discount</span>
+            <span>Total Savings (MRP + Coupon)</span>
             <span id="couponDiscountText">-&#8377;0</span>
           </div>
 
@@ -773,7 +845,10 @@
                 <span class="qty-display">${qty}</span>
                 <button class="qty-btn" onclick="changeQty(${index}, 1)">&#43;</button>
               </div>
-              <span class="cart-item-price">&#8377;${linePrice}</span>
+              <div class="cart-item-price-wrap">
+                ${Number(item.originalPrice) > Number(item.price) ? `<span class="cart-item-orig">&#8377;${Number(item.originalPrice) * qty}</span>` : ''}
+                <span class="cart-item-price">&#8377;${linePrice}</span>
+              </div>
             </div>
           </div>
         `;
@@ -792,9 +867,18 @@
         }
       }
 
-      if (discountAmount > 0) {
+      // MRP savings (har item ka originalPrice - price)
+      let mrpSavings = 0;
+      cartItems.forEach(item => {
+        const op = Number(item.originalPrice) || 0;
+        const p = Number(item.price) || 0;
+        if (op > p) mrpSavings += (op - p) * (parseInt(item.quantity) || 1);
+      });
+
+      const totalSavings = mrpSavings + discountAmount;
+      if (totalSavings > 0) {
         document.getElementById("couponDiscountRow").style.display = "flex";
-        document.getElementById("couponDiscountText").innerHTML = `-&#8377;${discountAmount}`;
+        document.getElementById("couponDiscountText").innerHTML = `-&#8377;${totalSavings}`;
       } else {
         document.getElementById("couponDiscountRow").style.display = "none";
       }
@@ -865,6 +949,24 @@
       couponFeedback.style.display = "block";
       couponFeedback.textContent = text;
       couponFeedback.style.color = type === "success" ? "var(--success-green)" : "var(--sale-red)";
+    }
+
+    /* Checkout: Cart mode set karo — SAB cart items ek saath buy.html mein jayenge */
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener("click", () => {
+        // Purana Buy Now mode clear karo, warna buy page sirf Buy Now product dikhayega
+        localStorage.removeItem("checkout_mode");
+        localStorage.removeItem("buynow_item");
+        localStorage.removeItem("buynow");
+
+        // Cart coupon bhi buy page tak pahunchao
+        if (appliedCoupon) {
+          localStorage.setItem("checkout_coupon", JSON.stringify(appliedCoupon));
+        } else {
+          localStorage.removeItem("checkout_coupon");
+        }
+      });
     }
 
     window.addEventListener("DOMContentLoaded", loadCart);
