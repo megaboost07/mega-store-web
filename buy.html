@@ -6,10 +6,15 @@
   <title>Checkout - Mega Store</title>
   <meta name="description" content="Securely complete your apparel order with Cash on Delivery or Real UPI.">
   <meta name="theme-color" content="#ffffff">
+<link rel="icon" type="image/png"
+href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
 
   <!-- Firebase Compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <!-- Razorpay Checkout -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <style>
     :root {
@@ -31,18 +36,20 @@
       --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    body.dark {
-      --bg-body: #090d16;
-      --bg-surface: #111827;
-      --bg-card: #151e32;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: #1f293d;
-      --accent-color: #ffffff;
-      --accent-hover: #e2e8f0;
-      --accent-light: #1e293b;
-      --sale-red: #f87171;
-    }
+    body.dark {  
+  --bg-body: #0B0D10;  
+  --bg-surface: #111418;  
+  --bg-card: #171A1F;  
+  --text-main: #F5F5F5;  
+  --text-muted: #9A9FA8;  
+  --border-color: #292D34;  
+  --accent-color: #0B0D10;  
+  --accent-hover: #E6E6E6;  
+  --accent-light: #20242A;  
+  --sale-red: #D94A4A;  
+  --sale-bg: #351315;  
+  --upi-blue: #38bdf8;
+}
 
     * {
       box-sizing: border-box;
@@ -76,7 +83,7 @@
       }
     }
 
-    /* Site Header - Responsive & Mobile Clean */
+    /* Site Header */
     .site-header {
       position: sticky;
       top: 0;
@@ -144,6 +151,129 @@
 
     .icon-btn:hover { background: var(--accent-light); }
     .icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* ===== 3-STEP PROGRESS INDICATOR ===== */
+    .steps-wrapper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 16px 14px 14px;
+      margin-top: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .steps-wrapper {
+        padding: 20px 24px;
+        margin-top: 20px;
+      }
+    }
+
+    .steps-track {
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .step-progress-line {
+      position: absolute;
+      top: 17px;
+      left: 12%;
+      right: 12%;
+      height: 3px;
+      background: var(--border-color);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .step-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #10b981, #047857);
+      border-radius: var(--radius-full);
+      transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .step-node {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+      cursor: default;
+    }
+
+    .step-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      transition: var(--transition);
+    }
+
+    .step-circle .step-check { display: none; width: 16px; height: 16px; stroke: currentColor; stroke-width: 3; fill: none; }
+
+    .step-node.active .step-circle {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
+    }
+
+    body.dark .step-node.active .step-circle {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #090d16;
+    }
+
+    .step-node.completed .step-circle {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    .step-node.completed .step-num { display: none; }
+    .step-node.completed .step-check { display: block; }
+
+    .step-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      text-align: center;
+    }
+
+    .step-node.active .step-label { color: var(--text-main); }
+    .step-node.completed .step-label { color: #059669; }
+
+    @media (min-width: 640px) {
+      .step-circle { width: 36px; height: 36px; font-size: 14px; }
+      .step-label { font-size: 11.5px; }
+      .step-progress-line { top: 18px; }
+    }
+
+    /* ===== WIZARD STEPS ===== */
+    .wizard-step {
+      display: none;
+      animation: stepFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wizard-step.active { display: block; }
+
+    @keyframes stepFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* Checkout Layout */
     .checkout-layout {
@@ -238,7 +368,45 @@
       box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
     }
 
-    /* Address Section Header: ONLY ONE Add Address button right here! */
+    .verified-user-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      color: #065f46;
+    }
+
+    .verified-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .verified-check-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .verified-check-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    /* Address Section Header */
     .address-section-header {
       display: flex;
       flex-direction: column;
@@ -311,7 +479,6 @@
       line-height: 1.3;
     }
 
-    /* The Single Primary Add Address Button */
     .btn-add-addr-header {
       background: var(--accent-color);
       color: #ffffff;
@@ -468,20 +635,9 @@
       display: inline-block;
     }
 
-    .addr-type-pill.type-home {
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-
-    .addr-type-pill.type-work {
-      background: #faf5ff;
-      color: #6b21a8;
-    }
-
-    .addr-type-pill.type-other {
-      background: #f1f5f9;
-      color: #334155;
-    }
+    .addr-type-pill.type-home { background: #eff6ff; color: #1d4ed8; }
+    .addr-type-pill.type-work { background: #faf5ff; color: #6b21a8; }
+    .addr-type-pill.type-other { background: #f1f5f9; color: #334155; }
 
     .addr-default-badge {
       font-size: 10px;
@@ -677,6 +833,34 @@
       cursor: pointer;
     }
 
+    /* ===== WIZARD NAVIGATION BUTTONS ===== */
+    .wizard-nav {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn-wizard-back {
+      height: 46px;
+      padding: 0 20px;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .btn-wizard-back:hover { background: var(--accent-light); }
+
+
+
+
     /* Payment Radio Cards */
     .payment-options {
       display: flex;
@@ -701,139 +885,136 @@
       background: var(--accent-light);
     }
 
-    /* Real UPI Terminal & Official Logos */
-    .upi-terminal-box {
-      border: 1.5px solid #10b981;
-      background: #f0fdf4;
-      border-radius: var(--radius-lg);
-      padding: 12px;
-      margin-top: 10px;
+    body.dark .payment-option-card.selected {
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.06);
     }
 
-    @media (min-width: 640px) {
-      .upi-terminal-box {
-        padding: 16px;
-      }
-    }
-
-    .security-badge-strip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #ffffff;
-      border: 1px solid #a7f3d0;
-      color: #047857;
-      border-radius: var(--radius-sm);
-      padding: 8px 10px;
-      font-size: 11px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .upi-subtabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-      margin-bottom: 12px;
-      background: rgba(0,0,0,0.06);
-      padding: 3px;
-      border-radius: var(--radius-sm);
-    }
-
-    .upi-subtab-btn {
-      padding: 8px 4px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 11.5px;
-      font-weight: 700;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      text-align: center;
-    }
-
-    .upi-subtab-btn.active {
-      background: var(--bg-surface);
-      color: var(--text-main);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .upi-apps-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .upi-app-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--border-color);
-      background: #ffffff;
-      color: var(--text-main);
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: var(--transition);
-      text-align: left;
-    }
-
-    .upi-app-btn.selected {
-      border-color: #059669;
-      background: #ecfdf5;
-      color: #065f46;
-    }
-
-    .upi-logo-wrap {
-      width: 28px;
-      height: 28px;
+    .payment-radio-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      margin-top: 2px;
+      background: var(--bg-card);
+      transition: var(--transition);
     }
 
-    .qr-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 12px;
+    .payment-radio-dot::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
       background: #ffffff;
+      display: none;
+    }
+
+    .payment-option-card.selected .payment-radio-dot {
+      border-color: var(--accent-color);
+      background: var(--accent-color);
+    }
+
+    body.dark .payment-option-card.selected .payment-radio-dot {
+      border-color: #38bdf8;
+      background: #38bdf8;
+    }
+
+    .payment-option-card.selected .payment-radio-dot::after { display: block; }
+
+    .cod-advance-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 10px 12px;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #92400e;
+    }
+
+    .cod-advance-note svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* Confirm Step */
+    .confirm-block {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 14px;
       margin-bottom: 12px;
-      text-align: center;
     }
 
-    .qr-image {
-      width: 160px;
-      height: 160px;
-      border-radius: var(--radius-sm);
-      margin-bottom: 8px;
-      border: 1px solid #e2e8f0;
-      padding: 4px;
-      background: #fff;
+    @media (min-width: 640px) {
+      .confirm-block { padding: 16px; }
     }
 
-    .copy-upi-btn {
+    .confirm-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .confirm-block-title {
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-main);
+    }
+
+    .confirm-block-title svg {
+      width: 15px;
+      height: 15px;
+      stroke: var(--text-main);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .confirm-edit-link {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #2563eb;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .confirm-detail-text {
+      font-size: 12.5px;
+      color: var(--text-main);
+      line-height: 1.55;
+      word-break: break-word;
+    }
+
+    .confirm-detail-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .payment-summary-pill {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
+      gap: 6px;
+      padding: 5px 12px;
       border-radius: var(--radius-full);
-      background: var(--accent-light);
-      border: 1px solid var(--border-color);
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-main);
-      cursor: pointer;
+      font-size: 11.5px;
+      font-weight: 800;
     }
 
-    /* Items Accordion / Summary */
+    .payment-summary-pill.cod { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+    .payment-summary-pill.paid { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+
     .order-item-mini {
       display: flex;
       align-items: center;
@@ -905,11 +1086,6 @@
       box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
     }
 
-    @media (min-width: 640px) {
-      .mobile-bottom-bar {
-        display: none;
-      }
-    }
 
     /* Modal */
     .success-modal {
@@ -971,6 +1147,84 @@
       transition: all 0.25s ease;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* PIN Code Processing Indicator */
+    .pincode-processing-row {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      background: var(--accent-light);
+      border: 1px solid var(--border-color);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .pincode-processing-row.active { display: flex; }
+
+    .pincode-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border-color);
+      border-top-color: var(--accent-color);
+      border-radius: 50%;
+      animation: pinSpin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pinSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .pincode-processing-dots::after {
+      content: '';
+      animation: pinDots 1.2s steps(4, end) infinite;
+    }
+
+    @keyframes pinDots {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+    }
+
+    .pincode-success-row {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--success-green);
+    }
+    .pincode-success-row.active { display: flex; }
+
+    .form-input.pincode-loading {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08);
+    }
+
+    .form-input.pincode-success {
+      border-color: var(--success-green);
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
+    }
+
+    .form-input.pincode-error {
+      border-color: var(--sale-red);
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.10);
+    }
+
+    .rzp-badge-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
   </style>
 </head>
 <body>
@@ -985,7 +1239,7 @@
       </div>
       <div class="header-center">
         <a href="index.html">
-          <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" class="brand-logo-img">
+          <img src="https://i.ibb.co/qMHHK4Hp/IMG-20260930-212512.png" alt="Logo" class="brand-logo-img">
         </a>
       </div>
       <div class="header-right">
@@ -998,276 +1252,299 @@
 
   <!-- Checkout Main Form -->
   <main class="container">
-    <h1 style="font-size: 18px; font-weight: 800; margin-top: 14px; margin-bottom: 2px;">Delivery & Payment</h1>
-    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Select your delivery address and preferred payment mode.</p>
+
+    <!-- ===== 3-STEP PROGRESS BAR ===== -->
+    <div class="steps-wrapper">
+      <div class="steps-track">
+        <div class="step-progress-line"><div class="step-progress-fill" id="stepProgressFill"></div></div>
+
+        <div class="step-node active" id="stepNode1" onclick="goToStep(1)">
+          <div class="step-circle">
+            <span class="step-num">1</span>
+            <svg class="step-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <span class="step-label">Address</span>
+        </div>
+
+        <div class="step-node" id="stepNode2" onclick="goToStep(2)">
+          <div class="step-circle">
+            <span class="step-num">2</span>
+            <svg class="step-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <span class="step-label">Payment</span>
+        </div>
+
+        <div class="step-node" id="stepNode3" onclick="goToStep(3)">
+          <div class="step-circle">
+            <span class="step-num">3</span>
+            <svg class="step-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <span class="step-label">Confirm</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verified Customer Banner (Pre-filled from index.html) -->
+    <div id="verifiedUserBanner" class="verified-user-banner" style="display: none; margin-top: 14px;">
+      <div class="verified-user-info">
+        <div class="verified-check-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div>
+          <div style="font-size: 13px; font-weight: 800;" id="bannerUserName">Verified Customer</div>
+          <div style="font-size: 11px; opacity: 0.85;" id="bannerUserPhone">Mobile number pre-filled and verified</div>
+        </div>
+      </div>
+      <span style="font-size: 11px; font-weight: 700; background: #ffffff; padding: 3px 8px; border-radius: 9999px; border: 1px solid #a7f3d0;">Auto Filled</span>
+    </div>
 
     <div class="checkout-layout">
-      
-      <!-- Left Column -->
+
+      <!-- Left Column: Wizard Steps -->
       <div>
-        
-        <!-- Delivery Destination Address Section -->
-        <section class="checkout-card" id="addressSectionCard">
-          <div class="address-section-header">
-            <div class="address-title-group">
-              <div class="address-icon-badge">
-                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+
+        <!-- ================= STEP 1: ADDRESS ================= -->
+        <section class="wizard-step active" id="wizardStep1">
+          <div class="checkout-card" id="addressSectionCard" style="margin-bottom: 0;">
+            <div class="address-section-header">
+              <div class="address-title-group">
+                <div class="address-icon-badge">
+                  <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div class="address-title-text">
+                  <h2>Step 1 &mdash; Delivery Destination Address</h2>
+                  <p>Select destination or add new address</p>
+                </div>
               </div>
-              <div class="address-title-text">
-                <h2>Delivery Destination Address</h2>
-                <p>Select destination or add new address</p>
-              </div>
+
+              <!-- SINGLE Add New Address Button -->
+              <button type="button" class="btn-add-addr-header" id="headerAddAddrBtn" onclick="openAddressForm(null)">
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Add Address</span>
+              </button>
             </div>
 
-            <!-- SINGLE Add New Address Button (Duplicate bottom button removed) -->
-            <button type="button" class="btn-add-addr-header" id="headerAddAddrBtn" onclick="openAddressForm(null)">
-              <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span>Add Address</span>
-            </button>
-          </div>
+            <!-- Saved Addresses List View -->
+            <div id="savedAddressesContainer" class="address-card-list"></div>
 
-          <!-- Saved Addresses List View -->
-          <div id="savedAddressesContainer" class="address-card-list"></div>
-
-          <!-- Address Form Panel (Add / Edit) -->
-          <div id="addressFormPanel" class="address-form-panel" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
-              <div>
-                <h3 id="addrFormTitle" style="font-size: 14px; font-weight: 800; color: var(--text-main); margin: 0;">Add Delivery Address</h3>
-                <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">Enter complete shipping destination details</p>
-              </div>
-              <button type="button" class="addr-action-btn" onclick="cancelAddressForm()" style="padding: 4px 8px;">Close</button>
-            </div>
-
-            <div style="margin-bottom: 12px;">
-              <label class="input-label">Address Type</label>
-              <div class="addr-type-selectors">
-                <button type="button" class="addr-type-btn active" id="typeBtnHome" onclick="selectAddressType('Home')">Home</button>
-                <button type="button" class="addr-type-btn" id="typeBtnWork" onclick="selectAddressType('Work')">Work / Office</button>
-                <button type="button" class="addr-type-btn" id="typeBtnOther" onclick="selectAddressType('Other')">Other</button>
-              </div>
-            </div>
-
-            <div class="form-grid">
-              <div class="input-group">
-                <label class="input-label">Full Recipient Name *</label>
-                <input type="text" id="custName" class="form-input" placeholder="e.g. Rahul Sharma" required>
-              </div>
-
-              <div class="form-grid two-col">
-                <div class="input-group">
-                  <label class="input-label">10-Digit Mobile Number *</label>
-                  <input type="tel" id="custPhone" class="form-input" placeholder="e.g. 9876543210" maxlength="10" inputmode="tel" required>
+            <!-- Address Form Panel (Add / Edit) -->
+            <div id="addressFormPanel" class="address-form-panel" style="display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
+                <div>
+                  <h3 id="addrFormTitle" style="font-size: 14px; font-weight: 800; color: var(--text-main); margin: 0;">Add Delivery Address</h3>
+                  <p style="font-size: 11px; color: var(--text-muted); margin: 2px 0 0 0;">Enter complete shipping destination details</p>
                 </div>
-                <div class="input-group">
-                  <label class="input-label">Alternative Phone (Optional)</label>
-                  <input type="tel" id="custAltPhone" class="form-input" placeholder="Optional backup number" maxlength="10" inputmode="tel">
+                <button type="button" class="addr-action-btn" onclick="cancelAddressForm()" style="padding: 4px 8px;">Close</button>
+              </div>
+
+              <div style="margin-bottom: 12px;">
+                <label class="input-label">Address Type</label>
+                <div class="addr-type-selectors">
+                  <button type="button" class="addr-type-btn active" id="typeBtnHome" onclick="selectAddressType('Home')">Home</button>
+                  <button type="button" class="addr-type-btn" id="typeBtnWork" onclick="selectAddressType('Work')">Work / Office</button>
+                  <button type="button" class="addr-type-btn" id="typeBtnOther" onclick="selectAddressType('Other')">Other</button>
                 </div>
               </div>
 
-              <div class="form-grid two-col">
+              <div class="form-grid">
                 <div class="input-group">
-                  <label class="input-label">PIN Code (6 digits) *</label>
-                  <input type="text" id="custPincode" class="form-input" placeholder="e.g. 781005" maxlength="6" inputmode="numeric" required>
+                  <label class="input-label">Full Name *</label>
+                  <input type="text" id="custName" class="form-input" placeholder="Name " required>
                 </div>
+
+                <div class="form-grid two-col">
+                  <div class="input-group">
+                    <input type="tel" id="custPhone" class="form-input" placeholder="phone number" maxlength="10" inputmode="tel" required>
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Alternative Phone (Optional)</label>
+                    <input type="tel" id="custAltPhone" class="form-input" placeholder="Optional backup number" maxlength="10" inputmode="tel">
+                  </div>
+                </div>
+
+                <div class="form-grid two-col">
+                  <div class="input-group">
+                    <label class="input-label">PIN Code (6 digits) *</label>
+                    <input type="text" id="custPincode" class="form-input" placeholder="pincode " maxlength="6" inputmode="numeric" required oninput="handlePincodeAutoFill()">
+                    <div class="pincode-processing-row" id="pincodeProcessingRow">
+                      <div class="pincode-spinner"></div>
+                      <span>Detecting City &amp; State<span class="pincode-processing-dots"></span></span>
+                    </div>
+                    <div class="pincode-success-row" id="pincodeSuccessRow">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      <span id="pincodeSuccessText">Location detected successfully</span>
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Town / City *</label>
+                    <input type="text" id="custCity" class="form-input" placeholder="example Mumbai" required>
+                  </div>
+                </div>
+
                 <div class="input-group">
-                  <label class="input-label">Town / City *</label>
-                  <input type="text" id="custCity" class="form-input" placeholder="e.g. Guwahati" required>
+                  <label class="input-label">House No., Flat, Building, Street Address *</label>
+                  <input type="text" id="custStreet" class="form-input" placeholder="example 153 building " required>
                 </div>
-              </div>
 
-              <div class="input-group">
-                <label class="input-label">House No., Flat, Building, Street Address *</label>
-                <input type="text" id="custStreet" class="form-input" placeholder="e.g. Flat 4B, Silver Heights, R.G. Baruah Road" required>
-              </div>
-
-              <div class="form-grid two-col">
-                <div class="input-group">
-                  <label class="input-label">Area / Colony / Landmark *</label>
-                  <input type="text" id="custLandmark" class="form-input" placeholder="e.g. Near Ganeshguri Flyover" required>
+                <div class="form-grid two-col">
+                  <div class="input-group">
+                    <label class="input-label">Area / Colony / Landmark *</label>
+                    <input type="text" id="custLandmark" class="form-input" placeholder="example Ambani road" required>
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">State *</label>
+                    <input type="text" id="custState" class="form-input" placeholder=" state name" required>
+                  </div>
                 </div>
-                <div class="input-group">
-                  <label class="input-label">State *</label>
-                  <input type="text" id="custState" class="form-input" placeholder="e.g. Assam" required>
+
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; padding: 8px; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                  <input type="checkbox" id="custIsDefault" style="width: 16px; height: 16px; accent-color: var(--accent-color);">
+                  <span>Set as my default primary delivery address</span>
+                </label>
+
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                  <button type="button" class="btn-save-addr" id="saveAddrBtn" onclick="handleSaveAddress()">Save &amp; Deliver Here</button>
+                  <button type="button" class="btn-cancel-addr" id="cancelAddrBtn" onclick="cancelAddressForm()">Cancel</button>
                 </div>
-              </div>
-
-              <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; padding: 8px; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-                <input type="checkbox" id="custIsDefault" style="width: 16px; height: 16px; accent-color: var(--accent-color);">
-                <span>Set as my default primary delivery address</span>
-              </label>
-
-              <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <button type="button" class="btn-save-addr" id="saveAddrBtn" onclick="handleSaveAddress()">Save & Deliver Here</button>
-                <button type="button" class="btn-cancel-addr" id="cancelAddrBtn" onclick="cancelAddressForm()">Cancel</button>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- Payment Method Section -->
-        <section class="checkout-card">
-          <h2 class="card-heading">
-            <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-            <span>Payment Method</span>
-          </h2>
+        <!-- ================= STEP 2: PAYMENT ================= -->
+        <section class="wizard-step" id="wizardStep2">
+          <div class="checkout-card" style="margin-bottom: 0;">
+            <h2 class="card-heading">
+              <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              <span>Step 2 &mdash; Payment Method</span>
+            </h2>
 
-          <div class="payment-options">
-            <!-- Cash On Delivery -->
-            <label class="payment-option-card selected" id="optCodCard">
-              <input type="radio" name="paymentMethod" value="COD" checked onchange="togglePaymentSelection('COD')">
-              <div style="flex:1;">
-                <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between;">
-                  <span>Cash on Delivery (COD)</span>
-                  <span style="font-size: 10px; padding: 2px 6px; border-radius: 9999px; background: var(--accent-light); color: var(--text-muted); font-weight: 700;">Standard</span>
+            <div class="payment-options">
+              <!-- Cash On Delivery (₹20 Partial Advance) -->
+              <div class="payment-option-card selected" id="optCodCard" onclick="selectPaymentMethod('COD')">
+                <div class="payment-radio-dot"></div>
+                <div style="flex:1;">
+                  <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
+                    <span>Cash on Delivery (COD)</span>
+                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #fffbeb; color: #92400e; border: 1px solid #fde68a; font-weight: 800;">&#8377;20 ADVANCE</span>
+                  </div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay &#8377;20 advance online now &amp; the remaining balance in cash to the delivery boy at your doorstep.</div>
+                  <div class="cod-advance-note">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>At order confirmation, only a <strong>&#8377;20 advance payment</strong> is required (Razorpay secure gateway). Pay the remaining amount to the delivery partner via cash / UPI.</span>
+                  </div>
                 </div>
-                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay with cash upon arrival at your doorstep</div>
               </div>
-            </label>
 
-            <!-- Online Payment / UPI (Locked as requested) -->
-            <div class="payment-option-card" id="optUpiCard" style="opacity: 0.8; background: var(--bg-card); cursor: not-allowed;" onclick="handleLockedUpiClick()">
-              <input type="radio" name="paymentMethod" value="UPI" id="upiRadioInput" disabled style="cursor: not-allowed;">
-              <div style="flex:1;">
-                <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 4px; flex-wrap: wrap;">
-                  <span style="display: flex; align-items: center; gap: 6px;">
-                    <span>Online Payment / Real UPI</span>
-                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="#d97706" stroke-width="2.5" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                  </span>
-                  <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #fef3c7; color: #92400e; font-weight: 800; border: 1px solid #fde68a;">LOCKED / DISABLED</span>
+              <!-- Online Payment / UPI (FULL PAYMENT - ENABLED) -->
+              <div class="payment-option-card" id="optUpiCard" onclick="selectPaymentMethod('UPI')">
+                <div class="payment-radio-dot"></div>
+                <div style="flex:1;">
+                  <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
+                    <span style="display: flex; align-items: center; gap: 6px;">
+                      <span>Online Payment / UPI</span>
+                      <svg viewBox="0 0 24 24" width="15" height="15" stroke="#2563eb" stroke-width="2" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                    </span>
+                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #ecfdf5; color: #047857; font-weight: 800; border: 1px solid #a7f3d0;">15% OFF</span>
+                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #eff6ff; color: #1d4ed8; font-weight: 800; border: 1px solid #bfdbfe;">FULL PAYMENT</span>
+                  </div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay the complete order amount online via UPI, Card, NetBanking or Wallets (Razorpay) and get an instant 15% discount on your order total.</div>
+                  <div class="cod-advance-note" style="background:#eff6ff; border-color:#bfdbfe; color:#1e40af;">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#2563eb" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                    <span>The <strong>full total amount must be paid online now</strong> and you save 15% instantly. Your order will be confirmed only after the payment is successful.</span>
+                  </div>
                 </div>
-                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Online payment abhi ke liye lock hai. Kripya Cash on Delivery (COD) ka upyog karein.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= STEP 3: CONFIRM ================= -->
+        <section class="wizard-step" id="wizardStep3">
+          <div class="checkout-card" style="margin-bottom: 0;">
+            <h2 class="card-heading">
+              <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <span>Step 3 &mdash; Confirm Your Order</span>
+            </h2>
+
+            <!-- Deliver To -->
+            <div class="confirm-block">
+              <div class="confirm-block-header">
+                <div class="confirm-block-title">
+                  <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <span>Deliver To</span>
+                </div>
+                <button type="button" class="confirm-edit-link" onclick="goToStep(1)">Change</button>
+              </div>
+              <div id="confirmAddressText" class="confirm-detail-text">Address loading...</div>
+            </div>
+
+            <!-- Payment Mode -->
+            <div class="confirm-block">
+              <div class="confirm-block-header">
+                <div class="confirm-block-title">
+                  <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                  <span>Payment Mode</span>
+                </div>
+                <button type="button" class="confirm-edit-link" onclick="goToStep(2)">Change</button>
+              </div>
+              <div id="confirmPaymentText" class="confirm-detail-text"></div>
+              <div id="confirmPaymentBadge" style="margin-top: 8px;"></div>
+            </div>
+
+            <!-- Price Breakup -->
+            <div class="confirm-block">
+              <div class="confirm-block-title" style="margin-bottom: 10px;">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                <span>Price Breakup</span>
+              </div>
+              <div class="summary-row">
+                <span>Items Subtotal</span>
+                <span id="confirmSubtotalText">&#8377;0</span>
+              </div>
+              <div class="summary-row" id="confirmDiscountRow" style="display: none; color: var(--success-green);">
+                <span>Coupon Discount</span>
+                <span id="confirmDiscountText" style="font-weight: 700;">- &#8377;0</span>
+              </div>
+              <div class="summary-row" id="confirmUpiDiscountRow" style="display: none; color: var(--success-green);">
+                <span>UPI Payment Discount (15%)</span>
+                <span id="confirmUpiDiscountText" style="font-weight: 700;">- &#8377;0</span>
+              </div>
+              <div class="summary-row" id="confirmAdvanceRow" style="display: none; color: #b45309;">
+                <span>Advance Paid Now (Online)</span>
+                <span id="confirmAdvanceText" style="font-weight: 700;">- &#8377;20</span>
+              </div>
+              <div class="summary-row" id="confirmDueRow" style="display: none; color: var(--sale-red);">
+                <span>Balance Due (Pay to Delivery Boy)</span>
+                <span id="confirmDueText" style="font-weight: 700;">&#8377;0</span>
+              </div>
+              <div class="summary-row">
+                <span>Delivery Fee</span>
+                <span style="color: var(--success-green); font-weight: 700;">FREE</span>
+              </div>
+              <div class="summary-row bold">
+                <span>Total Order Amount</span>
+                <span id="confirmGrandTotalText" style="color: #047857;">&#8377;0</span>
               </div>
             </div>
 
-            <!-- Real UPI Terminal Box -->
-            <div id="upiTerminalBox" class="upi-terminal-box" style="display: none;">
-              
-              <!-- 100% Security Guarantee Banner -->
-              <div class="security-badge-strip">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                <div style="flex:1;">
-                  <div style="font-size: 11.5px; font-weight: 800;">100% Bank Grade Security Guaranteed</div>
-                  <div style="font-size: 10.5px; opacity: 0.85;">256-Bit SSL Encrypted &bull; NPCI Verified UPI Partner</div>
-                </div>
-              </div>
+            <button class="btn-place-order" id="placeOrderBtn" onclick="handlePlaceOrder()">
+              <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span id="placeOrderBtnText">Pay &#8377;20 Advance &amp; Place Order</span>
+            </button>
 
-              <!-- UPI Mode Sub-Tabs -->
-              <div class="upi-subtabs">
-                <button type="button" class="upi-subtab-btn active" id="tabBtnQr" onclick="switchUpiSubTab('QR')">Scan QR</button>
-                <button type="button" class="upi-subtab-btn" id="tabBtnApps" onclick="switchUpiSubTab('APPS')">UPI Apps</button>
-                <button type="button" class="upi-subtab-btn" id="tabBtnId" onclick="switchUpiSubTab('ID')">Enter UPI ID</button>
-              </div>
-
-              <!-- View 1: Scan QR Code -->
-              <div id="upiViewQr">
-                <div class="qr-container">
-                  <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #059669; margin-bottom: 4px;">Instant Auto-Verification QR</div>
-                  <img id="upiDynamicQrImg" src="" alt="UPI QR Code" class="qr-image">
-                  <div style="font-size: 18px; font-weight: 900; color: #059669; margin-bottom: 2px;" id="qrPayableAmountText">&#8377;0</div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">MEGA STORE RETAIL PVT LTD (ICICI Bank)</div>
-                  
-                  <div style="display: flex; align-items: center; gap: 6px;">
-                    <span style="font-size: 11.5px; font-weight: 700; font-family: monospace;">megastore.official@icici</span>
-                    <button type="button" class="copy-upi-btn" onclick="copyUpiIdToClipboard()">
-                      <span>Copy</span>
-                    </button>
-                  </div>
-
-                  <a id="deepLinkQrAppBtn" href="#" class="btn-place-order" style="display: flex; text-decoration: none; height: 38px; font-size: 12px; background: #059669; margin-top: 10px;">
-                    <span>Tap to Pay in UPI App</span>
-                  </a>
-                </div>
-              </div>
-
-              <!-- View 2: UPI Apps with REAL Logos -->
-              <div id="upiViewApps" style="display: none;">
-                <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px;">Select your installed UPI app:</div>
-                <div class="upi-apps-row">
-                  <!-- Real Google Pay Logo -->
-                  <button type="button" class="upi-app-btn selected" id="appBtnGpay" onclick="selectUpiApp('Google Pay')">
-                    <div class="upi-logo-wrap">
-                      <svg viewBox="0 0 48 48" width="24" height="24"><path d="M34.8 24.3c0-.7-.1-1.4-.2-2H24v4.2h6.1c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7c2.2-2 3.4-5 3.4-8.4z" fill="#4285F4"/><path d="M24 35.3c3.1 0 5.8-1 7.7-2.8l-3.7-2.8c-1 .7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.6-4.9h-3.8v2.9c1.9 3.8 5.8 6.5 10.4 6.5z" fill="#34A853"/><path d="M17.4 25.9c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3v-2.9h-3.8c-.8 1.6-1.2 3.3-1.2 5.2s.4 3.6 1.2 5.2l3.8-2.9z" fill="#FBBC05"/><path d="M24 16.3c1.7 0 3.2.6 4.4 1.7l3.3-3.3C29.7 12.9 27 12 24 12c-4.6 0-8.5 2.7-10.4 6.5l3.8 2.9c.9-2.8 3.5-5.1 6.6-5.1z" fill="#EA4335"/></svg>
-                    </div>
-                    <div>
-                      <div>Google Pay</div>
-                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">GPay UPI</div>
-                    </div>
-                  </button>
-
-                  <!-- Real PhonePe Logo -->
-                  <button type="button" class="upi-app-btn" id="appBtnPhonepe" onclick="selectUpiApp('PhonePe')">
-                    <div class="upi-logo-wrap">
-                      <svg viewBox="0 0 48 48" width="24" height="24"><circle cx="24" cy="24" r="22" fill="#5F259F"/><path d="M29.5 12h-8.8c-.8 0-1.5.7-1.5 1.5v2.2c0 .8.7 1.5 1.5 1.5h1.8v3.1c-1.4.2-2.7.9-3.7 1.9-1.3 1.3-2 3.1-2 5.1 0 1.9.7 3.7 2 5 1.2 1.2 2.8 1.9 4.6 1.9h.8v4.3c0 .8.7 1.5 1.5 1.5h2.5c.8 0 1.5-.7 1.5-1.5v-4.3h1.8c.8 0 1.5-.7 1.5-1.5v-2.2c0-.8-.7-1.5-1.5-1.5H29v-5.2c1.7-.3 3.1-1.3 4-2.8.9-1.4 1.2-3.1.8-4.8-.4-1.7-1.5-3.2-3-4-.5-.3-.9-.4-1.3-.4zm-4.3 12.5c0 .6-.2 1.2-.7 1.6-.4.4-1 .7-1.6.7-.6 0-1.2-.2-1.6-.7-.4-.4-.7-1-.7-1.6 0-.6.2-1.2.7-1.6.4-.4 1-.7 1.6-.7.6 0 1.2.2 1.6.7.4.4.7 1 .7 1.6zm2.3-6.2c-.2.4-.6.7-1.1.9-.4.2-.9.2-1.4.1v-3.8h2.1c.3.5.4 1.1.4 1.6 0 .4-.1.8 0 1.2z" fill="#FFFFFF"/></svg>
-                    </div>
-                    <div>
-                      <div>PhonePe</div>
-                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">Direct UPI</div>
-                    </div>
-                  </button>
-
-                  <!-- Real Paytm Logo -->
-                  <button type="button" class="upi-app-btn" id="appBtnPaytm" onclick="selectUpiApp('Paytm')">
-                    <div class="upi-logo-wrap">
-                      <svg viewBox="0 0 64 32" width="28" height="16"><path d="M9.2 8h4.5c2.6 0 4.3 1.5 4.3 3.8 0 2.4-1.7 3.9-4.3 3.9h-2.1v5.3H9.2V8zm4.3 5.4c1.2 0 2-.6 2-1.6s-.8-1.6-2-1.6h-2v3.2h2z" fill="#002970"/><path d="M23.3 12.8c-1.3 0-2.3.9-2.3 2.1v6.1h-2.3v-8.2h2.3v1.3c.6-1 1.6-1.5 2.8-1.5h.5v2.2h-1z" fill="#002970"/><path d="M40.5 8h2.3v3.2h3.2v2h-3.2v5c0 .9.5 1.3 1.4 1.3h1.8v2h-2.5c-2.1 0-3-1.1-3-3v-5.3h-1.9v-2h1.9V8z" fill="#00BAF2"/><path d="M47.8 12.8c.8-1.3 2-2 3.6-2 1.6 0 2.7.8 3.2 2 .9-1.3 2.1-2 3.8-2 2.3 0 3.7 1.5 3.7 4.1v6.1h-2.3v-5.8c0-1.5-.7-2.3-2-2.3s-2.1.8-2.1 2.3v5.8h-2.3v-5.8c0-1.5-.7-2.3-2-2.3-1.3 0-2.1.8-2.1 2.3v5.8h-2.3v-8.2h2.2v1.2z" fill="#00BAF2"/></svg>
-                    </div>
-                    <div>
-                      <div>Paytm</div>
-                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">Wallet & UPI</div>
-                    </div>
-                  </button>
-
-                  <!-- Real BHIM UPI Logo -->
-                  <button type="button" class="upi-app-btn" id="appBtnBhim" onclick="selectUpiApp('BHIM UPI')">
-                    <div class="upi-logo-wrap">
-                      <svg viewBox="0 0 64 32" width="28" height="16"><path d="M7 6l7.5 10L7 26h6l7.5-10L13 6H7z" fill="#008450"/><path d="M14.5 6L22 16l-7.5 10h6L28 16 20.5 6h-6z" fill="#F37021"/><text x="31" y="21" font-family="sans-serif" font-size="11" font-weight="900" fill="#0A1E42">BHIM</text></svg>
-                    </div>
-                    <div>
-                      <div>BHIM UPI</div>
-                      <div style="font-size: 10px; color: var(--text-muted); font-weight: 500;">NPCI Govt</div>
-                    </div>
-                  </button>
-                </div>
-
-                <a id="deepLinkUpiAppBtn" href="#" class="btn-place-order" style="display: flex; text-decoration: none; height: 40px; font-size: 12.5px; background: #0f172a;">
-                  <span>Launch Selected UPI App</span>
-                </a>
-              </div>
-
-              <!-- View 3: Enter UPI ID -->
-              <div id="upiViewId" style="display: none;">
-                <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 6px;">Enter your UPI ID (VPA):</div>
-                <div style="display: flex; gap: 6px; margin-bottom: 6px;">
-                  <input type="text" id="customUpiIdInput" placeholder="name@okhdfcbank / 9876543210@paytm" class="form-input" style="height: 38px; font-size: 12px;">
-                  <button type="button" class="btn-add-addr-header" style="padding: 0 12px; height: 38px;" onclick="verifyCustomUpiId()">Verify</button>
-                </div>
-                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@okhdfcbank')">@okhdfcbank</span>
-                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@okaxis')">@okaxis</span>
-                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@oksbi')">@oksbi</span>
-                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@paytm')">@paytm</span>
-                  <span style="font-size: 10.5px; padding: 2px 8px; border-radius: 9999px; background: #ffffff; border: 1px solid var(--border-color); cursor: pointer;" onclick="appendUpiSuffix('@ybl')">@ybl</span>
-                </div>
-              </div>
-
-              <!-- Verification & Reference Number -->
-              <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px; margin-top: 10px;">
-                <div style="font-size: 11px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center;">
-                  <span>Payment Confirmation / UTR No.</span>
-                  <span id="upiTxnTokenDisplay" style="font-size: 10px; color: var(--text-muted); font-family: monospace;">TXN_INIT</span>
-                </div>
-                <input type="text" id="upiUtrInput" placeholder="Enter 12-Digit UPI Ref / UTR No. (Optional)" maxlength="16" inputmode="numeric" class="form-input" style="height: 36px; font-size: 11.5px;">
-              </div>
-
+            <div class="rzp-badge-note">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>100% secure payments powered by Razorpay</span>
             </div>
           </div>
         </section>
 
       </div>
 
-      <!-- Right Column: Order Items Summary -->
-      <div>
-        <section class="checkout-card">
+      <!-- Right Column: Order Items Summary (sticky on desktop) -->
+      <div style="position: sticky; top: 76px;">
+        <section class="checkout-card" style="margin-bottom: 0;">
           <h2 class="card-heading">
             <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
             <span>Order Items (<span id="checkoutItemCount">0</span>)</span>
@@ -1285,6 +1562,21 @@
             <span id="coDiscountText" style="font-weight: 700;">- &#8377;0</span>
           </div>
 
+          <div class="summary-row" id="coUpiDiscountRow" style="display: none; color: var(--success-green);">
+            <span>UPI Payment Discount (15%)</span>
+            <span id="coUpiDiscountText" style="font-weight: 700;">- &#8377;0</span>
+          </div>
+
+          <div class="summary-row" id="coAdvanceRow" style="display: none; color: #b45309;">
+            <span>Advance (COD)</span>
+            <span id="coAdvanceText" style="font-weight: 700;">- &#8377;20</span>
+          </div>
+
+          <div class="summary-row" id="coDueRow" style="display: none; color: var(--sale-red);">
+            <span>Due to Delivery Boy</span>
+            <span id="coDueText" style="font-weight: 700;">&#8377;0</span>
+          </div>
+
           <div class="summary-row">
             <span>Delivery Fee</span>
             <span style="color: var(--success-green); font-weight: 700;">FREE</span>
@@ -1294,10 +1586,6 @@
             <span>Amount Payable</span>
             <span id="coGrandTotalText" style="color: #047857;">&#8377;0</span>
           </div>
-
-          <button class="btn-place-order" id="placeOrderBtn" onclick="handlePlaceOrder()">
-            <span>Confirm & Place Order</span>
-          </button>
         </section>
       </div>
 
@@ -1306,12 +1594,15 @@
 
   <!-- Mobile Sticky Checkout Bottom Bar -->
   <div class="mobile-bottom-bar">
-    <div>
-      <div style="font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Total Payable</div>
+    <button type="button" id="mobileBackBtn" class="icon-btn" style="display:none;" onclick="handleMobileBarBack()" aria-label="Back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div style="min-width:0;">
+      <div style="font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;" id="mobileLabelText">Total Payable</div>
       <div id="mobileTotalText" style="font-size: 17px; font-weight: 900; color: var(--text-main);">&#8377;0</div>
     </div>
-    <button type="button" class="btn-place-order" style="margin-top: 0; width: auto; flex: 1; height: 42px; font-size: 13px;" onclick="handlePlaceOrder()">
-      <span id="mobileBtnText">Place Order</span>
+    <button type="button" class="btn-place-order" style="margin-top: 0; width: auto; flex: 1; height: 42px; font-size: 13px;" onclick="handleMobileBarAction()">
+      <span id="mobileBtnText">Continue</span>
     </button>
   </div>
 
@@ -1322,11 +1613,11 @@
         <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
       </div>
       <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 4px;">Order Placed Successfully!</h2>
-      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Your order has been recorded securely.</p>
-      
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;" id="successModalSubText">Your payment is confirmed &amp; order has been recorded securely.</p>
+
       <div style="background: var(--accent-light); padding: 10px; border-radius: var(--radius-md); margin-bottom: 16px; font-size: 12px; text-align: left;">
         <div>Order ID: <strong id="successOrderIdDisplay">ORD_12345</strong></div>
-        <div style="color: var(--text-muted); font-size: 11px; margin-top: 2px;">Estimated delivery in 4-6 business days.</div>
+        <div id="successPaymentInfo" style="color: var(--text-muted); font-size: 11px; margin-top: 2px;">Estimated delivery in 4-6 business days.</div>
       </div>
 
       <a href="myorder.html" class="btn-place-order" style="text-decoration: none; height: 42px;">View in My Orders</a>
@@ -1338,6 +1629,10 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
+    /* ================= RAZORPAY CONFIG ================= */
+    const RAZORPAY_KEY_ID = "rzp_live_TucsOuR1IaTSGc";
+    const COD_ADVANCE_AMOUNT = 20; // Rupees - partial advance for COD orders
+
     const firebaseConfig = {
       apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
       authDomain: "mega-store-2025.firebaseapp.com",
@@ -1377,105 +1672,159 @@
 
     let checkoutItems = [];
     let selectedPayment = "COD";
-    let selectedUpiApp = "Google Pay";
-    let activeUpiSubTab = "QR";
-    let generatedTxnToken = "TXN_UPI_" + Date.now().toString().slice(-7) + Math.random().toString(36).substring(2, 5).toUpperCase();
-    const isUpiLocked = true;
+    const isUpiLocked = false; // ONLINE PAYMENT / UPI ENABLED NOW
 
-    function handleLockedUpiClick() {
-      if (isUpiLocked) {
-        showToast("Online Payment / UPI abhi ke liye band hai. Kripya Cash on Delivery (COD) chunein.");
+    /* ================= 3-STEP WIZARD ENGINE ================= */
+    let currentStep = 1;
+
+    function goToStep(step) {
+      // Validation guards
+      if (step >= 2) {
+        const formPanel = document.getElementById("addressFormPanel");
+        if (formPanel.style.display !== "none") {
+          const nameInput = document.getElementById("custName").value.trim();
+          if (nameInput) { handleSaveAddress(); }
+        }
+        if (!userAddresses || userAddresses.length === 0) {
+          showToast("Please add and save your delivery address first");
+          step = 1;
+        }
+      }
+
+      currentStep = step;
+
+      // Toggle step sections
+      document.getElementById("wizardStep1").classList.toggle("active", step === 1);
+      document.getElementById("wizardStep2").classList.toggle("active", step === 2);
+      document.getElementById("wizardStep3").classList.toggle("active", step === 3);
+
+      // Update step nodes
+      for (let i = 1; i <= 3; i++) {
+        const node = document.getElementById("stepNode" + i);
+        node.classList.toggle("active", i === step);
+        node.classList.toggle("completed", i < step);
+      }
+
+      // Progress fill: step1=0%, step2=50%, step3=100%
+      const fillPct = step === 1 ? "0%" : (step === 2 ? "50%" : "100%");
+      document.getElementById("stepProgressFill").style.width = fillPct;
+
+      if (step === 3) renderConfirmStep();
+
+      updateMobileBar();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateMobileBar() {
+      const backBtn = document.getElementById("mobileBackBtn");
+      if (backBtn) backBtn.style.display = currentStep > 1 ? "inline-flex" : "none";
+      const grandTotal = getCheckoutGrandTotal();
+      const labelEl = document.getElementById("mobileLabelText");
+      const totalEl = document.getElementById("mobileTotalText");
+      const btnTextEl = document.getElementById("mobileBtnText");
+
+      if (currentStep === 1) {
+        labelEl.textContent = "Total Payable";
+        totalEl.innerHTML = "&#8377;" + grandTotal;
+        btnTextEl.textContent = "Continue to Payment";
+      } else if (currentStep === 2) {
+        labelEl.textContent = "Total Payable";
+        totalEl.innerHTML = "&#8377;" + grandTotal;
+        btnTextEl.textContent = "Review Order";
+      } else {
+        if (selectedPayment === "COD") {
+          labelEl.textContent = "Advance Now (COD)";
+          totalEl.innerHTML = "&#8377;" + COD_ADVANCE_AMOUNT;
+          btnTextEl.textContent = "Pay ₹" + COD_ADVANCE_AMOUNT + " & Place";
+        } else {
+          labelEl.textContent = "Pay Online (Full)";
+          totalEl.innerHTML = "&#8377;" + grandTotal;
+          btnTextEl.textContent = "Pay & Place Order";
+        }
       }
     }
 
-    function initPaymentState() {
-      const tokenDisplay = document.getElementById("upiTxnTokenDisplay");
-      if (tokenDisplay) tokenDisplay.textContent = generatedTxnToken;
+    function handleMobileBarAction() {
+      if (currentStep === 1) goToStep(2);
+      else if (currentStep === 2) goToStep(3);
+      else handlePlaceOrder();
     }
 
-    function togglePaymentSelection(method) {
-      if (isUpiLocked && method === "UPI") {
-        handleLockedUpiClick();
-        return;
-      }
+    function handleMobileBarBack() {
+      if (currentStep > 1) goToStep(currentStep - 1);
+    }
+
+    function selectPaymentMethod(method) {
       selectedPayment = method;
       document.getElementById("optCodCard").classList.toggle("selected", method === "COD");
       document.getElementById("optUpiCard").classList.toggle("selected", method === "UPI");
-      const upiBox = document.getElementById("upiTerminalBox");
-      if (upiBox) upiBox.style.display = method === "UPI" ? "block" : "none";
 
-      const placeBtn = document.getElementById("placeOrderBtn");
-      const mobileBtnText = document.getElementById("mobileBtnText");
-      if (method === "UPI") {
-        if (placeBtn) placeBtn.innerHTML = "<span>Confirm & Place Order (100% Secured UPI)</span>";
-        if (mobileBtnText) mobileBtnText.textContent = "Pay via UPI";
+      const btnText = document.getElementById("placeOrderBtnText");
+      if (method === "COD") {
+        btnText.textContent = "Pay \u20B9" + COD_ADVANCE_AMOUNT + " Advance & Place Order";
       } else {
-        if (placeBtn) placeBtn.innerHTML = "<span>Confirm & Place Order (Cash on Delivery)</span>";
-        if (mobileBtnText) mobileBtnText.textContent = "Place COD Order";
+        btnText.textContent = "Pay \u20B9" + getCheckoutGrandTotal() + " Online & Place Order";
+      }
+      renderOrderSummary();
+      if (currentStep === 3) renderConfirmStep();
+      updateMobileBar();
+    }
+
+    /* ================= CONFIRM STEP RENDER ================= */
+    function renderConfirmStep() {
+      const activeAddress = userAddresses.find(a => a.id === selectedAddressId) || userAddresses[0];
+      if (activeAddress) {
+        document.getElementById("confirmAddressText").innerHTML =
+          "<strong>" + (activeAddress.name || "Recipient") + "</strong> &bull; " + (activeAddress.phone || "") +
+          "<br>" + [activeAddress.street, activeAddress.landmark, activeAddress.city, activeAddress.state, activeAddress.pincode].filter(Boolean).join(", ");
+      }
+
+      const grandTotal = getCheckoutGrandTotal();
+      const dueAmount = Math.max(0, grandTotal - COD_ADVANCE_AMOUNT);
+
+      const payText = document.getElementById("confirmPaymentText");
+      const payBadge = document.getElementById("confirmPaymentBadge");
+      if (selectedPayment === "COD") {
+        payText.innerHTML = "Cash on Delivery &mdash; Pay a <strong>\u20B9" + COD_ADVANCE_AMOUNT + " advance</strong> online now via Razorpay. Pay the remaining <strong>\u20B9" + dueAmount + "</strong> to the delivery boy upon receiving the product.";
+        payBadge.innerHTML = '<span class="payment-summary-pill cod">\u20B9' + COD_ADVANCE_AMOUNT + ' now &bull; \u20B9' + dueAmount + ' on delivery</span>';
+      } else {
+        payText.innerHTML = "Online Payment / UPI &mdash; Pay the full amount of <strong>\u20B9" + grandTotal + "</strong> online now (UPI / Card / NetBanking). The order will be confirmed only after the payment is successful.";
+        payBadge.innerHTML = '<span class="payment-summary-pill paid">Full payment \u20B9' + grandTotal + ' online</span>';
+      }
+
+      document.getElementById("confirmSubtotalText").innerHTML = "&#8377;" + getCheckoutSubtotal();
+      const discRow = document.getElementById("confirmDiscountRow");
+      const discount = Math.max(0, getCheckoutSubtotal() - getCheckoutBaseTotal());
+      discRow.style.display = discount > 0 ? "flex" : "none";
+      document.getElementById("confirmDiscountText").innerHTML = "- &#8377;" + discount;
+      const upiDisc = getUpiDiscount();
+      const upiDiscRow = document.getElementById("confirmUpiDiscountRow");
+      upiDiscRow.style.display = upiDisc > 0 ? "flex" : "none";
+      document.getElementById("confirmUpiDiscountText").innerHTML = "- &#8377;" + upiDisc;
+
+      const advRow = document.getElementById("confirmAdvanceRow");
+      const dueRow = document.getElementById("confirmDueRow");
+      if (selectedPayment === "COD") {
+        advRow.style.display = "flex";
+        dueRow.style.display = "flex";
+        document.getElementById("confirmAdvanceText").innerHTML = "- &#8377;" + COD_ADVANCE_AMOUNT;
+        document.getElementById("confirmDueText").innerHTML = "&#8377;" + dueAmount;
+      } else {
+        advRow.style.display = "none";
+        dueRow.style.display = "none";
+      }
+
+      document.getElementById("confirmGrandTotalText").innerHTML = "&#8377;" + grandTotal;
+
+      const btnText = document.getElementById("placeOrderBtnText");
+      if (selectedPayment === "COD") {
+        btnText.textContent = "Pay \u20B9" + COD_ADVANCE_AMOUNT + " Advance & Place Order";
+      } else {
+        btnText.textContent = "Pay \u20B9" + grandTotal + " Online & Place Order";
       }
     }
 
-    function switchUpiSubTab(tab) {
-      activeUpiSubTab = tab;
-      document.getElementById("tabBtnQr").classList.toggle("active", tab === "QR");
-      document.getElementById("tabBtnApps").classList.toggle("active", tab === "APPS");
-      document.getElementById("tabBtnId").classList.toggle("active", tab === "ID");
-
-      document.getElementById("upiViewQr").style.display = tab === "QR" ? "block" : "none";
-      document.getElementById("upiViewApps").style.display = tab === "APPS" ? "block" : "none";
-      document.getElementById("upiViewId").style.display = tab === "ID" ? "block" : "none";
-    }
-
-    function selectUpiApp(appName) {
-      selectedUpiApp = appName;
-      document.querySelectorAll(".upi-app-btn").forEach(btn => btn.classList.remove("selected"));
-      if (appName === "Google Pay") document.getElementById("appBtnGpay").classList.add("selected");
-      if (appName === "PhonePe") document.getElementById("appBtnPhonepe").classList.add("selected");
-      if (appName === "Paytm") document.getElementById("appBtnPaytm").classList.add("selected");
-      if (appName === "BHIM UPI") document.getElementById("appBtnBhim").classList.add("selected");
-
-      updateUpiDeepLink();
-      showToast(`Selected ${appName}`);
-    }
-
-    function updateUpiDeepLink() {
-      const totalAmount = getCheckoutGrandTotal();
-      const deepLink = `upi://pay?pa=megastore.official@icici&pn=MEGA+STORE+RETAIL&am=${totalAmount}&tr=${generatedTxnToken}&cu=INR&tn=Order_Payment`;
-      const btn = document.getElementById("deepLinkUpiAppBtn");
-      if (btn) btn.href = deepLink;
-      const qrBtn = document.getElementById("deepLinkQrAppBtn");
-      if (qrBtn) qrBtn.href = deepLink;
-    }
-
-    function copyUpiIdToClipboard() {
-      const upiId = "megastore.official@icici";
-      navigator.clipboard.writeText(upiId).then(() => {
-        showToast("Copied UPI ID: " + upiId);
-      }).catch(() => {
-        showToast("UPI ID: " + upiId);
-      });
-    }
-
-    function appendUpiSuffix(suffix) {
-      const inp = document.getElementById("customUpiIdInput");
-      if (!inp) return;
-      let val = inp.value.trim();
-      if (val.includes("@")) val = val.split("@")[0];
-      inp.value = val + suffix;
-      inp.focus();
-    }
-
-    function verifyCustomUpiId() {
-      const inp = document.getElementById("customUpiIdInput");
-      const val = inp ? inp.value.trim() : "";
-      if (!val || !val.includes("@") || val.length < 5) {
-        showToast("Please enter a valid UPI ID (e.g. name@okhdfcbank)");
-        return;
-      }
-      showToast("UPI ID verified: " + val);
-    }
-
-    /* Buy Now Mode: checkout_mode === "buynow" ho to SIRF Buy Now wala product dikhe, cart ignore ho */
+    /* Buy Now Mode */
     function getBuyNowItem() {
       try {
         if (localStorage.getItem("checkout_mode") !== "buynow") return null;
@@ -1490,23 +1839,28 @@
       return checkoutItems.reduce((s, i) => s + ((i.price || 0) * (parseInt(i.quantity) || 1)), 0);
     }
 
-    function getCheckoutGrandTotal() {
+    function getCheckoutBaseTotal() {
       const sub = getCheckoutSubtotal();
-      // Buy Now coupon discount (productdetails page se finalTotal aaya hai)
       if (checkoutItems.length === 1 && checkoutItems[0].finalTotal != null) {
         return Math.max(0, Number(checkoutItems[0].finalTotal) || sub);
       }
       return sub;
     }
 
+    function getUpiDiscount() {
+      if (selectedPayment !== "UPI") return 0;
+      return Math.round(getCheckoutBaseTotal() * 0.15);
+    }
+
+    function getCheckoutGrandTotal() {
+      return Math.max(0, getCheckoutBaseTotal() - getUpiDiscount());
+    }
+
     function loadCheckoutItems() {
       const buyItem = getBuyNowItem();
 
       if (buyItem) {
-        // SIRF Buy Now wala product — cart bilkul ignore
         checkoutItems = [buyItem];
-
-        // Back button ab product page pe le jayega
         const backBtn = document.querySelector(".header-left .icon-btn");
         if (backBtn) backBtn.href = "productdetails.html?id=" + encodeURIComponent(buyItem.id);
       } else {
@@ -1557,8 +1911,11 @@
         container.appendChild(row);
       });
 
+      const baseTotal = getCheckoutBaseTotal();
       const grandTotal = getCheckoutGrandTotal();
-      const couponDiscount = Math.max(0, subtotal - grandTotal);
+      const couponDiscount = Math.max(0, subtotal - baseTotal);
+      const upiDiscount = getUpiDiscount();
+      const dueAmount = Math.max(0, grandTotal - COD_ADVANCE_AMOUNT);
 
       document.getElementById("checkoutItemCount").textContent = totalQty;
       document.getElementById("coSubtotalText").innerHTML = `&#8377;${subtotal}`;
@@ -1568,25 +1925,63 @@
         const discountVal = document.getElementById("coDiscountText");
         if (discountVal) discountVal.innerHTML = `- &#8377;${couponDiscount}`;
       }
-      document.getElementById("coGrandTotalText").innerHTML = `&#8377;${grandTotal}`;
-      const mobTot = document.getElementById("mobileTotalText");
-      if (mobTot) mobTot.innerHTML = `&#8377;${grandTotal}`;
-
-      const qrAmt = document.getElementById("qrPayableAmountText");
-      if (qrAmt) qrAmt.innerHTML = `&#8377;${grandTotal}`;
-      const qrImg = document.getElementById("upiDynamicQrImg");
-      if (qrImg) {
-        const qrPayload = `upi://pay?pa=megastore.official@icici&pn=MEGA+STORE+RETAIL&am=${grandTotal}&tr=${generatedTxnToken}&cu=INR&tn=Order_Payment`;
-        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=${encodeURIComponent(qrPayload)}`;
+      const upiRow = document.getElementById("coUpiDiscountRow");
+      if (upiRow) {
+        upiRow.style.display = upiDiscount > 0 ? "flex" : "none";
+        const upiVal = document.getElementById("coUpiDiscountText");
+        if (upiVal) upiVal.innerHTML = `- &#8377;${upiDiscount}`;
       }
-      updateUpiDeepLink();
+
+      // COD advance / due rows in sidebar
+      const coAdvanceRow = document.getElementById("coAdvanceRow");
+      const coDueRow = document.getElementById("coDueRow");
+      if (coAdvanceRow && coDueRow) {
+        if (selectedPayment === "COD") {
+          coAdvanceRow.style.display = "flex";
+          coDueRow.style.display = "flex";
+          document.getElementById("coAdvanceText").innerHTML = `- &#8377;${COD_ADVANCE_AMOUNT}`;
+          document.getElementById("coDueText").innerHTML = `&#8377;${dueAmount}`;
+        } else {
+          coAdvanceRow.style.display = "none";
+          coDueRow.style.display = "none";
+        }
+      }
+
+      document.getElementById("coGrandTotalText").innerHTML = `&#8377;${grandTotal}`;
+      updateMobileBar();
     }
 
-    /* Addresses Logic */
+    /* Addresses Logic & Auto Pre-fill from index.html Bottom Sheet */
     let userAddresses = [];
     let selectedAddressId = null;
     let editingAddressId = null;
     let currentAddressType = "Home";
+
+    function getStoredProfile() {
+      try {
+        const p = JSON.parse(localStorage.getItem("user_profile") || "null");
+        if (p && (p.name || p.phone)) return p;
+      } catch (e) {}
+      try {
+        const a = JSON.parse(localStorage.getItem("user_address") || "null");
+        if (a && (a.name || a.phone)) return a;
+      } catch (e) {}
+      return null;
+    }
+
+    function checkVerifiedProfile() {
+      const profile = getStoredProfile();
+      if (profile && (profile.name || profile.phone)) {
+        const banner = document.getElementById("verifiedUserBanner");
+        const bName = document.getElementById("bannerUserName");
+        const bPhone = document.getElementById("bannerUserPhone");
+        if (banner) {
+          banner.style.display = "flex";
+          if (bName && profile.name) bName.textContent = profile.name;
+          if (bPhone && profile.phone) bPhone.textContent = "Verified Mobile: " + profile.phone + " • Ready for instant delivery";
+        }
+      }
+    }
 
     function selectAddressType(type) {
       currentAddressType = type;
@@ -1596,21 +1991,27 @@
     }
 
     function loadSavedAddresses() {
+      checkVerifiedProfile();
+      const profile = getStoredProfile();
+
       try {
         let stored = JSON.parse(localStorage.getItem("user_addresses") || "null");
         if (!stored || !Array.isArray(stored) || stored.length === 0) {
           const legacy = JSON.parse(localStorage.getItem("user_address") || "null");
-          if (legacy && legacy.name && legacy.phone) {
+          const nameToUse = (legacy && legacy.name) || (profile && profile.name) || "";
+          const phoneToUse = (legacy && legacy.phone) || (profile && profile.phone) || "";
+
+          if (nameToUse || phoneToUse) {
             stored = [{
               id: "addr_1",
-              name: legacy.name,
-              phone: legacy.phone,
-              altPhone: legacy.altPhone || "",
-              pincode: legacy.pincode || "",
-              city: legacy.city || "",
-              street: legacy.street || "",
-              landmark: legacy.landmark || "",
-              state: legacy.state || "",
+              name: nameToUse,
+              phone: phoneToUse,
+              altPhone: (legacy && legacy.altPhone) || "",
+              pincode: (legacy && legacy.pincode) || "",
+              city: (legacy && legacy.city) || "",
+              street: (legacy && legacy.street) || "",
+              landmark: (legacy && legacy.landmark) || "",
+              state: (legacy && legacy.state) || "",
               type: "Home",
               isDefault: true
             }];
@@ -1673,7 +2074,7 @@
               <div class="addr-radio-indicator">
                 <div class="addr-radio-dot"></div>
               </div>
-              <span class="addr-recipient-name">${addr.name}</span>
+              <span class="addr-recipient-name">${addr.name || 'Recipient'}</span>
             </div>
             <div class="addr-badges">
               <span class="addr-type-pill ${typeClass}">${addr.type || 'HOME'}</span>
@@ -1683,11 +2084,12 @@
 
           <div class="addr-content-body">
             <div class="addr-full-text">
-              ${addr.street}, ${addr.landmark}, ${addr.city}, ${addr.state}
+              ${[addr.street, addr.landmark, addr.city, addr.state].filter(Boolean).join(", ") || 'Address details being updated'}
             </div>
+            ${addr.pincode || addr.city ? `
             <div style="margin-top: 2px;">
-              <span class="addr-pincode-chip">PIN: ${addr.pincode}</span>
-            </div>
+              <span class="addr-pincode-chip">&#128205; ${addr.city || addr.pincode}</span>
+            </div>` : ''}
             <div class="addr-phone-row">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               <span>Mobile: <strong>${addr.phone}</strong></span>
@@ -1742,6 +2144,7 @@
       const formPanel = document.getElementById("addressFormPanel");
       const titleEl = document.getElementById("addrFormTitle");
       const isEdit = Boolean(addrId);
+      const profile = getStoredProfile();
 
       titleEl.textContent = isEdit ? "Edit Delivery Address" : "Add Delivery Address";
       formPanel.style.display = "block";
@@ -1761,8 +2164,9 @@
           selectAddressType(addr.type || "Home");
         }
       } else {
-        document.getElementById("custName").value = "";
-        document.getElementById("custPhone").value = "";
+        // PRE-FILL Name and Phone from index.html Bottom Sheet!
+        document.getElementById("custName").value = (profile && profile.name) ? profile.name : "";
+        document.getElementById("custPhone").value = (profile && profile.phone) ? profile.phone : "";
         document.getElementById("custAltPhone").value = "";
         document.getElementById("custPincode").value = "";
         document.getElementById("custCity").value = "";
@@ -1784,9 +2188,84 @@
       renderAddressCards();
     }
 
+    let pincodeFetchTimer = null;
+    let lastFetchedPincode = "";
+
+    function setPincodeUIState(state) {
+      const pinInput  = document.getElementById("custPincode");
+      const procRow   = document.getElementById("pincodeProcessingRow");
+      const okRow     = document.getElementById("pincodeSuccessRow");
+      if (!pinInput || !procRow || !okRow) return;
+
+      pinInput.classList.remove("pincode-loading", "pincode-success", "pincode-error");
+      procRow.classList.remove("active");
+      okRow.classList.remove("active");
+
+      if (state === "loading") {
+        pinInput.classList.add("pincode-loading");
+        procRow.classList.add("active");
+      } else if (state === "success") {
+        pinInput.classList.add("pincode-success");
+        okRow.classList.add("active");
+        setTimeout(() => okRow.classList.remove("active"), 3500);
+      } else if (state === "error") {
+        pinInput.classList.add("pincode-error");
+      }
+    }
+
+    function handlePincodeAutoFill() {
+      const pinInput = document.getElementById("custPincode");
+      if (!pinInput) return;
+
+      const pin = pinInput.value.trim().replace(/\D/g, "");
+      pinInput.value = pin;
+
+      if (pincodeFetchTimer) clearTimeout(pincodeFetchTimer);
+
+      if (pin.length !== 6) {
+        lastFetchedPincode = "";
+        setPincodeUIState("idle");
+        return;
+      }
+      if (pin === lastFetchedPincode) return;
+
+      pincodeFetchTimer = setTimeout(() => fetchPincodeDetails(pin), 450);
+    }
+
+    async function fetchPincodeDetails(pin) {
+      const cityInput  = document.getElementById("custCity");
+      const stateInput = document.getElementById("custState");
+
+      setPincodeUIState("loading");
+
+      try {
+        const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+        const data = await res.json();
+        if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length > 0) {
+          const office = data[0].PostOffice[0];
+          const district = office.District || office.Block || "";
+          const block = office.Block || "";
+          if (cityInput)  cityInput.value  = (block && block !== district) ? block + ", " + district : district;
+          if (stateInput) stateInput.value = office.State || "";
+          lastFetchedPincode = pin;
+          setPincodeUIState("success");
+          const okText = document.getElementById("pincodeSuccessText");
+          if (okText) okText.textContent = (district || "Location") + ", " + (office.State || "") + " detected";
+        } else {
+          if (cityInput)  cityInput.value  = "";
+          if (stateInput) stateInput.value = "";
+          setPincodeUIState("error");
+          showToast("Invalid PIN code. Please check and re-enter.");
+        }
+      } catch (e) {
+        setPincodeUIState("error");
+        showToast("Could not fetch PIN details. Check internet & enter manually.");
+      }
+    }
+
     function handleSaveAddress() {
       const name = document.getElementById("custName").value.trim();
-      const phone = document.getElementById("custPhone").value.trim();
+      const phone = document.getElementById("custPhone").value.trim().replace(/\D/g, "");
       const altPhone = document.getElementById("custAltPhone").value.trim();
       const pincode = document.getElementById("custPincode").value.trim();
       const city = document.getElementById("custCity").value.trim();
@@ -1808,6 +2287,7 @@
         return;
       }
 
+
       if (isDefault) {
         userAddresses.forEach(a => a.isDefault = false);
       }
@@ -1822,7 +2302,7 @@
           };
           selectedAddressId = editingAddressId;
         }
-        showToast("Address updated");
+        showToast("Address updated successfully");
       } else {
         const newId = "addr_" + Date.now();
         userAddresses.push({
@@ -1831,7 +2311,7 @@
           type: currentAddressType, isDefault
         });
         selectedAddressId = newId;
-        showToast("Address saved");
+        showToast("Address saved successfully");
       }
 
       localStorage.setItem("user_addresses", JSON.stringify(userAddresses));
@@ -1855,6 +2335,7 @@
       initAddressSelection();
     }
 
+    /* ================= RAZORPAY PAYMENT + ORDER ================= */
     function handlePlaceOrder() {
       const formPanel = document.getElementById("addressFormPanel");
       if (formPanel.style.display !== "none") {
@@ -1867,59 +2348,113 @@
 
       if (!userAddresses || userAddresses.length === 0) {
         showToast("Please add and save your delivery address");
+        goToStep(1);
         openAddressForm(null);
         return;
       }
 
       const activeAddress = userAddresses.find(a => a.id === selectedAddressId) || userAddresses[0];
-      const totalAmount = getCheckoutGrandTotal();
+
+
+      const grandTotal = getCheckoutGrandTotal();
+      const isCod = selectedPayment === "COD";
+      const payAmount = isCod ? COD_ADVANCE_AMOUNT : grandTotal;
+
+      // Launch Razorpay - order confirms ONLY on payment success
+      openRazorpayPayment(activeAddress, payAmount, grandTotal, isCod);
+    }
+
+    function openRazorpayPayment(activeAddress, payAmount, grandTotal, isCod) {
+      if (typeof Razorpay === "undefined") {
+        showToast("Payment gateway failed to load. Please check internet & refresh.");
+        return;
+      }
+
       const orderId = "ORD_" + Date.now().toString().slice(-6) + Math.random().toString(36).substring(2, 5).toUpperCase();
+      const dueAmount = Math.max(0, grandTotal - COD_ADVANCE_AMOUNT);
 
-      const isOnline = (selectedPayment === "UPI");
-      const utrVal = document.getElementById("upiUtrInput") ? document.getElementById("upiUtrInput").value.trim() : "";
-      const customUpi = document.getElementById("customUpiIdInput") ? document.getElementById("customUpiIdInput").value.trim() : "";
+      const btn = document.getElementById("placeOrderBtn");
+      const btnText = document.getElementById("placeOrderBtnText");
+      const originalBtnText = btnText.textContent;
+      btn.disabled = true;
+      btnText.textContent = "Opening Secure Payment...";
 
-      const paymentDetails = isOnline ? {
-        gateway: "UPI Instant Payment",
-        provider: selectedUpiApp || "UPI QR",
-        upiId: customUpi || "megastore.official@icici",
-        merchantUpi: "megastore.official@icici",
-        merchantName: "MEGA STORE RETAIL PVT LTD",
-        bankPartner: "ICICI Bank Official Partner",
-        txnId: generatedTxnToken,
-        utrNumber: utrVal || ("UTR" + Math.floor(100000000000 + Math.random() * 900000000000)),
-        amountPaid: totalAmount,
+      const options = {
+        key: RAZORPAY_KEY_ID,
+        amount: Math.round(payAmount * 100), // paise
         currency: "INR",
-        paidAt: Date.now(),
-        isSecureVerified: true,
-        securityProtocol: "256-Bit SSL Encrypted & PCI-DSS Compliant"
-      } : {
-        gateway: "Cash on Delivery",
-        amountDue: totalAmount,
-        currency: "INR",
-        instructions: "Pay exact cash upon arrival at doorstep."
+        name: "Mega Store",
+        description: isCod
+          ? "COD Order Advance Payment (₹" + COD_ADVANCE_AMOUNT + ")"
+          : "Full Online Payment for Order",
+        prefill: {
+          name: activeAddress.name || "",
+          contact: activeAddress.phone || ""
+        },
+        notes: {
+          orderId: orderId,
+          paymentMode: isCod ? "COD_PARTIAL" : "ONLINE_FULL",
+          orderTotal: String(grandTotal),
+          amountDueToDeliveryBoy: isCod ? String(dueAmount) : "0"
+        },
+        theme: { color: "#0f172a" },
+        modal: { ondismiss: function() {
+          btn.disabled = false;
+          btnText.textContent = originalBtnText;
+          showToast("Payment cancelled. Order not placed.");
+        }},
+        handler: function(response) {
+          // PAYMENT SUCCESS -> confirm order
+          finalizeOrder(orderId, activeAddress, grandTotal, isCod, response);
+        }
       };
+
+      try {
+        const rzp = new Razorpay(options);
+        rzp.on("payment.failed", function(resp) {
+          btn.disabled = false;
+          btnText.textContent = originalBtnText;
+          showToast("Payment failed: " + (resp.error && resp.error.description ? resp.error.description : "Please try again"));
+        });
+        rzp.open();
+      } catch (e) {
+        btn.disabled = false;
+        btnText.textContent = originalBtnText;
+        showToast("Could not open payment gateway. Please try again.");
+      }
+    }
+
+    function finalizeOrder(orderId, activeAddress, grandTotal, isCod, razorpayResponse) {
+      const dueAmount = Math.max(0, grandTotal - COD_ADVANCE_AMOUNT);
+      const paymentId = razorpayResponse && razorpayResponse.razorpay_payment_id ? razorpayResponse.razorpay_payment_id : "PAY_" + Date.now();
 
       const orderPayload = {
         orderId,
         userId: currentUserId,
         items: checkoutItems,
-        totalAmount,
-        paymentMethod: isOnline ? "ONLINE_UPI" : "COD",
-        paymentStatus: isOnline ? "PAID" : "PENDING_COD",
-        paymentDetails,
+        totalAmount: grandTotal,
+        paymentMethod: isCod ? "COD_PARTIAL_ADVANCE" : "ONLINE_UPI",
+        paymentStatus: isCod ? "PARTIAL_PAID" : "PAID",
+        paymentDetails: isCod ? {
+          gateway: "Razorpay",
+          advancePaid: COD_ADVANCE_AMOUNT,
+          amountDue: dueAmount,
+          currency: "INR",
+          razorpayPaymentId: paymentId,
+          instructions: "₹" + COD_ADVANCE_AMOUNT + " advance paid online. Balance ₹" + dueAmount + " payable to delivery boy (cash/UPI) upon delivery."
+        } : {
+          gateway: "Razorpay",
+          paidAmount: grandTotal,
+          amountDue: 0,
+          currency: "INR",
+          razorpayPaymentId: paymentId,
+          instructions: "Full payment received online. Nothing to pay on delivery."
+        },
         address: activeAddress,
         orderStatus: "Processing",
         createdAt: Date.now()
       };
 
-      const placeBtn = document.getElementById("placeOrderBtn");
-      if (placeBtn) {
-        placeBtn.disabled = true;
-        placeBtn.textContent = "Recording Order...";
-      }
-
-      // Write to Firebase
       if (db) {
         const updates = {};
         updates[`orders/${orderId}`] = orderPayload;
@@ -1928,7 +2463,6 @@
         db.ref().update(updates).catch((err)=>console.warn("Firebase save error:", err));
       }
 
-      // Store in local storage
       let myOrders = JSON.parse(localStorage.getItem("my_orders") || "[]");
       myOrders.unshift(orderPayload);
       localStorage.setItem("my_orders", JSON.stringify(myOrders));
@@ -1937,14 +2471,29 @@
       localStorage.removeItem("buynow");
       localStorage.removeItem("checkout_mode");
 
-      // Show Modal
+      // Success modal content
       document.getElementById("successOrderIdDisplay").textContent = orderId;
+      document.getElementById("successPaymentInfo").innerHTML = isCod
+        ? "Advance ₹" + COD_ADVANCE_AMOUNT + " received &bull; Balance <strong style='color:var(--sale-red);'>₹" + dueAmount + "</strong> to the delivery boy &bull; Delivery in 4-6 days"
+        : "Full payment ₹" + grandTotal + " received &bull; Estimated delivery in 4-6 business days";
       document.getElementById("orderSuccessModal").classList.add("active");
+
+      const btn = document.getElementById("placeOrderBtn");
+      if (btn) {
+        btn.disabled = false;
+        btn.querySelector("span").textContent = originalBtnTextSafe();
+      }
+    }
+
+    function originalBtnTextSafe() {
+      if (selectedPayment === "COD") return "Pay \u20B9" + COD_ADVANCE_AMOUNT + " Advance & Place Order";
+      return "Pay \u20B9" + getCheckoutGrandTotal() + " Online & Place Order";
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       loadCheckoutItems();
-      initPaymentState();
+      goToStep(1);
+      selectPaymentMethod("COD");
     });
   </script>
 </body>
