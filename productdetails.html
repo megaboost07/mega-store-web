@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Product Details</title>
   <meta name="description" content="View detailed product specifications, customer reviews with star rating breakdown, sizing options, and exclusive offers.">
+<link rel="icon" type="image/png"
+href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
+
+  <!-- Fast image loading: preconnect to image hosts -->
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="preconnect" href="https://i.ibb.co" crossorigin>
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.gstatic.com">
+  <link rel="dns-prefetch" href="https://firebasedatabase.googleapis.com">
 
   <!-- Firebase Compat SDKs for Realtime Database -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -34,19 +43,19 @@
   --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-body.dark {
-  --bg-body: #090d16;
-  --bg-surface: #111827;
-  --bg-card: #151e32;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-color: #1f293d;
-  --accent-color: #ffffff;
-  --accent-hover: #e2e8f0;
-  --accent-light: #1e293b;
-  --sale-red: #f87171;
-  --sale-bg: #450a0a;
-  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+body.dark {  
+  --bg-body: #0B0D10;  
+  --bg-surface: #111418;  
+  --bg-card: #171A1F;  
+  --text-main: #F5F5F5;  
+  --text-muted: #9A9FA8;  
+  --border-color: #292D34;  
+  --accent-color: #0B0D10;  
+  --accent-hover: #E6E6E6;  
+  --accent-light: #20242A;  
+  --sale-red: #D94A4A;  
+  --sale-bg: #351315;  
+  --card-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.65);  
 }
 
 * {
@@ -301,7 +310,7 @@ body.dark .theme-toggle-input:checked::after {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  margin-top: 16px;
+  margin-top: 0;
 }
 
 @media (min-width: 1024px) {
@@ -311,6 +320,114 @@ body.dark .theme-toggle-input:checked::after {
     align-items: start;
   }
 }
+
+    /* Drawer Menu */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 85vw;
+      height: 100%;
+      background: var(--bg-surface);
+      z-index: 101;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .drawer.active {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .drawer-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .drawer-section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .drawer-item:hover {
+      background: var(--accent-light);
+    }
+
+    .drawer-item svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    .drawer-item-content {
+      flex: 1;
+    }
+
+    .drawer-item-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .drawer-item-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
 
 /* Gallery & Image Slider */
 .gallery-container {
@@ -325,7 +442,7 @@ body.dark .theme-toggle-input:checked::after {
 .gallery-slider-viewport {
   position: relative;
   width: 100%;
-  padding-top: 100%;
+  padding-top: 126.3158%; /* 1216 x 1536 px ratio */
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--accent-light);
@@ -819,6 +936,157 @@ body.dark .qty-btn:hover { color: #0f172a; }
   color: var(--text-main);
 }
 
+
+/* ===== Online Payment / UPI 15% OFF — Premium Offer Card v2 ===== */
+.payment-offer-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: none;
+  background: linear-gradient(120deg, #065f46 0%, #059669 45%, #10b981 75%, #34d399 100%);
+  padding: 20px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow:
+    0 12px 28px -8px rgba(5, 150, 105, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Decorative circles */
+.po-deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.po-deco-circle.c1 {
+  width: 150px; height: 150px;
+  right: -50px; top: -60px;
+  background: radial-gradient(circle, rgba(255,255,255,0.16) 0%, transparent 65%);
+}
+.po-deco-circle.c2 {
+  width: 90px; height: 90px;
+  right: 70px; bottom: -45px;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
+}
+.po-deco-circle.c3 {
+  width: 44px; height: 44px;
+  left: 42%; top: -18px;
+  background: radial-gradient(circle, rgba(255,255,255,0.14) 0%, transparent 65%);
+}
+
+/* Shine sweep */
+.po-shine {
+  position: absolute;
+  top: 0;
+  left: -70%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  animation: poShine 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes poShine {
+  0% { left: -70%; }
+  55%, 100% { left: 140%; }
+}
+
+/* Icon: premium composite badge — gradient orb + bolt + ₹ coin + sparkles */
+.po-icon-wrap {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
+}
+
+.po-icon-wrap > svg {
+  width: 68px;
+  height: 68px;
+  display: block;
+}
+
+/* Sparkle floating animation */
+.po-spark-float {
+  animation: poFloat 2.6s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes poFloat {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-2.5px) scale(1.08); opacity: 0.85; }
+}
+
+.po-text-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.po-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.po-title {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.po-off-badge {
+  font-size: 13px;
+  font-weight: 900;
+  color: #065f46;
+  background: linear-gradient(145deg, #ffffff, #ecfdf5);
+  padding: 4px 13px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.3), inset 0 1px 0 #ffffff;
+}
+
+.po-sub {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.po-sub b {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.po-tag {
+  flex-shrink: 0;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 4px 11px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .po-tag { display: none; }
+  .payment-offer-card { gap: 12px; padding: 16px 14px; }
+  .po-title { font-size: 15px; }
+}
+
 /* Coupon Section */
 .coupon-box {
   background: var(--bg-card);
@@ -867,42 +1135,77 @@ body.dark .coupon-apply-btn {
   display: none;
 }
 
-/* Service Info Cards */
+/* ===== Service Info Strip — Single Row + Vertical Dividers (Secure Payment / Easy Returns / 24-7 Support) ===== */
 .service-info-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-@media (min-width: 640px) {
-  .service-info-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+  gap: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 10px 4px 8px;
+  margin-top: 6px;
+  box-shadow: var(--card-shadow);
 }
 
 .service-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 12px;
+  position: relative;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 2px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   text-align: center;
   gap: 6px;
 }
 
+/* Vertical divider line between items */
+.service-card + .service-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 1.5px;
+  background: #e4e2f0;
+}
+
+body.dark .service-card + .service-card::before {
+  background: #2a2d34;
+}
+
 .service-card svg {
-  width: 22px;
-  height: 22px;
-  stroke: var(--text-main);
-  stroke-width: 2;
+  width: 26px;
+  height: 26px;
+  stroke: #2b2a4a;
+  stroke-width: 1.6;
   fill: none;
+  flex-shrink: 0;
+}
+
+body.dark .service-card svg {
+  stroke: #c7c8d6;
 }
 
 .service-card span {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+/* Description ke upar protect/banner image */
+.desc-top-img {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  margin-bottom: 10px;
+  box-shadow: var(--card-shadow);
 }
 
 /* Description */
@@ -1076,7 +1379,7 @@ body.dark .coupon-apply-btn {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+  background: linear-gradient(90deg, #388e3c, #4caf50, #388e3c);
 }
 
 @media (min-width: 640px) {
@@ -1137,7 +1440,7 @@ body.dark .big-star-svg .star-bg {
 }
 
 .big-star-svg .star-fill {
-  fill: #f59e0b;
+  fill: #388e3c;
 }
 
 .rating-count-subtitle {
@@ -1187,7 +1490,7 @@ body.dark .big-star-svg .star-bg {
 .rating-bar-label svg {
   width: 13px;
   height: 13px;
-  fill: #f59e0b;
+  fill: #388e3c;
 }
 
 .rating-bar-track {
@@ -1203,7 +1506,7 @@ body.dark .big-star-svg .star-bg {
 .rating-bar-fill {
   height: 100%;
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  background: linear-gradient(90deg, #388e3c, #4caf50);
   transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   width: 0%;
 }
@@ -1283,7 +1586,7 @@ body.dark .big-star-svg .star-bg {
   bottom: 4px;
   right: 4px;
   background: rgba(0, 0, 0, 0.72);
-  color: #fbbf24;
+  color: #4caf50;
   font-size: 10px;
   font-weight: 700;
   padding: 1px 5px;
@@ -1374,7 +1677,7 @@ body.dark .big-star-svg .star-bg {
 }
 
 .review-photo-stars {
-  color: #f59e0b;
+  color: #388e3c;
   font-size: 16px;
   letter-spacing: 1px;
 }
@@ -1453,7 +1756,7 @@ body.dark .review-star-svg .star-bg {
 }
 
 .review-star-svg .star-fill {
-  fill: #f59e0b;
+  fill: #388e3c;
 }
 
 .review-star-num {
@@ -1464,7 +1767,7 @@ body.dark .review-star-svg .star-bg {
 }
 
 body.dark .review-star-num {
-  color: #fbbf24;
+  color: #4caf50;
 }
 
 .review-photo-grid {
@@ -2006,80 +2309,130 @@ body.dark .btn-sticky-buy {
   max-height: 440px;
 }
 
-/* ===== Product Highlights (Description ke niche) ===== */
+/* ===== Product Highlights — Purple Star Badge + 2-Column Flipkart Style ===== */
 .highlights-section {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: #f7f6fd;
+  border: 1px solid #e7e5f3;
   border-radius: var(--radius-lg);
-  padding: 20px;
-  margin-top: 24px;
+  padding: 12px 14px 6px;
+  margin-top: 20px;
   display: none;
 }
 
+body.dark .highlights-section {
+  background: #14161b;
+  border-color: var(--border-color);
+}
+
 .highlights-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.hl-badge-star {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #6f2dbd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hl-badge-star svg {
+  width: 13px;
+  height: 13px;
+  fill: #ffffff;
+  display: block;
 }
 
 .highlights-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
 }
 
-@media (min-width: 640px) {
-  .highlights-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (min-width: 1024px) {
-  .highlights-grid { grid-template-columns: repeat(5, 1fr); }
-}
-
-.highlight-item {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 12px;
+.hl-col {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 12px;
+  padding-bottom: 10px;
+}
+
+.hl-col.left { padding-right: 14px; }
+
+.hl-col.right {
+  padding-left: 14px;
+  border-left: 1.5px solid #e4e2f0;
+}
+
+body.dark .hl-col.right { border-left-color: #2a2d34; }
+
+.highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .highlight-item .hl-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
-  background: var(--accent-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: #2b2a4a;
+  line-height: 0;
 }
 
 .highlight-item .hl-icon svg {
-  width: 16px;
-  height: 16px;
-  stroke: var(--text-main);
-  stroke-width: 2;
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+  stroke-width: 1.5;
   fill: none;
+  display: block;
+}
+
+.highlight-item .hl-icon svg.filled {
+  fill: currentColor;
+  stroke: none;
+}
+
+body.dark .highlight-item .hl-icon { color: #c7c8d6; }
+
+.highlight-item .hl-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 1px;
+  min-width: 0;
 }
 
 .highlight-item .hl-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4b4b66;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.3;
 }
+
+body.dark .highlight-item .hl-label { color: #9A9FA8; }
 
 .highlight-item .hl-value {
   font-size: 13.5px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-main);
-  line-height: 1.35;
+  line-height: 1.3;
+  word-break: break-word;
 }
 
 /* ===== MP4 Video Player (Hamesha 16:9 ratio) ===== */
@@ -2321,6 +2674,101 @@ body.dark .btn-confirm-size {
   75% { transform: translateX(7px); }
 }
 
+/* ===== Check Delivery Time (PIN Code) — Quantity selector ke upar ===== */
+.delivery-check-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+}
+.delivery-check-box .option-group-title { margin-bottom: 10px; }
+.delivery-input-wrap { display: flex; gap: 8px; }
+#deliveryPinInput {
+  flex: 1;
+  min-width: 0;
+  letter-spacing: 2px;
+  font-size: 15px;
+}
+.delivery-result {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.55;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+}
+.delivery-result.delivery-success {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--text-main);
+}
+.delivery-result.delivery-error {
+  background: var(--sale-bg);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: var(--sale-red);
+  font-weight: 600;
+}
+.delivery-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+.delivery-route svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--success-green);
+  stroke-width: 2;
+  fill: none;
+  flex-shrink: 0;
+}
+.delivery-route .route-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--success-green);
+  flex-shrink: 0;
+}
+.delivery-eta { font-size: 14px; }
+.delivery-eta b { color: var(--success-green); }
+.delivery-sub { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+@media (max-width: 380px) {
+  .delivery-input-wrap { flex-direction: column; }
+  .delivery-input-wrap .coupon-apply-btn { height: 42px; }
+}
+
+/* ===== Size Chart link (image sirf click par fullscreen mein dikhti hai) ===== */
+.size-chart-link-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px dashed var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.size-chart-link-btn:hover {
+  border-color: var(--text-main);
+  transform: translateY(-1px);
+}
+.size-chart-link-btn svg { stroke: var(--text-main); flex-shrink: 0; }
+.sc-hint {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
 /* Product Not Available State */
 .empty-product-state {
   text-align: center;
@@ -2348,7 +2796,175 @@ body.dark .empty-product-icon {
   color: #f87171;
 }
 
-</style>
+
+/* ===== Flipkart-Style Rating & Review UI (overrides) ===== */
+.rating-overview-box{box-shadow:none;border:1px solid var(--border-color);padding:16px 18px;gap:16px}
+.rating-overview-box::before{display:none}
+.rating-score-col{border-right:1px solid var(--border-color);border-bottom:none;padding-bottom:0;padding-right:18px;align-items:flex-start;text-align:left}
+@media (max-width:639px){
+  .rating-overview-box{grid-template-columns:1fr}
+  .rating-score-col{border-right:none;border-bottom:1px solid var(--border-color);padding-bottom:12px;padding-right:0;flex-direction:row;align-items:center;gap:14px;text-align:left}
+}
+.rating-big-num{font-size:22px;font-weight:700}
+.rating-big-stars{margin:4px 0 2px}
+.big-star-svg{width:18px;height:18px}
+.rating-count-subtitle{font-size:13px}
+.rating-badge-verified{display:none}
+.rating-bar-track{height:6px;border:none;background:#e8e8e8}
+body.dark .rating-bar-track{background:#2a2f36}
+.rating-bar-fill{background:#388e3c}
+.rating-bar-label{min-width:36px}
+.rating-bar-label svg{fill:#388e3c}
+.rating-bar-count{min-width:34px;color:var(--text-main)}
+
+/* Sort pills — Most Helpful / Latest / Positive / Negative */
+.fk-sort-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 2px;padding:12px 0;border-bottom:1px solid var(--border-color)}
+.fk-sort-label{font-size:15px;font-weight:600;margin-right:4px}
+.fk-sort-pill{padding:10px 20px;border-radius:999px;border:1px solid var(--border-color);background:var(--bg-surface);color:var(--text-main);font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s ease}
+.fk-sort-pill:hover{border-color:var(--text-main)}
+.fk-sort-pill.active{border-color:#2874f0;color:#2874f0;background:rgba(40,116,240,.06)}
+body.dark .fk-sort-pill.active{border-color:#4f8ef7;color:#4f8ef7;background:rgba(79,142,247,.1)}
+
+/* Review card — clean Flipkart style */
+.review-card{padding:18px 4px;margin-bottom:0;background:transparent;border:none;box-shadow:none;border-bottom:1px solid var(--border-color);border-radius:0}
+.review-card:last-child{border-bottom:none}
+.review-card:hover{transform:none;border-color:var(--border-color)}
+.fk-review-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.fk-review-stars{color:#388e3c;font-size:16px;letter-spacing:1px}
+.fk-review-score{font-size:15px;font-weight:700}
+.fk-review-title{font-size:14.5px;font-weight:600;color:var(--text-main)}
+.fk-review-meta{font-size:12.5px;color:var(--text-muted);margin-bottom:8px}
+.fk-review-img{width:220px;max-width:75%;border-radius:10px;margin-top:10px;cursor:pointer;display:block;border:1px solid var(--border-color)}
+.fk-review-user{font-size:13.5px;font-weight:600;color:var(--text-muted);margin-top:12px}
+.fk-review-actions{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.fk-help-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;border:1px solid var(--border-color);background:var(--bg-surface);color:var(--text-main);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s ease}
+.fk-help-btn:hover{border-color:var(--text-main)}
+.fk-help-btn.voted{background:rgba(56,142,60,.1);border-color:#388e3c;color:#388e3c}
+.fk-review-verified{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);margin-top:12px}
+.fk-review-verified svg{color:#388e3c;flex-shrink:0}
+
+/* Customer photos strip — 4 thumbs + "+N" card */
+.customer-photos-section{background:transparent;border:none;padding:0;margin-bottom:6px}
+.customer-photo-thumb-card{width:100px;height:100px;border:1px solid var(--border-color);position:relative}
+.fk-more-photos{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);color:#fff;font-weight:700;font-size:18px}
+
+
+/* ===== Flipkart-Style Product Highlights & Description ===== */
+.fk-sec-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;margin-bottom:12px;padding:4px 0}
+.fk-sec-title{font-size:19px;font-weight:700;color:var(--text-main)}
+.fk-chevron{width:40px;height:40px;border-radius:12px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;color:var(--text-main);transition:transform .25s ease;flex-shrink:0}
+#descToggleHead:hover .fk-chevron{background:var(--border-color)}
+
+/* Description — heading chevron toggle, clean list rows */
+.description-box{background:transparent;border:none;padding:0;margin-top:28px}
+.description-box.collapsed .description-content{display:none}
+.description-box.collapsed .fk-chevron{transform:rotate(180deg)}
+.description-content{font-size:14.5px;line-height:1.7;max-height:none;overflow:visible;white-space:normal;padding:2px 0}
+.description-content::after{display:none}
+.description-content p{margin:0 0 10px}
+.description-content ul{list-style:none;margin:0;padding:0}
+.description-content li{position:relative;padding-left:24px;margin-bottom:12px;line-height:1.65}
+.description-content li::before{content:"";position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:2px;background:#2874f0}
+body.dark .description-content li::before{background:#4f8ef7}
+.description-box .expand-desc-btn{display:none}
+
+
+/* ===== Thumbnails row hatao (first screenshot jaisa sirf arrows + dots) ===== */
+.thumbnail-row {
+  display: none !important;
+}
+
+/* ===== Image ke bahar ka box/card hatao (first screenshot jaisa clean) ===== */
+.gallery-container {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  overflow: visible;
+  /* Container ke 16px side-padding ko cancel karke image ko full-width (edge-to-edge) karo */
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-top: 0;
+}
+.gallery-slider-viewport {
+  border-radius: 0;
+}
+
+/* ===== Screenshot Style: Red chevron arrows (NO circle) ===== */
+.gallery-nav-btn {
+  width: 30px;
+  height: 30px;
+  top: 45%;
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  color: #e52626;
+  box-shadow: none;
+}
+.gallery-nav-btn:hover {
+  background: transparent;
+  transform: translateY(-50%);
+}
+.gallery-nav-btn:active {
+  transform: translateY(-50%);
+}
+.gallery-nav-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 3;
+}
+.gallery-nav-btn.prev { left: 4px; }
+.gallery-nav-btn.next { right: 4px; }
+body.dark .gallery-nav-btn {
+  background: transparent;
+  color: #ff5252;
+  border: none;
+  box-shadow: none;
+}
+body.dark .gallery-nav-btn:hover {
+  background: transparent;
+}
+
+.gallery-dots-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  margin-top: 0;
+  z-index: 13;
+  pointer-events: none;
+}
+.gallery-dot {
+  pointer-events: auto;
+  background: rgba(255, 255, 255, 0.55);
+  width: 8px;
+  height: 8px;
+}
+.gallery-dot.active {
+  background: #ffffff;
+  width: 20px;
+}
+
+    /* Legal Footer Links */
+    .legal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 20px;
+      padding: 22px 16px 28px;
+      margin-top: 36px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+    .legal-footer a {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .legal-footer a:hover { color: var(--text-main); }
+  </style>
 </head>
 <body>
 
@@ -2362,7 +2978,7 @@ body.dark .empty-product-icon {
       </div>
       <div class="header-center">
         <a href="index.html" class="brand-logo-link">
-          <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" class="brand-logo-img">
+          <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" class="brand-logo-img">
         </a>
       </div>
       <div class="header-right">
@@ -2377,26 +2993,33 @@ body.dark .empty-product-icon {
     </div>
   </header>
 
-  <!-- Side Drawer -->
+  <!-- Side Navigation Drawer -->
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <aside class="drawer" id="sideDrawer">
     <div class="drawer-header">
-      <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
+      <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
       <button class="icon-btn" id="drawerCloseBtn" aria-label="Close menu">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div>
+
     <div class="drawer-body">
+      <!-- Dark Mode Switch -->
       <div>
-        <div class="drawer-section-title">Theme</div>
+        <div class="drawer-section-title" id="drawerTitleTheme">Appearance</div>
         <div class="theme-toggle-wrap">
-          <span>Dark Mode</span>
-          <input type="checkbox" id="themeSwitchCheckbox" class="theme-toggle-input">
+          <div class="theme-label-group">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <span class="drawer-item-title" id="drawerThemeLabel">Dark Mode</span>
+          </div>
+          <input type="checkbox" id="themeSwitchCheckbox" class="theme-toggle-input" aria-label="Toggle dark mode">
         </div>
       </div>
+
+      <!-- Language Selector -->
       <div>
-        <div class="drawer-section-title">Language</div>
-        <select id="languageSelect" class="lang-select-box">
+        <div class="drawer-section-title" id="drawerTitleLang">Select Language</div>
+        <select id="languageSelect" class="lang-select-box" aria-label="Choose language">
           <option value="en">English</option>
           <option value="hi">Hindi</option>
           <option value="bn">Bengali</option>
@@ -2409,12 +3032,34 @@ body.dark .empty-product-icon {
           <option value="ml">Malayalam</option>
         </select>
       </div>
+
+      <!-- Social & Contact -->
       <div>
-        <div class="drawer-section-title">Support</div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <a href="https://www.instagram.com/mega_store.india?stkn=eDNjNm12azdva3Nt" target="_blank" class="drawer-item">Instagram</a>
-          <a href="https://wa.me/918134958144" target="_blank" class="drawer-item">WhatsApp: 8134958144</a>
-          <a href="tel:8134958144" class="drawer-item">Call: 8134958144</a>
+        <div class="drawer-section-title" id="drawerTitleContact">Connect With Us</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer" class="drawer-item" id="drawerInstagramLink">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            <div class="drawer-item-content">
+              <div class="drawer-item-title">Instagram</div>
+              <div class="drawer-item-sub">@megastore.ofl</div>
+            </div>
+          </a>
+
+          <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer" class="drawer-item" id="drawerWhatsappLink">
+            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <div class="drawer-item-content">
+              <div class="drawer-item-title">WhatsApp Support</div>
+              <div class="drawer-item-sub">8134958144</div>
+            </div>
+          </a>
+
+          <a href="tel:8134958144" class="drawer-item" id="drawerCallLink">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <div class="drawer-item-content">
+              <div class="drawer-item-title">Contact Hotline</div>
+              <div class="drawer-item-sub">8134958144</div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -2452,7 +3097,7 @@ body.dark .empty-product-icon {
           <!-- Slider Track -->
           <div class="gallery-slider-track" id="gallerySliderTrack"></div>
 
-          <!-- Slider Navigation Arrows -->
+          <!-- Side Navigation Arrows (Red chevron style) -->
           <button type="button" class="gallery-nav-btn prev" id="galleryPrevBtn" aria-label="Previous image" onclick="slidePrev(event)">
             <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
@@ -2465,17 +3110,17 @@ body.dark .empty-product-icon {
 
           <!-- Top Actions (Wishlist & Share) -->
           <div class="gallery-actions-top">
-            <button class="gallery-action-btn" id="saveProductBtn" aria-label="Save product" onclick="handleToggleSave()">
+            <button class="gallery-action-btn" id="saveProductBtn" aria-label="Save product">
               <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </button>
-            <button class="gallery-action-btn" id="shareProductBtn" aria-label="Share product" onclick="openShareModal()">
+            <button class="gallery-action-btn" id="shareProductBtn" aria-label="Share product">
               <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
             </button>
           </div>
-        </div>
 
-        <!-- Slider Dots Row (Mobile Friendly) -->
-        <div class="gallery-dots-row" id="galleryDotsRow"></div>
+          <!-- Slider Dots Row (overlay on image bottom) -->
+          <div class="gallery-dots-row" id="galleryDotsRow"></div>
+        </div>
 
         <!-- Thumbnails Strip -->
         <div class="thumbnail-row" id="thumbnailRow"></div>
@@ -2507,6 +3152,58 @@ body.dark .empty-product-icon {
           <div class="prod-price-tax-note">Inclusive of all taxes &bull; Free delivery available</div>
         </div>
 
+        <!-- Online Payment / UPI 15% OFF — Premium Offer Card -->
+        <div class="payment-offer-card" id="paymentOfferCard">
+          <span class="po-deco-circle c1"></span>
+          <span class="po-deco-circle c2"></span>
+          <span class="po-deco-circle c3"></span>
+          <span class="po-shine"></span>
+          <div class="po-icon-wrap">
+            <svg viewBox="0 0 72 72" aria-hidden="true">
+              <defs>
+                <linearGradient id="poOrb" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#34d399"/>
+                  <stop offset="55%" stop-color="#10b981"/>
+                  <stop offset="100%" stop-color="#047857"/>
+                </linearGradient>
+                <linearGradient id="poGold" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#fde68a"/>
+                  <stop offset="50%" stop-color="#4caf50"/>
+                  <stop offset="100%" stop-color="#d97706"/>
+                </linearGradient>
+              </defs>
+              <!-- Outer soft ring -->
+              <circle cx="33" cy="33" r="30" fill="rgba(255,255,255,0.14)"/>
+              <!-- Main gradient orb -->
+              <circle cx="33" cy="33" r="25" fill="url(#poOrb)"/>
+              <!-- Glossy highlight -->
+              <ellipse cx="25" cy="22" rx="12" ry="7" fill="rgba(255,255,255,0.35)" transform="rotate(-18 25 22)"/>
+              <!-- White bolt -->
+              <path d="M36 16 L23 35 h8.5 L29 50 L43 30 h-9 L36 16 Z" fill="#ffffff" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+              <!-- Golden ₹ coin -->
+              <g>
+                <circle cx="52" cy="52" r="13" fill="url(#poGold)" stroke="#ffffff" stroke-width="2.5"/>
+                <circle cx="52" cy="52" r="9.5" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1" stroke-dasharray="2.5 2.5"/>
+                <text x="52" y="57.5" font-size="14" font-weight="800" fill="#7c2d12" text-anchor="middle" font-family="Arial, sans-serif">&#8377;</text>
+              </g>
+              <!-- Floating sparkles -->
+              <g class="po-spark-float" fill="#ffffff">
+                <path d="M58 12 l1.6 4.4 L64 18 l-4.4 1.6 L58 24 l-1.6-4.4 L52 18 l4.4-1.6 Z" opacity="0.95"/>
+                <path d="M14 10 l1 2.8 L18 14 l-2.8 1 L14 18 l-1-2.8 L10 14 l2.8-1.2 Z" opacity="0.8"/>
+                <circle cx="64" cy="34" r="1.8" opacity="0.7"/>
+              </g>
+            </svg>
+          </div>
+          <div class="po-text-col">
+            <div class="po-title-row">
+              <span class="po-title">Online Payment / UPI</span>
+              <span class="po-off-badge">15% OFF</span>
+            </div>
+            <div class="po-sub">Pay via <b>UPI, Cards, Net Banking or Wallets</b> &amp; get extra <b>15% OFF</b> at checkout</div>
+          </div>
+          <span class="po-tag">Best Offer</span>
+        </div>
+
         <!-- Size Selection -->
         <div id="sizeSelectionSection">
           <div class="option-group-title">
@@ -2518,6 +3215,7 @@ body.dark .empty-product-icon {
           </div>
           <div class="size-chips-grid" id="sizeChipsGrid"></div>
         </div>
+
         <!-- Quantity Selector -->
         <div>
           <div class="option-group-title">Quantity (Max 99)</div>
@@ -2534,16 +3232,30 @@ body.dark .empty-product-icon {
           </div>
         </div>
 
-        <!-- Size Chart Photo (Quantity ke niche, tap-to-zoom) -->
-        <div class="size-chart-box" id="sizeChartBox">
-          <div class="size-chart-title">
+ <!-- Protect / Banner image — Product Description ke upar -->
+    <img src="https://i.ibb.co/gLCzy4MR/IMG-20261102-234548.png" alt="Product protection info" class="desc-top-img">
+
+
+        <!-- Check Delivery Time (PIN Code) — Assam se 7–10 din transit estimate -->
+        <div class="delivery-check-box" id="deliveryCheckBox">
+          <div class="option-group-title">
+            <span>Check Delivery Time</span>
+            <span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">Ships from Assam</span>
+          </div>
+          <div class="delivery-input-wrap">
+            <input type="text" id="deliveryPinInput" class="coupon-input" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Enter PIN Code" autocomplete="postal-code">
+            <button type="button" class="coupon-apply-btn" id="deliveryCheckBtn">Check</button>
+          </div>
+          <div class="delivery-result" id="deliveryResult"></div>
+        </div>
+
+        <!-- Size Chart: image sirf "Size Chart" button click par fullscreen mein dikhti hai -->
+        <div class="size-chart-box" id="sizeChartBox" style="display: none; border: none; background: transparent; padding: 0;">
+          <button type="button" class="size-chart-link-btn" id="sizeChartOpenBtn" aria-label="View size chart">
             <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0z"></path><line x1="7.5" y1="10.5" x2="10.5" y2="7.5"></line><line x1="10.5" y1="10.5" x2="13.5" y2="7.5"></line><line x1="13.5" y1="10.5" x2="16.5" y2="7.5"></line></svg>
             <span>Size Chart</span>
-            <span style="font-size: 11px; font-weight: 500; color: var(--text-muted); margin-left: auto;">Tap to zoom</span>
-          </div>
-          <div class="size-chart-img-wrap" id="sizeChartImgWrap">
-            <img src="" alt="Size chart" id="sizeChartImg">
-          </div>
+            <span class="sc-hint">Tap to view</span>
+          </button>
         </div>
 
         <!-- Coupon Section (₹50 off and 10% off buttons removed as requested) -->
@@ -2556,40 +3268,50 @@ body.dark .empty-product-icon {
           <div class="coupon-msg" id="couponMsg"></div>
         </div>
 
-        <!-- Service Information Cards -->
+
+        <!-- Service Info Strip — Single Row (Secure Payment / Easy Returns / 24-7 Support) -->
         <div class="service-info-grid">
           <div class="service-card">
-            <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-            <span id="serviceCodText">Cash on Delivery</span>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 11.5 11.4 13.9 15.6 9.6"></polyline></svg>
+            <span>Secure Payment</span>
           </div>
           <div class="service-card">
-            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-            <span id="serviceSupportText">24x7 Support</span>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line><path d="M18.2 13.6a3.2 3.2 0 1 1-3.1 3.9"></path><polyline points="15.8 15.5 14.2 17.8 17.3 18.4"></polyline></svg>
+            <span>Easy Returns</span>
           </div>
           <div class="service-card">
-            <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-            <span id="serviceReturnText">7-Day Return</span>
-          </div>
-          <div class="service-card">
-            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            <span>Secure Order</span>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"></path><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path><path d="M18 21a4 4 0 0 0-4-4h-1"></path></svg>
+            <span>24/7 Support</span>
           </div>
         </div>
 
       </div>
     </div>
 
+
+
+   
     <!-- Product Description -->
     <section class="description-box" id="descriptionSection">
-      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Product Description</h3>
+      <div class="fk-sec-head" id="descToggleHead">
+        <h3 class="fk-sec-title">Product Description</h3>
+      </div>
       <div class="description-content" id="descriptionContent"></div>
-      <button class="expand-desc-btn" id="expandDescBtn">More</button>
     </section>
 
-    <!-- Product Highlights (Colour, Brand, Country, PCS, Type, Quantity, Fabric — Description ke niche) -->
+
+
+ <!-- Protect / Banner image — Product Description ke upar -->
+    <img src="https://i.ibb.co/rR40zm6K/Screenshot-2026-11-02-23-50-57-39-503f23bebdf1e187f8a3e223d715854e.jpg" alt="Product protection info" class="desc-top-img">
+
+
+
+    <!-- Product Highlights — Purple Star Badge + 2-Column UI -->
     <section class="highlights-section" id="highlightsSection">
       <h3 class="highlights-title">
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <span class="hl-badge-star">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </span>
         <span>Product Highlights</span>
       </h3>
       <div class="highlights-grid" id="highlightsGrid"></div>
@@ -2601,6 +3323,8 @@ body.dark .empty-product-icon {
       <div class="videos-grid" id="videosGrid"></div>
       <button class="expand-desc-btn" id="moreVideosBtn" style="display: none; margin-top: 12px;">More Videos</button>
     </section>
+
+
 
     <!-- Product Reviews -->
     <section class="reviews-section" id="reviewsSection">
@@ -2675,6 +3399,7 @@ body.dark .empty-product-icon {
       </div>
 
 
+
       <!-- Customer Reviews Heading -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
         <h3 style="font-size: 18px; font-weight: 700;">Customer Reviews (<span id="sectionReviewsCount">0</span>)</h3>
@@ -2691,6 +3416,16 @@ body.dark .empty-product-icon {
           <span style="font-size: 12px; color: var(--text-muted);">Tap photo to view details</span>
         </div>
         <div class="customer-photos-strip" id="customerPhotosStrip"></div>
+      </div>
+
+
+      <!-- Review Sort Pills (Most Helpful / Latest / Positive / Negative) -->
+      <div class="fk-sort-row" id="fkSortRow">
+        <span class="fk-sort-label">User reviews sorted by</span>
+        <button type="button" class="fk-sort-pill active" data-sort="helpful" onclick="setReviewSort('helpful')">Most Helpful</button>
+        <button type="button" class="fk-sort-pill" data-sort="latest" onclick="setReviewSort('latest')">Latest</button>
+        <button type="button" class="fk-sort-pill" data-sort="positive" onclick="setReviewSort('positive')">Positive</button>
+        <button type="button" class="fk-sort-pill" data-sort="negative" onclick="setReviewSort('negative')">Negative</button>
       </div>
 
       <!-- Customer Reviews List Heading -->
@@ -2879,8 +3614,22 @@ const firebaseConfig = {
   measurementId: "G-CZR2N1HF9K"
 };
 
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+let db;
+let firebaseOffline = false;
+try {
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  db = firebase.database();
+} catch (e) {
+  // Firebase load/init fail ho jaye to bhi baaki saare features (Save/Share/Delivery) kaam karein
+  firebaseOffline = true;
+  console.warn("Firebase init failed, running in offline mode:", e);
+  const noopRef = () => ({
+    on() {}, once() {}, off() {},
+    set() { return Promise.resolve(); },
+    update() { return Promise.resolve(); }
+  });
+  db = { ref: noopRef };
+}
 
 /* --- User ID & State --- */
 function getUserId() {
@@ -3096,8 +3845,6 @@ function renderGallery(images) {
   const track = document.getElementById("gallerySliderTrack");
   const thumbRow = document.getElementById("thumbnailRow");
   const dotsRow = document.getElementById("galleryDotsRow");
-  const prevBtn = document.getElementById("galleryPrevBtn");
-  const nextBtn = document.getElementById("galleryNextBtn");
 
   if (track) {
     track.innerHTML = "";
@@ -3107,7 +3854,16 @@ function renderGallery(images) {
       slide.setAttribute("data-slide-index", idx);
       // Progressive + Lazy + LQIP: pehli image turant, baaki scroll pe load
       const pImg = createProgressiveImg(img, "Product view " + (idx + 1), "");
-      if (idx === 0) { pImg.fetchPriority = "high"; }
+      if (idx === 0) {
+        // Hero image turant load — direct src, highest priority, no blur-up wait
+        pImg.src = img;
+        pImg.fetchPriority = "high";
+        pImg.loading = "eager";
+        pImg.classList.add("loaded");
+        lazyImageObserver.unobserve(pImg);
+      } else {
+        pImg.loading = "lazy";
+      }
       slide.appendChild(pImg);
       track.appendChild(slide);
     });
@@ -3143,16 +3899,12 @@ function renderGallery(images) {
     }
   }
 
-  // Toggle nav arrow visibility
-  if (prevBtn && nextBtn) {
-    if (productImages.length > 1) {
-      prevBtn.style.display = "flex";
-      nextBtn.style.display = "flex";
-    } else {
-      prevBtn.style.display = "none";
-      nextBtn.style.display = "none";
-    }
-  }
+  // Side arrows sirf 1 se zyada images par dikhao
+  const prevBtn = document.getElementById("galleryPrevBtn");
+  const nextBtn = document.getElementById("galleryNextBtn");
+  const arrowDisplay = productImages.length > 1 ? "flex" : "none";
+  if (prevBtn) prevBtn.style.display = arrowDisplay;
+  if (nextBtn) nextBtn.style.display = arrowDisplay;
 
   goToSlide(0, false);
   setupGalleryGestures();
@@ -3227,6 +3979,9 @@ function setupGalleryGestures() {
 
   viewport.addEventListener("touchstart", (e) => {
     if (productImages.length <= 1) return;
+    // Save / Share / Arrow buttons par swipe-start ignore karo — warna tap pe
+    // fullscreen viewer khol deta hai aur button ka kaam nahi karta
+    if (e.target.closest(".gallery-actions-top") || e.target.closest(".gallery-nav-btn")) return;
     isTouching = true;
     startX = e.touches[0].clientX;
     currentX = startX;
@@ -3406,6 +4161,11 @@ function applyCouponCode(code) {
   db.ref("coupons/" + code).once("value", (snap) => {
     const c = snap.val();
     if (c && c.active !== false) {
+      const baseTotal = (currentProduct.offerPrice || currentProduct.price || 0) * quantity;
+      if (c.minOrder && baseTotal < Number(c.minOrder)) {
+        showCouponMsg(`Is coupon ke liye minimum order \u20B9${c.minOrder} chahiye`, "error");
+        return;
+      }
       appliedCoupon = c;
       showCouponMsg(`Coupon ${code} applied successfully!`, "success");
       recalcPrice();
@@ -3439,6 +4199,88 @@ function recalcPrice() {
   if (priceEl) priceEl.innerHTML = `&#8377;${total}`;
   const qtyTotalEl = document.getElementById("qtyTotalPrice");
   if (qtyTotalEl) qtyTotalEl.innerHTML = `&#8377;${total}`;
+}
+
+/* --- Check Delivery Time (PIN Code → Assam se 7–10 din transit estimate) --- */
+const PIN_STATE_MAP = {
+  "11": "Delhi", "12": "Haryana", "13": "Haryana", "14": "Punjab", "15": "Punjab",
+  "16": "Chandigarh", "17": "Himachal Pradesh", "18": "Jammu & Kashmir", "19": "Jammu & Kashmir",
+  "20": "Uttar Pradesh", "21": "Uttar Pradesh", "22": "Uttar Pradesh", "23": "Uttar Pradesh",
+  "24": "Uttar Pradesh", "25": "Uttar Pradesh", "26": "Uttar Pradesh", "27": "Uttar Pradesh",
+  "28": "Uttar Pradesh", "30": "Rajasthan", "31": "Rajasthan", "32": "Rajasthan",
+  "33": "Rajasthan", "34": "Rajasthan", "36": "Gujarat", "37": "Gujarat", "38": "Gujarat",
+  "39": "Gujarat", "40": "Maharashtra", "41": "Maharashtra", "42": "Maharashtra",
+  "43": "Maharashtra", "44": "Maharashtra", "45": "Madhya Pradesh", "46": "Madhya Pradesh",
+  "47": "Madhya Pradesh", "48": "Madhya Pradesh", "49": "Chhattisgarh",
+  "50": "Telangana", "51": "Telangana", "52": "Andhra Pradesh", "53": "Andhra Pradesh",
+  "56": "Karnataka", "57": "Karnataka", "58": "Karnataka", "59": "Karnataka",
+  "60": "Tamil Nadu", "61": "Tamil Nadu", "62": "Tamil Nadu", "63": "Tamil Nadu",
+  "64": "Tamil Nadu", "67": "Kerala", "68": "Kerala", "69": "Kerala",
+  "70": "West Bengal", "71": "West Bengal", "72": "West Bengal", "73": "West Bengal",
+  "74": "West Bengal", "75": "Odisha", "76": "Odisha", "77": "Odisha",
+  "78": "Assam", "79": "North East India",
+  "80": "Bihar", "81": "Bihar", "82": "Bihar", "83": "Jharkhand", "84": "Bihar", "85": "Bihar"
+};
+
+function getStateFromPin(pin) {
+  return PIN_STATE_MAP[pin.substring(0, 2)] || null;
+}
+
+function checkDeliveryTime() {
+  const input = document.getElementById("deliveryPinInput");
+  const result = document.getElementById("deliveryResult");
+  if (!input || !result) return;
+
+  const pin = (input.value || "").trim();
+  result.style.display = "flex";
+
+  // Valid Indian PIN: exactly 6 digits, 1–9 se shuru
+  if (!/^[1-9][0-9]{5}$/.test(pin)) {
+    result.className = "delivery-result delivery-error";
+    result.innerHTML = "Invalid PIN code. Please enter a valid 6-digit PIN (e.g. 110001).";
+    return;
+  }
+
+  const state = getStateFromPin(pin);
+  if (!state) {
+    result.className = "delivery-result delivery-error";
+    result.innerHTML = "Invalid PIN code. This PIN does not match any delivery region.";
+    return;
+  }
+
+  const now = new Date();
+  const minDate = new Date(now); minDate.setDate(now.getDate() + 7);
+  const maxDate = new Date(now); maxDate.setDate(now.getDate() + 10);
+  const fmt = (d) => d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+
+  const routeLabel = state === "Assam"
+    ? "Assam (Guwahati) — Local Delivery"
+    : `Assam (Guwahati) → ${state}`;
+
+  result.className = "delivery-result delivery-success";
+  result.innerHTML = `
+    <div class="delivery-route">
+      <span class="route-dot"></span>
+      <span>${routeLabel}</span>
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      <span>PIN ${pin}</span>
+    </div>
+    <div class="delivery-eta">Estimated delivery: <b>${fmt(minDate)} – ${fmt(maxDate)}</b> (7–10 days)</div>
+    <div class="delivery-sub">Transit time from our Assam warehouse &bull; Standard shipping</div>
+  `;
+}
+
+const deliveryCheckBtnEl = document.getElementById("deliveryCheckBtn");
+const deliveryPinInputEl = document.getElementById("deliveryPinInput");
+if (deliveryCheckBtnEl) deliveryCheckBtnEl.addEventListener("click", checkDeliveryTime);
+if (deliveryPinInputEl) {
+  deliveryPinInputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); checkDeliveryTime(); }
+  });
+  // Sirf digits allow, max 6
+  deliveryPinInputEl.addEventListener("input", () => {
+    deliveryPinInputEl.value = deliveryPinInputEl.value.replace(/[^0-9]/g, "").slice(0, 6);
+  });
 }
 
 /* --- Size Validation & Selection --- */
@@ -3771,18 +4613,17 @@ function renderVideos(videos, mp4Url) {
   }
 }
 
-/* --- Size Chart Photo (Size ke niche, tap-to-zoom fullscreen) --- */
+/* --- Size Chart: image SIRF "Size Chart" button click par fullscreen mein dikhti hai --- */
+let currentSizeChartUrl = "";
+
 function renderSizeChart(url) {
   const box = document.getElementById("sizeChartBox");
-  const img = document.getElementById("sizeChartImg");
-  const wrap = document.getElementById("sizeChartImgWrap");
-  if (!box || !img) return;
+  if (!box) return;
   if (url) {
-    img.src = url;
+    currentSizeChartUrl = url;
     box.style.display = "block";
-    if (wrap) wrap.onclick = () => openSizeChartFullscreen(url);
   } else {
-    img.removeAttribute("src");
+    currentSizeChartUrl = "";
     box.style.display = "none";
   }
 }
@@ -3796,12 +4637,11 @@ function openSizeChartFullscreen(url) {
   modal.querySelectorAll(".fs-nav-btn").forEach(b => b.style.display = "none");
 }
 
-/* --- Product Highlights (Colour, Brand, Country, PCS, Fabric) --- */
+/* --- Product Highlights — Purple Star Badge 2-Column UI (Colour, Brand, Country, PCS | Type, Quantity, Fabric) --- */
 function renderHighlights(highlights) {
   const section = document.getElementById("highlightsSection");
   const grid = document.getElementById("highlightsGrid");
   if (!section || !grid) return;
-  grid.innerHTML = "";
 
   if (!highlights || typeof highlights !== "object") {
     section.style.display = "none";
@@ -3809,41 +4649,56 @@ function renderHighlights(highlights) {
   }
 
   const ICONS = {
-    colour: '<svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"></circle><circle cx="17.5" cy="10.5" r="1.5"></circle><circle cx="8.5" cy="7.5" r="1.5"></circle><circle cx="6.5" cy="12.5" r="1.5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.8-.7 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.8-.5-1.2 0-1 .8-1.8 1.8-1.8H17c2.8 0 5-2.2 5-5C22 6 17.5 2 12 2z"></path></svg>',
-    brand: '<svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>',
-    country: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
-    pcs: '<svg viewBox="0 0 24 24"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>',
-    fabric: '<svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
-    type: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
-    quantity: '<svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>'
+    colour: '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5c-5.2 0-9.5-4-9.5-9.3C2.5 6.6 6.9 2.5 12 2.5c4.6 0 8.4 3.1 9.3 7.2.2 1-.6 1.8-1.6 1.8h-2.1c-1.4 0-2.6 1.1-2.6 2.5 0 .7.3 1.3.8 1.8.5.4.8 1 .8 1.6 0 2-1.9 3.1-4.1 3.1z"/><circle cx="7.2" cy="11" r="0.9"/><circle cx="10.4" cy="7.4" r="0.9"/><circle cx="14.8" cy="7.8" r="0.9"/><line x1="19.6" y1="2.4" x2="13.9" y2="13.6"/><line x1="21.5" y1="3.2" x2="20.3" y2="5.3"/></svg>',
+    brand: '<svg viewBox="0 0 24 24" class="filled"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    country: '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><ellipse cx="12" cy="12" rx="4" ry="9"/></svg>',
+    pcs: '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+    type: '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>',
+    quantity: '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    fabric: '<svg viewBox="0 0 24 24" stroke-linecap="round"><line x1="5" y1="4" x2="5" y2="20" stroke-dasharray="2.6 2.2"/><line x1="9.5" y1="4" x2="9.5" y2="20" stroke-dasharray="2.6 2.2"/><line x1="14" y1="4" x2="14" y2="20" stroke-dasharray="2.6 2.2"/><line x1="18.5" y1="4" x2="18.5" y2="20" stroke-dasharray="2.6 2.2"/><line x1="4" y1="7.5" x2="20" y2="7.5" stroke-dasharray="2.6 2.2"/><line x1="4" y1="12" x2="20" y2="12" stroke-dasharray="2.6 2.2"/><line x1="4" y1="16.5" x2="20" y2="16.5" stroke-dasharray="2.6 2.2"/></svg>'
   };
 
-  const DEFS = [
-    { key: "colour", label: "Colour" },
-    { key: "brand", label: "Brand" },
-    { key: "country", label: "Country of Origin" },
-    { key: "pcs", label: "Number of PCS" },
-    { key: "type", label: "Type" },
-    { key: "quantity", label: "Quantity" },
-    { key: "fabric", label: "Fabric" }
-  ];
+  const LEFT_KEYS = ["colour", "brand", "country", "pcs"];
+  const RIGHT_KEYS = ["type", "quantity", "fabric"];
+  const LABELS = {
+    colour: "Colour",
+    brand: "Brand",
+    country: "Country of Origin",
+    pcs: "Number of PCS",
+    type: "Type",
+    quantity: "Quantity",
+    fabric: "Fabric"
+  };
 
-  let hasAny = false;
-  DEFS.forEach(d => {
-    const val = String(highlights[d.key] || "").trim();
-    if (!val) return;
-    hasAny = true;
-    const item = document.createElement("div");
-    item.className = "highlight-item";
-    item.innerHTML = `
-      <span class="hl-icon">${ICONS[d.key] || ""}</span>
-      <span class="hl-label">${d.label}</span>
-      <span class="hl-value">${val}</span>
-    `;
-    grid.appendChild(item);
-  });
+  function buildCol(keys) {
+    let html = "";
+    keys.forEach(k => {
+      const val = String(highlights[k] || "").trim();
+      if (!val) return;
+      html +=
+        '<div class="highlight-item">' +
+          '<span class="hl-icon">' + (ICONS[k] || "") + "</span>" +
+          '<span class="hl-text">' +
+            '<span class="hl-label">' + LABELS[k] + "</span>" +
+            '<span class="hl-value">' + val + "</span>" +
+          "</span>" +
+        "</div>";
+    });
+    return html;
+  }
 
-  section.style.display = hasAny ? "block" : "none";
+  const leftHtml = buildCol(LEFT_KEYS);
+  const rightHtml = buildCol(RIGHT_KEYS);
+
+  if (!leftHtml && !rightHtml) {
+    section.style.display = "none";
+    return;
+  }
+
+  grid.innerHTML =
+    '<div class="hl-col left">' + leftHtml + "</div>" +
+    '<div class="hl-col right">' + rightHtml + "</div>";
+  section.style.display = "block";
 }
 
 /* --- Star Rating Breakdown Engine ("Bada Star Rating & Kitna Kitna Aaya") --- */
@@ -3857,7 +4712,7 @@ function buildStarSvgs(score, svgClass) {
     html += `
       <svg class="${svgClass}" viewBox="0 0 24 24" aria-hidden="true">
         <path class="star-bg" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-        <path class="star-fill" fill="${fillPct >= 100 ? '#f59e0b' : fillPct <= 0 ? 'none' : 'rgba(0,0,0,0)'}" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+        <path class="star-fill" fill="${fillPct >= 100 ? '#388e3c' : fillPct <= 0 ? 'none' : 'rgba(0,0,0,0)'}" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
         ${fillPct > 0 && fillPct < 100 ? `
         <clipPath id="revClip${i}_${Math.round(fillPct)}"><rect x="0" y="0" width="${(24 * fillPct) / 100}" height="24"></rect></clipPath>
         <path class="star-fill" clip-path="url(#revClip${i}_${Math.round(fillPct)})" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>` : ''}
@@ -3920,9 +4775,9 @@ function syncReviewCountsAndRating() {
   // Update Bada Star Rating Card
   if (bigScoreEl) bigScoreEl.textContent = avgRating > 0 ? avgRating : "0.0";
   if (totalSubtitleEl) {
-    totalSubtitleEl.textContent = count > 0 
-      ? `Based on ${count} ${count === 1 ? 'verified review' : 'verified reviews'}` 
-      : "No reviews yet";
+    totalSubtitleEl.textContent = count > 0
+      ? `${count} Ratings & ${count} ${count === 1 ? 'Review' : 'Reviews'}`
+      : "No Ratings & Reviews";
   }
 
   if (bigStarsEl) {
@@ -3945,6 +4800,51 @@ function formatReviewDate(ts) {
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
+/* --- Flipkart-style review sorting & helpers --- */
+let currentReviewSort = "helpful";
+
+function setReviewSort(mode) {
+  currentReviewSort = mode;
+  renderReviews();
+}
+
+function sortReviews(list) {
+  const arr = list.slice();
+  if (currentReviewSort === "latest") {
+    arr.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  } else if (currentReviewSort === "positive") {
+    arr.sort((a, b) => (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0));
+  } else if (currentReviewSort === "negative") {
+    arr.sort((a, b) => (parseFloat(a.rating) || 5) - (parseFloat(b.rating) || 5));
+  } else {
+    arr.sort((a, b) => ((parseInt(b.helpful) || 0) - (parseInt(a.helpful) || 0)) || ((b.createdAt || 0) - (a.createdAt || 0)));
+  }
+  return arr;
+}
+
+function getHelpfulMap() {
+  try { return JSON.parse(localStorage.getItem("review_helpful") || "{}"); } catch (e) { return {}; }
+}
+
+function voteHelpful(revId, val) {
+  const map = getHelpfulMap();
+  map[revId] = (map[revId] === val) ? 0 : val; // same button dubara dabao to vote hat jaye
+  localStorage.setItem("review_helpful", JSON.stringify(map));
+  renderReviews();
+}
+
+function timeAgo(ts) {
+  if (!ts) return "Recently";
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 3600) { const m = Math.max(1, Math.floor(s / 60)); return m + (m === 1 ? " minute ago" : " minutes ago"); }
+  if (s < 86400) { const h = Math.floor(s / 3600); return h + (h === 1 ? " hour ago" : " hours ago"); }
+  if (s < 2592000) { const d = Math.floor(s / 86400); return d + (d === 1 ? " day ago" : " days ago"); }
+  if (s < 31536000) { const m = Math.floor(s / 2592000); return m + (m === 1 ? " month ago" : " months ago"); }
+  return formatReviewDate(ts);
+}
+
+const REVIEW_TITLE_MAP = { 5: "Excellent product", 4: "Good quality product", 3: "Average product", 2: "Not so good", 1: "Poor quality" };
+
 function renderReviews() {
   const container = document.getElementById("reviewsList");
   const photosSection = document.getElementById("customerPhotosSection");
@@ -3958,49 +4858,44 @@ function renderReviews() {
   syncReviewCountsAndRating();
 
   const reviewsWithPhotos = allReviews.filter(r => r.imageUrl && typeof r.imageUrl === "string" && r.imageUrl.trim() !== "");
+  const helpfulMap = getHelpfulMap();
 
-  // 1. Customer Photos Strip
+  // 1. Customer Photos Strip — pehle 4 photos + "+N" wala last card
   if (reviewsWithPhotos.length > 0) {
     if (photosSection) photosSection.style.display = "block";
     if (photoCountSpan) photoCountSpan.textContent = reviewsWithPhotos.length;
     if (photosStrip) {
-      reviewsWithPhotos.forEach(rev => {
+      const visible = reviewsWithPhotos.slice(0, 4);
+      visible.forEach((rev, i) => {
         const card = document.createElement("div");
         card.className = "customer-photo-thumb-card";
-        card.title = `${rev.name || 'Verified Buyer'} (${rev.rating || 5} Stars) - Tap to view`;
+        card.title = `${rev.name || 'Verified Buyer'} (${rev.rating || 5} Stars)`;
         card.onclick = () => openReviewPhotoModal(rev);
+        const moreOverlay = (i === 3 && reviewsWithPhotos.length > 4)
+          ? `<div class="fk-more-photos">+${reviewsWithPhotos.length - 3}</div>` : "";
         card.innerHTML = `
           <img src="${buildLqipUrl(rev.imageUrl)}" data-src="${rev.imageUrl}" alt="Review photo by ${rev.name || 'Customer'}" class="prog-img">
-          <div class="customer-photo-badge">
-            <span>&#9733;</span><span>${rev.rating || 5}</span>
-          </div>
+          ${moreOverlay}
         `;
         photosStrip.appendChild(card);
       });
+      photosStrip.querySelectorAll("img.prog-img").forEach(im => {
+        if (im.dataset.observed === "1") return;
+        im.dataset.observed = "1";
+        im.dataset.lqip = im.src;
+        im.decoding = "async";
+        lazyImageObserver.observe(im);
+      });
     }
-  } else {
-    if (photosSection) photosSection.style.display = "none";
+  } else if (photosSection) {
+    photosSection.style.display = "none";
   }
 
-  // Progressive loading for review photos (LIST + CUSTOMER PHOTOS STRIP dono)
-  if (photosStrip) {
-    photosStrip.querySelectorAll("img.prog-img").forEach(im => {
-      if (im.dataset.observed === "1") return;
-      im.dataset.observed = "1";
-      im.dataset.lqip = im.src;
-      im.decoding = "async";
-      lazyImageObserver.observe(im);
-    });
-  }
-  container.querySelectorAll("img.prog-img").forEach(im => {
-    if (im.dataset.observed === "1") return;
-    im.dataset.observed = "1";
-    im.dataset.lqip = im.src;
-    im.decoding = "async";
-    lazyImageObserver.observe(im);
+  // 2. Sort pills active state sync
+  document.querySelectorAll(".fk-sort-pill").forEach(p => {
+    p.classList.toggle("active", p.dataset.sort === currentReviewSort);
   });
 
-  // 2. Reviews List
   if (allReviews.length === 0) {
     container.innerHTML = `
       <div style="text-align: center; padding: 28px 16px; color: var(--text-muted);">
@@ -4014,52 +4909,63 @@ function renderReviews() {
     return;
   }
 
-  const toShow = allReviews.slice(0, reviewsLimit);
+  // 3. Sorted reviews list — Flipkart style cards
+  const sorted = sortReviews(allReviews);
+  const toShow = sorted.slice(0, reviewsLimit);
+
   toShow.forEach(rev => {
+    const starCount = Math.max(1, Math.min(5, Math.round(parseFloat(rev.rating) || 5)));
+    const title = (rev.title && String(rev.title).trim()) ? rev.title : REVIEW_TITLE_MAP[starCount];
+    const helpfulCount = (parseInt(rev.helpful) || 0) + (helpfulMap[rev.id] === 1 ? 1 : 0);
+    const votedUp = helpfulMap[rev.id] === 1;
+    const votedDown = helpfulMap[rev.id] === -1;
+    const variantLine = `Review for: ${(currentProduct && currentProduct.title) || "this product"}${selectedSize || rev.size ? " • Size: " + (rev.size || selectedSize) : ""}`;
+    const safeName = (rev.name || "Verified Buyer").replace(/</g, "&lt;");
+
     const card = document.createElement("div");
     card.className = "review-card";
-    const starCount = Math.max(1, Math.min(5, parseInt(rev.rating) || 5));
-    const dateStr = formatReviewDate(rev.createdAt);
-    const displayName = (rev.name || 'Verified Buyer').trim();
-    const initial = displayName.charAt(0).toUpperCase();
-
     card.innerHTML = `
-      <div class="review-header">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div class="reviewer-avatar">${initial}</div>
-          <div style="display:flex; flex-direction:column; gap:3px;">
-            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-              <span class="reviewer-name">${displayName}</span>
-              <span class="review-verified-badge">
-                <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" stroke-width="3" fill="none" style="vertical-align:-1px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                Verified Buyer
-              </span>
-            </div>
-            <span class="review-date-text">${dateStr}</span>
-          </div>
-        </div>
+      <div class="fk-review-top">
+        <span class="fk-review-stars">${"\u2605".repeat(starCount)}${"\u2606".repeat(5 - starCount)}</span>
+        <span class="fk-review-score">${(parseFloat(rev.rating) || starCount).toFixed(1)}</span>
+        <span class="fk-review-title">${title}</span>
       </div>
-      <div class="review-star-box" title="${starCount} out of 5 stars">
-        ${buildStarSvgs(parseFloat(rev.rating) || starCount, "review-star-svg")}
-        <span class="review-star-num">${starCount}.0</span>
+      <div class="fk-review-meta">${variantLine}</div>
+      <p class="review-text">${rev.feedback || ""}</p>
+      ${rev.imageUrl ? `<img src="${buildLqipUrl(rev.imageUrl)}" data-src="${rev.imageUrl}" class="fk-review-img prog-img" onclick="openReviewPhotoModalById('${rev.id}')" alt="Customer photo">` : ""}
+      <div class="fk-review-user">${safeName}</div>
+      <div class="fk-review-actions">
+        <button type="button" class="fk-help-btn${votedUp ? " voted" : ""}" onclick="voteHelpful('${rev.id}', 1)">
+          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+          <span>Helpful for ${helpfulCount}</span>
+        </button>
+        <button type="button" class="fk-help-btn${votedDown ? " voted" : ""}" onclick="voteHelpful('${rev.id}', -1)" aria-label="Not helpful">
+          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" style="transform:rotate(180deg)"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+          <span>Not helpful</span>
+        </button>
       </div>
-      <p class="review-text">${rev.feedback || ''}</p>
-      ${rev.imageUrl ? `
-        <div class="review-photo-grid">
-          <div class="review-photo-thumb" onclick="openReviewPhotoModalById('${rev.id}')" title="View customer photo">
-            <img src="${buildLqipUrl(rev.imageUrl)}" data-src="${rev.imageUrl}" alt="Customer photo" class="prog-img">
-          </div>
-        </div>
-      ` : ''}
+      <div class="fk-review-verified">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.2 14.2-4-4 1.4-1.4 2.6 2.6 6.6-6.6 1.4 1.4-8 8z"/></svg>
+        <span>Verified Purchase &bull; ${timeAgo(rev.createdAt)}</span>
+      </div>
     `;
     container.appendChild(card);
   });
 
+  // Progressive loading for review photos
+  container.querySelectorAll("img.prog-img").forEach(im => {
+    if (im.dataset.observed === "1") return;
+    im.dataset.observed = "1";
+    im.dataset.lqip = im.src;
+    im.decoding = "async";
+    lazyImageObserver.observe(im);
+  });
+
   const moreBtn = document.getElementById("moreReviewsBtn");
   if (moreBtn) {
-    if (allReviews.length > reviewsLimit) {
+    if (sorted.length > reviewsLimit) {
       moreBtn.style.display = "block";
-      moreBtn.textContent = `More Reviews (${allReviews.length - reviewsLimit} remaining)`;
+      moreBtn.textContent = `More Reviews (${sorted.length - reviewsLimit} remaining)`;
       moreBtn.onclick = () => {
         reviewsLimit += 4;
         renderReviews();
@@ -4325,20 +5231,31 @@ function renderDescription(text) {
   html = html.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
   html = html.replace(/\*(.+?)\*/g, "<i>$1</i>");
 
-  // "- item" lines ko bullet list mein convert
+  // "- item" lines ko bullet list mein convert — baaki har line ek alag step <p> mein
   const lines = html.split("\n");
   let out = "";
   let inList = false;
+  let buf = "";
+  const flushBuf = () => {
+    const t = buf.trim();
+    if (t) out += "<p>" + t + "</p>";
+    buf = "";
+  };
   lines.forEach((line) => {
     const trimmed = line.trim();
     if (/^[-•]\s+/.test(trimmed)) {
+      flushBuf();
       if (!inList) { out += "<ul>"; inList = true; }
       out += "<li>" + trimmed.replace(/^[-•]\s+/, "") + "</li>";
+    } else if (trimmed === "") {
+      flushBuf();
+      if (inList) { out += "</ul>"; inList = false; }
     } else {
       if (inList) { out += "</ul>"; inList = false; }
-      out += line + "\n";
+      buf += (buf ? " " : "") + trimmed;
     }
   });
+  flushBuf();
   if (inList) out += "</ul>";
 
   descEl.innerHTML = out;
@@ -4427,6 +5344,55 @@ function populateUI(prod) {
 window.addEventListener("DOMContentLoaded", () => {
   loadProductDetails();
 
+  // Description hamesha step-by-step expand dikhe (toggle button hataya gaya)
+  // Save / Share buttons (image ke top-right) — direct JS listeners, hamesha kaam karenge
+  const saveProductBtnEl = document.getElementById("saveProductBtn");
+  if (saveProductBtnEl) {
+    saveProductBtnEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      handleToggleSave();
+    });
+  }
+  const shareProductBtnEl = document.getElementById("shareProductBtn");
+  if (shareProductBtnEl) {
+    shareProductBtnEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openShareModal();
+    });
+  }
+
+  // Size Chart: button click par hi image dikhe (fullscreen viewer)
+  const sizeChartOpenBtnEl = document.getElementById("sizeChartOpenBtn");
+  if (sizeChartOpenBtnEl) {
+    sizeChartOpenBtnEl.addEventListener("click", () => {
+      if (currentSizeChartUrl) openSizeChartFullscreen(currentSizeChartUrl);
+    });
+  }
+
+  // Firebase offline ho to demo product se page kaam karta rahe
+  if (firebaseOffline && !currentProduct) {
+    currentProduct = {
+      id: productId || "demo_prod_1",
+      title: "Premium Handcrafted Apparel",
+      description: "Expertly tailored from select cotton textiles. Designed with ergonomic structural seams, refined contours, and all-day comfort.",
+      price: 1999,
+      offerPrice: 1299,
+      rating: 4.8,
+      reviewsCount: 0,
+      stock: 50,
+      category: "Apparel",
+      sizes: ["S", "M", "L", "XL"],
+      images: [
+        "https://images.unsplash.com/photo-1542272604-780c96856592?w=800&q=80",
+        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80"
+      ],
+      codAvailable: true,
+      support247: true,
+      returnPolicy: true
+    };
+    populateUI(currentProduct);
+  }
+
   const rpm = document.getElementById("reviewPhotoModal");
   if (rpm) {
     rpm.addEventListener("click", (e) => {
@@ -4446,5 +5412,15 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
+
+  <!-- Legal Footer Links -->
+  <footer class="legal-footer">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+    <a href="return-policy.html">Return Policy</a>
+    <a href="Contact-us.html">Contact Us</a>
+    <a href="cancellation-policy.html">Cancellation Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </footer>
 </body>
 </html>

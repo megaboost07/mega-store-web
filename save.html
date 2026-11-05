@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Saved Items</title>
+  <title>Mega Store | Saved Items</title>
   <meta name="description" content="Manage your saved apparel favorites and move them to cart anytime.">
+<link rel="icon" type="image/png"
+href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
 
   <!-- Firebase Compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -443,6 +445,26 @@
       transition: all 0.25s ease;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
+  
+    /* Legal Footer Links */
+    .legal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 20px;
+      padding: 22px 16px 28px;
+      margin-top: 36px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+    .legal-footer a {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .legal-footer a:hover { color: var(--text-main); }
   </style>
 </head>
 <body>
@@ -457,7 +479,7 @@
       </div>
       <div class="header-center">
         <a href="index.html">
-          <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" class="brand-logo-img">
+          <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" class="brand-logo-img">
         </a>
       </div>
       <div class="header-right">
@@ -476,7 +498,7 @@
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <aside class="drawer" id="sideDrawer">
     <div class="drawer-header">
-      <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
+      <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
       <button class="icon-btn" id="drawerCloseBtn" aria-label="Close menu">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
@@ -507,7 +529,7 @@
       <div>
         <div class="drawer-section-title">Support</div>
         <div style="display:flex; flex-direction:column; gap:10px;">
-          <a href="https://www.instagram.com/mega_store.india?stkn=eDNjNm12azdva3Nt" target="_blank" class="drawer-item">Instagram</a>
+          <a href="https://www.instagram.com/megastore.ofl" target="_blank" class="drawer-item">Instagram</a>
           <a href="https://wa.me/918134958144" target="_blank" class="drawer-item">WhatsApp: 8134958144</a>
           <a href="tel:8134958144" class="drawer-item">Call: 8134958144</a>
         </div>
@@ -738,5 +760,15 @@
 
     window.addEventListener("DOMContentLoaded", loadSavedItems);
   </script>
+
+  <!-- Legal Footer Links -->
+  <footer class="legal-footer">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+    <a href="return-policy.html">Return Policy</a>
+    <a href="Contact-us.html">Contact Us</a>
+    <a href="cancellation-policy.html">Cancellation Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </footer>
 </body>
 </html>

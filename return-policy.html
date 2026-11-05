@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mega Store | Return Policy</title>
+  <meta name="description" content="Learn about Mega Store return, refund and exchange policy for apparel purchases.">
+  <link rel="icon" type="image/png" href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent-color: #0f172a;
+      --accent-light: #f1f5f9;
+      --sale-red: #ef4444;
+      --success-green: #10b981;
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.dark {
+      --bg-body: #090d16;
+      --bg-surface: #111827;
+      --bg-card: #151e32;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #1f293d;
+      --accent-color: #ffffff;
+      --accent-light: #1e293b;
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 40px;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      padding: 0 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .header-center { flex: 1; display: flex; justify-content: center; }
+    .brand-logo-img { width: 150px; height: 50px; object-fit: contain; display: block; }
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .icon-btn:hover { background: var(--accent-light); }
+    .icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    /* Policy Content Card */
+    .policy-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-top: 24px;
+      box-shadow: var(--card-shadow);
+    }
+    .policy-card h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .policy-updated {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .policy-card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 20px 0 8px;
+      color: var(--text-main);
+    }
+    .policy-card p, .policy-card li {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .policy-card ul, .policy-card ol { padding-left: 20px; margin-bottom: 10px; }
+    .policy-card li { margin-bottom: 6px; }
+    .policy-card a { color: var(--text-main); font-weight: 600; }
+    .policy-highlight {
+      background: var(--accent-light);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .policy-highlight strong { color: var(--text-main); }
+
+    /* Contact Cards */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    @media (min-width: 640px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: var(--transition);
+      box-shadow: var(--card-shadow);
+    }
+    .contact-card:hover { transform: translateY(-2px); border-color: var(--text-main); }
+    .contact-icon {
+      width: 46px; height: 46px;
+      border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-icon svg { width: 22px; height: 22px; stroke: #ffffff; stroke-width: 2; fill: none; }
+    .ci-wa { background: #25d366; }
+    .ci-call { background: #0f172a; }
+    .ci-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+    .ci-mail { background: #6366f1; }
+    .contact-card-title { font-size: 14px; font-weight: 700; }
+    .contact-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Legal Footer Links */
+    .legal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 20px;
+      padding: 22px 16px 28px;
+      margin-top: 36px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+    .legal-footer a {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .legal-footer a:hover { color: var(--text-main); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div style="width:80px;">
+        <a href="index.html" class="icon-btn" aria-label="Back to Home">
+          <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </a>
+      </div>
+      <div class="header-center">
+        <a href="index.html">
+          <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" class="brand-logo-img">
+        </a>
+      </div>
+      <div style="width:80px; display:flex; justify-content:flex-end;">
+        <button class="icon-btn" id="themeToggleBtn" aria-label="Toggle dark mode">
+          <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="policy-card">
+      
+      <h1>Return &amp; Refund Policy</h1>
+      <div class="policy-updated">Last Updated: November 2026</div>
+
+      <p>We want you to love your purchase. If something isn't right, our return policy below explains how we can help.</p>
+
+      <h2>1. Return Eligibility</h2>
+      <ul>
+        <li>Return requests must be raised within <strong>7 days of delivery</strong>.</li>
+        <li>Items must be unused, unwashed, with original tags and packaging intact.</li>
+        <li>Items must not be damaged, soiled or altered in any way.</li>
+      </ul>
+
+      <h2>2. Non-Returnable Items</h2>
+      <ul>
+        <li>Innerwear and intimate apparel (for hygiene reasons).</li>
+        <li>Items marked as "Final Sale" or "Non-Returnable" on the product page.</li>
+        <li>Products damaged due to misuse, washing contrary to care instructions, or normal wear and tear.</li>
+      </ul>
+
+      <h2>3. Size Issues &amp; Exchanges</h2>
+      <ul>
+        <li>If the size doesn't fit, you may request an exchange for a different size, subject to stock availability.</li>
+        <li>Please check the Size Chart on the product page before ordering to reduce the chance of size mismatch.</li>
+        <li>Exchanges for a different product (not just size) are treated as a return + new order.</li>
+      </ul>
+
+      <h2>4. Wrong, Defective or Damaged Items</h2>
+      <ul>
+        <li>If you receive a wrong, defective or damaged item, contact us within 48 hours of delivery with photos/videos.</li>
+        <li>We will arrange a free replacement or full refund after verification.</li>
+        <li>Please keep the original packaging until your claim is resolved.</li>
+      </ul>
+
+      <h2>5. How to Request a Return</h2>
+      <ol>
+        <li>Message us on WhatsApp at <a href="tel:8134958144">8134958144</a> with your Order ID, reason and photos (if applicable).</li>
+        <li>Our support team will confirm eligibility and share pickup/return instructions.</li>
+        <li>Once we receive and inspect the returned item, your refund or exchange will be processed.</li>
+      </ol>
+
+      <h2>6. Refunds</h2>
+      <ul>
+        <li><strong>Online payments:</strong> Refund is issued to the original payment method within 5–7 business days after inspection approval.</li>
+        <li><strong>Cash on Delivery orders:</strong> Refund is issued via UPI or bank transfer within 5–7 business days after approval.</li>
+        <li>Shipping charges (if any) are refundable only for wrong/defective item claims.</li>
+      </ul>
+
+      <h2>7. Cancellation Before Delivery</h2>
+      <p>You may cancel an order before it is shipped. Please see our <a href="cancellation-policy.html">Cancellation Policy</a> for details.</p>
+
+      <div class="policy-highlight">
+        <strong>Need help with a return?</strong><br>
+        WhatsApp / Call: <a href="tel:8134958144">8134958144</a> &nbsp;|&nbsp; Instagram: <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener">@megastore.ofl</a>
+      </div>
+  
+    </div>
+  </main>
+
+  <!-- Legal Footer Links -->
+  <footer class="legal-footer">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+    <a href="return-policy.html">Return Policy</a>
+    <a href="Contact-us.html">Contact Us</a>
+    <a href="cancellation-policy.html">Cancellation Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </footer>
+
+  <script>
+    const themeBtn = document.getElementById("themeToggleBtn");
+    if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+    }
+  </script>
+</body>
+</html>

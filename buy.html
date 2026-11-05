@@ -1426,12 +1426,12 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
                 <div style="flex:1;">
                   <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
                     <span>Cash on Delivery (COD)</span>
-                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #fffbeb; color: #92400e; border: 1px solid #fde68a; font-weight: 800;">&#8377;1 ADVANCE</span>
+                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #fffbeb; color: #92400e; border: 1px solid #fde68a; font-weight: 800;">&#8377;29 ADVANCE</span>
                   </div>
-                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay &#8377;1 advance online now &amp; the remaining balance in cash to the delivery boy at your doorstep.</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay &#8377;29 advance online now &amp; the remaining balance in cash to the delivery boy at your doorstep.</div>
                   <div class="cod-advance-note">
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                    <span>At order confirmation, only a <strong>&#8377;1 advance payment</strong> is required (Razorpay secure gateway). Pay the remaining amount to the delivery partner via cash / UPI.</span>
+                    <span>At order confirmation, only a <strong>&#8377;29 advance payment</strong> is required (Razorpay secure gateway). Pay the remaining amount to the delivery partner via cash / UPI.</span>
                   </div>
                 </div>
               </div>
@@ -1631,7 +1631,7 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
   <script>
     /* ================= RAZORPAY CONFIG ================= */
     const RAZORPAY_KEY_ID = "rzp_live_TucsOuR1IaTSGc";
-    const COD_ADVANCE_AMOUNT = 1; // Rupees - partial advance for COD orders
+    const COD_ADVANCE_AMOUNT = 29; // Rupees - partial advance for COD orders
 
     const firebaseConfig = {
       apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
@@ -1902,9 +1902,9 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
         row.className = "order-item-mini";
         row.innerHTML = `
           <img src="${item.image || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80'}" alt="${item.title}" class="mini-img">
-          <div style="flex:1; min-width:0;">
-            <div style="font-size:12.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.title}</div>
-            <div style="font-size:11px; color:var(--text-muted);">Size: ${item.size || 'Standard'} &bull; Qty: ${qty}</div>
+          <div style="flex:1; min-width:0; width:100%;">
+            <div title="${item.title}" style="font-size:12.5px; font-weight:700; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; word-break:break-word; line-height:1.35;">${item.title}</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Size: ${item.size || 'Standard'} &bull; Qty: ${qty}</div>
             <div style="font-size:12px; font-weight:800;">&#8377;${line}</div>
           </div>
         `;
@@ -2180,12 +2180,14 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
     }
 
     function cancelAddressForm() {
-      if (userAddresses.length === 0) {
-        showToast("Please save at least one delivery address");
-        return;
-      }
       editingAddressId = null;
-      renderAddressCards();
+      const formPanel = document.getElementById("addressFormPanel");
+      if (formPanel) formPanel.style.display = "none";
+      if (userAddresses.length === 0) {
+        document.getElementById("savedAddressesContainer").innerHTML = "";
+      } else {
+        renderAddressCards();
+      }
     }
 
     let pincodeFetchTimer = null;

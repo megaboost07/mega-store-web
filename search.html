@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Search Catalog</title>
-  <meta name="description" content="Search apparel, fashion, fits, and trending styles.">
+  <title>Mega Store | My Orders</title>
+  <meta name="description" content="Track your orders, view delivery status, and review order histories.">
+<link rel="icon" type="image/png"
+href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
 
   <!-- Firebase Compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -22,6 +24,9 @@
       --accent-hover: #1e293b;
       --accent-light: #f1f5f9;
       --sale-red: #ef4444;
+      --success-green: #10b981;
+      --status-processing: #f59e0b;
+      --status-shipped: #6366f1;
       --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
       --radius-sm: 8px;
       --radius-md: 12px;
@@ -62,7 +67,7 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 16px;
     }
@@ -249,227 +254,326 @@
       font-size: 14px;
     }
 
-    /* Search Area */
-    .search-bar-wrap {
-      margin: 20px 0 16px 0;
-      position: relative;
+    /* Orders List */
+    .orders-list-wrap {
       display: flex;
-      gap: 8px;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 16px;
     }
 
-    .search-input-box {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 0 14px;
-      transition: var(--transition);
-    }
-
-    .search-input-box:focus-within {
-      border-color: var(--text-main);
-      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
-    }
-
-    .search-input-box svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--text-muted);
-      stroke-width: 2;
-      fill: none;
-      margin-right: 10px;
-    }
-
-    .search-field {
-      flex: 1;
-      height: 46px;
-      border: none;
-      background: transparent;
-      color: var(--text-main);
-      font-size: 15px;
-      outline: none;
-    }
-
-    .clear-search-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-      display: none;
-    }
-
-    .clear-search-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      margin: 0;
-    }
-
-    .search-action-btn {
-      height: 46px;
-      padding: 0 20px;
-      background: var(--accent-color);
-      color: #ffffff;
-      border: none;
-      border-radius: var(--radius-md);
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    body.dark .search-action-btn {
-      background: #ffffff;
-      color: #0f172a;
-    }
-
-    /* Suggestions */
-    .suggestions-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 24px;
-    }
-
-    .suggestion-chip {
-      padding: 6px 14px;
-      border-radius: var(--radius-full);
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .suggestion-chip:hover {
-      color: var(--text-main);
-      border-color: var(--text-main);
-    }
-
-    /* Product Grid */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    @media (min-width: 640px) {
-      .product-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .product-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-      }
-    }
-
-    .product-card {
+    .order-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      overflow: hidden;
+      padding: 20px;
       box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
-      position: relative;
+      gap: 16px;
     }
 
-    .product-img-wrap {
-      position: relative;
-      width: 100%;
-      padding-top: 120%;
-      background: var(--accent-light);
-      cursor: pointer;
-    }
-
-    .product-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .save-badge-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-full);
-      background: rgba(255,255,255,0.9);
-      border: 1px solid rgba(0,0,0,0.06);
+    .order-card-header {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      color: #64748b;
-      cursor: pointer;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    .save-badge-btn.saved { color: var(--sale-red); }
-    .save-badge-btn.saved svg { fill: var(--sale-red); }
-    .save-badge-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .order-id-txt {
+      font-size: 14px;
+      font-weight: 700;
+    }
 
-    .product-info {
-      padding: 12px;
+    .order-date-txt {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-badge.processing { background: #fef3c7; color: #92400e; }
+    .status-badge.shipped { background: #e0e7ff; color: #3730a3; }
+    .status-badge.delivered { background: #dcfce7; color: #166534; }
+    .status-badge.cancelled { background: #fee2e2; color: #991b1b; }
+
+    .order-items-grid {
       display: flex;
       flex-direction: column;
-      flex: 1;
-      justify-content: space-between;
+      gap: 10px;
     }
 
-    .product-title {
+    .order-item-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .order-item-img {
+      width: 50px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: var(--accent-light);
+    }
+
+    .order-item-info {
+      flex: 1;
+    }
+
+    .order-item-title {
       font-size: 13px;
       font-weight: 600;
       color: var(--text-main);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-height: 1.35;
-      margin-bottom: 6px;
-      cursor: pointer;
     }
 
-    .price-row {
+    .order-item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .order-card-footer {
       display: flex;
-      align-items: baseline;
-      gap: 6px;
-      margin-bottom: 10px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
     }
 
-    .offer-price { font-size: 15px; font-weight: 700; }
-    .original-price { font-size: 12px; color: var(--text-muted); text-decoration: line-through; }
+    .order-total-block {
+      display: flex;
+      flex-direction: column;
+    }
 
-    .btn-add-cart {
-      width: 100%;
-      height: 36px;
+    .order-total-val {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .order-cancel-btn {
+      padding: 6px 14px;
       border-radius: var(--radius-md);
-      background: var(--accent-color);
-      color: #ffffff;
-      border: none;
+      border: 1px solid var(--sale-red);
+      background: transparent;
+      color: var(--sale-red);
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
+      transition: var(--transition);
     }
 
-    body.dark .btn-add-cart { background: #ffffff; color: #0f172a; }
+    .order-cancel-btn:hover {
+      background: var(--sale-red);
+      color: #ffffff;
+    }
 
-    /* Floating Bottom Nav */
+    /* Customer Support Banner */
+    .support-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: var(--card-shadow);
+    }
+    .support-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .support-banner-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-full);
+      background: #ecfdf5;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    body.dark .support-banner-icon {
+      background: #064e3b;
+      color: #34d399;
+    }
+    .support-banner-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .support-banner-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .support-banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-support-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25d366;
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+    .btn-support-wa:hover {
+      background: #1ebc59;
+      transform: translateY(-1px);
+    }
+    .btn-support-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .btn-support-call:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    /* Order Card Actions & Support Buttons */
+    .order-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .order-support-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+    .order-support-btn.whatsapp {
+      background: #25d366;
+      color: #ffffff;
+    }
+    .order-support-btn.whatsapp:hover {
+      background: #1ebc59;
+      color: #ffffff;
+    }
+    .order-support-btn.call {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+    .order-support-btn.call:hover {
+      border-color: var(--text-muted);
+    }
+
+    /* Modal Overlay and Dialog for Cancellation */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 250;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+      animation: fadeIn 0.2s ease;
+    }
+    .modal-dialog {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .order-cancel-confirm-btn {
+      padding: 9px 18px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: var(--sale-red);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .order-cancel-confirm-btn:hover:not(:disabled) {
+      background: #dc2626;
+    }
+    .order-cancel-confirm-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .btn-modal-dismiss {
+      padding: 9px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-modal-dismiss:hover {
+      background: var(--accent-light);
+    }
+
+    /* Floating Pill Bottom Navigation */
     .floating-nav {
       position: fixed;
       bottom: 16px;
@@ -500,44 +604,24 @@
     .nav-pill-item.active { background: var(--accent-light); color: var(--text-main); }
     body.dark .nav-pill-item.active { background: #1e293b; color: #ffffff; }
 
-    /* Modal / Size Picker */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 150;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      padding: 16px;
-    }
-    .modal-overlay.active { opacity: 1; visibility: visible; }
-    .modal-dialog {
-      background: var(--bg-surface);
-      width: 100%;
-      max-width: 400px;
-      border-radius: var(--radius-lg);
-      padding: 24px;
-    }
-    .size-chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-    .size-chip {
-      padding: 8px 16px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
+    /* Empty State */
+    .empty-orders-wrap {
+      text-align: center;
+      padding: 64px 16px;
       background: var(--bg-card);
-      color: var(--text-main);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      margin-top: 24px;
     }
-    .size-chip.selected { background: var(--accent-color); color: #ffffff; }
-    body.dark .size-chip.selected { color: #0f172a; }
+
+    .empty-orders-wrap svg {
+      width: 64px;
+      height: 64px;
+      stroke: var(--text-muted);
+      stroke-width: 1.5;
+      fill: none;
+      margin-bottom: 16px;
+    }
 
     /* Toast */
     .toast-container {
@@ -564,6 +648,26 @@
       transition: all 0.25s ease;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
+  
+    /* Legal Footer Links */
+    .legal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 20px;
+      padding: 22px 16px 28px;
+      margin-top: 36px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+    .legal-footer a {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .legal-footer a:hover { color: var(--text-main); }
   </style>
 </head>
 <body>
@@ -578,10 +682,13 @@
       </div>
       <div class="header-center">
         <a href="index.html">
-          <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" class="brand-logo-img">
+          <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" class="brand-logo-img">
         </a>
       </div>
       <div class="header-right">
+        <a href="search.html" class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </a>
         <a href="cart.html" class="icon-btn" aria-label="Cart">
           <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
           <span class="cart-badge" id="cartBadgeCount">0</span>
@@ -594,14 +701,14 @@
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <aside class="drawer" id="sideDrawer">
     <div class="drawer-header">
-      <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
+      <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
       <button class="icon-btn" id="drawerCloseBtn" aria-label="Close menu">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div>
     <div class="drawer-body">
       <div>
-        <div class="drawer-section-title">Night Mode</div>
+        <div class="drawer-section-title">Theme</div>
         <div class="theme-toggle-wrap">
           <span>Dark Mode</span>
           <input type="checkbox" id="themeSwitchCheckbox" class="theme-toggle-input">
@@ -623,9 +730,9 @@
         </select>
       </div>
       <div>
-        <div class="drawer-section-title">Contact & Social</div>
+        <div class="drawer-section-title">Support</div>
         <div style="display:flex; flex-direction:column; gap:10px;">
-          <a href="https://www.instagram.com/mega_store.india?stkn=eDNjNm12azdva3Nt" target="_blank" class="drawer-item">Instagram</a>
+          <a href="https://www.instagram.com/megastore.ofl" target="_blank" class="drawer-item">Instagram</a>
           <a href="https://wa.me/918134958144" target="_blank" class="drawer-item">WhatsApp: 8134958144</a>
           <a href="tel:8134958144" class="drawer-item">Call: 8134958144</a>
         </div>
@@ -633,46 +740,85 @@
     </div>
   </aside>
 
-  <!-- Search Main Container -->
+  <!-- Orders Main Container -->
   <main class="container">
     
-    <div class="search-bar-wrap">
-      <div class="search-input-box">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="searchInputField" class="search-field" placeholder="Search jeans, shirts, oversized tees..." autofocus>
-        <button class="clear-search-btn" id="clearSearchBtn" aria-label="Clear Search">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
+    <!-- 24x7 Customer Support Banner with Phone & WhatsApp -->
+    <div class="support-banner">
+      <div class="support-banner-content">
+        <div class="support-banner-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        </div>
+        <div class="support-banner-text">
+          <div class="support-banner-title">Need Help With Any Order?</div>
+          <div class="support-banner-sub">Call or WhatsApp Support: <strong>8134958144</strong></div>
+        </div>
       </div>
-      <button class="search-action-btn" id="searchSubmitBtn">Search</button>
+      <div class="support-banner-actions">
+        <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer" class="btn-support-wa">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          <span>WhatsApp Us</span>
+        </a>
+        <a href="tel:8134958144" class="btn-support-call">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span>Call Support</span>
+        </a>
+      </div>
     </div>
 
-    <!-- Suggestions -->
-    <div class="suggestions-row" id="suggestionsRow">
-      <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Popular:</span>
-      <span class="suggestion-chip" onclick="executeSearch('Jeans')">Jeans</span>
-      <span class="suggestion-chip" onclick="executeSearch('Oversized')">Oversized</span>
-      <span class="suggestion-chip" onclick="executeSearch('Polo')">Polo</span>
-      <span class="suggestion-chip" onclick="executeSearch('Cargo')">Cargo</span>
-      <span class="suggestion-chip" onclick="executeSearch('Formal Shirt')">Formal Shirt</span>
+    <div id="ordersContentWrap">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+        <h1 style="font-size: 20px; font-weight: 700;">My Placed Orders</h1>
+        <span style="font-size: 13px; color: var(--text-muted);" id="ordersCountBadge">0 Orders</span>
+      </div>
+
+      <div class="orders-list-wrap" id="ordersListWrap"></div>
     </div>
 
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-      <h2 style="font-size: 18px; font-weight: 700;" id="searchHeading">Search Results</h2>
-      <span style="font-size: 13px; color: var(--text-muted);" id="resultCountBadge">Showing all</span>
+    <!-- Empty Orders View -->
+    <div class="empty-orders-wrap" id="emptyOrdersWrap" style="display: none;">
+      <svg viewBox="0 0 24 24"><path d="M21 8v13H3V8"></path><path d="M1 3h22v5H1z"></path><path d="M10 12h4"></path></svg>
+      <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">No Orders Placed Yet</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Your order history and live delivery tracking will show here.</p>
+      <a href="index.html" class="icon-btn" style="width: auto; padding: 0 24px; height: 42px; text-decoration: none; display: inline-flex;">Start Shopping</a>
     </div>
-
-    <div class="product-grid" id="productGrid"></div>
 
   </main>
 
-  <!-- Size Selection Modal -->
-  <div class="modal-overlay" id="sizeModalOverlay">
+  <!-- Cancel Order Confirmation Modal -->
+  <div class="modal-overlay" id="cancelOrderModal" style="display: none;">
     <div class="modal-dialog">
-      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Select Size Required</h3>
-      <p style="font-size: 13px; color: var(--text-muted);">Please select a size to add this product to cart.</p>
-      <div class="size-chips-wrap" id="modalSizeChips"></div>
-      <button class="btn-add-cart" id="modalConfirmSizeBtn" style="height: 42px;">Confirm & Add</button>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+        <div>
+          <h3 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0;">Cancel Order</h3>
+          <p style="font-size: 13px; color: var(--text-muted); margin: 4px 0 0 0;">Order ID: <strong id="cancelModalOrderId" style="color: var(--text-main);"></strong></p>
+        </div>
+        <button type="button" class="icon-btn" onclick="closeCancelModal()" style="border:none; background:transparent; cursor:pointer;" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div style="background: #fee2e2; border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 12px; font-size: 13px; color: #991b1b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span>Are you sure you want to cancel this order? Once cancelled, the order will be stopped.</span>
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <label for="cancelReasonSelect" style="display:block; font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">Reason for Cancellation (Optional)</label>
+        <select id="cancelReasonSelect" class="lang-select-box" style="width: 100%;">
+          <option value="Ordered by mistake">Ordered by mistake</option>
+          <option value="Changed delivery address or phone number">Changed delivery address or phone number</option>
+          <option value="Found a better price / offer">Found a better price / offer</option>
+          <option value="Selected wrong size or color">Selected wrong size or color</option>
+          <option value="Delivery is taking too long">Delivery is taking too long</option>
+          <option value="Other reasons">Other reasons</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
+        <button type="button" class="btn-modal-dismiss" onclick="closeCancelModal()">Keep Order</button>
+        <button type="button" class="order-cancel-confirm-btn" id="confirmCancelBtn" onclick="executeCancelOrder()">Confirm Cancellation</button>
+      </div>
     </div>
   </div>
 
@@ -690,7 +836,7 @@
       <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
       <span>Save</span>
     </a>
-    <a href="myorder.html" class="nav-pill-item" id="navPillOrders">
+    <a href="myorder.html" class="nav-pill-item active" id="navPillOrders">
       <svg viewBox="0 0 24 24"><path d="M21 8v13H3V8"></path><path d="M1 3h22v5H1z"></path><path d="M10 12h4"></path></svg>
       <span>MyOrders</span>
     </a>
@@ -776,236 +922,211 @@
     }
     updateCartBadge();
 
-    /* Search State */
-    let catalog = [];
-    let savedProductIds = new Set();
-    let pendingCartProduct = null;
-    let selectedModalSize = "";
+    /* Orders Loader */
+    let myOrders = [];
 
-    function initSaved() {
+    function loadUserOrders() {
+      // First load local storage
       try {
-        const saved = JSON.parse(localStorage.getItem("saved_items") || "[]");
-        savedProductIds = new Set(saved.map(i => i.id));
-      } catch (e) {}
-    }
-    initSaved();
-
-    const searchInput = document.getElementById("searchInputField");
-    const clearBtn = document.getElementById("clearSearchBtn");
-    const searchBtn = document.getElementById("searchSubmitBtn");
-
-    searchInput.addEventListener("input", (e) => {
-      const q = e.target.value;
-      clearBtn.style.display = q ? "block" : "none";
-      filterCatalog(q);
-    });
-
-    clearBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      clearBtn.style.display = "none";
-      filterCatalog("");
-      searchInput.focus();
-    });
-
-    searchBtn.addEventListener("click", () => {
-      filterCatalog(searchInput.value);
-    });
-
-    function executeSearch(keyword) {
-      searchInput.value = keyword;
-      clearBtn.style.display = "block";
-      filterCatalog(keyword);
-    }
-
-    function filterCatalog(query) {
-      const q = query.trim().toLowerCase();
-      let results = catalog;
-
-      if (q) {
-        results = catalog.filter(p => {
-          const title = (p.title || "").toLowerCase();
-          const cat = (p.category || "").toLowerCase();
-          const sub = (p.subcategory || "").toLowerCase();
-          const desc = (p.description || "").toLowerCase();
-          return title.includes(q) || cat.includes(q) || sub.includes(q) || desc.includes(q);
-        });
-        document.getElementById("searchHeading").textContent = `Results for "${query}"`;
-      } else {
-        document.getElementById("searchHeading").textContent = "Search Results";
+        myOrders = JSON.parse(localStorage.getItem("my_orders") || "[]");
+      } catch (e) {
+        myOrders = [];
       }
+      renderOrders();
 
-      document.getElementById("resultCountBadge").textContent = `${results.length} Found`;
-      renderProducts(results);
+      // Listen on Firebase Realtime Database
+      db.ref(`users/${currentUserId}/orders`).on("value", (snap) => {
+        const val = snap.val();
+        if (val) {
+          const list = Object.keys(val).map(k => ({ orderId: k, ...val[k] }));
+          list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+          myOrders = list;
+          localStorage.setItem("my_orders", JSON.stringify(myOrders));
+        }
+        renderOrders();
+      });
     }
 
-    function renderProducts(products) {
-      const grid = document.getElementById("productGrid");
-      grid.innerHTML = "";
+    function renderOrders() {
+      const contentWrap = document.getElementById("ordersContentWrap");
+      const emptyWrap = document.getElementById("emptyOrdersWrap");
+      const listContainer = document.getElementById("ordersListWrap");
 
-      if (products.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 16px; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
-            <svg viewBox="0 0 24 24" width="48" height="48" stroke="var(--text-muted)" stroke-width="1.5" fill="none" style="margin-bottom: 12px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">No products found</h3>
-            <p style="font-size: 13px; color: var(--text-muted);">Try searching for Jeans, T-Shirt, Shirt, or Track Pants.</p>
-          </div>
-        `;
+      if (myOrders.length === 0) {
+        contentWrap.style.display = "none";
+        emptyWrap.style.display = "block";
         return;
       }
 
-      products.forEach(p => {
-        const isSaved = savedProductIds.has(p.id);
-        const img = p.images && p.images[0] ? p.images[0] : 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80';
-        const orig = p.price || p.originalPrice || (p.offerPrice * 1.3);
-        const offer = p.offerPrice || p.price;
+      contentWrap.style.display = "block";
+      emptyWrap.style.display = "none";
+      document.getElementById("ordersCountBadge").textContent = `${myOrders.length} ${myOrders.length === 1 ? 'Order' : 'Orders'}`;
+
+      listContainer.innerHTML = "";
+
+      myOrders.forEach(ord => {
+        const status = ord.orderStatus || "Processing";
+        const statusClass = status.toLowerCase();
+        const dateStr = ord.createdAt ? new Date(ord.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "Recently placed";
+        const addr = ord.address || {};
 
         const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-          <div class="product-img-wrap" onclick="window.location.href='productdetails.html?id=${p.id}'">
-            <img src="${img}" alt="${p.title}" class="product-img" loading="lazy">
-            <button class="save-badge-btn ${isSaved ? 'saved' : ''}" onclick="toggleSave(event, '${p.id}')">
-              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            </button>
-          </div>
-          <div class="product-info">
-            <div>
-              <h3 class="product-title" onclick="window.location.href='productdetails.html?id=${p.id}'">${p.title}</h3>
-              <div class="price-row">
-                <span class="offer-price">&#8377;${offer}</span>
-                ${orig > offer ? `<span class="original-price">&#8377;${orig}</span>` : ''}
+        card.className = "order-card";
+
+        let itemsHtml = "";
+        if (ord.items && ord.items.length > 0) {
+          ord.items.forEach(it => {
+            itemsHtml += `
+              <div class="order-item-row">
+                <img src="${it.image || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80'}" alt="${it.title}" class="order-item-img">
+                <div class="order-item-info">
+                  <div class="order-item-title">${it.title}</div>
+                  <div class="order-item-meta">Size: ${it.size || 'Standard'} &bull; Qty: ${it.quantity || 1} &bull; &#8377;${it.price || 0}</div>
+                </div>
               </div>
+            `;
+          });
+        }
+
+        const canCancel = (status === "Processing" || status === "Pending");
+
+        card.innerHTML = `
+          <div class="order-card-header">
+            <div>
+              <div class="order-id-txt">${ord.orderId || 'Order'}</div>
+              <div class="order-date-txt">${dateStr}</div>
             </div>
-            <button class="btn-add-cart" onclick="handleAddToCart(event, '${p.id}')">Add To Cart</button>
+            <span class="status-badge ${statusClass}">${status}</span>
+          </div>
+
+          <div class="order-items-grid">
+            ${itemsHtml}
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted); background: var(--accent-light); padding: 10px; border-radius: var(--radius-sm);">
+            <strong>Delivery to:</strong> ${addr.name || 'Customer'}, ${addr.street || ''}, ${addr.landmark || ''}, ${addr.city || ''}, ${addr.state || ''} - ${addr.pincode || ''} (Phone: ${addr.phone || 'N/A'})
+          </div>
+
+          <div class="order-card-footer">
+            <div class="order-total-block">
+              <span style="font-size: 11px; color: var(--text-muted);">Payment (${ord.paymentMethod || 'COD'})</span>
+              <span class="order-total-val">&#8377;${ord.totalAmount || 0}</span>
+            </div>
+
+            <div class="order-actions-group">
+              <button type="button" class="order-support-btn whatsapp" onclick="openOrderSupport('${ord.orderId}')" title="Chat on WhatsApp for this order">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                <span>WhatsApp Support</span>
+              </button>
+
+              <a href="tel:8134958144" class="order-support-btn call" title="Call Support: 8134958144">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span>Call</span>
+              </a>
+
+              ${canCancel ? `<button type="button" class="order-cancel-btn" onclick="openCancelModal('${ord.orderId}')">Cancel Order</button>` : ''}
+            </div>
           </div>
         `;
-        grid.appendChild(card);
+
+        listContainer.appendChild(card);
       });
     }
 
-    function toggleSave(e, pid) {
-      e.stopPropagation();
-      const prod = catalog.find(p => p.id === pid);
-      if (!prod) return;
-
-      let saved = JSON.parse(localStorage.getItem("saved_items") || "[]");
-      const idx = saved.findIndex(i => i.id === pid);
-
-      if (idx > -1) {
-        saved.splice(idx, 1);
-        savedProductIds.delete(pid);
-        showToast("Removed from wishlist");
-      } else {
-        saved.push({
-          id: prod.id,
-          title: prod.title,
-          price: prod.price,
-          offerPrice: prod.offerPrice,
-          rating: prod.rating || 4.5,
-          image: prod.images && prod.images[0] ? prod.images[0] : "",
-          savedAt: Date.now()
-        });
-        savedProductIds.add(pid);
-        showToast("Saved to wishlist");
-      }
-
-      localStorage.setItem("saved_items", JSON.stringify(saved));
-      filterCatalog(searchInput.value);
-      db.ref(`users/${currentUserId}/saved/${pid}`).set(idx > -1 ? null : true).catch(()=>{});
-    }
-
-    function handleAddToCart(e, pid) {
-      e.stopPropagation();
-      const prod = catalog.find(p => p.id === pid);
-      if (!prod) return;
-
-      if (prod.sizes && prod.sizes.length > 0) {
-        openSizeModal(prod);
-      } else {
-        executeAddToCart(prod, "Standard");
-      }
-    }
-
-    function openSizeModal(prod) {
-      pendingCartProduct = prod;
-      selectedModalSize = prod.sizes[0] || "";
-      const modal = document.getElementById("sizeModalOverlay");
-      const chips = document.getElementById("modalSizeChips");
-      chips.innerHTML = "";
-
-      prod.sizes.forEach((s, i) => {
-        const chip = document.createElement("button");
-        chip.className = "size-chip" + (i === 0 ? " selected" : "");
-        chip.textContent = s;
-        chip.addEventListener("click", () => {
-          document.querySelectorAll(".size-chip").forEach(c => c.classList.remove("selected"));
-          chip.classList.add("selected");
-          selectedModalSize = s;
-        });
-        chips.appendChild(chip);
-      });
-
-      modal.classList.add("active");
-    }
-
-    document.getElementById("modalConfirmSizeBtn").addEventListener("click", () => {
-      if (pendingCartProduct && selectedModalSize) {
-        executeAddToCart(pendingCartProduct, selectedModalSize);
-        document.getElementById("sizeModalOverlay").classList.remove("active");
-      }
-    });
-
-    document.getElementById("sizeModalOverlay").addEventListener("click", (e) => {
-      if (e.target === document.getElementById("sizeModalOverlay")) {
-        document.getElementById("sizeModalOverlay").classList.remove("active");
-      }
-    });
-
-    function executeAddToCart(prod, size) {
-      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existing = cart.find(i => i.id === prod.id && i.size === size);
-
-      if (existing) {
-        existing.quantity = Math.min(99, (parseInt(existing.quantity) || 1) + 1);
-      } else {
-        cart.push({
-          id: prod.id,
-          title: prod.title,
-          price: prod.offerPrice || prod.price,
-          originalPrice: prod.price,
-          image: prod.images && prod.images[0] ? prod.images[0] : '',
-          size: size,
-          quantity: 1,
-          stock: prod.stock || 99,
-          addedAt: Date.now()
-        });
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCartBadge();
-      showToast("Added to Cart");
-      db.ref(`users/${currentUserId}/cart`).set(cart).catch(()=>{});
-    }
-
-    function loadCatalog() {
-      db.ref("products").on("value", (snap) => {
-        const val = snap.val();
-        if (val) {
-          catalog = Object.keys(val).map(k => ({ id: k, ...val[k] }));
-        } else {
-          catalog = [
-            { id: "prod_1", title: "Relaxed Fit Denim Jeans", category: "Jeans", price: 1999, offerPrice: 1299, sizes: ["28", "30", "32", "34"], images: ["https://images.unsplash.com/photo-1542272604-780c96856592?w=800&q=80"] },
-            { id: "prod_2", title: "Heavyweight Boxy Oversized T-Shirt", category: "T-Shirt", price: 1299, offerPrice: 699, sizes: ["S", "M", "L", "XL"], images: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&q=80"] },
-            { id: "prod_3", title: "Tapered Cotton Cargo Track Pants", category: "Track Pants", price: 1599, offerPrice: 999, sizes: ["M", "L", "XL"], images: ["https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80"] },
-            { id: "prod_4", title: "Premium Pique Knit Polo T-Shirt", category: "Polo T-Shirt", price: 1499, offerPrice: 849, sizes: ["M", "L", "XL"], images: ["https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&q=80"] },
-            { id: "prod_5", title: "Tailored Oxford Formal Shirt", category: "Shirt", price: 1899, offerPrice: 1149, sizes: ["38", "40", "42"], images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80"] }
-          ];
+    /* WhatsApp Support for Specific Order */
+    function openOrderSupport(orderId) {
+      const ord = myOrders.find(o => o.orderId === orderId);
+      let text = `Hello Mega Store Support,\n\nI need help regarding my Order!\n• Order ID: #${orderId}`;
+      if (ord) {
+        text += `\n• Status: ${ord.orderStatus || 'Processing'}`;
+        text += `\n• Total: ₹${ord.totalAmount || 0} (${ord.paymentMethod || 'COD'})`;
+        if (ord.items && ord.items.length > 0) {
+          const itemSummary = ord.items.map(i => `${i.title} (${i.size || 'Standard'}, Qty: ${i.quantity || 1})`).join(", ");
+          text += `\n• Items: ${itemSummary}`;
         }
-        filterCatalog("");
+      }
+      text += `\n\nMy Message: `;
+      const waUrl = `https://wa.me/918134958144?text=${encodeURIComponent(text)}`;
+      window.open(waUrl, "_blank");
+    }
+
+    /* Custom In-Page Cancel Order Modal */
+    let cancelTargetOrderId = null;
+
+    function openCancelModal(orderId) {
+      cancelTargetOrderId = orderId;
+      const idEl = document.getElementById("cancelModalOrderId");
+      if (idEl) idEl.textContent = orderId;
+      const modal = document.getElementById("cancelOrderModal");
+      if (modal) modal.style.display = "flex";
+      const btn = document.getElementById("confirmCancelBtn");
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "Confirm Cancellation";
+      }
+    }
+
+    function closeCancelModal() {
+      cancelTargetOrderId = null;
+      const modal = document.getElementById("cancelOrderModal");
+      if (modal) modal.style.display = "none";
+    }
+
+    function executeCancelOrder() {
+      if (!cancelTargetOrderId) return;
+      const orderId = cancelTargetOrderId;
+      const reasonSelect = document.getElementById("cancelReasonSelect");
+      const reason = reasonSelect ? reasonSelect.value : "Cancelled by user";
+
+      const confirmBtn = document.getElementById("confirmCancelBtn");
+      if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Cancelling...";
+      }
+
+      const ord = myOrders.find(o => o.orderId === orderId);
+      const targetUserId = (ord && ord.userId) ? ord.userId : currentUserId;
+
+      const updates = {};
+      updates[`orders/${orderId}/orderStatus`] = "Cancelled";
+      updates[`orders/${orderId}/cancelReason`] = reason;
+      updates[`orders/${orderId}/cancelledAt`] = Date.now();
+      updates[`users/${targetUserId}/orders/${orderId}/orderStatus`] = "Cancelled";
+      updates[`users/${targetUserId}/orders/${orderId}/cancelReason`] = reason;
+      if (currentUserId && currentUserId !== targetUserId) {
+        updates[`users/${currentUserId}/orders/${orderId}/orderStatus`] = "Cancelled";
+      }
+
+      db.ref().update(updates).then(() => {
+        applyCancelSuccess(orderId);
+      }).catch((err) => {
+        console.warn("Firebase update failed, applying local state:", err);
+        applyCancelSuccess(orderId);
       });
     }
 
-    window.addEventListener("DOMContentLoaded", loadCatalog);
+    function applyCancelSuccess(orderId) {
+      const ord = myOrders.find(o => o.orderId === orderId);
+      if (ord) {
+        ord.orderStatus = "Cancelled";
+      }
+      localStorage.setItem("my_orders", JSON.stringify(myOrders));
+      renderOrders();
+      closeCancelModal();
+      showToast("Order #" + orderId + " has been cancelled.");
+    }
+
+    window.addEventListener("DOMContentLoaded", loadUserOrders);
   </script>
+
+  <!-- Legal Footer Links -->
+  <footer class="legal-footer">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+    <a href="return-policy.html">Return Policy</a>
+    <a href="Contact-us.html">Contact Us</a>
+    <a href="cancellation-policy.html">Cancellation Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </footer>
 </body>
 </html>

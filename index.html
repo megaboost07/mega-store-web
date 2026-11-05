@@ -3,11 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Premium Fashion Store</title>
+  <title>Mega Store</title>
   <meta name="description" content="Discover premium apparel, stylish outfits, and exclusive fashion collections.">
   <meta property="og:title" content="Premium Fashion Store">
   <meta property="og:description" content="Discover premium apparel, stylish outfits, and exclusive fashion collections.">
+   <!-- KAYBO Favicon -->
+<link rel="icon" type="image/png"
+href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
 
+<link rel="apple-touch-icon"
+href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
+
+<!-- KAYBO Organization Logo for Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "KAYBO",
+  "url": "https://kaybo.in/",
+  "logo": "https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png",
+  "sameAs": [
+    "https://www.instagram.com/megastore.ofl/"
+  ]
+}
+</script>
+  
   <!-- Firebase Compat SDKs for Realtime Database -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -285,6 +305,8 @@
       color: var(--text-muted);
       margin-top: 2px;
     }
+
+
 
     /* Theme Switcher */
     .theme-toggle-wrap {
@@ -1114,6 +1136,26 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
+  
+    /* Legal Footer Links */
+    .legal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 20px;
+      padding: 22px 16px 28px;
+      margin-top: 36px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+    }
+    .legal-footer a {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .legal-footer a:hover { color: var(--text-main); }
   </style>
 </head>
 <body>
@@ -1129,7 +1171,7 @@
 
       <div class="header-center">
         <a href="index.html" class="brand-logo-link" id="brandLogoLink">
-          <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" class="brand-logo-img">
+          <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" class="brand-logo-img">
         </a>
       </div>
 
@@ -1149,7 +1191,7 @@
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <aside class="drawer" id="sideDrawer">
     <div class="drawer-header">
-      <img src="https://i.ibb.co/3yTVcKwS/Picsart-26-09-15-23-24-19-945.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
+      <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Logo" style="height: 38px; width: 114px; object-fit: contain;">
       <button class="icon-btn" id="drawerCloseBtn" aria-label="Close menu">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
@@ -1189,11 +1231,11 @@
       <div>
         <div class="drawer-section-title" id="drawerTitleContact">Connect With Us</div>
         <div style="display: flex; flex-direction: column; gap: 10px;">
-          <a href="https://www.instagram.com/mega_store.india?stkn=eDNjNm12azdva3Nt" target="_blank" rel="noopener noreferrer" class="drawer-item" id="drawerInstagramLink">
+          <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer" class="drawer-item" id="drawerInstagramLink">
             <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
             <div class="drawer-item-content">
               <div class="drawer-item-title">Instagram</div>
-              <div class="drawer-item-sub">@mega_store.india</div>
+              <div class="drawer-item-sub">@megastore.ofl</div>
             </div>
           </a>
 
@@ -1236,6 +1278,7 @@
         <div class="carousel-dots" id="carouselDots"></div>
       </div>
     </section>
+
 
     <!-- Categories Section -->
     <section id="categorySection">
@@ -1305,6 +1348,8 @@
         </a>
       </div>
     </section>
+
+
 
     <!-- Products Section -->
     <section id="productSection" style="margin-top: 24px;">
@@ -1545,7 +1590,7 @@
         slide.className = "carousel-slide";
         slide.href = slider.link || "category.html";
         slide.innerHTML = `
-          ${progressiveImgTag(slider.imageUrl, slider.title || 'Slide')}
+          ${progressiveImgTag(slider.image || slider.imageUrl || '', slider.title || 'Slide')}
           <div class="carousel-slide-overlay">
             <h3 class="carousel-slide-title">${slider.title || ''}</h3>
             <p class="carousel-slide-desc">${slider.subtitle || ''}</p>
@@ -2210,5 +2255,15 @@
       loadProductsFromFirebase();
     });
   </script>
+
+  <!-- Legal Footer Links -->
+  <footer class="legal-footer">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+    <a href="return-policy.html">Return Policy</a>
+    <a href="Contact-us.html">Contact Us</a>
+    <a href="cancellation-policy.html">Cancellation Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+  </footer>
 </body>
 </html>
