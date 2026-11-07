@@ -404,6 +404,7 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
       flex-direction: column;
       justify-content: space-between;
       flex: 1;
+      min-width: 0;
     }
 
     .cart-item-title {
@@ -423,6 +424,23 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cart-item-title {
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 480px) {
+      .cart-item-img {
+        width: 64px;
+        height: 78px;
+      }
+      .cart-item-row {
+        gap: 10px;
+        padding: 12px;
+      }
     }
 
     .qty-stepper {
@@ -571,14 +589,6 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
       color: var(--text-main);
       border-top: 1px dashed var(--border-color);
       padding-top: 14px;
-    }
-
-    /* Coupon Box */
-    .coupon-box {
-      background: var(--bg-surface);
-      border: 1px dashed var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 12px;
     }
 
     .coupon-input-wrap {
@@ -809,16 +819,6 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
             <span style="color: var(--success-green); font-weight: 600;">FREE</span>
           </div>
 
-          <!-- Coupon Module -->
-          <div class="coupon-box">
-            <div style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">Have a Coupon Code?</div>
-            <div class="coupon-input-wrap">
-              <input type="text" id="cartCouponInput" class="coupon-input" placeholder="SAVE50">
-              <button class="coupon-apply-btn" id="applyCartCouponBtn">Apply</button>
-            </div>
-            <div id="cartCouponFeedback" style="font-size: 11px; margin-top: 6px; display: none;"></div>
-          </div>
-
           <div class="summary-row" id="couponDiscountRow" style="display: none; color: var(--success-green);">
             <span>Total Savings (MRP + Coupon)</span>
             <span id="couponDiscountText">-&#8377;0</span>
@@ -922,7 +922,6 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
 
     /* Cart Engine */
     let cartItems = [];
-    let appliedCoupon = null;
 
     function loadCart() {
       try {
@@ -997,16 +996,6 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
 
       document.getElementById("subtotalText").innerHTML = `&#8377;${subtotal}`;
 
-      // Calculate discount
-      let discountAmount = 0;
-      if (appliedCoupon) {
-        if (appliedCoupon.discountType === "percentage") {
-          discountAmount = Math.round((subtotal * appliedCoupon.discountAmount) / 100);
-        } else {
-          discountAmount = appliedCoupon.discountAmount || 0;
-        }
-      }
-
       // MRP savings (har item ka originalPrice - price)
       let mrpSavings = 0;
       cartItems.forEach(item => {
@@ -1015,7 +1004,7 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
         if (op > p) mrpSavings += (op - p) * (parseInt(item.quantity) || 1);
       });
 
-      const totalSavings = mrpSavings + discountAmount;
+      const totalSavings = mrpSavings;
       if (totalSavings > 0) {
         document.getElementById("couponDiscountRow").style.display = "flex";
         document.getElementById("couponDiscountText").innerHTML = `-&#8377;${totalSavings}`;
@@ -1023,7 +1012,7 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
         document.getElementById("couponDiscountRow").style.display = "none";
       }
 
-      const grandTotal = Math.max(0, subtotal - discountAmount);
+      const grandTotal = subtotal;
       document.getElementById("grandTotalText").innerHTML = `&#8377;${grandTotal}`;
     }
 
@@ -1049,53 +1038,6 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
       showToast("Item removed from cart");
     }
 
-    /* Coupon in Cart */
-    const applyCouponBtn = document.getElementById("applyCartCouponBtn");
-    const couponInput = document.getElementById("cartCouponInput");
-    const couponFeedback = document.getElementById("cartCouponFeedback");
-
-    if (applyCouponBtn) {
-      applyCouponBtn.addEventListener("click", () => {
-        const code = couponInput.value.trim().toUpperCase();
-        if (!code) {
-          showCouponFeedback("Please enter coupon code", "error");
-          return;
-        }
-
-        db.ref("coupons/" + code).once("value", (snap) => {
-          const c = snap.val();
-          if (c && c.active !== false) {
-            const cartSub = cartItems.reduce((s, i) => s + ((i.price || 0) * (parseInt(i.quantity) || 1)), 0);
-            if (c.minOrder && cartSub < Number(c.minOrder)) {
-              showCouponFeedback(`Is coupon ke liye minimum order \u20B9${c.minOrder} chahiye`, "error");
-              return;
-            }
-            appliedCoupon = c;
-            showCouponFeedback(`Coupon ${code} applied successfully!`, "success");
-            renderCart();
-          } else {
-            if (code === "SAVE50") {
-              appliedCoupon = { code: "SAVE50", discountType: "fixed", discountAmount: 50 };
-              showCouponFeedback("Coupon SAVE50 applied! Rs. 50 off", "success");
-              renderCart();
-            } else if (code === "FASHION10") {
-              appliedCoupon = { code: "FASHION10", discountType: "percentage", discountAmount: 10 };
-              showCouponFeedback("Coupon FASHION10 applied! 10% off", "success");
-              renderCart();
-            } else {
-              showCouponFeedback("Invalid or expired coupon code", "error");
-            }
-          }
-        });
-      });
-    }
-
-    function showCouponFeedback(text, type) {
-      couponFeedback.style.display = "block";
-      couponFeedback.textContent = text;
-      couponFeedback.style.color = type === "success" ? "var(--success-green)" : "var(--sale-red)";
-    }
-
     /* Checkout: Cart mode set karo — SAB cart items ek saath buy.html mein jayenge */
     const checkoutBtn = document.getElementById("checkoutBtn");
     if (checkoutBtn) {
@@ -1105,12 +1047,7 @@ href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
         localStorage.removeItem("buynow_item");
         localStorage.removeItem("buynow");
 
-        // Cart coupon bhi buy page tak pahunchao
-        if (appliedCoupon) {
-          localStorage.setItem("checkout_coupon", JSON.stringify(appliedCoupon));
-        } else {
-          localStorage.removeItem("checkout_coupon");
-        }
+        localStorage.removeItem("checkout_coupon");
       });
     }
 

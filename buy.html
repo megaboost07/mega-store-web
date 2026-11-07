@@ -329,35 +329,33 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
     .form-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 10px;
+      gap: 7px;
     }
 
-    @media (min-width: 600px) {
-      .form-grid.two-col {
-        grid-template-columns: 1fr 1fr;
-      }
+    .form-grid.two-col {
+      grid-template-columns: 1fr 1fr;
     }
 
     .input-group {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .input-label {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--text-muted);
     }
 
     .form-input {
-      height: 42px;
-      padding: 0 12px;
-      border-radius: var(--radius-md);
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 10px;
       border: 1px solid var(--border-color);
       background: var(--bg-surface);
       color: var(--text-main);
-      font-size: 13.5px;
+      font-size: 12.5px;
       outline: none;
       transition: var(--transition);
       width: 100%;
@@ -773,9 +771,9 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
     .address-form-panel {
       background: var(--bg-surface);
       border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 14px;
-      margin-top: 10px;
+      border-radius: var(--radius-md);
+      padding: 10px;
+      margin-top: 8px;
     }
 
     @media (min-width: 640px) {
@@ -1326,9 +1324,10 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
 
             <!-- Saved Addresses List View -->
             <div id="savedAddressesContainer" class="address-card-list"></div>
+          </div>
 
-            <!-- Address Form Panel (Add / Edit) -->
-            <div id="addressFormPanel" class="address-form-panel" style="display: none;">
+          <!-- Address Form Panel (Add / Edit) - SEPARATE BOX -->
+          <div id="addressFormPanel" class="checkout-card" style="display: none; margin-top: 14px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
                 <div>
                   <h3 id="addrFormTitle" style="font-size: 14px; font-weight: 800; color: var(--text-main); margin: 0;">Add Delivery Address</h3>
@@ -1348,24 +1347,25 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
 
               <div class="form-grid">
                 <div class="input-group">
-                  <label class="input-label">Full Name *</label>
-                  <input type="text" id="custName" class="form-input" placeholder="Name " required>
+                  <label class="input-label">Full Name</label>
+                  <input type="text" id="custName" class="form-input" placeholder="Full name" required>
                 </div>
 
                 <div class="form-grid two-col">
                   <div class="input-group">
-                    <input type="tel" id="custPhone" class="form-input" placeholder="phone number" maxlength="10" inputmode="tel" required>
+                    <label class="input-label">Phone Number</label>
+                    <input type="tel" id="custPhone" class="form-input" placeholder="Phone number" maxlength="10" inputmode="tel" required>
                   </div>
                   <div class="input-group">
-                    <label class="input-label">Alternative Phone (Optional)</label>
-                    <input type="tel" id="custAltPhone" class="form-input" placeholder="Optional backup number" maxlength="10" inputmode="tel">
+                    <label class="input-label">Alt Phone Optional</label>
+                    <input type="tel" id="custAltPhone" class="form-input" placeholder="Backup number" maxlength="10" inputmode="tel">
                   </div>
                 </div>
 
                 <div class="form-grid two-col">
                   <div class="input-group">
-                    <label class="input-label">PIN Code (6 digits) *</label>
-                    <input type="text" id="custPincode" class="form-input" placeholder="pincode " maxlength="6" inputmode="numeric" required oninput="handlePincodeAutoFill()">
+                    <label class="input-label">PIN Code</label>
+                    <input type="text" id="custPincode" class="form-input" placeholder="PIN code" maxlength="6" inputmode="numeric" required oninput="handlePincodeAutoFill()">
                     <div class="pincode-processing-row" id="pincodeProcessingRow">
                       <div class="pincode-spinner"></div>
                       <span>Detecting City &amp; State<span class="pincode-processing-dots"></span></span>
@@ -1376,30 +1376,30 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
                     </div>
                   </div>
                   <div class="input-group">
-                    <label class="input-label">Town / City *</label>
-                    <input type="text" id="custCity" class="form-input" placeholder="example Mumbai" required>
+                    <label class="input-label">Town / City </label>
+                    <input type="text" id="custCity" class="form-input" placeholder="e.g. Mumbai" required>
                   </div>
                 </div>
 
                 <div class="input-group">
-                  <label class="input-label">House No., Flat, Building, Street Address *</label>
-                  <input type="text" id="custStreet" class="form-input" placeholder="example 153 building " required>
+                  <label class="input-label">House / Flat / Street</label>
+                  <input type="text" id="custStreet" class="form-input" placeholder="e.g. 153, ABC Bldg" required>
                 </div>
 
                 <div class="form-grid two-col">
                   <div class="input-group">
-                    <label class="input-label">Area / Colony / Landmark *</label>
-                    <input type="text" id="custLandmark" class="form-input" placeholder="example Ambani road" required>
+                    <label class="input-label">Area / Landmark</label>
+                    <input type="text" id="custLandmark" class="form-input" placeholder="e.g. Ambani Rd" required>
                   </div>
                   <div class="input-group">
-                    <label class="input-label">State *</label>
-                    <input type="text" id="custState" class="form-input" placeholder=" state name" required>
+                    <label class="input-label">State</label>
+                    <input type="text" id="custState" class="form-input" placeholder="State name" required>
                   </div>
                 </div>
 
                 <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; padding: 8px; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
                   <input type="checkbox" id="custIsDefault" style="width: 16px; height: 16px; accent-color: var(--accent-color);">
-                  <span>Set as my default primary delivery address</span>
+                  <span>Set as default address</span>
                 </label>
 
                 <div style="display: flex; gap: 8px; margin-top: 10px;">
@@ -1408,7 +1408,6 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
                 </div>
               </div>
             </div>
-          </div>
         </section>
 
         <!-- ================= STEP 2: PAYMENT ================= -->
@@ -1426,12 +1425,12 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
                 <div style="flex:1;">
                   <div style="font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
                     <span>Cash on Delivery (COD)</span>
-                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #fffbeb; color: #92400e; border: 1px solid #fde68a; font-weight: 800;">&#8377;29 ADVANCE</span>
+                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 9999px; background: #fffbeb; color: #92400e; border: 1px solid #fde68a; font-weight: 800;">&#8377;55 ADVANCE</span>
                   </div>
-                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay &#8377;29 advance online now &amp; the remaining balance in cash to the delivery boy at your doorstep.</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">Pay &#8377;55 advance online now &amp; the remaining balance in cash to the delivery boy at your doorstep.</div>
                   <div class="cod-advance-note">
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                    <span>At order confirmation, only a <strong>&#8377;29 advance payment</strong> is required (Razorpay secure gateway). Pay the remaining amount to the delivery partner via cash / UPI.</span>
+                    <span>At order confirmation, only a <strong>&#8377;55 advance payment</strong> is required (Razorpay secure gateway). Pay the remaining amount to the delivery partner via cash / UPI.</span>
                   </div>
                 </div>
               </div>
@@ -1631,7 +1630,7 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
   <script>
     /* ================= RAZORPAY CONFIG ================= */
     const RAZORPAY_KEY_ID = "rzp_live_TucsOuR1IaTSGc";
-    const COD_ADVANCE_AMOUNT = 29; // Rupees - partial advance for COD orders
+    const COD_ADVANCE_AMOUNT = 55; // Rupees - partial advance for COD orders
 
     const firebaseConfig = {
       apiKey: "AIzaSyBQnUabSu6WGbq1te-hBEAYPZdOO93_Mfk",
@@ -2245,14 +2244,18 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
         const data = await res.json();
         if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length > 0) {
           const office = data[0].PostOffice[0];
-          const district = office.District || office.Block || "";
-          const block = office.Block || "";
-          if (cityInput)  cityInput.value  = (block && block !== district) ? block + ", " + district : district;
-          if (stateInput) stateInput.value = office.State || "";
+          const clean = (v) => {
+            v = (v || "").toString().trim();
+            return (!v || v.toUpperCase() === "NA") ? "" : v;
+          };
+          const district = clean(office.District) || clean(office.Block);
+          const block = clean(office.Block);
+          if (cityInput)  cityInput.value  = (block && district && block !== district) ? block + ", " + district : district;
+          if (stateInput) stateInput.value = clean(office.State);
           lastFetchedPincode = pin;
           setPincodeUIState("success");
           const okText = document.getElementById("pincodeSuccessText");
-          if (okText) okText.textContent = (district || "Location") + ", " + (office.State || "") + " detected";
+          if (okText) okText.textContent = (district || "Location") + (stateInput.value ? ", " + stateInput.value : "") + " detected";
         } else {
           if (cityInput)  cityInput.value  = "";
           if (stateInput) stateInput.value = "";
