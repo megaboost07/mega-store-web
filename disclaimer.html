@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mega Store | Disclaimer</title>
-  <meta name="description" content="Read the Mega Store website disclaimer regarding product information, pricing and third-party content.">
+  <meta name="description" content="Read the Mega Store website disclaimer covering product information, pricing, delivery timelines, third-party content and limitation of liability.">
   <link rel="icon" type="image/png" href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
   <style>
     :root {
@@ -87,17 +87,10 @@
     .icon-btn:hover { background: var(--accent-light); }
     .icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-    /* Policy Content Card */
-    .policy-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 24px;
-      box-shadow: var(--card-shadow);
-    }
-    .policy-card h1 {
-      font-size: 22px;
+    /* Page Content (NO box around text) */
+    .policy-content { padding: 10px 2px 0; }
+    .policy-content h1 {
+      font-size: 24px;
       font-weight: 800;
       margin-bottom: 6px;
       letter-spacing: -0.01em;
@@ -109,29 +102,55 @@
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border-color);
     }
-    .policy-card h2 {
-      font-size: 16px;
+    .policy-content h2 {
+      font-size: 16.5px;
       font-weight: 700;
-      margin: 20px 0 8px;
+      margin: 28px 0 8px;
       color: var(--text-main);
     }
-    .policy-card p, .policy-card li {
+    .policy-content p, .policy-content li {
       font-size: 14px;
-      line-height: 1.75;
+      line-height: 1.85;
       color: var(--text-muted);
       margin-bottom: 10px;
     }
-    .policy-card ul, .policy-card ol { padding-left: 20px; margin-bottom: 10px; }
-    .policy-card li { margin-bottom: 6px; }
-    .policy-card a { color: var(--text-main); font-weight: 600; }
+    .policy-content ul, .policy-content ol { padding-left: 20px; margin-bottom: 12px; }
+    .policy-content li { margin-bottom: 7px; }
+    .policy-content a { color: var(--text-main); font-weight: 600; }
+    .policy-content strong { color: var(--text-main); }
+    table.policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 13.5px;
+    }
+    table.policy-table th, table.policy-table td {
+      border: 1px solid var(--border-color);
+      padding: 9px 12px;
+      text-align: left;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    table.policy-table th {
+      background: var(--accent-light);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .faq-q {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 14.5px;
+      margin: 18px 0 4px;
+    }
     .policy-highlight {
       background: var(--accent-light);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 12px 16px;
-      margin: 14px 0;
+      padding: 14px 16px;
+      margin: 20px 0 8px;
       font-size: 13.5px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .policy-highlight strong { color: var(--text-main); }
 
@@ -140,7 +159,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 18px;
+      margin: 18px 0;
     }
     @media (min-width: 640px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
     .contact-card {
@@ -171,26 +190,150 @@
     .contact-card-title { font-size: 14px; font-weight: 700; }
     .contact-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    /* Legal Footer Links */
-    .legal-footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 20px;
-      padding: 22px 16px 28px;
-      margin-top: 36px;
+    /* ===== Enhanced Site Footer ===== */
+    .site-footer {
+      margin-top: 48px;
       border-top: 1px solid var(--border-color);
       background: var(--bg-surface);
     }
-    .legal-footer a {
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 16px 22px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+    @media (min-width: 768px) {
+      .footer-top { grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
+    }
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .footer-logo {
+      width: 150px;
+      max-height: 52px;
+      object-fit: contain;
+      display: block;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 300px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .footer-social-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .footer-social-btn:hover {
+      transform: translateY(-3px) scale(1.06);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+    .footer-social-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .footer-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+    .footer-wa { background: #25d366; }
+    .footer-call { background: #0f172a; }
+    body.dark .footer-call { background: #334155; }
+    .footer-col-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links-col a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-links-col a:hover { color: var(--text-main); }
+    .footer-contact-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-contact-item:hover { color: var(--text-main); }
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-main);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+    .footer-divider {
+      height: 1px;
+      background: var(--border-color);
+      margin: 26px 0 16px;
+    }
+    .footer-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    @media (min-width: 768px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; }
+    }
+    .footer-copyright { font-size: 12px; color: var(--text-muted); }
+    .footer-legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 16px;
+    }
+    .footer-legal-links a {
       font-size: 12px;
       font-weight: 600;
       color: var(--text-muted);
       text-decoration: none;
-      transition: var(--transition);
+      transition: color 0.2s ease;
     }
-    .legal-footer a:hover { color: var(--text-main); }
-  </style>
+    .footer-legal-links a:hover { color: var(--text-main); }
+</style>
 </head>
 <body>
 
@@ -216,61 +359,162 @@
   </header>
 
   <main class="container">
-    <div class="policy-card">
-      
+    <div class="policy-content">
       <h1>Disclaimer</h1>
       <div class="policy-updated">Last Updated: November 2026</div>
 
-      <p>The information provided on the Mega Store website is for general informational purposes only. By using this website, you acknowledge and agree to the following:</p>
+      <p>The information, content and services provided on the Mega Store website ("the website") are offered <strong>for general informational and shopping purposes only</strong>. While we work very hard to keep everything on this website accurate, up-to-date and reliable, some information may occasionally be incomplete, outdated or contain errors. By accessing or using this website, you acknowledge that you have read, understood and agree to everything stated in this Disclaimer. If you do not agree with any part of it, please discontinue use of the website.</p>
 
-      <h2>1. Product Information</h2>
+      <h2>1. General Information Only</h2>
       <ul>
-        <li>We make every effort to display product colours, images and details accurately; however, actual colours may vary slightly due to screen settings, photography lighting and manufacturing batches.</li>
-        <li>Product descriptions, fabric details and size charts are provided for guidance. Please review the Size Chart before ordering.</li>
-        <li>Minor variations in measurements (±1–2 cm) are normal for apparel and do not constitute defects.</li>
+        <li>All content on this website — including product descriptions, size guides, pricing, offers, delivery estimates, blog-style tips and FAQs — is provided <strong>in good faith and for general guidance</strong>.</li>
+        <li>Nothing on this website constitutes professional advice of any kind — legal, medical, financial or otherwise. For decisions that require professional guidance, please consult a qualified professional.</li>
+        <li>We may update, change or remove content on this website at any time without prior notice, and we are under no obligation to update any information except as required by law.</li>
       </ul>
 
-      <h2>2. Pricing &amp; Availability</h2>
+      <h2>2. Product Information, Images &amp; Colour Accuracy</h2>
       <ul>
-        <li>Prices, discounts and offers are subject to change without prior notice.</li>
-        <li>We do not guarantee the availability of any product at all times.</li>
-        <li>In the event of a pricing error, we reserve the right to cancel the affected order and issue a full refund.</li>
+        <li>We make every reasonable effort to display product images, colours and details as accurately as possible. However, <strong>actual colours may vary slightly</strong> from what you see on your screen, due to individual screen settings (brightness, contrast, colour temperature), photography lighting, and natural differences between fabric dye batches.</li>
+        <li>Minor variations in shade or print placement <strong>do not constitute a defect</strong> and are a normal characteristic of apparel manufacturing.</li>
+        <li>Product descriptions, fabric names, GSM values and care instructions are provided by suppliers and are intended as guidance. If you have sensitive skin or specific fabric allergies, please verify the fabric composition on the product page before ordering.</li>
+        <li>New garments may carry a mild fresh-dye or packaging smell which dissipates after the first wash — this is normal and not a quality issue.</li>
       </ul>
 
-      <h2>3. Delivery Timelines</h2>
+      <h2>3. Sizing &amp; Measurements</h2>
       <ul>
-        <li>Estimated delivery times (typically 7–10 business days from Assam) are indicative and not guaranteed.</li>
-        <li>Delays may occur due to weather, logistics disruptions, holidays or circumstances beyond our control.</li>
+        <li>Size charts on product pages are provided by the manufacturer and may differ slightly between different products and brands. <strong>Always measure yourself and compare with the specific product's size chart</strong> before ordering.</li>
+        <li>A tolerance of <strong>±1–2 cm in garment measurements</strong> is normal in the apparel industry due to stitching, fabric stretch and measuring technique, and does not qualify as a manufacturing defect.</li>
+        <li>If you are between two sizes, we generally recommend choosing the larger size for comfort, unless the product description states otherwise.</li>
       </ul>
 
-      <h2>4. Third-Party Links &amp; Content</h2>
+      <h2>4. Pricing, Discounts &amp; Availability</h2>
       <ul>
-        <li>Our website may contain links to third-party platforms (Instagram, WhatsApp, YouTube, payment gateways). We are not responsible for the content, policies or practices of external websites.</li>
-        <li>Customer reviews and photos reflect individual experiences and opinions, and do not represent our views or guarantees.</li>
+        <li>All prices are listed in <strong>Indian Rupees (₹)</strong> and are subject to change without prior notice.</li>
+        <li>Discounts, coupons, flash sales and promotional offers are valid for limited periods and <strong>may be withdrawn or modified at any time</strong>. Offers cannot be combined unless explicitly stated.</li>
+        <li>Despite our best efforts, a product shown as available may occasionally go out of stock before your order is packed. In such cases we will contact you and issue a full refund if needed.</li>
+        <li>In the event of an obvious <strong>pricing error</strong> (for example a three-digit product accidentally listed at a two-digit price), we reserve the right to cancel the affected order and issue a complete refund, and we will inform you of the error.</li>
       </ul>
 
-      <h2>5. Limitation of Liability</h2>
-      <p>To the maximum extent permitted by law, Mega Store shall not be liable for any indirect, incidental or consequential damages arising from the use of this website or purchase of products. Our total liability, where applicable, is limited to the value of the order in question.</p>
+      <h2>5. Delivery Timelines</h2>
+      <ul>
+        <li>Estimated delivery times (typically <strong>7–10 business days from our Assam warehouse</strong>) are indicative only and are <strong>not guaranteed</strong>.</li>
+        <li>Delays may occur due to weather conditions, courier backlogs, regional restrictions, public holidays, festivals or other circumstances beyond our reasonable control.</li>
+        <li>We always share tracking information so you can follow your parcel's progress in real time, and we will assist with courier traces if a parcel appears stuck.</li>
+      </ul>
 
-      <h2>6. Changes to This Disclaimer</h2>
-      <p>We may update this disclaimer from time to time. Continued use of the website after changes constitutes acceptance of the revised disclaimer.</p>
+      <h2>6. Third-Party Links, Platforms &amp; Services</h2>
+      <ul>
+        <li>Our website contains links to third-party platforms and services — including <strong>WhatsApp, Instagram, YouTube and payment gateways</strong> — solely for your convenience.</li>
+        <li>We do <strong>not control and are not responsible</strong> for the content, privacy practices, availability or policies of any third-party website or platform. Visiting them is at your own risk, and their own terms will apply.</li>
+        <li>A link to an external platform does not imply endorsement by Mega Store of everything on that platform.</li>
+      </ul>
+
+      <h2>7. Customer Reviews, Photos &amp; User Content</h2>
+      <ul>
+        <li>Reviews, ratings and customer photos displayed on the website or social media <strong>reflect the personal experiences and opinions of individual customers</strong>. They do not represent our views, and individual results or experiences may vary.</li>
+        <li>We do not guarantee that every review you read will match your own experience with the same product.</li>
+        <li>By submitting a review or photo, you grant us permission to display it on our website and marketing channels. We reserve the right to remove content that is fake, abusive, misleading or violates any law.</li>
+      </ul>
+
+      <h2>8. Limitation of Liability</h2>
+      <p>To the maximum extent permitted by applicable law, Mega Store, its owners, employees and partners shall <strong>not be liable</strong> for any indirect, incidental, special, consequential or punitive damages — including loss of profits, data or goodwill — arising from:</p>
+      <ul>
+        <li>Your use of, or inability to use, this website;</li>
+        <li>Any errors, omissions or inaccuracies in website content;</li>
+        <li>Delays, interruptions or failures of delivery services or payment gateways operated by third parties;</li>
+        <li>Any unauthorised access to, or alteration of, your transmissions or data.</li>
+      </ul>
+      <p>Where liability cannot be excluded, our total liability for any claim arising from a purchase is <strong>limited to the value of the order in question</strong>.</p>
+
+      <h2>9. No Warranties</h2>
+      <p>This website and all its content are provided <strong>"as is" and "as available"</strong>, without warranties of any kind, express or implied — including warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the website will be error-free, secure, or continuously available.</p>
+
+      <h2>10. Indemnification</h2>
+      <p>By using this website, you agree to indemnify and hold harmless Mega Store from any claims, damages, losses or expenses (including reasonable legal fees) arising from your violation of these disclaimers, our Terms &amp; Conditions, or any applicable law.</p>
+
+      <h2>11. Changes to This Disclaimer</h2>
+      <p>We may update this Disclaimer from time to time as our website, products and services evolve. The "Last Updated" date at the top of this page always shows the current version. <strong>Continued use of the website after any change constitutes your acceptance</strong> of the revised Disclaimer. We encourage you to review this page periodically.</p>
+
+      <h2>12. Contact Us About This Disclaimer</h2>
+      <p>If you have any questions, concerns or doubts about anything on this page, or if you believe any content on our website is inaccurate or misleading, please reach out — we take such feedback seriously and will review it promptly.</p>
 
       <div class="policy-highlight">
         <strong>Questions about this disclaimer?</strong><br>
         WhatsApp / Call: <a href="tel:8134958144">8134958144</a> &nbsp;|&nbsp; Instagram: <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener">@megastore.ofl</a>
       </div>
-  
     </div>
   </main>
 
   <!-- Legal Footer Links -->
-  <footer class="legal-footer">
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
-    <a href="return-policy.html">Return Policy</a>
-    <a href="Contact-us.html">Contact Us</a>
-    <a href="cancellation-policy.html">Cancellation Policy</a>
-    <a href="disclaimer.html">Disclaimer</a>
+  <!-- Enhanced Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <!-- Brand Column: Logo + Social Icons -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="Mega Store Home">
+            <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Mega Store Logo" class="footer-logo">
+          </a>
+          <p class="footer-tagline">Premium quality apparel &mdash; delivered with love across India, straight from our Assam warehouse.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-ig" aria-label="Follow Mega Store on Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-wa" aria-label="Chat with Mega Store on WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a href="tel:8134958144" class="footer-social-btn footer-call" aria-label="Call Mega Store support">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div>
+          <h4 class="footer-col-title">Quick Links</h4>
+          <div class="footer-links-col">
+            <a href="index.html">Home</a>
+            <a href="category.html">Shop by Category</a>
+            <a href="cart.html">My Cart</a>
+            <a href="save.html">Saved Items</a>
+            <a href="myorder.html">My Orders</a>
+          </div>
+        </div>
+
+        <!-- Help & Support Column -->
+        <div>
+          <h4 class="footer-col-title">Help &amp; Support</h4>
+          <div class="footer-contact-col">
+            <a class="footer-contact-item" href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              <span>WhatsApp: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="tel:8134958144">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Call Support: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              <span>Instagram: @megastore.ofl</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <span class="footer-copyright">&copy; 2026 Mega Store. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+          <a href="return-policy.html">Return Policy</a>
+          <a href="cancellation-policy.html">Cancellation Policy</a>
+          <a href="Contact-us.html">Contact Us</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -282,6 +526,23 @@
         localStorage.setItem("theme", isDark ? "dark" : "light");
       });
     }
+  </script>
+
+  <!-- Auto logo swap on dark/light mode -->
+  <script>
+  (function () {
+    var DARK_LOGO = "https://i.ibb.co/Xk500xcc/Picsart-26-11-10-20-55-03-987.png";
+    var LIGHT_LOGO = "https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png";
+    function syncLogos() {
+      var dark = document.body.classList.contains("dark");
+      document.querySelectorAll("img.brand-logo-img, img.footer-logo").forEach(function (img) {
+        img.src = dark ? DARK_LOGO : LIGHT_LOGO;
+      });
+    }
+    new MutationObserver(syncLogos).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    if (document.readyState !== "loading") { syncLogos(); }
+    else { document.addEventListener("DOMContentLoaded", syncLogos); }
+  })();
   </script>
 </body>
 </html>

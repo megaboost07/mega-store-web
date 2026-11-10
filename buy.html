@@ -2501,5 +2501,22 @@ href="https://i.ibb.co/LXnjLDZb/Picsart-26-10-10-22-17-37-672.jpg">
       selectPaymentMethod("COD");
     });
   </script>
+
+  <!-- Auto logo swap on dark/light mode -->
+  <script>
+  (function () {
+    var DARK_LOGO = "https://i.ibb.co/Xk500xcc/Picsart-26-11-10-20-55-03-987.png";
+    var LIGHT_LOGO = "https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png";
+    function syncLogos() {
+      var dark = document.body.classList.contains("dark");
+      document.querySelectorAll("img.brand-logo-img, img.footer-logo").forEach(function (img) {
+        img.src = dark ? DARK_LOGO : LIGHT_LOGO;
+      });
+    }
+    new MutationObserver(syncLogos).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    if (document.readyState !== "loading") { syncLogos(); }
+    else { document.addEventListener("DOMContentLoaded", syncLogos); }
+  })();
+  </script>
 </body>
 </html>

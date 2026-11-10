@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mega Store | Contact Us</title>
-  <meta name="description" content="Get in touch with Mega Store support via WhatsApp, phone call, Instagram or email.">
+  <meta name="description" content="Get in touch with Mega Store support via WhatsApp, phone call, Instagram or self-service tools — response times, hours and helpful checklists included.">
   <link rel="icon" type="image/png" href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
   <style>
     :root {
@@ -87,17 +87,10 @@
     .icon-btn:hover { background: var(--accent-light); }
     .icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-    /* Policy Content Card */
-    .policy-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 24px;
-      box-shadow: var(--card-shadow);
-    }
-    .policy-card h1 {
-      font-size: 22px;
+    /* Page Content (NO box around text) */
+    .policy-content { padding: 10px 2px 0; }
+    .policy-content h1 {
+      font-size: 24px;
       font-weight: 800;
       margin-bottom: 6px;
       letter-spacing: -0.01em;
@@ -109,29 +102,55 @@
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border-color);
     }
-    .policy-card h2 {
-      font-size: 16px;
+    .policy-content h2 {
+      font-size: 16.5px;
       font-weight: 700;
-      margin: 20px 0 8px;
+      margin: 28px 0 8px;
       color: var(--text-main);
     }
-    .policy-card p, .policy-card li {
+    .policy-content p, .policy-content li {
       font-size: 14px;
-      line-height: 1.75;
+      line-height: 1.85;
       color: var(--text-muted);
       margin-bottom: 10px;
     }
-    .policy-card ul, .policy-card ol { padding-left: 20px; margin-bottom: 10px; }
-    .policy-card li { margin-bottom: 6px; }
-    .policy-card a { color: var(--text-main); font-weight: 600; }
+    .policy-content ul, .policy-content ol { padding-left: 20px; margin-bottom: 12px; }
+    .policy-content li { margin-bottom: 7px; }
+    .policy-content a { color: var(--text-main); font-weight: 600; }
+    .policy-content strong { color: var(--text-main); }
+    table.policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 13.5px;
+    }
+    table.policy-table th, table.policy-table td {
+      border: 1px solid var(--border-color);
+      padding: 9px 12px;
+      text-align: left;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    table.policy-table th {
+      background: var(--accent-light);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .faq-q {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 14.5px;
+      margin: 18px 0 4px;
+    }
     .policy-highlight {
       background: var(--accent-light);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 12px 16px;
-      margin: 14px 0;
+      padding: 14px 16px;
+      margin: 20px 0 8px;
       font-size: 13.5px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .policy-highlight strong { color: var(--text-main); }
 
@@ -140,7 +159,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 18px;
+      margin: 18px 0;
     }
     @media (min-width: 640px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
     .contact-card {
@@ -171,26 +190,150 @@
     .contact-card-title { font-size: 14px; font-weight: 700; }
     .contact-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    /* Legal Footer Links */
-    .legal-footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 20px;
-      padding: 22px 16px 28px;
-      margin-top: 36px;
+    /* ===== Enhanced Site Footer ===== */
+    .site-footer {
+      margin-top: 48px;
       border-top: 1px solid var(--border-color);
       background: var(--bg-surface);
     }
-    .legal-footer a {
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 16px 22px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+    @media (min-width: 768px) {
+      .footer-top { grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
+    }
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .footer-logo {
+      width: 150px;
+      max-height: 52px;
+      object-fit: contain;
+      display: block;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 300px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .footer-social-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .footer-social-btn:hover {
+      transform: translateY(-3px) scale(1.06);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+    .footer-social-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .footer-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+    .footer-wa { background: #25d366; }
+    .footer-call { background: #0f172a; }
+    body.dark .footer-call { background: #334155; }
+    .footer-col-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links-col a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-links-col a:hover { color: var(--text-main); }
+    .footer-contact-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-contact-item:hover { color: var(--text-main); }
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-main);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+    .footer-divider {
+      height: 1px;
+      background: var(--border-color);
+      margin: 26px 0 16px;
+    }
+    .footer-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    @media (min-width: 768px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; }
+    }
+    .footer-copyright { font-size: 12px; color: var(--text-muted); }
+    .footer-legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 16px;
+    }
+    .footer-legal-links a {
       font-size: 12px;
       font-weight: 600;
       color: var(--text-muted);
       text-decoration: none;
-      transition: var(--transition);
+      transition: color 0.2s ease;
     }
-    .legal-footer a:hover { color: var(--text-main); }
-  </style>
+    .footer-legal-links a:hover { color: var(--text-main); }
+</style>
 </head>
 <body>
 
@@ -216,12 +359,11 @@
   </header>
 
   <main class="container">
-    <div class="policy-card">
-      
+    <div class="policy-content">
       <h1>Contact Us</h1>
-      <div class="policy-updated">We're here to help — 24/7 customer support</div>
+      <div class="policy-updated">We're here to help — customer support 7 days a week</div>
 
-      <p>Have a question about an order, product, size, return or anything else? Reach out to us anytime through any of the channels below. Our support team typically responds within a few minutes on WhatsApp during business hours.</p>
+      <p>Have a question about an order, a product, a size, a return, a refund — or just want to say hello? Our support team is always happy to hear from you. On this page you will find <strong>every way to reach us</strong>, guidance on which channel is fastest for which type of query, our business hours, what information to keep ready before contacting us, and quick answers to the questions we receive most often.</p>
 
       <div class="contact-grid">
         <a class="contact-card" href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer">
@@ -230,7 +372,7 @@
           </div>
           <div>
             <div class="contact-card-title">WhatsApp Support</div>
-            <div class="contact-card-sub">+91 8134958144 — Fastest response</div>
+            <div class="contact-card-sub">+91 8134958144 — Fastest response, tap to chat</div>
           </div>
         </a>
 
@@ -260,31 +402,139 @@
           </div>
           <div>
             <div class="contact-card-title">Continue Shopping</div>
-            <div class="contact-card-sub">Browse the latest collection</div>
+            <div class="contact-card-sub">Browse the latest collection on our website</div>
           </div>
         </a>
       </div>
 
-      <h2>Business Hours</h2>
-      <p>Our WhatsApp and call support is available <strong>7 days a week</strong>. Messages received outside business hours are answered first thing the next morning.</p>
+      <h2>Which Channel Should You Use? — Quick Guide</h2>
+      <table class="policy-table">
+        <tr><th>Channel</th><th>Best For</th><th>Typical Response Time</th></tr>
+        <tr><td><strong>WhatsApp</strong> — +91 8134958144</td><td>Cancellations, returns, exchanges, tracking help, size advice, refund status — almost everything.</td><td>A few minutes during business hours.</td></tr>
+        <tr><td><strong>Phone Call</strong> — 8134958144</td><td>Urgent issues that need an immediate answer, such as a wrong delivery address on a same-day dispatch.</td><td>Immediate, if the line is free.</td></tr>
+        <tr><td><strong>Instagram DM</strong> — @megastore.ofl</td><td>Product questions, restock queries, feedback, and general conversation.</td><td>Within a few hours.</td></tr>
+        <tr><td><strong>Website (Self-Service)</strong> — My Orders</td><td>Order history, live status, self-cancellation before shipping, and re-ordering favourites.</td><td>Instant — available 24/7.</td></tr>
+      </table>
 
-      <h2>Shipping From</h2>
-      <p>All orders are packed and shipped from our warehouse in <strong>Assam, India</strong>. Standard delivery takes 7–10 business days across India.</p>
+      <h2>Business Hours &amp; Response Times — Step by Step</h2>
+      <ol>
+        <li><strong>WhatsApp and Call support is available 7 days a week.</strong> We keep the lines open every day because we know orders and deliveries do not stop on weekends.</li>
+        <li><strong>Messages received outside active hours</strong> (late night or very early morning) are queued and answered <strong>first thing the next morning</strong>, usually within the first hour of the day.</li>
+        <li><strong>During big sale events</strong> (festival sales, clearance events) response times can stretch to a few hours due to high volume. We sincerely appreciate your patience — every single message is read and answered.</li>
+        <li><strong>If you don't get a reply within a few hours during business hours,</strong> please re-send your message. Occasionally a message gets buried — a gentle follow-up always reaches us.</li>
+      </ol>
 
-      <h2>Before You Contact</h2>
-      <p>To help us resolve your query faster, please keep your <strong>Order ID</strong> ready (you can find it in My Orders). For return/defect claims, a short video or photo of the item is very helpful.</p>
-  
+      <h2>Before You Contact Us — Preparation Checklist</h2>
+      <p>Following these simple steps helps us resolve your query in a single conversation instead of several back-and-forth messages:</p>
+      <ol>
+        <li><strong>Keep your Order ID ready.</strong> You can find it in "My Orders" on the website, or in the confirmation message you received after checkout. It looks like MS-123456.</li>
+        <li><strong>For return or defect claims, attach a clear photo or a short video</strong> of the item — showing the issue clearly (for example a tear, stain, wrong colour, or missing part). Claims with visual proof are approved much faster.</li>
+        <li><strong>Mention the product name and size</strong> if your question is about a specific product you haven't ordered yet.</li>
+        <li><strong>State your question in one clear sentence</strong> at the start of the message — for example: "I want to exchange size M for size L in order MS-123456."</li>
+        <li><strong>Stay on the same chat thread.</strong> This preserves your conversation history and helps any of our team members pick up right where the last one left off.</li>
+      </ol>
+
+      <h2>Shipping From &amp; Delivery Information</h2>
+      <ul>
+        <li>All orders are <strong>packed and shipped from our warehouse in Assam, India</strong>. Every parcel is quality-checked and sealed before dispatch.</li>
+        <li><strong>Standard delivery takes 7–10 business days</strong> across India, depending on your destination PIN code. Metro cities are usually on the faster end; remote pin codes may take the full duration.</li>
+        <li><strong>Tracking details</strong> are updated inside "My Orders" as soon as the courier scans the parcel, and we also share dispatch updates on WhatsApp where possible.</li>
+        <li><strong>Please keep your phone reachable</strong> on the delivery day — the courier may call to confirm your address or directions.</li>
+      </ul>
+
+      <h2>Common Questions — Quick Answers</h2>
+      <p class="faq-q">Where is my order?</p>
+      <p>Open "My Orders" and tap your order to see the live status and tracking link. If the tracking hasn't moved for 4+ days, message us with your Order ID and we will raise a trace with the courier.</p>
+      <p class="faq-q">How do I cancel my order?</p>
+      <p>Go to "My Orders" and tap "Cancel Order" while the status is Pending/Processing. Full step-by-step instructions are on our <a href="cancellation-policy.html">Cancellation Policy</a> page.</p>
+      <p class="faq-q">How do I return or exchange an item?</p>
+      <p>Message us on WhatsApp at 8134958144 with your Order ID and photos (if defective). The complete process is explained in our <a href="return-policy.html">Return Policy</a>.</p>
+      <p class="faq-q">My payment failed but money was deducted. What now?</p>
+      <p>Don't worry — failed-payment amounts are auto-reversed by the bank/payment gateway within 5–7 business days. If it takes longer, share the transaction screenshot with us and we will escalate it.</p>
+      <p class="faq-q">Do you deliver to my PIN code?</p>
+      <p>We deliver across India. If your PIN code is serviceable by our courier partners, checkout will proceed normally. For any doubt, just ask us on WhatsApp before ordering.</p>
+      <p class="faq-q">How can I give feedback or a suggestion?</p>
+      <p>We genuinely love hearing from customers. Message us on WhatsApp or Instagram — good or bad, your feedback shapes what we do next.</p>
+
+      <h2>A Final Note From Our Team</h2>
+      <p>Every message you send is read by a real human being from our support team in India — never a bot. Whether your issue is big or small, we treat it with the same care we would want for our own families. Thank you for shopping with Mega Store.</p>
+
+      <div class="policy-highlight">
+        <strong>Fastest way to reach us:</strong> WhatsApp <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer">+91 8134958144</a> &nbsp;|&nbsp; Call <a href="tel:8134958144">8134958144</a> &nbsp;|&nbsp; Instagram <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener">@megastore.ofl</a>
+      </div>
     </div>
   </main>
 
   <!-- Legal Footer Links -->
-  <footer class="legal-footer">
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
-    <a href="return-policy.html">Return Policy</a>
-    <a href="Contact-us.html">Contact Us</a>
-    <a href="cancellation-policy.html">Cancellation Policy</a>
-    <a href="disclaimer.html">Disclaimer</a>
+  <!-- Enhanced Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <!-- Brand Column: Logo + Social Icons -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="Mega Store Home">
+            <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Mega Store Logo" class="footer-logo">
+          </a>
+          <p class="footer-tagline">Premium quality apparel &mdash; delivered with love across India, straight from our Assam warehouse.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-ig" aria-label="Follow Mega Store on Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-wa" aria-label="Chat with Mega Store on WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a href="tel:8134958144" class="footer-social-btn footer-call" aria-label="Call Mega Store support">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div>
+          <h4 class="footer-col-title">Quick Links</h4>
+          <div class="footer-links-col">
+            <a href="index.html">Home</a>
+            <a href="category.html">Shop by Category</a>
+            <a href="cart.html">My Cart</a>
+            <a href="save.html">Saved Items</a>
+            <a href="myorder.html">My Orders</a>
+          </div>
+        </div>
+
+        <!-- Help & Support Column -->
+        <div>
+          <h4 class="footer-col-title">Help &amp; Support</h4>
+          <div class="footer-contact-col">
+            <a class="footer-contact-item" href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              <span>WhatsApp: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="tel:8134958144">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Call Support: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              <span>Instagram: @megastore.ofl</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <span class="footer-copyright">&copy; 2026 Mega Store. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+          <a href="return-policy.html">Return Policy</a>
+          <a href="cancellation-policy.html">Cancellation Policy</a>
+          <a href="Contact-us.html">Contact Us</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -296,6 +546,23 @@
         localStorage.setItem("theme", isDark ? "dark" : "light");
       });
     }
+  </script>
+
+  <!-- Auto logo swap on dark/light mode -->
+  <script>
+  (function () {
+    var DARK_LOGO = "https://i.ibb.co/Xk500xcc/Picsart-26-11-10-20-55-03-987.png";
+    var LIGHT_LOGO = "https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png";
+    function syncLogos() {
+      var dark = document.body.classList.contains("dark");
+      document.querySelectorAll("img.brand-logo-img, img.footer-logo").forEach(function (img) {
+        img.src = dark ? DARK_LOGO : LIGHT_LOGO;
+      });
+    }
+    new MutationObserver(syncLogos).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    if (document.readyState !== "loading") { syncLogos(); }
+    else { document.addEventListener("DOMContentLoaded", syncLogos); }
+  })();
   </script>
 </body>
 </html>

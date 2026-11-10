@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mega Store | Privacy Policy</title>
-  <meta name="description" content="Read the Mega Store privacy policy to understand how we collect, use and protect your personal information.">
+  <meta name="description" content="Read the Mega Store privacy policy to understand exactly how we collect, use, store, share and protect your personal information.">
   <link rel="icon" type="image/png" href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
   <style>
     :root {
@@ -87,17 +87,10 @@
     .icon-btn:hover { background: var(--accent-light); }
     .icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-    /* Policy Content Card */
-    .policy-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 24px;
-      box-shadow: var(--card-shadow);
-    }
-    .policy-card h1 {
-      font-size: 22px;
+    /* Page Content (NO box around text) */
+    .policy-content { padding: 10px 2px 0; }
+    .policy-content h1 {
+      font-size: 24px;
       font-weight: 800;
       margin-bottom: 6px;
       letter-spacing: -0.01em;
@@ -109,29 +102,55 @@
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border-color);
     }
-    .policy-card h2 {
-      font-size: 16px;
+    .policy-content h2 {
+      font-size: 16.5px;
       font-weight: 700;
-      margin: 20px 0 8px;
+      margin: 28px 0 8px;
       color: var(--text-main);
     }
-    .policy-card p, .policy-card li {
+    .policy-content p, .policy-content li {
       font-size: 14px;
-      line-height: 1.75;
+      line-height: 1.85;
       color: var(--text-muted);
       margin-bottom: 10px;
     }
-    .policy-card ul, .policy-card ol { padding-left: 20px; margin-bottom: 10px; }
-    .policy-card li { margin-bottom: 6px; }
-    .policy-card a { color: var(--text-main); font-weight: 600; }
+    .policy-content ul, .policy-content ol { padding-left: 20px; margin-bottom: 12px; }
+    .policy-content li { margin-bottom: 7px; }
+    .policy-content a { color: var(--text-main); font-weight: 600; }
+    .policy-content strong { color: var(--text-main); }
+    table.policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 13.5px;
+    }
+    table.policy-table th, table.policy-table td {
+      border: 1px solid var(--border-color);
+      padding: 9px 12px;
+      text-align: left;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    table.policy-table th {
+      background: var(--accent-light);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .faq-q {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 14.5px;
+      margin: 18px 0 4px;
+    }
     .policy-highlight {
       background: var(--accent-light);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 12px 16px;
-      margin: 14px 0;
+      padding: 14px 16px;
+      margin: 20px 0 8px;
       font-size: 13.5px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .policy-highlight strong { color: var(--text-main); }
 
@@ -140,7 +159,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 18px;
+      margin: 18px 0;
     }
     @media (min-width: 640px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
     .contact-card {
@@ -171,26 +190,150 @@
     .contact-card-title { font-size: 14px; font-weight: 700; }
     .contact-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    /* Legal Footer Links */
-    .legal-footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 20px;
-      padding: 22px 16px 28px;
-      margin-top: 36px;
+    /* ===== Enhanced Site Footer ===== */
+    .site-footer {
+      margin-top: 48px;
       border-top: 1px solid var(--border-color);
       background: var(--bg-surface);
     }
-    .legal-footer a {
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 16px 22px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+    @media (min-width: 768px) {
+      .footer-top { grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
+    }
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .footer-logo {
+      width: 150px;
+      max-height: 52px;
+      object-fit: contain;
+      display: block;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 300px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .footer-social-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .footer-social-btn:hover {
+      transform: translateY(-3px) scale(1.06);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+    .footer-social-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .footer-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+    .footer-wa { background: #25d366; }
+    .footer-call { background: #0f172a; }
+    body.dark .footer-call { background: #334155; }
+    .footer-col-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links-col a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-links-col a:hover { color: var(--text-main); }
+    .footer-contact-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-contact-item:hover { color: var(--text-main); }
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-main);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+    .footer-divider {
+      height: 1px;
+      background: var(--border-color);
+      margin: 26px 0 16px;
+    }
+    .footer-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    @media (min-width: 768px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; }
+    }
+    .footer-copyright { font-size: 12px; color: var(--text-muted); }
+    .footer-legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 16px;
+    }
+    .footer-legal-links a {
       font-size: 12px;
       font-weight: 600;
       color: var(--text-muted);
       text-decoration: none;
-      transition: var(--transition);
+      transition: color 0.2s ease;
     }
-    .legal-footer a:hover { color: var(--text-main); }
-  </style>
+    .footer-legal-links a:hover { color: var(--text-main); }
+</style>
 </head>
 <body>
 
@@ -216,67 +359,174 @@
   </header>
 
   <main class="container">
-    <div class="policy-card">
-      
+    <div class="policy-content">
       <h1>Privacy Policy</h1>
       <div class="policy-updated">Last Updated: November 2026</div>
 
-      <p>Mega Store ("we", "our", or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose and safeguard your information when you use our website and services.</p>
+      <p>Mega Store ("we", "our", or "us") deeply respects your privacy and is fully committed to protecting the personal information you share with us. This Privacy Policy explains — in clear, plain language — <strong>what information we collect, why we collect it, how we store and protect it, who (if anyone) we share it with, how long we keep it, and what rights you have over your own data</strong> when you use our website and services. Please read this policy carefully. By using our website, you consent to the practices described here.</p>
 
       <h2>1. Information We Collect</h2>
+      <p>We collect only the information that is genuinely needed to process your orders and serve you well. Here is a complete breakdown:</p>
+      <table class="policy-table">
+        <tr><th>Category</th><th>What We Collect</th><th>Why We Collect It</th></tr>
+        <tr><td><strong>Personal Details</strong></td><td>Your name, phone number, email address, delivery address and PIN code, provided during checkout or support conversations.</td><td>To deliver your order, contact you about it, and verify your identity when you request changes.</td></tr>
+        <tr><td><strong>Order Information</strong></td><td>Products purchased, quantities, sizes, colours, prices, payment method (COD or Online), order history and wishlist items.</td><td>To process, pack and dispatch orders correctly and to show you your purchase history.</td></tr>
+        <tr><td><strong>Payment Information</strong></td><td>Payment method type and transaction status only. Card/UPI details are entered directly on the payment gateway's secure page.</td><td>To confirm successful payment and process refunds. We never see or store your full card number, CVV or UPI PIN.</td></tr>
+        <tr><td><strong>Browsing &amp; Preference Data</strong></td><td>Pages visited, products viewed, cart contents, theme (light/dark) and language preference — stored locally on your device.</td><td>To remember your preferences and improve your shopping experience.</td></tr>
+        <tr><td><strong>Support Conversations</strong></td><td>Messages, photos or videos you send us on WhatsApp/Instagram regarding orders, returns or feedback.</td><td>To resolve your queries, verify return claims and continuously improve our service.</td></tr>
+      </table>
+
+      <h2>2. How We Use Your Information — Step by Step</h2>
+      <ol>
+        <li><strong>Order processing:</strong> Your name, address and phone number are used to generate shipping labels and courier manifests so your parcel reaches the right doorstep.</li>
+        <li><strong>Communication:</strong> We use your phone number to send order confirmations, shipping updates and delivery coordination messages via SMS or WhatsApp.</li>
+        <li><strong>Customer support:</strong> Our team accesses your order history when you contact us, so you never have to repeat your story to every agent.</li>
+        <li><strong>Refunds:</strong> For return/refund processing, we use your payment details (as provided by the gateway) or your UPI/bank details (for COD refunds) to send the money back.</li>
+        <li><strong>Improvement:</strong> Aggregated, non-identifiable browsing patterns help us understand which products and pages customers love, so we can stock better and design a smoother website.</li>
+        <li><strong>Marketing (optional):</strong> With your consent, we may send new arrivals, restock alerts and exclusive offers. You can opt out at any time, free of charge.</li>
+      </ol>
+
+      <h2>3. How We Store &amp; Protect Your Data</h2>
       <ul>
-        <li><strong>Personal Details:</strong> Name, phone number, delivery address, PIN code and email address provided during checkout or support requests.</li>
-        <li><strong>Order Information:</strong> Products purchased, quantities, sizes, prices, payment method (Cash on Delivery or Online Payment) and order history.</li>
-        <li><strong>Browsing Data:</strong> Pages visited, products viewed, wishlist items and cart contents stored locally on your device to improve your shopping experience.</li>
+        <li>Your order and account data is stored on <strong>Firebase (Google Cloud infrastructure)</strong>, which provides enterprise-grade security with <strong>encryption in transit (HTTPS/TLS) and at rest</strong>.</li>
+        <li>Cart items, wishlist, theme and language preferences are stored in your <strong>browser's local storage</strong> — they stay on your device and are never transmitted to our servers.</li>
+        <li>Access to customer data inside our company is <strong>restricted to team members who need it</strong> for order processing or support, under confidentiality obligations.</li>
+        <li>We never store card numbers, CVVs or UPI PINs — payment data is handled entirely by PCI-DSS compliant payment gateways.</li>
+        <li>While we follow industry-standard safeguards, no method of internet transmission is 100% secure. We encourage you to keep your phone and accounts protected and to never share OTPs with anyone.</li>
       </ul>
 
-      <h2>2. How We Use Your Information</h2>
+      <h2>4. How Long We Keep Your Data</h2>
       <ul>
-        <li>To process, confirm and deliver your orders.</li>
-        <li>To provide customer support via phone or WhatsApp (8134958144).</li>
-        <li>To send order updates, delivery status and promotional offers (if you opt in).</li>
-        <li>To improve our website, product range and services.</li>
+        <li><strong>Order records:</strong> Kept for a minimum of the period required under Indian tax and commercial law (typically several years), for accounting and legal compliance.</li>
+        <li><strong>Support chats:</strong> Retained for up to 12 months to help with follow-ups and dispute resolution, after which they may be archived or deleted.</li>
+        <li><strong>Local browser data:</strong> Retained on your device until you clear your browser cache/site data — you control this fully.</li>
+        <li>When data is no longer needed, it is securely deleted or irreversibly anonymised.</li>
       </ul>
 
-      <h2>3. Data Storage &amp; Security</h2>
-      <p>Your data is stored securely using Firebase (Google Cloud infrastructure) with encryption in transit and at rest. Cart and preference data may also be stored locally in your browser's local storage. We implement industry-standard safeguards; however, no method of transmission over the internet is 100% secure.</p>
-
-      <h2>4. Sharing of Information</h2>
-      <p>We do <strong>not</strong> sell, trade or rent your personal information to third parties. We share limited details only with:</p>
+      <h2>5. Sharing of Information — Who Sees Your Data and Why</h2>
+      <p>We want to be crystal clear: <strong>we never sell, trade or rent your personal information to anyone for marketing purposes.</strong> Your data is shared only in these limited situations:</p>
       <ul>
-        <li>Courier and logistics partners (name, address, phone) solely for delivery.</li>
-        <li>Payment gateway providers (for online payments) — card details are processed directly by the gateway and are never stored on our servers.</li>
+        <li><strong>Courier &amp; logistics partners:</strong> Your name, delivery address and phone number are shared solely to physically deliver your parcel.</li>
+        <li><strong>Payment gateways:</strong> When you pay online, your payment details are processed directly by the gateway (e.g., Razorpay/PayU/etc.). They receive only what is necessary to complete the transaction, under their own strict privacy and PCI-DSS compliance.</li>
+        <li><strong>Legal requirements:</strong> We may disclose information if required by law, court order, or to protect our rights, property or safety, or that of our customers.</li>
       </ul>
 
-      <h2>5. Cookies &amp; Local Storage</h2>
-      <p>We use browser local storage to remember your cart, wishlist, theme preference and language selection. You may clear this data anytime via your browser settings.</p>
-
-      <h2>6. Your Rights</h2>
+      <h2>6. Cookies &amp; Local Storage</h2>
+      <p>Our website uses browser local storage (a technology similar to cookies) to remember the following on your device:</p>
       <ul>
-        <li>Request access, correction or deletion of your personal data.</li>
-        <li>Opt out of promotional communications at any time.</li>
-        <li>Contact us for any privacy-related concerns.</li>
+        <li>Your <strong>shopping cart</strong> contents — so items stay in your cart even if you close the browser.</li>
+        <li>Your <strong>wishlist</strong> items — so your saved favourites are there when you return.</li>
+        <li>Your <strong>theme preference</strong> (light or dark mode) — so the site always looks the way you like it.</li>
+        <li>Your <strong>language selection</strong> — so you don't have to re-select it every visit.</li>
       </ul>
+      <p>You can clear all of this data at any time through your browser settings (usually under "Privacy" → "Clear browsing data" → "Cookies and site data"). Clearing it will reset your cart, wishlist and theme.</p>
 
-      <h2>7. Contact Us</h2>
-      <p>For any questions regarding this Privacy Policy, contact us:</p>
+      <h2>7. Your Rights Over Your Data</h2>
+      <p>You are always in control of your personal information. You have the right to:</p>
+      <ul>
+        <li><strong>Access:</strong> Request a copy of the personal data we hold about you.</li>
+        <li><strong>Correction:</strong> Ask us to fix any inaccurate or incomplete details (like a misspelt name or outdated address).</li>
+        <li><strong>Deletion:</strong> Request deletion of your personal data, subject to legal retention requirements (e.g., completed orders must be kept for accounting purposes).</li>
+        <li><strong>Opt-out:</strong> Stop receiving promotional messages at any time by replying "STOP" or asking us on WhatsApp.</li>
+      </ul>
+      <p><strong>To exercise any of these rights, follow these steps:</strong></p>
+      <ol>
+        <li>Message us on WhatsApp at <a href="tel:8134958144">8134958144</a> from the same number used on your order.</li>
+        <li>Clearly state your request — for example: "Please send me a copy of my data" or "Please correct my delivery address".</li>
+        <li>We verify your identity using your Order ID / registered number, then process most requests within 7–10 business days.</li>
+      </ol>
+
+      <h2>8. Children's Privacy</h2>
+      <p>Our website is intended for users aged 18 and above, or minors purchasing under the supervision of a parent or guardian. We do not knowingly collect personal information from children under 13. If you believe a child has provided us data without parental consent, contact us and we will delete it promptly.</p>
+
+      <h2>9. Third-Party Links</h2>
+      <p>Our website contains links to third-party platforms (Instagram, WhatsApp, YouTube, payment gateways). This Privacy Policy applies only to Mega Store — once you leave our site, the third party's own privacy policy governs how they handle your data.</p>
+
+      <h2>10. Changes to This Privacy Policy</h2>
+      <p>We may update this policy from time to time to reflect changes in our practices, technology or legal requirements. The "Last Updated" date above shows the latest version. For significant changes, we will make reasonable efforts to notify you via WhatsApp/SMS or a prominent notice on the website. Continued use of the website after an update means you accept the revised policy.</p>
+
+      <h2>11. Contact Us — Privacy &amp; Grievance</h2>
+      <p>If you have any questions about this Privacy Policy, wish to exercise your data rights, or have a privacy-related complaint, our team is ready to help:</p>
+
       <div class="policy-highlight">
         <strong>WhatsApp / Call:</strong> <a href="tel:8134958144">8134958144</a><br>
         <strong>Instagram:</strong> <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener">@megastore.ofl</a><br>
-        <strong>Page:</strong> <a href="Contact-us.html">Contact Us</a>
+        <strong>Page:</strong> <a href="Contact-us.html">Contact Us</a><br>
+        Please contact us from your registered phone number and keep an Order ID handy — it helps us verify and resolve your request faster.
       </div>
-  
     </div>
   </main>
 
   <!-- Legal Footer Links -->
-  <footer class="legal-footer">
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
-    <a href="return-policy.html">Return Policy</a>
-    <a href="Contact-us.html">Contact Us</a>
-    <a href="cancellation-policy.html">Cancellation Policy</a>
-    <a href="disclaimer.html">Disclaimer</a>
+  <!-- Enhanced Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <!-- Brand Column: Logo + Social Icons -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="Mega Store Home">
+            <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Mega Store Logo" class="footer-logo">
+          </a>
+          <p class="footer-tagline">Premium quality apparel &mdash; delivered with love across India, straight from our Assam warehouse.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-ig" aria-label="Follow Mega Store on Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-wa" aria-label="Chat with Mega Store on WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a href="tel:8134958144" class="footer-social-btn footer-call" aria-label="Call Mega Store support">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div>
+          <h4 class="footer-col-title">Quick Links</h4>
+          <div class="footer-links-col">
+            <a href="index.html">Home</a>
+            <a href="category.html">Shop by Category</a>
+            <a href="cart.html">My Cart</a>
+            <a href="save.html">Saved Items</a>
+            <a href="myorder.html">My Orders</a>
+          </div>
+        </div>
+
+        <!-- Help & Support Column -->
+        <div>
+          <h4 class="footer-col-title">Help &amp; Support</h4>
+          <div class="footer-contact-col">
+            <a class="footer-contact-item" href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              <span>WhatsApp: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="tel:8134958144">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Call Support: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              <span>Instagram: @megastore.ofl</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <span class="footer-copyright">&copy; 2026 Mega Store. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+          <a href="return-policy.html">Return Policy</a>
+          <a href="cancellation-policy.html">Cancellation Policy</a>
+          <a href="Contact-us.html">Contact Us</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -288,6 +538,23 @@
         localStorage.setItem("theme", isDark ? "dark" : "light");
       });
     }
+  </script>
+
+  <!-- Auto logo swap on dark/light mode -->
+  <script>
+  (function () {
+    var DARK_LOGO = "https://i.ibb.co/Xk500xcc/Picsart-26-11-10-20-55-03-987.png";
+    var LIGHT_LOGO = "https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png";
+    function syncLogos() {
+      var dark = document.body.classList.contains("dark");
+      document.querySelectorAll("img.brand-logo-img, img.footer-logo").forEach(function (img) {
+        img.src = dark ? DARK_LOGO : LIGHT_LOGO;
+      });
+    }
+    new MutationObserver(syncLogos).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    if (document.readyState !== "loading") { syncLogos(); }
+    else { document.addEventListener("DOMContentLoaded", syncLogos); }
+  })();
   </script>
 </body>
 </html>

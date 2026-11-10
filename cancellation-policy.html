@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mega Store | Cancellation Policy</title>
-  <meta name="description" content="Learn how to cancel your Mega Store order before shipment and how cancellations are processed.">
+  <meta name="description" content="Learn how to cancel your Mega Store order before shipment, step by step, and how cancellations and refunds are processed.">
   <link rel="icon" type="image/png" href="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png">
   <style>
     :root {
@@ -87,17 +87,10 @@
     .icon-btn:hover { background: var(--accent-light); }
     .icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-    /* Policy Content Card */
-    .policy-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 24px;
-      box-shadow: var(--card-shadow);
-    }
-    .policy-card h1 {
-      font-size: 22px;
+    /* Page Content (NO box around text) */
+    .policy-content { padding: 10px 2px 0; }
+    .policy-content h1 {
+      font-size: 24px;
       font-weight: 800;
       margin-bottom: 6px;
       letter-spacing: -0.01em;
@@ -109,29 +102,55 @@
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border-color);
     }
-    .policy-card h2 {
-      font-size: 16px;
+    .policy-content h2 {
+      font-size: 16.5px;
       font-weight: 700;
-      margin: 20px 0 8px;
+      margin: 28px 0 8px;
       color: var(--text-main);
     }
-    .policy-card p, .policy-card li {
+    .policy-content p, .policy-content li {
       font-size: 14px;
-      line-height: 1.75;
+      line-height: 1.85;
       color: var(--text-muted);
       margin-bottom: 10px;
     }
-    .policy-card ul, .policy-card ol { padding-left: 20px; margin-bottom: 10px; }
-    .policy-card li { margin-bottom: 6px; }
-    .policy-card a { color: var(--text-main); font-weight: 600; }
+    .policy-content ul, .policy-content ol { padding-left: 20px; margin-bottom: 12px; }
+    .policy-content li { margin-bottom: 7px; }
+    .policy-content a { color: var(--text-main); font-weight: 600; }
+    .policy-content strong { color: var(--text-main); }
+    table.policy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 13.5px;
+    }
+    table.policy-table th, table.policy-table td {
+      border: 1px solid var(--border-color);
+      padding: 9px 12px;
+      text-align: left;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    table.policy-table th {
+      background: var(--accent-light);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .faq-q {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 14.5px;
+      margin: 18px 0 4px;
+    }
     .policy-highlight {
       background: var(--accent-light);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 12px 16px;
-      margin: 14px 0;
+      padding: 14px 16px;
+      margin: 20px 0 8px;
       font-size: 13.5px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .policy-highlight strong { color: var(--text-main); }
 
@@ -140,7 +159,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 18px;
+      margin: 18px 0;
     }
     @media (min-width: 640px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
     .contact-card {
@@ -171,26 +190,150 @@
     .contact-card-title { font-size: 14px; font-weight: 700; }
     .contact-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    /* Legal Footer Links */
-    .legal-footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 20px;
-      padding: 22px 16px 28px;
-      margin-top: 36px;
+    /* ===== Enhanced Site Footer ===== */
+    .site-footer {
+      margin-top: 48px;
       border-top: 1px solid var(--border-color);
       background: var(--bg-surface);
     }
-    .legal-footer a {
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 16px 22px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+    @media (min-width: 768px) {
+      .footer-top { grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
+    }
+    .footer-brand-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .footer-logo {
+      width: 150px;
+      max-height: 52px;
+      object-fit: contain;
+      display: block;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 300px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .footer-social-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .footer-social-btn:hover {
+      transform: translateY(-3px) scale(1.06);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+    .footer-social-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .footer-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+    .footer-wa { background: #25d366; }
+    .footer-call { background: #0f172a; }
+    body.dark .footer-call { background: #334155; }
+    .footer-col-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .footer-links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links-col a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-links-col a:hover { color: var(--text-main); }
+    .footer-contact-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-contact-item:hover { color: var(--text-main); }
+    .footer-contact-item svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-main);
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+    .footer-divider {
+      height: 1px;
+      background: var(--border-color);
+      margin: 26px 0 16px;
+    }
+    .footer-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    @media (min-width: 768px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; }
+    }
+    .footer-copyright { font-size: 12px; color: var(--text-muted); }
+    .footer-legal-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 16px;
+    }
+    .footer-legal-links a {
       font-size: 12px;
       font-weight: 600;
       color: var(--text-muted);
       text-decoration: none;
-      transition: var(--transition);
+      transition: color 0.2s ease;
     }
-    .legal-footer a:hover { color: var(--text-main); }
-  </style>
+    .footer-legal-links a:hover { color: var(--text-main); }
+</style>
 </head>
 <body>
 
@@ -216,63 +359,178 @@
   </header>
 
   <main class="container">
-    <div class="policy-card">
-      
+    <div class="policy-content">
       <h1>Cancellation Policy</h1>
       <div class="policy-updated">Last Updated: November 2026</div>
 
-      <p>Changed your mind? You can cancel your order easily before it ships. Here's everything you need to know.</p>
+      <p>Changed your mind? No problem at all. At Mega Store you can cancel your order yourself — quickly, easily and <strong>completely free of charge</strong> — as long as the order has not yet been shipped from our warehouse. This page explains, step by step and in full detail, exactly <strong>when</strong> you can cancel, <strong>how</strong> to cancel from the website or via WhatsApp, how refunds are processed, what happens if you miss the cancellation window, and answers to the most common questions our customers ask.</p>
 
-      <h2>1. When Can I Cancel?</h2>
-      <ul>
-        <li>You can cancel an order any time <strong>before it is shipped</strong>.</li>
-        <li>Orders with status <strong>"Processing"</strong> or <strong>"Pending"</strong> are eligible for cancellation from the My Orders page.</li>
-        <li>Once an order status changes to <strong>"Shipped"</strong>, it can no longer be cancelled — but you may refuse delivery or request a return after delivery as per our <a href="return-policy.html">Return Policy</a>.</li>
-      </ul>
+      <h2>1. When Can I Cancel My Order?</h2>
+      <p>You can cancel an order <strong>at any time before it is handed over to the courier partner</strong>. The moment your parcel leaves our Assam warehouse, the order status changes to "Shipped" and self-cancellation is switched off automatically. Below is a clear breakdown of every order status and what it means for cancellation:</p>
+      <table class="policy-table">
+        <tr><th>Order Status</th><th>What It Means</th><th>Can I Cancel?</th></tr>
+        <tr><td><strong>Pending</strong></td><td>Order placed successfully; online payment (if any) is being verified.</td><td>Yes — instantly from the My Orders page.</td></tr>
+        <tr><td><strong>Processing</strong></td><td>Payment confirmed; your items are being picked, packed and labelled at our warehouse.</td><td>Yes — instantly from the My Orders page.</td></tr>
+        <tr><td><strong>Shipped</strong></td><td>The parcel has been handed over to the courier and is in transit.</td><td>No — but you can refuse delivery at your door, or request a return after delivery.</td></tr>
+        <tr><td><strong>Out for Delivery</strong></td><td>The parcel is with the delivery agent in your local area.</td><td>No — simply refuse the parcel when the agent calls or arrives.</td></tr>
+        <tr><td><strong>Delivered</strong></td><td>The parcel has been delivered to your address.</td><td>No cancellation — please see our <a href="return-policy.html">Return Policy</a> instead.</td></tr>
+      </table>
+      <div class="policy-highlight"><strong>Important tip:</strong> We begin packing most orders within a few hours of placement, and packing is usually completed the same day. If you want to cancel, please do it as early as possible — the sooner you act, the higher the chance your order is still in "Processing" status.</div>
 
-      <h2>2. How to Cancel an Order</h2>
+      <h2>2. How to Cancel an Order from the Website — Step by Step</h2>
       <ol>
-        <li>Go to <strong>My Orders</strong> and find your order.</li>
-        <li>If it shows "Processing", tap <strong>Cancel Order</strong>.</li>
-        <li>Select a cancellation reason (optional) and confirm.</li>
-        <li>Alternatively, message us on WhatsApp at <a href="tel:8134958144">8134958144</a> with your Order ID.</li>
+        <li><strong>Open the Mega Store website</strong> on your phone or computer. No app download is needed — just open the site in your browser.</li>
+        <li><strong>Make sure you are logged in</strong> with the same phone number you used while placing the order. Your orders are linked to that number.</li>
+        <li><strong>Tap the menu icon and go to "My Orders".</strong> You will see a complete list of every order you have placed, with the date, items, amount and current status.</li>
+        <li><strong>Find the order you want to cancel</strong> and carefully check its status. The blue <strong>"Cancel Order"</strong> button is visible only while the status shows "Pending" or "Processing".</li>
+        <li><strong>Tap "Cancel Order".</strong> A confirmation screen will open so that you can review the items and amount before finalising.</li>
+        <li><strong>Select a cancellation reason.</strong> This step is optional, but very helpful — common reasons include "Ordered by mistake", "Want to change the size", "Want to change the delivery address" and "Found a better price". Your feedback helps us improve our products and service.</li>
+        <li><strong>Tap "Confirm Cancellation".</strong> Within seconds, the order status will change to <strong>"Cancelled"</strong> and the items will be released back into stock.</li>
+        <li><strong>Check your refund status.</strong> If you paid online, the refund is triggered automatically — you do not need to message us or fill any form.</li>
       </ol>
 
-      <h2>3. Refund for Cancelled Orders</h2>
+      <h2>3. How to Cancel via WhatsApp or Phone Call — Step by Step</h2>
+      <ol>
+        <li><strong>Message us on WhatsApp</strong> at <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer">+91 8134958144</a> or simply <strong>call 8134958144</strong>.</li>
+        <li><strong>Share your Order ID</strong> — for example MS-123456. You can find it inside "My Orders" or in the order confirmation message you received after checkout.</li>
+        <li><strong>Tell us briefly why</strong> you want to cancel the order (one line is enough).</li>
+        <li><strong>Our support team checks the live status</strong> of your order. If it has not shipped yet, we cancel it immediately on our system.</li>
+        <li><strong>Receive confirmation</strong> on the same chat or call, along with your refund timeline if you paid online.</li>
+      </ol>
+      <p>This method is especially useful if you are facing internet issues, cannot find the Cancel button, or want us to also modify something about the order (for example, change a size) instead of cancelling it.</p>
+
+      <h2>4. Refund for Cancelled Orders — Methods & Timelines</h2>
+      <table class="policy-table">
+        <tr><th>Payment Method Used</th><th>How the Refund Is Issued</th><th>Time to Reach You</th></tr>
+        <tr><td>Online payment — UPI, Debit/Credit Card, Net Banking, Wallet</td><td>Automatic refund to the <strong>same payment method / account</strong> you paid from. No forms needed.</td><td><strong>5–7 business days</strong> from the moment of cancellation.</td></tr>
+        <tr><td>Cash on Delivery (COD)</td><td>No payment was made at the time of ordering, so there is <strong>nothing to refund</strong> — the order is simply voided in our system.</td><td>Instant — no action needed.</td></tr>
+      </table>
+      <p><strong>Good to know about refunds:</strong></p>
       <ul>
-        <li><strong>Online payments:</strong> Full refund is issued to the original payment method within 5–7 business days of cancellation.</li>
-        <li><strong>Cash on Delivery orders:</strong> No payment was made, so no refund is required; the order is simply voided.</li>
+        <li>"Business days" means Monday to Saturday, excluding Sundays and public holidays.</li>
+        <li>If you used a coupon or promo code on the order, the coupon is <strong>restored to your account automatically</strong>, so you can apply it again on your next purchase.</li>
+        <li>Bank and payment-gateway processing times can vary slightly. If 7 business days pass and the refund has not appeared, message us on WhatsApp with your Order ID and we will trace it directly with the payment gateway.</li>
+        <li>Refunds are always issued for the <strong>full amount paid</strong>, including any shipping charge you may have paid. We never deduct a cancellation fee.</li>
       </ul>
 
-      <h2>4. Cancellations by Mega Store</h2>
-      <p>We reserve the right to cancel an order in cases such as:</p>
+      <h2>5. Cancellations Initiated by Mega Store</h2>
+      <p>In rare situations we may need to cancel an order from our side. We understand this is disappointing, so we always inform you immediately on WhatsApp/SMS and issue a <strong>full automatic refund</strong> wherever payment was made. The most common reasons are:</p>
       <ul>
-        <li>Product out of stock or discontinued.</li>
-        <li>Pricing or description errors on the website.</li>
-        <li>Incomplete, incorrect or unreachable customer details.</li>
-        <li>Suspected fraudulent activity.</li>
+        <li>The product went <strong>out of stock</strong> or was discontinued between the time you ordered and the time we began packing.</li>
+        <li>A <strong>pricing or description error</strong> was discovered on the website — for example, a ₹999 product accidentally listed at ₹99.</li>
+        <li>The delivery address or phone number was <strong>incomplete, incorrect</strong>, or we could not reach you for order verification despite multiple attempts.</li>
+        <li>The order was flagged for <strong>suspected fraud</strong>, or for clear abuse of offers, coupons or referral benefits.</li>
+        <li>The payment gateway reported a <strong>verification failure</strong> for an online transaction.</li>
       </ul>
-      <p>If we cancel your order, any payment made will be refunded in full within 5–7 business days.</p>
+      <p>In every such case, any amount you paid is refunded in full within 5–7 business days, and we will happily help you find a similar alternative product if you wish.</p>
 
-      <h2>5. Partial Cancellations</h2>
-      <p>Partial cancellation of specific items from a multi-item order is currently not supported. Please cancel the full order and place a fresh order for the items you want.</p>
+      <h2>6. Partial Cancellations (Removing Only Some Items)</h2>
+      <p>Removing one or two items from a multi-item order is <strong>currently not supported</strong> by our system. But you can achieve the same result easily:</p>
+      <ol>
+        <li><strong>Cancel the entire order</strong> before it ships, using the steps in Section 2 above.</li>
+        <li><strong>Wait for the cancellation confirmation</strong> — it appears instantly in My Orders.</li>
+        <li><strong>Place a fresh order</strong> containing only the items you actually want. Your coupon is restored automatically, so you won't lose your discount.</li>
+      </ol>
+      <p>If the order has already shipped, you can refuse the full parcel at delivery; once it returns to our warehouse, we will process the refund as per the Return Policy.</p>
+
+      <h2>7. Missed the Cancellation Window? You Still Have Options</h2>
+      <ul>
+        <li><strong>Refuse delivery:</strong> When the courier agent calls or arrives, politely say you are refusing the parcel. The parcel returns to our warehouse, a "Returned to Origin" (RTO) status is recorded, and a refund is initiated — online payments are refunded within 5–7 business days; COD orders are simply voided.</li>
+        <li><strong>Accept and then return:</strong> If the parcel reaches you, you can request a return within <strong>7 days of delivery</strong> under our <a href="return-policy.html">Return Policy</a>, provided the item is unused, unwashed and has its original tags and packaging.</li>
+      </ul>
+
+      <h2>8. Frequently Asked Questions (FAQs)</h2>
+      <p class="faq-q">Is there any cancellation fee or deduction?</p>
+      <p>No. Cancelling before shipment is 100% free. We never deduct cancellation or restocking charges.</p>
+      <p class="faq-q">I cannot see the "Cancel Order" button. Why?</p>
+      <p>The button disappears the moment your order status changes to "Shipped". If you still want to stop the delivery, refuse the parcel at your door or contact us on WhatsApp and we will guide you.</p>
+      <p class="faq-q">How do I know my cancellation was successful?</p>
+      <p>The order status changes to "Cancelled" instantly inside My Orders. For online payments, the payment gateway also sends a refund confirmation by SMS or email.</p>
+      <p class="faq-q">Can I cancel only one item from my order?</p>
+      <p>Not currently. Please cancel the whole order before it ships and place a new order with only the items you want.</p>
+      <p class="faq-q">My order was cancelled by Mega Store but I still want the product.</p>
+      <p>Message us on WhatsApp with the Order ID — we will suggest the closest available alternative or add you to the restock notification list.</p>
+      <p class="faq-q">Can I change the size/address instead of cancelling?</p>
+      <p>Yes — if the order is still in "Processing", message us quickly on WhatsApp and we will try to modify it before packing. Once shipped, changes are no longer possible.</p>
 
       <div class="policy-highlight">
-        <strong>Need help cancelling?</strong><br>
-        WhatsApp / Call: <a href="tel:8134958144">8134958144</a> &nbsp;|&nbsp; Instagram: <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener">@megastore.ofl</a>
+        <strong>Need help with a cancellation?</strong><br>
+        WhatsApp / Call: <a href="tel:8134958144">8134958144</a> &nbsp;|&nbsp; Instagram: <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener">@megastore.ofl</a><br>
+        Keep your Order ID ready — it helps us help you in under a minute.
       </div>
-  
     </div>
   </main>
 
   <!-- Legal Footer Links -->
-  <footer class="legal-footer">
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
-    <a href="return-policy.html">Return Policy</a>
-    <a href="Contact-us.html">Contact Us</a>
-    <a href="cancellation-policy.html">Cancellation Policy</a>
-    <a href="disclaimer.html">Disclaimer</a>
+  <!-- Enhanced Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <!-- Brand Column: Logo + Social Icons -->
+        <div class="footer-brand-col">
+          <a href="index.html" aria-label="Mega Store Home">
+            <img src="https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png" alt="Mega Store Logo" class="footer-logo">
+          </a>
+          <p class="footer-tagline">Premium quality apparel &mdash; delivered with love across India, straight from our Assam warehouse.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-ig" aria-label="Follow Mega Store on Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer" class="footer-social-btn footer-wa" aria-label="Chat with Mega Store on WhatsApp">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+            <a href="tel:8134958144" class="footer-social-btn footer-call" aria-label="Call Mega Store support">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links Column -->
+        <div>
+          <h4 class="footer-col-title">Quick Links</h4>
+          <div class="footer-links-col">
+            <a href="index.html">Home</a>
+            <a href="category.html">Shop by Category</a>
+            <a href="cart.html">My Cart</a>
+            <a href="save.html">Saved Items</a>
+            <a href="myorder.html">My Orders</a>
+          </div>
+        </div>
+
+        <!-- Help & Support Column -->
+        <div>
+          <h4 class="footer-col-title">Help &amp; Support</h4>
+          <div class="footer-contact-col">
+            <a class="footer-contact-item" href="https://wa.me/918134958144" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              <span>WhatsApp: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="tel:8134958144">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              <span>Call Support: 8134958144</span>
+            </a>
+            <a class="footer-contact-item" href="https://www.instagram.com/megastore.ofl" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              <span>Instagram: @megastore.ofl</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <span class="footer-copyright">&copy; 2026 Mega Store. All rights reserved.</span>
+        <div class="footer-legal-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+          <a href="return-policy.html">Return Policy</a>
+          <a href="cancellation-policy.html">Cancellation Policy</a>
+          <a href="Contact-us.html">Contact Us</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -284,6 +542,23 @@
         localStorage.setItem("theme", isDark ? "dark" : "light");
       });
     }
+  </script>
+
+  <!-- Auto logo swap on dark/light mode -->
+  <script>
+  (function () {
+    var DARK_LOGO = "https://i.ibb.co/Xk500xcc/Picsart-26-11-10-20-55-03-987.png";
+    var LIGHT_LOGO = "https://i.ibb.co/0R8RGqsm/file-0000000028dc820784541b310e0692bb.png";
+    function syncLogos() {
+      var dark = document.body.classList.contains("dark");
+      document.querySelectorAll("img.brand-logo-img, img.footer-logo").forEach(function (img) {
+        img.src = dark ? DARK_LOGO : LIGHT_LOGO;
+      });
+    }
+    new MutationObserver(syncLogos).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    if (document.readyState !== "loading") { syncLogos(); }
+    else { document.addEventListener("DOMContentLoaded", syncLogos); }
+  })();
   </script>
 </body>
 </html>
